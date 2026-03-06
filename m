@@ -2,138 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yApxEeIFq2kMZgEAu9opvQ
+	id iDdNB1oMq2k/ZgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:50:42 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:18:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EB022577A
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 17:50:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA06225D15
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:18:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B3C10ED81;
-	Fri,  6 Mar 2026 16:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DDB910E3DF;
+	Fri,  6 Mar 2026 17:18:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Lol5ATvQ";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZYXjF9M5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UqiyRb3p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE3AA10ED81
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 16:50:37 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 626GoIAi1316139
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 16:50:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=8vR9O1h/aF8AA1o37Ha5hCLF
- r27P3n8CHO3krh2d4EY=; b=Lol5ATvQ8GJoIGBKZ2XL13njLQrn765VwtWjMKz5
- IaBEjqNHJ5OcE6JCJhYaodmAhBjNmKwNkoZH2NkUOuDkOKYCQZ3pbae68FeWLrCi
- RMQ4daXgM58X7NZOd+kTewKJfkMHjZlS1yq3HFXDHBHIytPMTjsJddPVQKi9N6oO
- erVJHZbclFsJkj+q9e7YfpAbTEKXXROiC6OTT6PZUXa+z/WxoEmOAcFR0tNYikey
- HgaxSPW0bQCAAdiWG4hTIgzBscizPsAE/ZCPg3BdvnFiWrsdLf/Yk10DmNkk3tS2
- DnVzk1EIpmrK3ijKzmVlmIxUV6FP/nQsxlvSot7mx6SK/w==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqj4sbfvj-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 16:50:37 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8cb706313beso1228496485a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 08:50:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772815836; x=1773420636;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8vR9O1h/aF8AA1o37Ha5hCLFr27P3n8CHO3krh2d4EY=;
- b=ZYXjF9M53rHfrD4egh2NuubDWAZbUph/Ph+ILgAW8XoVx/F2I3ZWyO9tZKqTGg5uN6
- HmePicPKVcz0IehGxdGJOJTo4ViBssa/KqIJ/zYKKnxpFH3zqbSd7bCD6YucxbtIjPpA
- zV5wi+t20JBMisE/ztLh2vKEmO45vouuF/HFVrzATT7eYRoTSJGTgw/0yXjqu8hzoEXk
- fTkXx40OFiYHdTunvexIAJRyL3Il+ifUWznFFqSW899EVajA4BMuKTS3/C7KdYc190j9
- Ko8i8ugUh88cYV0SwcShYUAxCU4DzGsyWe1yVC88D525VSSWDkJvkS1C8q1yqvdrFE+9
- OblA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772815836; x=1773420636;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8vR9O1h/aF8AA1o37Ha5hCLFr27P3n8CHO3krh2d4EY=;
- b=Ii7LpJam6lvSVfJyr8UfX1dAxrMp9IP0MCmOBIBPOIG2HQzKUlsBdBaZAPyHcs6MmF
- rXVsOw/mx9Zw50GnJp7RrzHq3M3etgZjB5Ej37QcO8ZozwW7iD9T2T4qFOmz7Dip4rHD
- MCSdPnsKUCEeHhTqY8VqzNdK6OKR9wfbNEMzpEhjLJFi8V3nyLls/5HvxvDatBJ12006
- lmG99vKDbkem+mjC5As4aYDTn6EgzVmEXH7SSf+sLuW8hb1ZRb3E9jLymSFHFojTJgFU
- 639xvZPv3utmWQEoYG17iQncwOdXq86Z8c0j/VZx90uC7xQ4WLM/OMVuvCRnguguCGGy
- n2EQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWx5GxBPJPykpKzQibz9ZadpyWIg60J70MnsbHRD0hsI15Fx/KP6AGzN+Xph0QUb823GDOEiZeWQqg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxQPSEqyrY+f+2gBhmk1EV0FrFtTR4I/SUZ1pb5aePGG6lt6/7A
- 7vI36+Fkk8J7FhXBnWPAIwR8ALJ6vOLKXZSkvrAmfkz+ErNbHuygqnpzl4J361V+KOKJ0FHjn0+
- 6jY415aLbwGjKOcsbLapT8U+dd21716R8GdFBvZV1Rs4bAN+7Wk3mFsZ2CIQheLhe9KNB1G4=
-X-Gm-Gg: ATEYQzwfDSpfINatTVJl+heFWbhtOmzvi9ywwSeTZmXoUNywENp93fzH6BdVnmCAAtp
- HV9uU3kYKxZQzG40LA5Edekp4jNgfMetmZ8bZaFtDlG03uCSY0qaQEU8NN/HZ6kY602raCBH6eF
- bSGtDrNzHPNoW7RK8h55EeBv0vKbaptKRQDH8IjULY/EQzQ9T18WeNp5JP2PKWUhvBY62sNQjbI
- AALsupbofcYaccgUXri7QGIar6RlzxKjOi25LWcqY5mRpbes8tmYHhypGKcqrNAifFY6+AneQ6/
- DlajNQjwC3HCFGHtBfEjI0HbuQ5lD+tLpVG6I/TpFnjRki+hJflGIYQovZkEcf5BYPoVYERLkDa
- Ue/fg65F4mz22VZA966JJs3xejVs2okTz5VwviAD6rmqwNjQ+UnLi784NL8vLer6P7GLN0KAhmU
- qc3OBJmCn3LIIab8tRXqaU1Mx89VsJntPGw3w=
-X-Received: by 2002:a05:620a:4588:b0:8c6:a809:862a with SMTP id
- af79cd13be357-8cd6d42852amr337432485a.45.1772815836158; 
- Fri, 06 Mar 2026 08:50:36 -0800 (PST)
-X-Received: by 2002:a05:620a:4588:b0:8c6:a809:862a with SMTP id
- af79cd13be357-8cd6d42852amr337428785a.45.1772815835615; 
- Fri, 06 Mar 2026 08:50:35 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5a13d086079sm434104e87.69.2026.03.06.08.50.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2026 08:50:34 -0800 (PST)
-Date: Fri, 6 Mar 2026 18:50:32 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dsi: fix pclk rate calculation for bonded dsi
-Message-ID: <6k4wgdu7x5z4b4erlgteljb4742brknbwnewoobwhv2qhqawde@wpkhreke3gsr>
-References: <20260306163255.215456-1-mitltlatltl@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A74D10E3D3;
+ Fri,  6 Mar 2026 17:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772817492; x=1804353492;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=sqUrQTSrxSrcXheMOT2WlDFt8XWbDX+41L0L1H01cC8=;
+ b=UqiyRb3p1E9167YA+1bc0Fl3PgtDTzh5vinn99oVQbZ641tPgOx6tsgq
+ 3EssJf2E+9kP57papsJK8aihVLl5y4364gGr1/R6fzQ6Y4vyvtYntRnDw
+ xy7L/AxVHI45RbsEgYUfJS8fzw3jIBKFifr7ZoGbFlGHvrGr38zuXVr+a
+ C+EI/aizf/WZM8S6oza71zoAGslbbWg4dS95q5E/w9zGzfMY0zk0gvBfj
+ yEAYUoAdhuwybm6B4vdVvcnO54uxaa/2ol9b+tx+zlPjShD+6zJeUuQ02
+ 8dAwTn7LXI8H/MQTedEAOZNN3GijPVmFw9NE9ACew3FdW8yMRF4dfnb2+ w==;
+X-CSE-ConnectionGUID: w96YRMufRKaX7i2sNWUM4Q==
+X-CSE-MsgGUID: W7ZZO3OfSAK6WJz+et+Wpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77530618"
+X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="77530618"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2026 09:18:11 -0800
+X-CSE-ConnectionGUID: z7ZbrDrESUaavZ1Q3Ic/Cw==
+X-CSE-MsgGUID: /vqcfRUYT5a99XqzerRZCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="216174923"
+Received: from dut-2a59.iind.intel.com ([10.190.239.113])
+ by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2026 09:18:07 -0800
+From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: harry.wentland@amd.com, louis.chauvet@bootlin.com, mwen@igalia.com,
+ contact@emersion.fr, alex.hung@amd.com, daniels@collabora.com,
+ uma.shankar@intel.com, maarten.lankhorst@intel.com,
+ pekka.paalanen@collabora.com, pranay.samala@intel.com,
+ swati2.sharma@intel.com,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Subject: [PATCH 00/10] drm/i915/color: Enable SDR plane color pipeline
+Date: Fri,  6 Mar 2026 22:22:57 +0530
+Message-Id: <20260306165307.3233194-1-chaitanya.kumar.borah@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306163255.215456-1-mitltlatltl@gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE1OSBTYWx0ZWRfX+KT9yUfJdVsL
- hbNQWyXFxMfxLT1Z1ya628Wk1t3o9nNDvPA+m2S9L2plBRwgzVYk/5DqzVXsKMPMWytkBDE/cf3
- oUqDJaHvWvOB8bwjZiuGOupj0HY5HLa5yByBMq7af5CtxTMidwteWUC8xCQZgeVNrw/jQXuZFkH
- 0Zbe6ptHQJcmdBxY5n6rhbaKk6mEbRNiGZD7rS7rT1kCEGucqDJic80HpeEhvHRhX4lAVqbUWAI
- u7roozdl1mWccks5YX0NfeiyjTQyFT8FHRXTsQiqvzYum2XbEyG5mqQHxyJvPgSVmdOeBVKU0uJ
- ic/0wnwkdp8V2smfmT+0cqOAYEKBzczPIdXc7pEnxcpAEaxv23Zn0x+woBuDNQOt5qY9I19Ajun
- GLdz01js20NaNPuvHI+iSDfvsoY2JUUGsm53vT1rAVKPdl/ILfRZ7L6UHWM7urYYmeclidYDujP
- ZlDQw2PxHt6TNWwl5AQ==
-X-Proofpoint-ORIG-GUID: T9Gpo6XMRD6ilhRujqaURXHAT4ksLOls
-X-Proofpoint-GUID: T9Gpo6XMRD6ilhRujqaURXHAT4ksLOls
-X-Authority-Analysis: v=2.4 cv=T8uBjvKQ c=1 sm=1 tr=0 ts=69ab05dd cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=pGLkceISAAAA:8
- a=EUspDBNiAAAA:8 a=X81lAphP1gkamZjTqCkA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060159
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,68 +74,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: D4EB022577A
+X-Rspamd-Queue-Id: 4DA06225D15
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[chaitanya.kumar.borah@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	NEURAL_HAM(-0.00)[-0.994];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.985];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Sat, Mar 07, 2026 at 12:32:38AM +0800, Pengyu Luo wrote:
-> Recently, we round up new_hdisplay once at most, for bonded dsi, we
-> may need twice, since they are independent links, we should round up
-> each half separately. This also aligns with the hdisplay we program
-> later in dsi_timing_setup()
-> 
-> Example:
-> 	full_hdisplay = 1904, dsc_bpp = 8, bpc = 8
-> 	new_full_hdisplay = DIV_ROUND_UP(1904 * 8, 8 * 3) = 635
-> 
-> if we use half display
-> 	new_half_hdisplay = DIV_ROUND_UP(952 * 8, 8 * 3) = 318
-> 	new_full_display = 636
-> 
-> Fixes: 7c9e4a554d4a ("drm/msm/dsi: Reduce pclk rate for compression")
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 29 +++++++++++++++++++++++------
->  1 file changed, 23 insertions(+), 6 deletions(-)
-> 
+This series adds color pipeline support for SDR planes in i915 and
+exposes the functionality to userspace through the DRM colorop
+framework.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In contrast to HDR planes, SDR planes have LUTs with smaller sizes
+and a fixed function CSC block in contrast to a programmable CTM.
 
+The series first introduces a new DRM colorop type,
+DRM_COLOROP_CSC_FF, which represents fixed-function CSC blocks where
+userspace selects predefined hardware conversion modes instead of
+programming arbitrary matrices.
+
+With that, the SDR plane color pipeline looks like.
+
+[1D LUT] -> [CSC_FF] -> [1D LUT]
+
+The series also fixes an issue in HDR pre-CSC LUT programming where the
+loop condition prevented the last entries from being programmed.
+
+Chaitanya Kumar Borah (5):
+  drm/colorop: Add DRM_COLOROP_CSC_FF
+  drm/i915/color: Add CSC on SDR plane color pipeline
+  drm/i915/color: Program fixed-function CSC on SDR planes
+  drm/i915/color: Add support for 1D LUT in SDR planes
+  drm/i915/color: Add color pipeline support for SDR planes
+
+Pranay Samala (5):
+  drm/i915/color: Fix HDR pre-CSC LUT programming loop
+  drm/i915/color: Extract HDR pre-CSC LUT programming to helper function
+  drm/i915/color: Program Pre-CSC registers for SDR
+  drm/i915/color: Extract HDR post-CSC LUT programming to helper
+    function
+  drm/i915/color: Program Plane Post CSC registers for SDR planes
+
+ drivers/gpu/drm/drm_atomic.c                  |   4 +
+ drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
+ drivers/gpu/drm/drm_colorop.c                 | 105 +++++++
+ drivers/gpu/drm/i915/display/intel_color.c    | 288 +++++++++++++-----
+ .../drm/i915/display/intel_color_pipeline.c   |  37 ++-
+ .../drm/i915/display/intel_display_limits.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_plane.c    |  12 +-
+ .../drm/i915/display/skl_universal_plane.c    |  30 ++
+ include/drm/drm_colorop.h                     |  72 +++++
+ include/uapi/drm/drm_mode.h                   |  13 +
+ 11 files changed, 475 insertions(+), 93 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.25.1
+
