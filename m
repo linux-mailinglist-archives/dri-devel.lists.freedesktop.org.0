@@ -2,135 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yBhFEc2Pqml0TQEAu9opvQ
+	id SNmPCKeRqml0TQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:26:53 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:34:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B1121D0F8
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8528921D256
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 09:34:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C28910E185;
-	Fri,  6 Mar 2026 08:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4C010E3B7;
+	Fri,  6 Mar 2026 08:34:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="g149O4q2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B23y6Psv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013022.outbound.protection.outlook.com [40.107.159.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3776C10E185
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 08:26:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F4Tz/38ZmrcbzhZoM9HTKQfZf4QYzGjVr3jdTv4GUqUuCsIF6/X3pPUssbXXZKobhgHLHW0rQRIhk2QT15dalJyh1lc4Onstvl4y502mm4X0d/PSTTQH695AS1tQWMuPJrGkwBykEKP9coJaHVjeOrGjOA1PV4i9/BRMUQu7urWMtaIONJlN+qYR89Fm+4L5m+RBu96pDtJgy4p9fAo+/h2rPU96puKU0i+0aB2vdHmWB1U9XcSCzVGf3mpxo18ZzPfigssAVSzsjTv9ytsC7MJ50jPYVyxH3IhbLEy+CYyOylO96ks7miuczc+XMUCdRCNOTLsF3I7r6LGs0dy/Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0gJssetRelVXwnqSvPfz+en0JHNaQgM1P5OQkEMuP0Q=;
- b=NzOc9bSmu0bzlW9RaqD/MAnQKixz/OJv4Mq1g/IVw2OTtc/2s7oW+Z1NKK6enV3UeVqdBg/r+No5Of3iD+AO3Cujgyw4xUWH+M487R6zjmSLieLvpgq+uR0RZ3ccZlFJRDu0gzUqgv0ieOfh9CF5rUGcSC8zYtqucI1zKhsN+JMYhcPGXdtGASpha9uBBdfkXF/sLLTHTlx2/pNOZZiT+LyZAIs3PRDuCeZMRsHPlq0DzoBtxHcatz6rDNgKX2wYsVEEbBfFMFxwd8FRtHgV7zanWx1WdPpQY0ZG/BxsDq5Bm32SifMU2eYzw9WmtGb/IhL/RTCSAyULpXn0IFtueg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0gJssetRelVXwnqSvPfz+en0JHNaQgM1P5OQkEMuP0Q=;
- b=g149O4q2F/QPdOeS1JWehSiT2skCCDf69093cbhBdlSTz2kg5ygDh6RuG2/T4HMzDo88Tgyw/YWzJNTsP5gxe+BPNMSNJ6Yfl/pDrRoW1mkB8F7MLsYMt9uDV1NAVPbDXS0yrW/EiyXjbPyQYGW8cbNB8LKl6bJlNcQ8pHIoSyqOvpjL5+FQoFrEJQrwliJ1tcTRWo48saQ6xlBJHGqP7BuTxta4FoorD2jve40AK6UITM/s043u9XuxEjITX3VAoUrjd4X00va0bSV297RzPLuzYv+p8tWILfhxVTNzlvr0dJ40TIUThUZm51KSH9gmk1N7jUa1MPWz9SH9S+VkHA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DU4PR04MB10598.eurprd04.prod.outlook.com (2603:10a6:10:580::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Fri, 6 Mar
- 2026 08:26:42 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64%4]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
- 08:26:42 +0000
-Message-ID: <43be372e-8177-457c-9d4e-a2ed69e79c8a@nxp.com>
-Date: Fri, 6 Mar 2026 16:27:48 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 7/9] arm64: dts: imx943: Add display pipeline nodes
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, imx@lists.linux.dev,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260304-dcif-upstreaming-v8-0-bec5c047edd4@oss.nxp.com>
- <20260304-dcif-upstreaming-v8-7-bec5c047edd4@oss.nxp.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20260304-dcif-upstreaming-v8-7-bec5c047edd4@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0205.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1b0::14) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33D6610E3B7
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 08:34:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=tcYsDRAXbrUXBaggyoXeG+T3eJwrMyvMlDFJ3IKv2oQ=; b=B23y6PsvqHnbkbG9eDoB0n5QEV
+ iU29RCfBa0Q15s3L3vI5v1Zi/c8cOG32bw+y1Jtf2qGLoB5f57UmKWUicEM3U+jfz8fTgKdrNpzuz
+ sXTbLVx/M3vBOtICIXshPUk82DoT32LO+EZLiksGl0Lq8jkgFNmr1z/ijKlk7z7k0qj7OGwfPpEPk
+ u/1DBrymRtmIfjmlEujfJnmPXVgPZPm+cqLnYF9FArEQwDduChSzvVsnRVCZGNrTh+absaXUAsZ+2
+ uK7iMgSmkMWNDWt29Nv3S6sOmbGsInvda0xfB1/bJQXIWFh7seQJVmQwq0uPy1B/OFUaAofqvz1GK
+ ux3yG5kg==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vyQdn-009wQR-Ke; Fri, 06 Mar 2026 09:34:35 +0100
+Message-ID: <7249ae29-b951-44f8-b795-b55668d40cff@igalia.com>
+Date: Fri, 6 Mar 2026 08:34:34 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU4PR04MB10598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7b85647f-d98d-4ddf-6646-08de7b5a18b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|19092799006|7416014|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: rN/X9XqGwcdvf3MFzg1AaV5WCLjcmnfNq1IsX1LLtrl1IJPzCcW35okxugFiybMwVzXMqKJs92QdXp0r/5fJYTeFeqX6LB/4pCz9OJYt0/ZDGsGZa0KGyN8QUZMg1762ZG074h67ASa+1G68Yf1Zv+Ao4tna+S7eFdZVObFztzuGRTnIfXl/2hUKlC5nbqCNnUoH9FvoRe5oqhgO4eyJiPiXDCza309pITIai+MLw+9xQF0E187qsEZGDTX0KvqAlFmw0Beef+SXD0KSnMmcsabIOQBrtY0t0Roqxgb5FrgrkGU+QBdinF1weSsG/ne2KvIriJrbJTlikKliSVEBQYyNc7zS+sFA+4L6q8/iJ6EbAasA8xhaB8gdMx4aeReQLi+z9O+ngv4sq48MOEYD/vvCp/kMb79SeZQBiMFCBUVxa/In3ir9Jad1Npx/0ODFxxqvZOfd9ew00U4SNENbYa088ppgFZ7uuGRJTuARUDZesAs0/j3Qog9/L9GPTPS7HJyhtoYwuvAhqJX1nFtUK3ZQtgfV2ij0Wivh71ogEX8VQxYf1f/IsVY8x1fMEb69It6++ZAJgBrGP7c5hpSt4dYvCwk1dHQ9WbU+dwefoidnDG53pI+pfCCUq9HvGGjngHNKFjrxWaRiB4+YCPtseOtDD82k+rWZyMsvXwfQHbzsWC9sASb+mW1DjZO9vnHVaMbefZcMTkhABzLMooekA7lck7bYnFsUUdShpGLGCfA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(19092799006)(7416014)(376014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akJaSGxPMHVXY0NwdWlkS3NEeWd2ZmF5NlZXQitZWkNaWGNMYkM0NE9VRU1v?=
- =?utf-8?B?NHRKSnlGL203Sml0ZjhDMXFFSFpmVXRWYmw5U3FhVDU2NlRTejdnTnpIK3pT?=
- =?utf-8?B?RVhVclprNDRqQUlBWmVUbFp4WlhhRUdJL3JoUU54bEhObGtwSDA2WHp5cUE3?=
- =?utf-8?B?RFhibDdrVVp3cjFjeEpZVnUvNUdVMjlVcTIyVW9ZQVRlZ3owZFg1emFJcGh0?=
- =?utf-8?B?SHpPQXpJTDRLUXpqSWRvNVdiV1dDeldEMnR3cXIzWldaelhTQTg0MDk5RHpG?=
- =?utf-8?B?a2tLWis4VWkraUpySndEdVZSZTFKcWwwRjcvSEozVkVBL3FSdWE4OFVsVVNV?=
- =?utf-8?B?dWpkVXZPcWVnU0piVkZuM3NBN0JraEpMcUxjRU9LbUFiUTJsVURzNjhXVnp3?=
- =?utf-8?B?c2dhUXRUVUhESEdxKzBBaFJRK3VJbW9uUnJMMjlXQ1lhY3cwanJxSzU1bVJm?=
- =?utf-8?B?ZTRabVRTcnJIMzJNd3lHRERRN05iOWJWWDA2b3ZtUnBlQVQwRDhwSnZvb3pZ?=
- =?utf-8?B?K2FjN0g4MWpFRzlETDN5eTR0VmV3QkJiTDVqT3dlOGNWdFFhRkNaVStzUEJR?=
- =?utf-8?B?TmRSTzZ3bUMyQ3lJR1FVSStycVJKRlhQTWxTa2UvVGtVUnNMVzhLL2FpTzRr?=
- =?utf-8?B?QmNqYzEybWpYTWtVSWlMVDNJMFlaYjdVQ04ybS84S3BRRExISTVFckpHek5t?=
- =?utf-8?B?d3JlRCt3RkthNElTMmhxT2JEUnE3d2pSOTJHV2xFcm1OYWVOMmU3cDlWWFI4?=
- =?utf-8?B?emlhUm0rRURoelMzTm92OE85b3BNb0xJQWlQdmtPT0JUdnE1aEVRQUxMWVRu?=
- =?utf-8?B?d1Z2MFlCUmtINEd5azdpdWRFbHNXSE9OOXJIdEZnQkU2K0szTTFWb3l2M285?=
- =?utf-8?B?WjQ5cUt3bzVxM3pkVlhVTVh1UTBQVlptb3B4YWl5WWpBS1RXSHF4dkJPWDQv?=
- =?utf-8?B?MDduMjJIU0xxZ0xhb0JHSVU2QzY4bkU0SXVPSk1JczY2NEk5a3Q0aDNBT0V0?=
- =?utf-8?B?VStjTUFGN0NjOHBZaVkwMjBZUGxPUTdQbHJ4ZnQ3ZFlYVjhlVjFVcGdaY3dT?=
- =?utf-8?B?a0gveEV5Tnc2cUdyNGxmQm5KSkxkYnFZUXhyQ0RXNHhOckkrSEVtWTdsbnlY?=
- =?utf-8?B?ZUVGa3hTSEE2UDkrNjUxZVAwZFpYUytWeTJPOEl3T2x5VHUwUlhoTnhXVVhC?=
- =?utf-8?B?WEoyTDB4M0s0Nks3WVI2S1Y4Z1dQYVJpdU81VCtLeGg3RTg0ZG1VWlNiVTJ4?=
- =?utf-8?B?dmlEVUpEMmluMnptVE5tRXJNelRxSTNJVTBMRERXRGM5TEZqSHM2MGlFeVF0?=
- =?utf-8?B?MGh3UytDOXhXLzgrV0ZiRmtmQXJ6S05UeXdPTTN5bHBvSkFzZTZrdkZrbVVU?=
- =?utf-8?B?V2NQdFBrdVZOVm5LZWtvazRlcWhadnhXc01vQTF3UG9Rc1M3VStEeTVSMHd5?=
- =?utf-8?B?cmhmZ3VrNDVzKzh2K3E1R2p4aHBCYk5nWUJlcDNYMnJJcU4zYXQ0L2xpeDB1?=
- =?utf-8?B?MmlXRmtLOUV3RkJUb245UHNkWlFlRTd1dFBEV0dNVk5aOUQ1STMzdldJbHVw?=
- =?utf-8?B?NEJ4QU0wdjk2dFFVT3EwOG5wRzkwYTVPcTQ3aHJnUW0wakpsa0ZMYnl2ZnY1?=
- =?utf-8?B?dnhaNmdHV3JUY0JNT0MyRTlkVWpmeHo0dHV4bTU4U0x4bU10M1FDMU1WTHVG?=
- =?utf-8?B?NjVOUCtrSCtPR1ZjaExabHlBdjlldEpBcG9CMTlkTlZoeTRLc2o4L1p6S0pO?=
- =?utf-8?B?emNPdlVSanVrL29pWXJHR0llc25VTjlkYzZYOXhHSkxGWU5vR3h5VWhmdGx6?=
- =?utf-8?B?WmRYekt3bVpxSUVJVzZ0Z2RsU2pRTlNXL2RTb3hMT25KSVRwS3ZscHlyR0ln?=
- =?utf-8?B?QUtMQTl5S3VIT040SVhxSXV6M0FxRDlHQzMyM20zbkhyd1ljOGRVTzdFckZL?=
- =?utf-8?B?V24vaWgvaXFVSTRHbzRoMEpLSUQwZUhBZ3czRG9sSUVvUzFVeEx3b0NhNjh3?=
- =?utf-8?B?K3gvTTBrcWNpbVArZDI5U3l6VWFZbnkvNWVpdytUdlJBVVIwNlBQQkRoR05h?=
- =?utf-8?B?a3FJQUIvd1pqL0dxYUJRcit1a2VYbGhyNUZ4VHhVMVBkajNhM05SR1RIK24r?=
- =?utf-8?B?ZU9nVW5acDhkcElrZmwwb2QrbjIrYjB5b1RsUityZkdRemozSVRSYWo3cXBn?=
- =?utf-8?B?UDN5ZVpWQlQrUzROSVY2a2RzRkVBUU83NTBVRnl1N0JwYkpIM3lhQXE4OUtl?=
- =?utf-8?B?ZU45eE1IblJoTE5jTlJXZUlTZWw4bS9RMVRmdmZQL0VCTk1pZ2dwbi9JcWY1?=
- =?utf-8?B?ZFRJSEZXcGdiMHY4LzBlSnZlYkx1eUFvTW5vd3BqWVhPU1dxTkRVQT09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b85647f-d98d-4ddf-6646-08de7b5a18b1
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 08:26:42.6127 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RxztgvVFq7AI/tAam0RQneO7vo7XihVL4P5qcg9bZ5Il82JK2ZpiBEtR9cPSp+El2EuKXYKk0fcXF8qqD60gIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10598
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] drm/v3d: Attach per-fd reset counters to v3d_stats
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Iago Toral <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+References: <20260217-v3d-reset-locking-improv-v1-0-0db848016869@igalia.com>
+ <20260217-v3d-reset-locking-improv-v1-5-0db848016869@igalia.com>
+ <3c27ff4ab7e18c7d2d3208a46f18ced2d2ca6957.camel@igalia.com>
+ <73c11615-a459-40a4-be5d-8535040753d5@igalia.com>
+ <052f80f50c0f6e57f5b3b5c3494fb70651ef22bf.camel@igalia.com>
+ <e7c2447d-d19c-4e67-a4e5-eec6ced0fbda@igalia.com>
+ <b61de2d523fc2b981eb969f50abc9174c0a17c03.camel@igalia.com>
+ <5de3b3a5-2467-41a4-9865-1d939bbae831@igalia.com>
+ <37df79b2681f4e503bdd8a94f8836b653d0bd749.camel@igalia.com>
+ <973825be-0a26-45ac-b855-f16a47c9ae7e@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <973825be-0a26-45ac-b855-f16a47c9ae7e@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,134 +75,250 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 90B1121D0F8
+X-Rspamd-Queue-Id: 8528921D256
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:laurentiu.palcu@oss.nxp.com,m:imx@lists.linux.dev,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[oss.nxp.com,lists.linux.dev,kernel.org,nxp.com,pengutronix.de,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:itoral@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[0.0.0.4:email];
+	NEURAL_HAM(-0.00)[-0.950];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,0.0.0.1:email,nxp.com:dkim,nxp.com:email,nxp.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,4b120000:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:mid,igalia.com:email]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 11:34:16AM +0000, Laurentiu Palcu wrote:
-> Add display controller and LDB support in imx943.
+
+On 05/03/2026 12:16, Maíra Canal wrote:
+> Hi Iago and Tvrtko,
 > 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx943.dtsi | 53 ++++++++++++++++++++++++++++++-
->  1 file changed, 52 insertions(+), 1 deletion(-)
+> Thanks for the reviews!
 > 
-> diff --git a/arch/arm64/boot/dts/freescale/imx943.dtsi b/arch/arm64/boot/dts/freescale/imx943.dtsi
-> index 657c81b6016f2..9a91beef54e86 100644
-> --- a/arch/arm64/boot/dts/freescale/imx943.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx943.dtsi
-> @@ -148,7 +148,7 @@ l3_cache: l3-cache {
->  		};
->  	};
->  
-> -	clock-ldb-pll-div7 {
-> +	clock_ldb_pll_div7: clock-ldb-pll-div7 {
->  		compatible = "fixed-factor-clock";
->  		#clock-cells = <0>;
->  		clocks = <&scmi_clk IMX94_CLK_LDBPLL>;
-> @@ -174,9 +174,60 @@ dispmix_csr: syscon@4b010000 {
->  		lvds_csr: syscon@4b0c0000 {
->  			compatible = "nxp,imx94-lvds-csr", "syscon";
->  			reg = <0x0 0x4b0c0000 0x0 0x10000>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
->  			clocks = <&scmi_clk IMX94_CLK_DISPAPB>;
->  			#clock-cells = <1>;
->  			power-domains = <&scmi_devpd IMX94_PD_DISPLAY>;
-> +
-> +			ldb: ldb@4 {
-> +				compatible = "fsl,imx94-ldb";
-
-Should this be moved to imx94.dtsi, since the compatible string doesn't
-seem to be i.MX943 specific?
-
-> +				reg = <0x4 0x4>, <0x8 0x4>;
-> +				reg-names = "ldb", "lvds";
-> +				clocks = <&lvds_csr IMX94_CLK_DISPMIX_LVDS_CLK_GATE>;
-> +				clock-names = "ldb";
-> +				status = "disabled";
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						lvds_in: endpoint {
-> +							remote-endpoint = <&dcif_out>;
-> +						};
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		dcif: display-controller@4b120000 {
-> +			compatible = "nxp,imx94-dcif";
-
-Same here.
-
-> +			reg = <0x0 0x4b120000 0x0 0x300000>;
-> +			interrupts = <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "common", "bg_layer", "fg_layer";
-> +			clocks = <&scmi_clk IMX94_CLK_DISPAPB>,
-> +				 <&scmi_clk IMX94_CLK_DISPAXI>,
-> +				 <&dispmix_csr IMX94_CLK_DISPMIX_CLK_SEL>;
-> +			clock-names = "apb", "axi", "pix";
-> +			assigned-clocks = <&dispmix_csr IMX94_CLK_DISPMIX_CLK_SEL>;
-> +			assigned-clock-parents = <&clock_ldb_pll_div7>;
-> +			power-domains = <&scmi_devpd IMX94_PD_DISPLAY>;
-> +			status = "disabled";
-> +
-> +			port {
-> +				dcif_out: endpoint {
-> +					remote-endpoint = <&lvds_in>;
-> +				};
-> +			};
->  		};
->  	};
->  };
+> On 05/03/26 08:21, Iago Toral wrote:
+>> El jue, 05-03-2026 a las 10:50 +0000, Tvrtko Ursulin escribió:
+>>>
+>>> On 05/03/2026 10:35, Iago Toral wrote:
+>>>> El jue, 05-03-2026 a las 10:25 +0000, Tvrtko Ursulin escribió:
+>>>>>
+>>>>> On 05/03/2026 10:18, Iago Toral wrote:
+>>>>>> El jue, 05-03-2026 a las 09:34 +0000, Tvrtko Ursulin escribió:
+>>>>>>>
+>>>>>>> On 05/03/2026 09:15, Iago Toral wrote:
+>>>>>>>> El mar, 17-02-2026 a las 09:18 -0300, Maíra Canal escribió:
+>>>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>>>>>>
+>>>>>>>>> To remove the file_priv NULL-ing dance needed to check if
+>>>>>>>>> the
+>>>>>>>>> file
+>>>>>>>>> descriptor is open, move the per-fd reset counter into
+>>>>>>>>> v3d_stats,
+>>>>>>>>> which
+>>>>>>>>> is heap-allocated and refcounted, outliving the fd as
+>>>>>>>>> long as
+>>>>>>>>> jobs
+>>>>>>>>> reference it.
+>>>>>>>>>
+>>>>>>>>> This change allows the removal of the last `queue_lock`
+>>>>>>>>> usage
+>>>>>>>>> to
+>>>>>>>>> protect
+>>>>>>>>> `job->file_priv` and avoids possible NULL ptr dereference
+>>>>>>>>> issues
+>>>>>>>>> due
+>>>>>>>>> to
+>>>>>>>>> lifetime mismatches.
+>>>>>>>>>
+>>>>>>>>> Also, to simplify locking, replace both the global and
+>>>>>>>>> per-fd
+>>>>>>>>> locked
+>>>>>>>>> reset counters with atomics.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>>>>>> Co-developed-by: Maíra Canal <mcanal@igalia.com>
+>>>>>>>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>>>>>>>> ---
+>>>>>>>>>      drivers/gpu/drm/v3d/v3d_drv.c   | 20 ++++------------
+>>>>>>>>> ----
+>>>>>>>>>      drivers/gpu/drm/v3d/v3d_drv.h   | 14 ++++----------
+>>>>>>>>>      drivers/gpu/drm/v3d/v3d_sched.c |  9 ++-------
+>>>>>>>>>      3 files changed, 10 insertions(+), 33 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>>>>> b/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>>>>> index
+>>>>>>>>> aafb402c6ac3118a57df9fc0a0d21d35d48e3b2c..4e77f4808145df2
+>>>>>>>>> 1746
+>>>>>>>>> ff4b
+>>>>>>>>> 7058
+>>>>>>>>> 089d0d161e3fc 100644
+>>>>>>>>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>>>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+>>>>>>>>> @@ -110,13 +110,13 @@ static int
+>>>>>>>>> v3d_get_param_ioctl(struct
+>>>>>>>>> drm_device *dev, void *data,
+>>>>>>>>>              args->value =
+>>>>>>>>> !!drm_gem_get_huge_mnt(dev);
+>>>>>>>>>              return 0;
+>>>>>>>>>          case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
+>>>>>>>>> -        mutex_lock(&v3d->reset_lock);
+>>>>>>>>> -        args->value = v3d->reset_counter;
+>>>>>>>>> -        mutex_unlock(&v3d->reset_lock);
+>>>>>>>>> +        args->value = atomic_read(&v3d-
+>>>>>>>>>> reset_counter);
+>>>>>>>>
+>>>>>>>> Don't we still need to take the reset lock here? Otherwise
+>>>>>>>> there
+>>>>>>>> would
+>>>>>>>> be a chance that we read the counter while a reset is in
+>>>>>>>> flight,
+>>>>>>>> no?
+>>>>>>>
+>>>>>>> I don't see that it would make a difference but maybe I am
+>>>>>>> not
+>>>>>>> seeing
+>>>>>>> your concern. It uses atomic_t so the increment versus read
+>>>>>>> is
+>>>>>>> fine.
+>>>>>>> Are
+>>>>>>> you maybe saying the v3d ABI guarantees reset is 100% done
+>>>>>>> (so
+>>>>>>> not in
+>>>>>>> progress, for some definition of progress, because hardware
+>>>>>>> reset
+>>>>>>> is
+>>>>>>> done by then, only re-submit and re-start of the software
+>>>>>>> state
+>>>>>>> is
+>>>>>>> poending) if userspace observes an increased global reset
+>>>>>>> counter?
+>>>>>>> That
+>>>>>>> would be surprising and I don't see how it could make a
+>>>>>>> practical
+>>>>>>> difference, but perhaps could be mitigated by moving the
+>>>>>>> atomic_inc
+>>>>>>> to
+>>>>>>> the end of v3d_gpu_reset_for_timeout(). Or still taking the
+>>>>>>> lock
+>>>>>>> as
+>>>>>>> you say.
+>>>>>>
+>>>>>> My concern is just that it is possible for the query and the
+>>>>>> reset
+>>>>>> to
+>>>>>> race and that I think it would make sense for the counter query
+>>>>>> to
+>>>>>> include in-flight resets (since what apps really care about is
+>>>>>> whether
+>>>>>> a GPU reset happened not if it completed the reset process).
+>>>>>
+>>>>> Then there is no problem I think. Mutex lock or not, in both
+>>>>> cases it
+>>>>> is
+>>>>> not guaranteed reset either is not in progress at the time of the
+>>>>> ioctl.
+>>>>> Even if the ioctl does not return an increased counter perhaps
+>>>>> the
+>>>>> reset
+>>>>> handler is running but hasn't grabbed the mutex yet.
+>>>>>
+>>>>>
+>>>>
+>>>> That's true, but then I wonder: what is the rationale for still
+>>>> taking
+>>>> the lock when resolving the DRM_V3D_PARAM_CONTEXT_RESET_COUNTER
+>>>> query?
+>>>
+>>> Good question and I asked myself the same this morning. For full
+>>> disclosure I wrote this patch back in Sep'25.. so between then and
+>>> now I
+>>> forgot a thing or two.
+>>>
+>>> In the latest local branch that I can find I had it without the mutex
+>>> even for DRM_V3D_PARAM_CONTEXT_RESET_COUNTER. Maira, was there a
+>>> newer
+>>> version somewhere which I forgot about?
+>>>
+>>> Mutex would make sense if there was any chance for paired jobs across
+>>> two engines to get reset at the same time. I think Maira was
+>>> explaining
+>>> to me that could be a possibility, maybe with some future rework.
+>>> Unless
+>>> I am confusing things.
+>>>
+>>> In any case, in the current upstream v3d it indeed looks to be safe
+>>> with
+>>> no mutex.
+>>
+>> Ok, thanks for checking the history here! Let's see if Maíra has
+>> anything to add to this so we have the full picture and then we can
+>> decide if we can also drop the remaining lock (and I guess in that case
+>> the reset mutex too).
 > 
+> Initially, I was trying to make sure we had some consistency between
+> queues, so that the result for the user is a reliable snapshot from all
+> queues. So, for example, let's say we are iterating the loop and we
+> reached q=3 (CSD) and the BIN queue reset counter is incremented. In
+> such scenario, the user would get an outdated information.
+> 
+> If we take the lock, this scenario wouldn't happen, as the timeout hook
+> wouldn't be able to take the lock. Feel free to correct me if this train
+> of thought is mistaken (or if you believe this level of consistency is
+> not needed).
 
--- 
+ From the userspace point of view it is the same as if the querying 
+thread got scheduled a smidgen earlier, managed to grab the mutex first, 
+and still got the old count, no? Hang and reset might have been in the 
+progress already, just the worker did not run yet. Or that it will only 
+see it one the next query. The ordering of these queries and job 
+submission is undefined anyway so they cannot be used in any ordered way.
+
+The only scenario where I see mutex could be relevant is if there was 
+scope for more than one queue reset count to increment in the same reset 
+handler invocation. But at the moment we don't have that. Or if there 
+was some hidden guarantee that the count increase must only be observed 
+if all processing has been completely done, including re-submitting the 
+jobs and restarting the scheduler. But that would be surprising and I 
+don't see that userspace and driver would or should ever care about that 
+internal implementation details.
+
+Am I missing something? If I am not it is still to have the mutex, but I 
+would suggest it would be better to remove so it is not confusing why 
+one path has it and the other does not.
+
 Regards,
-Liu Ying
+
+Tvrtko
+
+> About removing the reset mutex, I don't believe it's possible, as we
+> need it to make sure that two queues are not resetting at the same time.
+> Also, I'll use this mutex (and the reset counter) in a future patch to
+> address redundant resets that happens when two queues are competing for
+> the `reset_lock`.
+> 
+> Best regards,
+> - Maíra
+> 
+> 
+
