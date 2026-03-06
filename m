@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDRKN0HvqmncYwEAu9opvQ
+	id sFjONy/vqmncYwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:14:09 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:13:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542B0223961
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A7422394C
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:13:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5E8B10E3D8;
-	Fri,  6 Mar 2026 15:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2199510E3D6;
+	Fri,  6 Mar 2026 15:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B0110E3ED;
- Fri,  6 Mar 2026 15:14:05 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by psionic.psi5.com (Postfix) with ESMTPSA id 13D6D3F1E5;
- Fri,  6 Mar 2026 16:14:02 +0100 (CET)
-From: Simon Richter <Simon.Richter@hogyros.de>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Simon Richter <Simon.Richter@hogyros.de>
-Subject: [PATCH v3 1/1] drm/i915: handle failure from vga_get_uninterruptible()
-Date: Sat,  7 Mar 2026 00:13:16 +0900
-Message-ID: <20260306151347.758836-1-Simon.Richter@hogyros.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260218131131.460105-1-Simon.Richter@hogyros.de>
-References: <20260218131131.460105-1-Simon.Richter@hogyros.de>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1FD3010E3D6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 15:13:47 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 378F4497;
+ Fri,  6 Mar 2026 07:13:40 -0800 (PST)
+Received: from [10.1.26.21] (e122027.cambridge.arm.com [10.1.26.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CC6143F836;
+ Fri,  6 Mar 2026 07:13:42 -0800 (PST)
+Message-ID: <5430f3fe-2485-4b96-ab8a-9b0673c26213@arm.com>
+Date: Fri, 6 Mar 2026 15:13:40 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/9] drm/panthor: Add a GEM shrinker
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, Chia-I Wu <olvaffe@gmail.com>,
+ kernel@collabora.com
+References: <20260305124320.156606-1-boris.brezillon@collabora.com>
+ <61d9080c-48ea-41fa-a727-e1f63b3b8f61@arm.com>
+ <20260306133009.7b7f31ff@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260306133009.7b7f31ff@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,118 +66,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 542B0223961
+X-Rspamd-Queue-Id: 46A7422394C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.51 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[hogyros.de];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:olvaffe@gmail.com,m:kernel@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[steven.price@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[arm.com,collabora.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,intel.com,google.com];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_THREE(0.00)[3];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Simon.Richter@hogyros.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.218];
-	TAGGED_RCPT(0.00)[dri-devel];
-	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gitlab.freedesktop.org:url,hogyros.de:mid,hogyros.de:email]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[steven.price@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-0.756];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,arm.com:mid,arm.com:email]
 X-Rspamd-Action: no action
 
-The vga_get_uninterruptible() function can return an error if it fails to
-set up VGA decoding for the requested device.
+On 06/03/2026 12:30, Boris Brezillon wrote:
+> On Fri, 6 Mar 2026 11:58:11 +0000
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> Hi Boris,
+>>
+>> On 05/03/2026 12:43, Boris Brezillon wrote:
+>>> Hello,
+>>>
+>>> This is an attempt at adding a GEM shrinker to panthor so the system
+>>> can finally reclaim GPU memory.
+>>>
+>>> This implementation is losely based on the MSM shrinker (which is why
+>>> I added the MSM maintainers in Cc), and it's relying on the drm_gpuvm
+>>> eviction/validation infrastructure.
+>>>
+>>> I've only done very basic IGT-based [1] and chromium-based (opening
+>>> a lot of tabs on Aquarium until the system starts reclaiming+swaping
+>>> out GPU buffers) testing, but I'm posting this early so I can get
+>>> preliminary feedback on the implementation. If someone knows about
+>>> better tools/ways to test the shrinker, please let me know.  
+>>
+>> I did a very basic test with glmark and I can reproduce the below splat:
+>>
+>> [  290.502999] ------------[ cut here ]------------
+>> [  290.504338] refcount_t: underflow; use-after-free.
+>> [  290.504843] WARNING: lib/refcount.c:28 at refcount_warn_saturate+0xf4/0x144, CPU#5: kworker/u32:3/75
+>> [  290.505715] Modules linked in: panthor drm_gpuvm drm_exec gpu_sched
+>> [  290.506402] CPU: 5 UID: 0 PID: 75 Comm: kworker/u32:3 Not tainted 7.0.0-rc1-00176-g608e8196cd63 #202 PREEMPT 
+>> [  290.507323] Hardware name: Radxa ROCK 5B (DT)
+>> [  290.507733] Workqueue: events_unbound commit_work
+>> [  290.508185] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>> [  290.508835] pc : refcount_warn_saturate+0xf4/0x144
+>> [  290.509287] lr : refcount_warn_saturate+0xf4/0x144
+>> [  290.509741] sp : ffff800083cb3b80
+>> [  290.510056] x29: ffff800083cb3b80 x28: ffff8000821d1e88 x27: ffff00010fa058a0
+>> [  290.510724] x26: 0000000000000000 x25: 0000000000000000 x24: 00000000ffffffff
+>> [  290.511398] x23: ffff00010b149000 x22: ffff00010dd3a7c8 x21: ffff80008226c828
+>> [  290.512065] x20: ffff00010dd3a780 x19: ffff00010dd3a780 x18: 00000000ffffffff
+>> [  290.512735] x17: 00000000ffffffff x16: ffff800083cb3668 x15: 0000000000001e00
+>> [  290.513403] x14: ffff000102a8f69f x13: ffff8000821fb558 x12: 000000000000083d
+>> [  290.514074] x11: 00000000000002bf x10: ffff800082253558 x9 : ffff8000821fb558
+>> [  290.514746] x8 : 00000000ffffefff x7 : ffff800082253558 x6 : 80000000fffff000
+>> [  290.515414] x5 : ffff0001fef31588 x4 : 0000000000000000 x3 : ffff80017d1e5000
+>> [  290.516083] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000102b61980
+>> [  290.516752] Call trace:
+>> [  290.516987]  refcount_warn_saturate+0xf4/0x144 (P)
+>> [  290.517440]  drm_sched_fence_release_scheduled+0xe0/0xe4 [gpu_sched]
+>> [  290.518046]  dma_fence_release+0xb4/0x3cc
+>> [  290.518429]  drm_sched_fence_release_finished+0x94/0xa8 [gpu_sched]
+>> [  290.519021]  dma_fence_release+0xb4/0x3cc
+>> [  290.519401]  dma_fence_array_release+0x94/0x104
+>> [  290.519829]  dma_fence_release+0xb4/0x3cc
+>> [  290.520208]  drm_atomic_helper_wait_for_fences+0x1a4/0x228
+>> [  290.520724]  commit_tail+0x38/0x18c
+>> [  290.521056]  commit_work+0x14/0x20
+>> [  290.521381]  process_one_work+0x208/0x76c
+>> [  290.521763]  worker_thread+0x1c4/0x36c
+>> [  290.522121]  kthread+0x13c/0x148
+>> [  290.522430]  ret_from_fork+0x10/0x20
+>> [  290.522774] irq event stamp: 2167444
+>> [  290.523114] hardirqs last  enabled at (2167443): [<ffff80008016772c>] __up_console_sem+0x6c/0x80
+>> [  290.523941] hardirqs last disabled at (2167444): [<ffff80008132977c>] el1_brk64+0x20/0x60
+>> [  290.524703] softirqs last  enabled at (2167428): [<ffff8000800c94c4>] handle_softirqs+0x604/0x61c
+>> [  290.525528] softirqs last disabled at (2167421): [<ffff8000800102d0>] __do_softirq+0x14/0x20
+>> [  290.526320] ---[ end trace 0000000000000000 ]---
+>>
+>> I haven't yet dug into what's happening.
+> 
+> Yikes! I plead guilty for not testing after the rebase...
+Hmm, it's apparently the base that's the problem - I can trigger
+problems without your series. I'll keep digging.
 
-If VGA decoding is unavailable, we don't need to be careful to leave the
-VGA emulation in a usable state, as vgacon will also be unable to get
-access later on, so just skip over the VGA accesses and the vga_put() call
-matching the failed vga_get_uninterruptible().
-
-Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
-Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/1824
----
- drivers/gpu/drm/i915/display/intel_vga.c | 33 +++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
-index 6fc3e3702cb8..9832a4ade318 100644
---- a/drivers/gpu/drm/i915/display/intel_vga.c
-+++ b/drivers/gpu/drm/i915/display/intel_vga.c
-@@ -112,12 +112,16 @@ static bool intel_pci_bridge_set_vga(struct pci_dev *pdev, bool enable)
- 	return old & PCI_BRIDGE_CTL_VGA;
- }
- 
--static bool intel_vga_get(struct intel_display *display, bool mmio)
-+static int intel_vga_get(struct intel_display *display, bool mmio,
-+			 bool *old_io_decode)
- {
- 	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
-+	int err;
- 
--	if (mmio)
--		return false;
-+	if (mmio) {
-+		*old_io_decode = false;
-+		return 0;
-+	}
- 
- 	/*
- 	 * Bypass the VGA arbiter on the iGPU and just enable
-@@ -130,10 +134,15 @@ static bool intel_vga_get(struct intel_display *display, bool mmio)
- 	 * grab any VGA IO access when IO decode is enabled, regardless
- 	 * of how any other VGA routing bits are configured.
- 	 */
--	if (display->platform.dgfx)
--		vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-+	if (display->platform.dgfx) {
-+		err = vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-+		if (err)
-+			return err;
-+	}
-+
-+	*old_io_decode = intel_pci_set_io_decode(pdev, true);
- 
--	return intel_pci_set_io_decode(pdev, true);
-+	return 0;
- }
- 
- static void intel_vga_put(struct intel_display *display, bool io_decode, bool mmio)
-@@ -175,6 +184,7 @@ void intel_vga_disable(struct intel_display *display)
- 	bool io_decode;
- 	u8 msr, sr1;
- 	u32 tmp;
-+	int err;
- 
- 	if (!intel_vga_decode_is_enabled(display)) {
- 		drm_dbg_kms(display->drm, "VGA decode is disabled\n");
-@@ -216,7 +226,16 @@ void intel_vga_disable(struct intel_display *display)
- 			goto reset_vgacntr;
- 	}
- 
--	io_decode = intel_vga_get(display, mmio);
-+	/*
-+	 * This should not fail, because the vga_get() family of functions
-+	 * will only report errors for dGPUs that are unreachable via the
-+	 * bridge, and cannot be made reachable either. We shouldn't even
-+	 * get here for this case, but if we do, we assume that the bridge
-+	 * will also refuse future requests to forward VGA accesses.
-+	 */
-+	err = intel_vga_get(display, mmio, &io_decode);
-+	if (err)
-+		goto reset_vgacntr;
- 
- 	drm_WARN_ON(display->drm, !mmio && !intel_pci_has_vga_io_decode(pdev));
- 
--- 
-2.47.3
+Thanks,
+Steve
 
