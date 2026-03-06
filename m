@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AJl3HH4Mq2nCZgEAu9opvQ
+	id 8D0aJoIMq2k/ZgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:18:54 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:18:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E3C225D5E
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E886225D7C
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 18:18:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D49610ED9D;
-	Fri,  6 Mar 2026 17:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A1C10EDB4;
+	Fri,  6 Mar 2026 17:18:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UOtP8leo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FVBg+1/r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE6B110E3D3;
- Fri,  6 Mar 2026 17:18:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE4910E3EF;
+ Fri,  6 Mar 2026 17:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772817531; x=1804353531;
+ t=1772817535; x=1804353535;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lCGAXW7M4qGFaTVwSbXzj3Pic5surf8iqngwPvi9Tac=;
- b=UOtP8leoDx9kWUli01Dxkx0pDB+qPjcrPJOE9QPN4Yd5FvFgUg4Rh76c
- OnjWekHcQyfiYkfgK/ruH6HrmzQHQDXBFEV3Sv8+efTSDFr/pyHTbSZse
- qjQrCzhcutMp17dZu57mTlVn3zRmwtBPHZVMHPs1dVOuIHeWbGD++MvNv
- bfOsXoonMT+qodmDeegxR+hJwm7PIeLvcAWD42rNiGUlBMJVf+UFTMcST
- kC7herrLOxiX3ZBB0bZKo8AgsUK3wbOQc62WeQVCWTyGpaGUasAUF0yPT
- 2GOVedpruYyLB1kcZBmkdDYfvBj314NyATNC2VmCXzyGqCgC/QDciWnwM Q==;
-X-CSE-ConnectionGUID: XEodvkEtQmud2fJwZX9yVw==
-X-CSE-MsgGUID: s4TgimwgRBG4qYKoUtGs2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77530740"
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="77530740"
+ bh=69Wi4wEiA1UdOvrR2K6q5w4nAmADP7A36k0mQNr+xOY=;
+ b=FVBg+1/re7HLQOJ38jDGBtgS5IVH2hCwRi98Ka6E3vZStavCK1YkTS3l
+ 3gj5qZOHx/hVOcQAH0Fi6HjEY5sWoIUFc8ibdxkvJEDag1gMA1ATRHdAO
+ 1zhHh73PadrgMVEr8LJYE49RwTI6SIzVB3diUaJOECtMSvpNWOx2gtfvn
+ cBLhawO+ctDNBt2qbHHeZRI/l5RIzPQko4mYge0up1Dfmh2CbAg58DnO0
+ Dwi12wkonXrJcXyxRofbaf3cBS93Zzzej4QEMruRHivVL9RRoGVCeB4mc
+ 8qadu34xRkM8IOoyGfoKtq+pRxZwVdR0gabiZrExs7rceakP2QOrarZjS w==;
+X-CSE-ConnectionGUID: JNy4Ri3RShaqKROlMymSTw==
+X-CSE-MsgGUID: Ap9IzdPeQB+kle5qYXvBUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="77530795"
+X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="77530795"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2026 09:18:50 -0800
-X-CSE-ConnectionGUID: LR0l6mVCSpaZKs2hd7n7Sg==
-X-CSE-MsgGUID: V4p30hxBQdGjxxrat3O7fA==
+ 06 Mar 2026 09:18:54 -0800
+X-CSE-ConnectionGUID: MDSE/Z1cQjSRI1ux0xjQug==
+X-CSE-MsgGUID: sPy9YRUgRu6AY5tv0FSp0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="216175082"
+X-IronPort-AV: E=Sophos;i="6.23,105,1770624000"; d="scan'208";a="216175133"
 Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2026 09:18:46 -0800
+ by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2026 09:18:50 -0800
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org
@@ -54,9 +54,9 @@ Cc: harry.wentland@amd.com, louis.chauvet@bootlin.com, mwen@igalia.com,
  pekka.paalanen@collabora.com, pranay.samala@intel.com,
  swati2.sharma@intel.com,
  Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-Subject: [PATCH 03/10] drm/i915/color: Program fixed-function CSC on SDR planes
-Date: Fri,  6 Mar 2026 22:23:00 +0530
-Message-Id: <20260306165307.3233194-4-chaitanya.kumar.borah@intel.com>
+Subject: [PATCH 04/10] drm/i915/color: Add support for 1D LUT in SDR planes
+Date: Fri,  6 Mar 2026 22:23:01 +0530
+Message-Id: <20260306165307.3233194-5-chaitanya.kumar.borah@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260306165307.3233194-1-chaitanya.kumar.borah@intel.com>
 References: <20260306165307.3233194-1-chaitanya.kumar.borah@intel.com>
@@ -76,7 +76,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: D4E3C225D5E
+X-Rspamd-Queue-Id: 6E886225D7C
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -99,113 +99,68 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[chaitanya.kumar.borah@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.980];
+	NEURAL_HAM(-0.00)[-0.982];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Program the fixed-function CSC block for SDR planes based on the
-DRM_COLOROP_CSC_FF state.
+Extend the SDR plane color pipeline to include pre- and post-CSC
+1D LUT blocks.
 
-Track the bypass state explicitly as a boolean in the plane hw state
-since bypass is managed separately from the CSC_FF enum value in the
-colorop framework.
+SDR planes use a smaller LUT size than HDR planes and therefore
+initialize the 1D LUT colorops with the appropriate hardware
+capacity.
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 ---
- .../drm/i915/display/intel_display_types.h    |  2 ++
- drivers/gpu/drm/i915/display/intel_plane.c    | 12 ++++++--
- .../drm/i915/display/skl_universal_plane.c    | 30 +++++++++++++++++++
- 3 files changed, 42 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_color_pipeline.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index e189f8c39ccb..02b1cee18e4a 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -679,6 +679,8 @@ struct intel_plane_state {
- 		enum drm_color_range color_range;
- 		enum drm_scaling_filter scaling_filter;
- 		struct drm_property_blob *ctm, *degamma_lut, *gamma_lut, *lut_3d;
-+		enum drm_colorop_csc_ff_type csc_ff_type; /* For SDR plane */
-+		bool csc_ff_enable;
- 	} hw;
+diff --git a/drivers/gpu/drm/i915/display/intel_color_pipeline.c b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+index f368a896d2fc..47b3bcec7b18 100644
+--- a/drivers/gpu/drm/i915/display/intel_color_pipeline.c
++++ b/drivers/gpu/drm/i915/display/intel_color_pipeline.c
+@@ -15,6 +15,7 @@
+ #define MAX_COLOROP 4
+ #define PLANE_DEGAMMA_SIZE 128
+ #define PLANE_GAMMA_SIZE 32
++#define PLANE_DEGAMMA_SIZE_SDR 32
  
- 	struct i915_vma *ggtt_vma;
-diff --git a/drivers/gpu/drm/i915/display/intel_plane.c b/drivers/gpu/drm/i915/display/intel_plane.c
-index e06a0618b4c6..c271a0ceb94e 100644
---- a/drivers/gpu/drm/i915/display/intel_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_plane.c
-@@ -378,11 +378,19 @@ intel_plane_color_copy_uapi_to_hw_state(struct intel_plane_state *plane_state,
- 	while (iter_colorop) {
- 		for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
- 			if (new_colorop_state->colorop == iter_colorop) {
--				blob = new_colorop_state->bypass ? NULL : new_colorop_state->data;
- 				intel_colorop = to_intel_colorop(colorop);
--				changed |= intel_plane_colorop_replace_blob(plane_state,
-+				if (intel_colorop->id == INTEL_PLANE_CB_CSC_FF) {
-+					plane_state->hw.csc_ff_enable =
-+						!new_colorop_state->bypass;
-+					plane_state->hw.csc_ff_type =
-+						new_colorop_state->csc_ff_type;
-+				} else {
-+					blob = new_colorop_state->bypass ?
-+						NULL : new_colorop_state->data;
-+					changed |= intel_plane_colorop_replace_blob(plane_state,
- 									    intel_colorop,
- 									    blob);
-+				}
- 			}
- 		}
- 		iter_colorop = iter_colorop->next;
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index 677f1339b7f8..3d96975f97ae 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -1239,6 +1239,32 @@ static u32 glk_plane_color_ctl_crtc(const struct intel_crtc_state *crtc_state)
- 	return plane_color_ctl;
- }
+ static const struct drm_colorop_funcs intel_colorop_funcs = {
+ 	.destroy = intel_colorop_destroy,
+@@ -44,7 +45,9 @@ static const enum intel_color_block hdr_plane_pipeline[] = {
+ };
  
-+static u32 intel_csc_ff_type_to_csc_mode(enum drm_colorop_csc_ff_type csc_ff_type,
-+					 bool enable)
-+{
-+	u32 csc_mode = PLANE_COLOR_CSC_MODE_BYPASS;
-+
-+	if (enable) {
-+		switch (csc_ff_type) {
-+		case DRM_COLOROP_CSC_FF_YUV601_RGB601:
-+			csc_mode = PLANE_COLOR_CSC_MODE_YUV601_TO_RGB601;
-+			break;
-+		case DRM_COLOROP_CSC_FF_YUV709_RGB709:
-+			csc_mode = PLANE_COLOR_CSC_MODE_YUV709_TO_RGB709;
-+			break;
-+		case DRM_COLOROP_CSC_FF_YUV2020_RGB2020:
-+			csc_mode = PLANE_COLOR_CSC_MODE_YUV2020_TO_RGB2020;
-+			break;
-+		case DRM_COLOROP_CSC_FF_RGB709_RGB2020:
-+			csc_mode = PLANE_COLOR_CSC_MODE_RGB709_TO_RGB2020;
-+			break;
-+		default:
-+			csc_mode = PLANE_COLOR_CSC_MODE_BYPASS;
-+		}
-+	}
-+	return csc_mode;
-+}
-+
- static u32 glk_plane_color_ctl(const struct intel_plane_state *plane_state)
+ static const enum intel_color_block sdr_plane_pipeline[] = {
++	INTEL_PLANE_CB_PRE_CSC_LUT,
+ 	INTEL_PLANE_CB_CSC_FF,
++	INTEL_PLANE_CB_POST_CSC_LUT,
+ };
+ 
+ static const u64 intel_plane_supported_csc_ff =
+@@ -67,8 +70,10 @@ struct intel_colorop *intel_color_pipeline_plane_add_colorop(struct drm_plane *p
+ 							     enum intel_color_block id)
  {
- 	struct intel_display *display = to_intel_display(plane_state);
-@@ -1270,6 +1296,10 @@ static u32 glk_plane_color_ctl(const struct intel_plane_state *plane_state)
- 			plane_color_ctl |= PLANE_COLOR_YUV_RANGE_CORRECTION_DISABLE;
- 	}
+ 	struct drm_device *dev = plane->dev;
++	struct intel_display *display = to_intel_display(dev);
+ 	struct intel_colorop *colorop;
+ 	int ret;
++	bool is_hdr = icl_is_hdr_plane(display, to_intel_plane(plane)->id);
  
-+	if (!icl_is_hdr_plane(display, plane->id))
-+		plane_color_ctl |= intel_csc_ff_type_to_csc_mode(plane_state->hw.csc_ff_type,
-+								plane_state->hw.csc_ff_enable);
-+
- 	if (plane_state->force_black)
- 		plane_color_ctl |= PLANE_COLOR_PLANE_CSC_ENABLE;
+ 	colorop = intel_colorop_create(id);
  
+@@ -80,7 +85,9 @@ struct intel_colorop *intel_color_pipeline_plane_add_colorop(struct drm_plane *p
+ 		ret = drm_plane_colorop_curve_1d_lut_init(dev,
+ 							  &colorop->base, plane,
+ 							  &intel_colorop_funcs,
+-							  PLANE_DEGAMMA_SIZE,
++							  is_hdr ?
++							  PLANE_DEGAMMA_SIZE :
++							  PLANE_DEGAMMA_SIZE_SDR,
+ 							  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+ 							  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+ 		break;
 -- 
 2.25.1
 
