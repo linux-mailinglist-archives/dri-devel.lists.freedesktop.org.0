@@ -2,86 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OAbDElHQqmn3XQEAu9opvQ
+	id aEaYLKzQqmkKXgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:02:09 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:03:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B138A22142E
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E53F2214C2
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC7610E201;
-	Fri,  6 Mar 2026 13:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4754510E246;
+	Fri,  6 Mar 2026 13:03:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Pp9qtS0J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ccveBowf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C8010E201
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=IGqMEqmRoA16nm/sb4R6R3q0GZ74Vh5CuiXA7ThMXSU=; b=Pp9qtS0JeDjDLXMoDDPoIkD4fY
- g2IIbgf98rZtbRKdsHAzTrFss69KzWK1lkFimgFr46j3wouxDFPs/XRM2xcSEsa9PKA0FxEyyIaFI
- q+b10T58dsaqs4dQUGyX3vCvvioTHWZ+wRk4FFlKFUeoi86k9FZTkrwltBNX+a47mdYjbzFnJDpOh
- dsD93Eom8bJS59CArb/avSavZz9G1KAdO9Lctdc1h2SasVBN92F90p9un7h3c3YbHSZVHX3nbeUwZ
- nALoucL8k8UacPbpNKqEQitIFtzUTxw3p8i6k+dQeGQCMgOYLTqnSyYCINbPWKjZlbQdlm+DF435X
- P5s4j/yA==;
-Received: from [189.7.87.203] (helo=[192.168.0.2])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vyUoV-00A2jZ-0k; Fri, 06 Mar 2026 14:01:55 +0100
-Message-ID: <469a5d76-191f-481d-8391-198d69b4d4c4@igalia.com>
-Date: Fri, 6 Mar 2026 10:01:49 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/11] drm/vc4: Add DRM GPU scheduler infrastructure
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Melissa Wen
- <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
- <20260205-vc4-drm-scheduler-v1-5-c6174fd7bbc1@igalia.com>
- <d7b29e86-c5fe-451a-b52d-62b78d908031@igalia.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Content-Language: en-US
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <d7b29e86-c5fe-451a-b52d-62b78d908031@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4B8C10E246
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:03:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C8E8960018;
+ Fri,  6 Mar 2026 13:03:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C7DC2BC86;
+ Fri,  6 Mar 2026 13:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772802216;
+ bh=jRCveaJm52/FekT7y05m+UWvnUqUknrFccZNLmPxkjA=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=ccveBowfAkoZO136ZHs1Qzr0+JeYoISHjwK8gFQu0VFxdBsMncnBNloT3zujjVAGt
+ p2gmPbgXFfsNgY9ldau1Pkwx031wNtFm4UbzD1f4zm7N0pYSdjYR947swTnZpTEAEe
+ Ji6nc9+GQvygn8eQLn20iJD37ys6NqekArWMRMPkv1Pd+YoM/XroRHws3bdwK4cYg6
+ OsuVFK6UsXIw/W8lDicy7wAmKEqL5F2qwqSvLH7ywhf7Xxgwc3r/D4uT9ywIUUWLrF
+ ZkXtLtq10gM+pRi5w5Ao0NLo4WLIDUuDvH6b5/GxBbwc3xBJ2wvTrMV5piidtKULm1
+ Ibs4vKLViQNQQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Mar 2026 14:03:33 +0100
+Message-Id: <DGVPXPMB8JB3.3VWBBX3YOK3G5@kernel.org>
+Subject: Re: dma_fence: force users to take the lock manually
+Cc: <phasta@kernel.org>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Boris Brezillon"
+ <boris.brezillon@collabora.com>, "Tvrtko Ursulin"
+ <tvrtko.ursulin@igalia.com>, "dri-devel" <dri-devel@lists.freedesktop.org>
+To: "Philipp Stanner" <phasta@mailbox.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+ <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+ <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+In-Reply-To: <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,111 +74,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B138A22142E
+X-Rspamd-Queue-Id: 0E53F2214C2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:tvrtko.ursulin@igalia.com,m:phasta@mailbox.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.311];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hi Tvrtko,
+On Fri Mar 6, 2026 at 1:36 PM CET, Philipp Stanner wrote:
+> On Fri, 2026-03-06 at 13:31 +0100, Christian K=C3=B6nig wrote:
+>> All fences must always signal because the HW operation must always compl=
+ete
+>> or be terminated by a timeout.
+>>=20
+>> If a fence signals only because it runs out of scope than that means tha=
+t you
+>> have a huge potential for data corruption and that is even worse than no=
+t
+>> signaling a fence.
 
-On 05/03/26 09:19, Tvrtko Ursulin wrote:
-> 
-> On 05/02/2026 21:31, Maíra Canal wrote:
+If that happens, it is a functional bug, the potential data corruption is o=
+nly
+within a separate memory object, e.g. GEM etc., no? I.e. it may fault the G=
+PU,
+but it does not fault the kernel.
 
-[...]
+>> In other words not signaling a fence can leave the system in a deadlock
+>> state, but signaling it incorrectly usually results in random data
+>> corruption.
 
-Ack to all previous comments, thanks a lot!
+Well, not signaling it results in a potential deadlock of the whole kernel,
+whereas wrongly signaling it is "only" a functional bug.
 
-> 
->> +    spin_unlock_irqrestore(&vc4->job_lock, irqflags);
->> +
->> +    vc4_flush_caches(dev);
->> +
->> +    fence = vc4_fence_create(vc4, VC4_BIN);
->> +    if (IS_ERR(fence))
->> +        return NULL;
-> 
-> Exits with vc4->bin_job set, safe or accidental?
+> It all stands and falls with the question whether a fence can drop by
+> accident in Rust, or if it will only ever drop when the hw-ring is
+> closed.
+>
+> What do you believe is the right thing to do when a driver unloads?
 
-Accidental 😅
+The fence has to be signaled -- ideally after shutting down all queues, but=
+ it
+has to be signaled.
 
-> 
->> +
->> +    if (job->base.irq_fence)
->> +        dma_fence_put(job->base.irq_fence);
-> 
-> When can this happen, on re-submit?
+> Ideally we could design it in a way that the driver closes its rings,
+> the pending fences drop and get signaled with ECANCELED.
+>
+> Your concern seems to be a driver by accident droping a fence while the
+> hardware is still processing the associated job.
 
-Exactly.
+I'm not concerned about the "driver drops fence by accident" case, as it is=
+ less
+problematic than the "driver forgets to signal the fence" case. One is a lo=
+gic
+bug, whereas the other can deadlock the kernel, i.e. it is unsafe in terms =
+of
+Rust.
 
-> 
->> +    job->base.irq_fence = dma_fence_get(fence);
->> +
->> +    trace_vc4_submit_cl(dev, false, to_vc4_fence(fence)->seqno,
->> +                job->ct0ca, job->ct0ea);
->> +
->> +    vc4_switch_perfmon(vc4, &job->base);
->> +
->> +    V3D_WRITE(V3D_CTNCA(0), job->ct0ca);
->> +    V3D_WRITE(V3D_CTNEA(0), job->ct0ea);
->> +
->> +    return fence;
->> +}
->> +
->> +static struct dma_fence *vc4_render_job_run(struct drm_sched_job 
->> *sched_job)
->> +{
->> +    struct vc4_render_job *job = to_render_job(sched_job);
->> +    struct vc4_dev *vc4 = job->base.vc4;
->> +    struct drm_device *dev = &vc4->base;
->> +    struct dma_fence *fence;
->> +
->> +    if (unlikely(job->base.base.s_fence->finished.error)) {
->> +        vc4->render_job = NULL;
-> 
-> No spinlock for render, only bin? By design?
+(Technically, there are subsequent problems to solve, as core::mem::forget(=
+) is
+safe and would cause the same problem. However, this is not new, it applies=
+ to
+lock guards in general. We can catch such things with klint though.)
 
-The RENDER job is only changed in two places: when the job is starting
-(here) and when the job is finishing. As the two situations are mutually
-exclusive, it's fine not to have the lock. The BIN job is also used in
-the memory overflow worker and that's why we need the lock.
+Ultimately, a DMA fence (that has been exposed to the outside world) is
+technically equivalent to a lock guard.
 
-Best regards,
-- Maíra
-
-> 
-> Regards,
-> 
-> Tvrtko
-> 
+> (how's that dangerous, though? Shouldn't parties waiting for the fence
+> detect the error? ECANCELED =E2=87=92 you must not access the associated
+> memory)
