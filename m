@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UKFXKsbFqmnVWwEAu9opvQ
+	id MDibFfrFqmnVWwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:17:10 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:18:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F06220623
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B37220660
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:18:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D37210ED18;
-	Fri,  6 Mar 2026 12:17:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01F4E10ED1B;
+	Fri,  6 Mar 2026 12:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JE9hl+xg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rCp0TEPy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC98010ED18;
- Fri,  6 Mar 2026 12:17:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C3410ED1B;
+ Fri,  6 Mar 2026 12:17:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 516C242A97;
- Fri,  6 Mar 2026 12:17:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9601AC4CEF7;
- Fri,  6 Mar 2026 12:17:05 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 3D6E3404AF;
+ Fri,  6 Mar 2026 12:17:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 811D4C4CEF7;
+ Fri,  6 Mar 2026 12:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772799426;
- bh=E50Nei4wvO5acKQ5WAuR9y8yrxBw8Jw9n6m//WAfpNk=;
+ s=k20201202; t=1772799478;
+ bh=yyADghSRuv3g36SG1gTJ+zwspTahcSZlQ722wYwHmFo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JE9hl+xgT0bTGi+BM5jUSHSxJhmfXyDYuZyy882H8pwaPVW4rs91GqXsOlDdNYt5q
- M4CYD21uXiIoE80aCpIXZWa8pvS6BpzRhby5F3zlbgDBohqfN8gLvqI1ZzEKj9Sq8O
- 1GA8U2yXsayzOcXwk/z9rDzRougLhaH2sFQZ/lImuHVanVDszwy6gcpcLHaEn0JF34
- 5MRb84nwU6hkVV8bxr42O43gDIOYuZx7PoAczRQyQjOzRXl+pydnhhFnDCu0OWdTD3
- GeXNhxm0JknludP4ZgMHI0L5kkBWpm7KDg9wTx0PM6ikXJpjNR7e3ecgYQUbTFzh7m
- tM4T4pFHUGsng==
-Date: Fri, 6 Mar 2026 12:17:03 +0000
+ b=rCp0TEPyTOAJupRC28UvQbYXcao/G55MgmxFJIUwmwhQpuaPUpOT9IaUxiz4l5nEc
+ otvkysRzxPs3DwlOKdKiqY//hgQr7LqJ9BEez9xlbH2rOvQ6KR8wW1Te2DyXt5Y7C0
+ AdZO6ELl5OOGQXFL+vy+jJZnK0vGap6Hkyknjo+SAeXBT8O22MNov+m6lrTpzBgLZQ
+ EhmCORIlTz+NSzc9TcBguQTQ6X0MFO8+HpR8ALVK04Q+cBoY+dyiAu0NzOviSlR6nv
+ hBCmb0cqI2vr+citiZrZ/w8gPppkTAUyT1n6sGgxa1kceA0/E1psbkUc1vZ34fDFyh
+ JYwVuJUUBth/A==
+Date: Fri, 6 Mar 2026 12:17:55 +0000
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: linux-kernel@vger.kernel.org, 
@@ -87,15 +87,15 @@ Cc: linux-kernel@vger.kernel.org,
  bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, 
  netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v1 06/16] mm/oom_kill: factor out zapping of VMA into
- zap_vma_for_reaping()
-Message-ID: <d92e21ff-50cd-485b-8f48-621e8ae1b169@lucifer.local>
+Subject: Re: [PATCH v1 07/16] mm/memory: rename unmap_single_vma() to
+ __zap_vma_range()
+Message-ID: <f03471b0-ec73-40d1-88bf-a977c0e8d201@lucifer.local>
 References: <20260227200848.114019-1-david@kernel.org>
- <20260227200848.114019-7-david@kernel.org>
+ <20260227200848.114019-8-david@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260227200848.114019-7-david@kernel.org>
+In-Reply-To: <20260227200848.114019-8-david@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,7 +110,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 24F06220623
+X-Rspamd-Queue-Id: B6B37220660
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
@@ -137,131 +137,56 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lucifer.local:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lucifer.local:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 09:08:37PM +0100, David Hildenbrand (Arm) wrote:
-> Let's factor it out so we can turn unmap_page_range() into a static
-> function instead, and so oom reaping has a clean interface to call.
->
-> Note that hugetlb is not supported, because it would require a bunch of
-> hugetlb-specific further actions (see zap_page_range_single_batched()).
-
-Ugh gawd. Hugetlb.
-
+On Fri, Feb 27, 2026 at 09:08:38PM +0100, David Hildenbrand (Arm) wrote:
+> Let's rename it to better fit our new naming scheme.
 >
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Seems reasonable, so:
+Yesssss thank you! I hate[d] the rando 'sometimes zap sometimes unmap' naming
+convention here.
+
+LGTM, so:
 
 Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
 > ---
->  mm/internal.h |  5 +----
->  mm/memory.c   | 36 ++++++++++++++++++++++++++++++++----
->  mm/oom_kill.c | 15 +--------------
->  3 files changed, 34 insertions(+), 22 deletions(-)
->
-> diff --git a/mm/internal.h b/mm/internal.h
-> index 39ab37bb0e1d..df9190f7db0e 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -536,13 +536,10 @@ static inline void sync_with_folio_pmd_zap(struct mm_struct *mm, pmd_t *pmdp)
->  }
->
->  struct zap_details;
-> -void unmap_page_range(struct mmu_gather *tlb,
-> -			     struct vm_area_struct *vma,
-> -			     unsigned long addr, unsigned long end,
-> -			     struct zap_details *details);
->  void zap_page_range_single_batched(struct mmu_gather *tlb,
->  		struct vm_area_struct *vma, unsigned long addr,
->  		unsigned long size, struct zap_details *details);
-> +int zap_vma_for_reaping(struct vm_area_struct *vma);
->  int folio_unmap_invalidate(struct address_space *mapping, struct folio *folio,
->  			   gfp_t gfp);
+>  mm/memory.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
 > diff --git a/mm/memory.c b/mm/memory.c
-> index e4154f03feac..621f38ae1425 100644
+> index 621f38ae1425..f0aaec57a66b 100644
 > --- a/mm/memory.c
 > +++ b/mm/memory.c
-> @@ -2054,10 +2054,9 @@ static inline unsigned long zap_p4d_range(struct mmu_gather *tlb,
->  	return addr;
+> @@ -2074,7 +2074,7 @@ static void unmap_page_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
 >  }
 >
-> -void unmap_page_range(struct mmu_gather *tlb,
-> -			     struct vm_area_struct *vma,
-> -			     unsigned long addr, unsigned long end,
-> -			     struct zap_details *details)
-> +static void unmap_page_range(struct mmu_gather *tlb, struct vm_area_struct *vma,
-> +		unsigned long addr, unsigned long end,
-> +		struct zap_details *details)
+>
+> -static void unmap_single_vma(struct mmu_gather *tlb,
+> +static void __zap_vma_range(struct mmu_gather *tlb,
+>  		struct vm_area_struct *vma, unsigned long start_addr,
+>  		unsigned long end_addr, struct zap_details *details)
 >  {
->  	pgd_t *pgd;
->  	unsigned long next;
-> @@ -2115,6 +2114,35 @@ static void unmap_single_vma(struct mmu_gather *tlb,
->  	}
->  }
->
-> +/**
-> + * zap_vma_for_reaping - zap all page table entries in the vma without blocking
-> + * @vma: The vma to zap.
-> + *
-> + * Zap all page table entries in the vma without blocking for use by the oom
-> + * killer. Hugetlb vmas are not supported.
-> + *
-> + * Returns: 0 on success, -EBUSY if we would have to block.
-> + */
-> +int zap_vma_for_reaping(struct vm_area_struct *vma)
-> +{
-> +	struct mmu_notifier_range range;
-> +	struct mmu_gather tlb;
-> +
-> +	VM_WARN_ON_ONCE(is_vm_hugetlb_page(vma));
-> +
-> +	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
-> +				vma->vm_start, vma->vm_end);
-> +	tlb_gather_mmu(&tlb, vma->vm_mm);
-> +	if (mmu_notifier_invalidate_range_start_nonblock(&range)) {
-> +		tlb_finish_mmu(&tlb);
-> +		return -EBUSY;
-> +	}
-> +	unmap_page_range(&tlb, vma, range.start, range.end, NULL);
-> +	mmu_notifier_invalidate_range_end(&range);
-> +	tlb_finish_mmu(&tlb);
-> +	return 0;
-> +}
-> +
->  /**
->   * unmap_vmas - unmap a range of memory covered by a list of vma's
->   * @tlb: address of the caller's struct mmu_gather
-> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> index 0ba56fcd10d5..54b7a8fe5136 100644
-> --- a/mm/oom_kill.c
-> +++ b/mm/oom_kill.c
-> @@ -548,21 +548,8 @@ static bool __oom_reap_task_mm(struct mm_struct *mm)
->  		 * count elevated without a good reason.
->  		 */
->  		if (vma_is_anonymous(vma) || !(vma->vm_flags & VM_SHARED)) {
-> -			struct mmu_notifier_range range;
-> -			struct mmu_gather tlb;
-> -
-> -			mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0,
-> -						mm, vma->vm_start,
-> -						vma->vm_end);
-> -			tlb_gather_mmu(&tlb, mm);
-> -			if (mmu_notifier_invalidate_range_start_nonblock(&range)) {
-> -				tlb_finish_mmu(&tlb);
-> +			if (zap_vma_for_reaping(vma))
->  				ret = false;
-> -				continue;
-> -			}
-> -			unmap_page_range(&tlb, vma, range.start, range.end, NULL);
-> -			mmu_notifier_invalidate_range_end(&range);
-> -			tlb_finish_mmu(&tlb);
->  		}
->  	}
->
+> @@ -2177,7 +2177,7 @@ void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap)
+>  		unsigned long start = unmap->vma_start;
+>  		unsigned long end = unmap->vma_end;
+>  		hugetlb_zap_begin(vma, &start, &end);
+> -		unmap_single_vma(tlb, vma, start, end, &details);
+> +		__zap_vma_range(tlb, vma, start, end, &details);
+>  		hugetlb_zap_end(vma, &details);
+>  		vma = mas_find(unmap->mas, unmap->tree_end - 1);
+>  	} while (vma);
+> @@ -2213,7 +2213,7 @@ void zap_page_range_single_batched(struct mmu_gather *tlb,
+>  	 * unmap 'address-end' not 'range.start-range.end' as range
+>  	 * could have been expanded for hugetlb pmd sharing.
+>  	 */
+> -	unmap_single_vma(tlb, vma, address, end, details);
+> +	__zap_vma_range(tlb, vma, address, end, details);
+>  	mmu_notifier_invalidate_range_end(&range);
+>  	if (is_vm_hugetlb_page(vma)) {
+>  		/*
 > --
 > 2.43.0
 >
