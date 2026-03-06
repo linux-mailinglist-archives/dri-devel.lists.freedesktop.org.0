@@ -2,141 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8EvSANWDqmmaSwEAu9opvQ
+	id YBcAMxiEqmnRSwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:35:49 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:36:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E61921C7F8
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3257621C866
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:36:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B99C310E390;
-	Fri,  6 Mar 2026 07:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 733A110E39D;
+	Fri,  6 Mar 2026 07:36:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="N98FkZLM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="injQ8VU8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com
- (mail-francesouthazon11011052.outbound.protection.outlook.com
- [40.107.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4304310E390
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 07:35:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 457F510E392;
+ Fri,  6 Mar 2026 07:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772782613; x=1804318613;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=M26QUocVF5HLAWzSJUkvu16JpbqgbJqYGrElKL+4yEQ=;
+ b=injQ8VU8wcuxxW1VqUnOSJVTNk87MKLtyc27s2JC1oM/0j9wU/WOWvE0
+ bkuS13+6ZyVzLw9Wmoupf78vkNQ8YnqADBJbPEQf7r2ilBJTVPZLz2DIQ
+ wHTejA8HqexTWrQhKUXFxjJQm0uC01iNGUU6iInyb3ie1KDK5kyDCB+uU
+ 0QbspO54+YJaANNV89EQ8NPP/BH9lhO+yVKv0/LYhaRZgH2aALojyNNcF
+ uVNtOudtOk1E9cvv70g41PUWSIIJHEplQ/7aB/v0rTmA18jR7kkbKHAsL
+ iHl7Glk0Cs5rsWzaHTozUUUX9Vli+op7XSE+nBtSuMfFC3h3qBJjlqki5 g==;
+X-CSE-ConnectionGUID: YKnEjFgdSrS5LZBR14o0+A==
+X-CSE-MsgGUID: 4HwZvIgrSy2yOimpCikJ/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="84519695"
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; d="scan'208";a="84519695"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2026 23:36:53 -0800
+X-CSE-ConnectionGUID: kHASJDMlQSyT9dI1vAg64Q==
+X-CSE-MsgGUID: VZtuxWOqQKWrAqOTDhTcKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; d="scan'208";a="219065695"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2026 23:36:53 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 5 Mar 2026 23:36:51 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 5 Mar 2026 23:36:51 -0800
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.56) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 5 Mar 2026 23:36:51 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f4/XsCg4GGRC5CDCubG6QuxvYSxdwdFZZ9Xpf/K5lRJU3YsmGV0kKaymElVHqB8lFPx+9tfWsaO/B8Tm0td/hAHR27Nl958pbb3GLML1/XMYvoxY0rGMWZCvn7L6DEnVdchrizD605uDypc8zSgKbmsQ2M08O7uJnTKv39LTrlT6LHrkCohLK+dA4hBvPtQShgQCtnfieJpxTC146qwedmAavIvi9YLqVxoV1tqCLUfDzE0o/n1JcdR+HJd5p6MYHpC37XqjAuNgcjJeHZBvL0oSHRqp8YnPZwayA0bTALfNbYFLsUJdSmTMSvtGtcuOGKWpKw5grPzXexk66tkKWA==
+ b=m4XWh4m8UsY+JKs+os4igxIYxlDkt0Hl42KJMX8rpKcShhu2IYxOKj0iKTtrEec/iHkQez8esC0//0wcRd7FHXcXyLbOngRkukzPfiEwYYaTcS24AzIkJWf5jYK/r2a18smGjBwMqmhHLUJ0OmoXzsB6FbiM0W9xOgSrDUKBpfBs2CjQgagIBYyuXprsw000YuNwjybcke2PRhVcjm4ItUmiYSmF8+4pmVeqr9yn7oWWdcTwxi+53WsnAfUrYm9ABgo+MijqMEMnT3Dbxk8O9gbPYkzjHHf5Ut/kBZLQd7raMOuqBIsxuhoyCmE7ZxVY1hMxDvlXX0T47PevfiHNjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uZwh8TTfpCcU5/zcjmjFXk3RlbARk+tVT/9pRbd2O20=;
- b=c4hooGvbdd9HD9RwGDwSkgCg8WkuNkpmII6VqUW4mEjQhmZVoec752ltCjUO2vXCnQXXf6BqYC5NIkJfcvmr6n0FF05eGv43EBT1uC092RTx5tbOvUTmya5pMROPlczdEtZ5pELoU0WVgJjQa7eFZU5VCYT8lkaE6dkB3trjqCAhVyIwrLj0ttwT1aYw3Mzc9wxHgw+knyZg/taYhXTEK16yy/JjyXtU0O3EqxSqn5hugs/RNnuCO5XySV6fcL5HiwC3sIiw9khAnz6PVLrsFibf6hB3K25e6XMhrcLBp8IUxA5BdZkfMS4pNawo3cNpsk9Ui5KoR+5cjLacPctJyA==
+ bh=gNRwKiTpEgFDt1HTmlqoxXXo0Yhpo22kJBAudEBZDuI=;
+ b=NsiD/XteA5mojfX9vjqAmtuWzostmKV9bjFvFm49Ivkm5fMYV/SCgcWVLbqTjmf7s9Pr9lFsgR0vULfKp6itCVRmnLgIj+hlifK4yd14gVF+kaAiPQN4UBQoWebTfgRCXa5ps5uJFPMTxlF8Wvo5fLVdtr67oN2lGDdwqEAg/izCxwnPF/SdkOqiAzXM5tcpedEdcS0oqp4otQyGNtH5d1mWCZNl2JPjzNBjb/5C1LmhVmKyYFXaHls3561HuAnQauYQCJvfbBM2fYJVPNvl5w/cs6m+bCBZ2bQ8X5SGkhPmm+3G49pA+e4utnfzKuM3P5caXP9OgwfJ9kzd2K7RTw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uZwh8TTfpCcU5/zcjmjFXk3RlbARk+tVT/9pRbd2O20=;
- b=N98FkZLMTz1FaNDcjLxPLuabejDPw4fqF2Q+THiETwIVIMbD6ziZSusMFkz8UNRhqZja+2flHC3Y0MyLSRILaQpHekIvJEjowqj03JH7SIqB128vscavFAsReJplS+TktWCcMUcMhYkIqAAejoLzmhaB+eTXM5pyjxdgTXIz1tCOhyaqQ8uuf+2Bw8VOoQu79UNPBsp70bLDR6RsfTuUPjTMZWEJ37NI5Hq8Jm+IFFNezj+NHqwCfKoo2Hms5ZDOIUmmSRZIRN803wDIrOOHhlJjwj3ci4s+0S5VfPeKnKbhbIpUo/qoAKNI4jJQJsWcaAFBh02IwfSzQByQrgglBA==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VI0PR04MB11069.eurprd04.prod.outlook.com (2603:10a6:800:266::12)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SN7PR11MB7639.namprd11.prod.outlook.com (2603:10b6:806:32a::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Fri, 6 Mar
- 2026 07:35:39 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64%4]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
- 07:35:39 +0000
-Message-ID: <5edd40f3-f83e-4a1b-99d4-1e595fc0e4cb@nxp.com>
-Date: Fri, 6 Mar 2026 15:36:43 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/9] drm/bridge: fsl-ldb: Get the next non-panel bridge
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, imx@lists.linux.dev,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Frank Li <Frank.Li@nxp.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Francesco Valla <francesco@valla.it>, linux-kernel@vger.kernel.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-References: <20260304-dcif-upstreaming-v8-0-bec5c047edd4@oss.nxp.com>
- <20260304-dcif-upstreaming-v8-2-bec5c047edd4@oss.nxp.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20260304-dcif-upstreaming-v8-2-bec5c047edd4@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR01CA0189.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::15) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Fri, 6 Mar
+ 2026 07:36:48 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%4]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
+ 07:36:48 +0000
+Date: Thu, 5 Mar 2026 23:36:45 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+CC: Boris Brezillon <boris.brezillon@collabora.com>, ML dri-devel
+ <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>, "Steven
+ Price" <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Danilo Krummrich
+ <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: drm_sched run_job and scheduling latency
+Message-ID: <aaqEDd7XQuWTOhR6@lstrano-desk.jf.intel.com>
+References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
+ <20260305102323.11b07502@fedora>
+ <CAPaKu7R3t0Vz3WLg0G9aAVgmWhTGQWPKc6YHsH+2cRKnUjtqow@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPaKu7R3t0Vz3WLg0G9aAVgmWhTGQWPKc6YHsH+2cRKnUjtqow@mail.gmail.com>
+X-ClientProxiedBy: BYAPR07CA0069.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::46) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI0PR04MB11069:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7d98ae1-9e12-4245-8f91-08de7b52f676
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SN7PR11MB7639:EE_
+X-MS-Office365-Filtering-Correlation-Id: bddb0c49-0644-47b1-2273-08de7b531fb7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|19092799006|7416014|376014|1800799024|366016|921020; 
-X-Microsoft-Antispam-Message-Info: VsVZo+Ljw2Vw0e/2nNr4rUidTvCbNcrvy25rB7pG2qeFfvvMORNySRZvcqhBBzNsSaWnjzFfIWVSi5KkPImeedBGdwVgTiIuMwWT/pCDIqfJw2QNQ23xNstA2EJfxpa63WXX+ZaOU0td0USeJjtmqxRXGHdyWfXh4RfpsIwSe2qNxhpegnbSeQUTimyzbM4cNwo0ckFqbW2QNv5Y8LffJFhRlcSIw4aabQAQnx77fWN71bSnDDXyp9dLInL0VhxEpHWoz71AiA60yiZFg9yahNTetI6AKR99sjvtIZ2z1+CwdS0bagCPT9pj41zfmfmWFlwXVX9IVj1++jhgyY4cFd4Aktqaq9UNWMcUsPzMBfO7XcV9advRQmDr6KtflZzvR0NPSQDf5D/6WUBm1e59Ow+T4ez7Yaq89RBaRkYJMgvkxuFqJFhATVTmvmK1G2C6aamX2GNqlr4G9hRhOdbku1bFaqAk3LKr8tIo+fKY0i490ORV0hLf8IZen03t3Kx54ALGcM02lY2ebKGYYN5B7eGH1f3H/InoMVgiTu1aj9W2jo8uNqrFFvA1wJHY/aqYNSpZJRn6PxLGL1IbpgXWFYSA4Jc+bx6RsdZNAyqFKpXy9xHZba1YxOBtJgwRe3nN+y1czSHZKB8/hOzJD9Koy9T9sDPnL/ECQym1SzmI/C8q0m8q8s5SRve0zrOS1N4Ls9v2gdhZehrwac8bVWs25wZA8cRGY3LIAozvuG9bvcf/a5BR25rFstHcjoCzk/2cPRwYOt27tLRZMSlBsOcr3g==
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: 1CXT2hXC4wcR4lRFSn51QWfaaOnmCpjPRf7L23WWHuLUyHGHd57qe2GUWGhAL+Z4lkKJwx+RecnF6YEnVKnArAZfj3X0MyJGNuk3b0l7tZ7IPbjR62ScpTZoQeMgGlVO4h09UVedmW+1snh1Z2bT0r2Ebv0Dlsk2XuXo2i29wF9gjHbg/LSfzZEpDNF7UFVqihkCG91W232U0PZwqUAFqHj1t4w9tO8NzRSusVkWinjFGK6nP9oBwFhwBrfyGkdaT3MLfT3y0p0iJqWIv1MkUwLuGd0BiXvCKGmJI5rREY9QzetfBe4/ItXp1lS5pbBlUmmATxdkm0zp3pMeF0gMHrpjkdCiWg/XRTlOFxZrjXTDj2WpXy1K/tkeW195YNQGT0HNrXpuGI0Y4OrvVsepDyMG/fUcCtoUtH1eRTFTX4XnJQRlRqj+GSXq59eZlOsSLTY0QrOIBbnxYD8cRcJVTqkXh0QGR8HR5S3u/riWsiIMtl3T+flH+ZY3svydh7shzouGDqpZdqvmY7CdRNL5zD0u4k70WEefeM/SLWxywJLjw8iDtzqUo/TjzFlnRx8pE+QvIrzDIUxS3sGqDHWP+cag/UzxVsodiQzplJD/wnzaSsW70CKTArx/57cWy0FVCO/8pEkDCjIvsbtwXyc3cwBjxz4qVMCKwrfH7kPku9QZonwJu1pKMooGLHuVN3eGf5zycUuOzZDejtpR15p/AeX5S/G7sfM/EArqjCAC3b0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(19092799006)(7416014)(376014)(1800799024)(366016)(921020);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2lxOUU5OVpXcUJzdVVSWU8xR00wSDUxVlBjN0lWRy8rMEdXekp6MDA4NUs5?=
- =?utf-8?B?UGYxK1NiamV5UHdwZjg2ai9rK0ZsT3k0V2Y4czNpcm1rTTRrV0pVWkZManJo?=
- =?utf-8?B?ZmVlOWxNclBzaUUzMC9HSHNyc2R3L216cFR6VGtqZUFnNWI1UkMzdzVTQTVr?=
- =?utf-8?B?QSs4OThxZVdSOHliVGY3RmVnWjZ4ZVRkSHBTYU1HUE1Gb2lvdmQxR05qVGZx?=
- =?utf-8?B?ZlJBdE1kanJYZW84eFZRNDdjVCt0TU1NTmJRTnBBc2cxOXpJWFlnVnRPL0N0?=
- =?utf-8?B?OGZqb29SL0I3blQvYXc1NU1nbjhiOFFpUk93OEJheGErL3puZ3FTeEJ3U2FH?=
- =?utf-8?B?WE4yNWhIMXpwRGhMdnlzR3dIYnpHWVJhb3k2YzAzcVBZUHVXWERrTXF2aGhB?=
- =?utf-8?B?eFp1WXpySjBTNU12QS9yWllxcFg3Vkp5TzZ0T0tBSnpOakEyd2ZvZHJBTlpj?=
- =?utf-8?B?bWFxd1dXZXJXTnZVcmtlNCtYaEU1RjMyQld4RXRkNkdEMVRMZUVtRHYyaGhj?=
- =?utf-8?B?RldZOGhwTmJkUXJpNy9zMElML00yQzJlanREWFdCT09xajJuM0ZReFNyaDhK?=
- =?utf-8?B?T0dNdStZbEYzTHZLbmQzQXhjeEJjZmMvczFwM2o1L21sZWxtM3k4NklORlF3?=
- =?utf-8?B?S1ptV1pZUjZ3aU9DRUtIVlllbytza2lmV25CM0NxYnlBblB6NmpaQjJ5QjJw?=
- =?utf-8?B?cFVXbm9JRlhQL2RZWEsxL0Z3TE84ZjhYOFJsSmlVVHBpd3FwMDU2UndJa1hC?=
- =?utf-8?B?RnpGd29JWkE2RmlEbmRHTVNlY0oyK3RXSzJTQW9JNXExc2kxRzJTRStkT3Uy?=
- =?utf-8?B?S1pEbEpHVzNNYk9DMERDd0lkWG5za3c4VkFHRmROckt0VVVyMW96UUJHRlND?=
- =?utf-8?B?Wnd6VkR6T0FqcjYzellIazR6V3FsN0lwMmphRzk3UWFMRmoxMjZEM1FmNDhJ?=
- =?utf-8?B?MUc0YktvKys0VVBzQ1B5d053bEZ0NHhETy9qaUpCNlVmZVhKRXhMY2dSMUpC?=
- =?utf-8?B?ZzRGU1lSZW9MZHluT08rQ20ySHlDeXhVUDhkOXNsaFF3b09zZTZlOUJMdGU3?=
- =?utf-8?B?RktRZkgybW9OL0F4M1c0VWdtNnpGTkp2WDJ0aHQwODNUVmpjYmF4NGRBTEJ5?=
- =?utf-8?B?VlUrNmRZaVRIMnduUXAvSVlpRzNsZTlveWorcGFoT1Q1aUJYRm5EWmEzR000?=
- =?utf-8?B?eEx0MU5IeERHalhUWnVBYS9LVE9LK2gycXVEKzNGRjlmQXc3QUlxam5mYnJz?=
- =?utf-8?B?ZEVUcVRHbzE4SHFkREJ2MkVoM0dZK1lHNmJVOThxbGNHT1F6ZlNELzkwK0RG?=
- =?utf-8?B?dzJqN3JsdXI5WVU5a01yNCs3a1l1Q0hLdk9CVm1KalNhNmU2Ni9pUkJMSm9X?=
- =?utf-8?B?dlNpVXFjK0hWa2IzSmpCc1NsMjg5d3VkSFl6T3B4UVBDNGUvZUZPWk5nVCth?=
- =?utf-8?B?bnpDRVZ4Q1h0L0FuYkE3RjFUeFFTdXJGL2JXK2xYZHZyeFFRVXpTUE11bm9x?=
- =?utf-8?B?MUwycVVjUVNsOFBMdmJWQWFOR3l4MUl5U2NHeno4NWdwOU5LZ0E4dFRjTUw4?=
- =?utf-8?B?aFdmMklsc3NmM0ZDMDNrcXEvSnR5UVhSM29jZ1dJb2xOQTFWQ0tVanlZRytT?=
- =?utf-8?B?YzVDR3pVYVlUdC9XbS9HeHl5b3ZuQ3o3ZHM2Y3dJcGtidVdlK0dSSDZuTUNw?=
- =?utf-8?B?ZFJLVnB1N2hiUC9NT3drbThNcEV0c0xFKzdkNDB6SHN2MzU3SjcralVuS2sx?=
- =?utf-8?B?ZmNzWVhhdjJNQmlLblJGUDVNSVBVR2VhdEpjc05Fb29DWXNKMzVoQXRzNXkz?=
- =?utf-8?B?NnhVeTBCeVJ6cDlZWGFDemZyUkhjZ0dZcFdPQWdrT0JkbE1kRVdYS2ExclRS?=
- =?utf-8?B?RmgvNk5LMWVIQnU4MUN3ZDFvdEw5WmRkbVljd0NBaURVcURxME9GTkgrdXRD?=
- =?utf-8?B?bkdhUUVXdmw4Q3A5ZGxqMzdpalBXeFpwTERzUDI3aCtIays4aTJiZlB4dDNH?=
- =?utf-8?B?WDBMenRPMGFkNGJWWlFTN096K3l5aDl4aVBYSjdueTBEL3kxNVJYdmJGRXNK?=
- =?utf-8?B?WEQwWjR0OVZCY2U3S2lGMUk5OVhYYm9XVEU0UHFVb1Fsb1ZzWm5VU2tuTFNT?=
- =?utf-8?B?TWNQY3pBYTVxaWpGRVFVdkxsNGpDSjBXZ29lL3dVeW5ta1phbWhydXZPeWxD?=
- =?utf-8?B?THRLc3Z1eWhtSWZVL2JlT3RiRml3N0JzMmhPNGszSDFmQldpRzh6OXJOYmdQ?=
- =?utf-8?B?YXp1UDJqRFBnQjNWUGVwZXZHbnh0UzFPUlFCNkFsUTk0Q1dZYk9WOEhSNmR2?=
- =?utf-8?B?NDVBams5UGpNek9oa3lOZHNtUUZPT0t2SjFCeE0raDdabitlOThodz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7d98ae1-9e12-4245-8f91-08de7b52f676
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cFVCVFNIVU1uSGp1QW8vblR2eWs5R296T1hhV3Irb0cvOHVwUURrTGRKWjds?=
+ =?utf-8?B?cmVvaWlBeXBGU3AxSWt1dTR2WGgvcWxxeGtLSUQrbUNyTy9lYm9QeS9Lbnkx?=
+ =?utf-8?B?Vmo2UkprbWFUU2FkeWg5b3QxdGJ4aWliWnZLbTJ3QytKYTNQY2xDYWhwN1ZY?=
+ =?utf-8?B?alAxLzhLZVI4eEFGM0FNNStQdjd1NkNOcXpHVWhkclZ0cnE5Z0hhbGVhZk1i?=
+ =?utf-8?B?MTU2UHFlOVUzNDRoeE1Cc0ppa1g1Vmgza0oxVmlnN0tWMWlZVzZ3clFhSlVJ?=
+ =?utf-8?B?K2JZVStxRC91Z1E4NTZpN3dBcnlmZnRYRkRPd3o0VEt3aTBQb3hXOWpMc1Mw?=
+ =?utf-8?B?am82VFVtVUQ2VE9BZFVmdDFnZ0FnTGd6NmU4Mi9oL2JrQ2NTM1lObnBWSlRl?=
+ =?utf-8?B?NFVLbFFRMmZ3SC96ZUk0OFZBbEpEdFFIbDZ4L3MxSnJIN0xvY09LUEtub2M5?=
+ =?utf-8?B?TVpkNkJ5YjYyaHNic0s3eThoWjY4Q1dnaVY0WnNJWDFqUXowanRwRlRMemZj?=
+ =?utf-8?B?U0d2Vnl3ejFEL2hxcEdFS0ZMbXpXbXBJOUFOdXhwQStBb25xWm1xWkxwem5P?=
+ =?utf-8?B?Z3JlKzhRYUY2RHZLdS9tT3dZZ0drcWoxempkRStBNmVyLzU2QnNJM1lubkI4?=
+ =?utf-8?B?eS8rK1FmMnUrdTk1NmIyMkd6WG9SSzlueElLM1ZiMjUwUnZwUjBwaG9BMkcx?=
+ =?utf-8?B?Nll4MSs4dDJaRTlOdXMvUXVRZFc0K0tUaW1NWDVOYllNT1V6YlpKay92c3BY?=
+ =?utf-8?B?Yk01aTZybStXbEE3YTMxWXZlbkhlWUFFNUMxUURUNzZMY00zd0o2TlFjNlVW?=
+ =?utf-8?B?bkJyL25YemtsMWtSbUYycUl3eU5Lbi8vYW5BNnl5NVp1QVA4b05YdW5oa0NV?=
+ =?utf-8?B?MjB0MHJHejFTdGViZTExbERVMnV5ZGpXRWxyaVY5V0JVMEViSS9tSWRNZkVq?=
+ =?utf-8?B?ejFmMW5jSkkyaHZDbDVXNzlDdnh5dEZ0UFhnLzVORk9ydTVRWlNLRTlMWEs3?=
+ =?utf-8?B?cUs5L1diOWdjUHR6YTRFbkx2enpmSTJJWVNjWmZVeGd5LzZnME1IR3R0ZlJD?=
+ =?utf-8?B?R2JNQ1lFUVU4c1RPNWJFNHJuOWM2eHRjd0hrcmRkTUhQckR6NE9lcWZFbGxh?=
+ =?utf-8?B?ZG9vaTV1QmgvVVhyWjgxNXFBRUYrWFFDQXRVdW1BNS9GV0dxZnZMaUpnaEQ0?=
+ =?utf-8?B?MlhFUHJwOHV0anJ6RDFXSGMxSUlkaElNWWZjSkM5QUVha2ZjemZnN0ZkSGg5?=
+ =?utf-8?B?b3JsQVp6bFY5ekIvQ3pWY3ZHQ0QrQ2tnOHhaZGpQL2dsQ3cwVTNkUDJEM2xJ?=
+ =?utf-8?B?cHUrK2ZUcms0VHVBRHdkWHlzcys5Rjg4aGFCWWtoSjNTeUdmLzBDcGcrUWdx?=
+ =?utf-8?B?UXpEQ2VaenVrc245emxpQmFMcUFHRmpZNWNsZlFrQUp3TGlhalVSUG9qMS9u?=
+ =?utf-8?B?UE5PZHZOSldIZng2dU93VSs3cGd3TzFqRTNEalltOGgrdXc1RkVFMno1QU94?=
+ =?utf-8?B?WmI2dG9KQjBnYk92cnQwMHJSeEdmUkhTUWRJaHBmK2JQTTNTR3djclZQTkRG?=
+ =?utf-8?B?UHpraU9JSnBHTVZ2cEtDWXUxWHhZdWNtbWI1dTBRT3o5NHM4bkFxSDNSUjJk?=
+ =?utf-8?B?QTBBaXpSVk81Wjg2TXFPSzlvRTB1SEp6VDFiRlY5TUVYM0ltc0NLcDgyekNl?=
+ =?utf-8?B?TVBqTU9oUk9qQnMvcTArYXV6U1d3Um5sdkVnRE5Cck1tRTNyRFdDdGhrMHZ2?=
+ =?utf-8?B?RVE0QUNkbGhLVVdSdnVjanE4cjNnU2lCR1JzZHZ2Um13YmlSelpxQmIyVmhs?=
+ =?utf-8?B?Z0x5clE2TCs3bHI4WXhISGFIT1BoUk5ZRTBwVGdXSjRpQVhXazQ1cTk0YjAx?=
+ =?utf-8?B?OGpZcE9xVmxFNytOdjhIMnRXS1hPR3lBbHlwYUNkcU0ySWVNdWgyVXBqendU?=
+ =?utf-8?B?K0x1dTlabmluVzhHZU5odUxzMUQ0RXFUaklDbFRIU0ZDY1cxQ1QwREg4UWpv?=
+ =?utf-8?B?Nm5JQlNHL0hjSldHUUZ1OFp2Y1ZvYlR0N1AwQTdZTnR3K1FpQnJwdXo2V3pP?=
+ =?utf-8?B?UVR5OVZoRW1kTVU4U0NBZ21IWUw3OXZuU0hVbVZVRGMwR3ZSTTFNY0VzMVcw?=
+ =?utf-8?B?VlBod1hiazBSV2p1R2RCdDRDQTl1dWxFS2tEemlXZEhSZFhwNlhwM1Y1UTlS?=
+ =?utf-8?B?V3hRM0xhd2tYb1dpSHY4R3FWVVNMWUxmcll4c3hTY0UwVlBDNFJWakhyc3Av?=
+ =?utf-8?B?VXFOSjNYSHE5VzNsa3JMeC8yM0NxT08vblA2TWRVZUxLRVNmYkhCYSswTGpB?=
+ =?utf-8?B?OWg4Z3Yvc2tWbnlWU0tPQk40UW1yQndzYTdqWWVpS0h2U2Zxd1FrZFVXbHlo?=
+ =?utf-8?Q?DGFRZmpwFV34ekic=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bddb0c49-0644-47b1-2273-08de7b531fb7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 07:35:38.9191 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 07:36:47.9373 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T2XJsQE3RhUSt0X1WQcizT1OAXkROptLy6aCCEDFupqqc/zjLPaOnk//o0HfQb2ANW5B4pAZHLe4+Rbs5h/v4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11069
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1IIVDhMnmV2SdwKh9lnfpClkvZKtLqjCCekWK/76FpNL7a9gVDgSDmTQdGhu0pTmoPWg//4IEEMdee7yl1R0SQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7639
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,166 +182,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5E61921C7F8
+X-Rspamd-Queue-Id: 3257621C866
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:laurentiu.palcu@oss.nxp.com,m:imx@lists.linux.dev,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:Frank.Li@nxp.com,m:dmitry.baryshkov@linaro.org,m:francesco@valla.it,m:linux-kernel@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[oss.nxp.com,lists.linux.dev,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_SENDER(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,collabora.com:email];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[collabora.com,lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:dkim,nxp.com:email,nxp.com:mid,linaro.org:email]
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 11:34:11AM +0000, Laurentiu Palcu wrote:
-> From: Liu Ying <victor.liu@nxp.com>
-> 
-> The next bridge in bridge chain could be a panel bridge or a non-panel
-> bridge.  Use devm_drm_of_get_bridge() to replace the combination
-> function calls of of_drm_find_panel() and devm_drm_panel_bridge_add()
-> to get either a panel bridge or a non-panel bridge, instead of getting
-> a panel bridge only.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Reviewed-by: Francesco Valla <francesco@valla.it>
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> ---
->  drivers/gpu/drm/bridge/fsl-ldb.c | 31 +++++++++++--------------------
->  1 file changed, 11 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-> index 7b71cde173e0c..d59f26016de26 100644
-> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> @@ -15,7 +15,6 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_of.h>
-> -#include <drm/drm_panel.h>
->  
->  #define LDB_CTRL_CH0_ENABLE			BIT(0)
->  #define LDB_CTRL_CH0_DI_SELECT			BIT(1)
-> @@ -86,7 +85,7 @@ static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
->  struct fsl_ldb {
->  	struct device *dev;
->  	struct drm_bridge bridge;
-> -	struct drm_bridge *panel_bridge;
-> +	struct drm_bridge *next_bridge;
->  	struct clk *clk;
->  	struct regmap *regmap;
->  	const struct fsl_ldb_devdata *devdata;
-> @@ -119,7 +118,7 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
->  {
->  	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
->  
-> -	return drm_bridge_attach(encoder, fsl_ldb->panel_bridge,
-> +	return drm_bridge_attach(encoder, fsl_ldb->next_bridge,
->  				 bridge, flags);
->  }
->  
-> @@ -296,9 +295,7 @@ static const struct drm_bridge_funcs funcs = {
->  static int fsl_ldb_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> -	struct device_node *panel_node;
->  	struct device_node *remote1, *remote2;
-> -	struct drm_panel *panel;
->  	struct fsl_ldb *fsl_ldb;
->  	int dual_link;
->  
-> @@ -321,36 +318,30 @@ static int fsl_ldb_probe(struct platform_device *pdev)
->  	if (IS_ERR(fsl_ldb->regmap))
->  		return PTR_ERR(fsl_ldb->regmap);
->  
-> -	/* Locate the remote ports and the panel node */
-> +	/* Locate the remote ports. */
->  	remote1 = of_graph_get_remote_node(dev->of_node, 1, 0);
->  	remote2 = of_graph_get_remote_node(dev->of_node, 2, 0);
->  	fsl_ldb->ch0_enabled = (remote1 != NULL);
->  	fsl_ldb->ch1_enabled = (remote2 != NULL);
-> -	panel_node = of_node_get(remote1 ? remote1 : remote2);
->  	of_node_put(remote1);
->  	of_node_put(remote2);
->  
-> -	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled) {
-> -		of_node_put(panel_node);
-> -		return dev_err_probe(dev, -ENXIO, "No panel node found");
-> -	}
-> +	if (!fsl_ldb->ch0_enabled && !fsl_ldb->ch1_enabled)
-> +		return dev_err_probe(dev, -ENXIO, "No next bridge node found");
->  
->  	dev_dbg(dev, "Using %s\n",
->  		fsl_ldb_is_dual(fsl_ldb) ? "dual-link mode" :
->  		fsl_ldb->ch0_enabled ? "channel 0" : "channel 1");
->  
-> -	panel = of_drm_find_panel(panel_node);
-> -	of_node_put(panel_node);
-> -	if (IS_ERR(panel))
-> -		return PTR_ERR(panel);
-> -
->  	if (of_property_present(dev->of_node, "nxp,enable-termination-resistor"))
->  		fsl_ldb->use_termination_resistor = true;
->  
-> -	fsl_ldb->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> -	if (IS_ERR(fsl_ldb->panel_bridge))
-> -		return PTR_ERR(fsl_ldb->panel_bridge);
-> -
-> +	fsl_ldb->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node,
-> +						      fsl_ldb->ch0_enabled ? 1 : 2,
-> +						      0);
-
-Cc'ing Luca.
-
-Since commit[1] added next_bridge pointer to struct drm_bridge, can you
-use that pointer instead of fsl_ldb->next_bridge?
-This would be similar to how the in-flight imx93-pdfc.c driver[2] does.
-
-However, after looking at commit[1] closely, I wonder if we need to call
-drm_bridge_get() for the next_bridge returned from devm_drm_of_get_bridge()
-because drm_bridge_put() would be called for the next_bridge when this
-bridge(the next_bridge's previous bridge) is freed in __drm_bridge_free().
-@Luca, can you please comment here?  I see your R-b tag on [2] where
-drm_bridge_get() is not called, does it mean that we don't need to call
-drm_bridge_get()?
-
-[1] 3fdeae134ba9 drm/bridge: add next_bridge pointer to struct drm_bridge
-[2] https://lore.kernel.org/all/20260303-v6-18-topic-imx93-parallel-display-v11-2-1b03733c8461@pengutronix.de/
-
-> +	if (IS_ERR(fsl_ldb->next_bridge))
-> +		return dev_err_probe(dev, PTR_ERR(fsl_ldb->next_bridge),
-> +				     "failed to get next bridge\n");
->  
->  	if (fsl_ldb_is_dual(fsl_ldb)) {
->  		struct device_node *port1, *port2;
+On Thu, Mar 05, 2026 at 09:33:36PM -0800, Chia-I Wu wrote:
+> On Thu, Mar 5, 2026 at 1:23 AM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > On Wed, 4 Mar 2026 14:51:39 -0800
+> > Chia-I Wu <olvaffe@gmail.com> wrote:
+> >
+> > > Hi,
+> > >
+> > > Our system compositor (surfaceflinger on android) submits gpu jobs
+> > > from a SCHED_FIFO thread to an RT gpu queue. However, because
+> > > workqueue threads are SCHED_NORMAL, the scheduling latency from submit
+> > > to run_job can sometimes cause frame misses. We are seeing this on
+> > > panthor and xe, but the issue should be common to all drm_sched users.
+> > >
+> > > Using a WQ_HIGHPRI workqueue helps, but it is still not RT (and won't
+> > > meet future android requirements). It seems either workqueue needs to
+> > > gain RT support, or drm_sched needs to support kthread_worker.
+> > >
+> > > I know drm_sched switched from kthread_worker to workqueue for better
+> > > scaling when xe was introduced.
+> >
+> > Actually, it went from a plain kthread with open-coded "work" support to
+> > workqueues. The kthread_worker+kthread_work model looks closer to what
+> > workqueues provide, so transitioning drivers to it shouldn't be too
+> > hard. The scalability issue you mentioned (one thread per GPU context
+> > doesn't scale) doesn't apply, because we can pretty easily share the
+> > same kthread_worker for all drm_gpu_scheduler instances, just like we
+> > can share the same workqueue for all drm_gpu_scheduler instances today.
+> > Luckily, it seems that no one so far has been using
+> > WQ_PERCPU-workqueues, so that's one less thing we need to worry about.
+> > The last remaining drawback with a kthread_work[er] based solution is
+> > the fact workqueues can adjust the number of worker threads on demand
+> > based on the load. If we really need this flexibility (a non static
+> > number of threads per-prio level per-driver), that's something we'll
+> > have to add support for.
+> Wait, I thought this was the exact scaling issue that workqueue solved
+> for xe and panthor? We needed to execute run_jobs for N
+> drm_gpu_scheduler instances, where N is in total control of the
+> userspace. We didn't want to serialize the executions to a single
+> thread.
 > 
 
--- 
-Regards,
-Liu Ying
+I honestly doubt more threads help here. In Xe, the time to push a job
+(run_job) to the hardware is maybe 1µs. In Xe, individual workqueues
+are mostly for our compute use cases, where we sometimes need to sleep
+inside the work item and don’t want that sleep to interfere with other
+clients. For 3D, I suspect we could use a shared workqueue (still with a
+dedicated scheduler instance per user queue) among all clients and not
+see a noticeable change in performance - it might actually be better. At
+one point I converted Xe to do this, but I lost track of the patches in
+the stack.
+
+> Granted, panthor holds a lock in its run_job callback and does not
+> benefit from a workqueue. I don't know how xe's run_job does though.
+> 
+
+We grab a shared mutex for the firmware queue push, but it is a very
+tight path and likely within the window where the mutex is still
+spinning.
+
+> >
+> > For Panthor, the way I see it, we could start with one thread per-group
+> > priority, and then pick the worker thread to use at drm_sched_init()
+> > based on the group prio. If we need something with a thread pool, then
+> > drm_sched will have to know about those threads, and do some load
+> > balancing when queueing the works...
+> >
+> > Note that someone at Collabora is working on dynamic context priority
+> > support, meaning we'll have to be able to change the drm_gpu_scheduler
+> > kthread_worker at runtime.
+> >
+> > TLDR; All of this is doable, but it's more work (for us, DRM devs) than
+> > asking RT prio support to be added to workqueues.
+> 
+> It looks like WQ_RT was last brought up in
+> 
+>   https://lore.kernel.org/all/aPJdrqSiuijOcaPE@slm.duckdns.org/
+> 
+
+Tejun says hard no on WQ_RT.
+
+> Maybe adding some form of bring-your-own-worker-pool support to
+> workqueue will be acceptable?
+>
+
+Before doing anything too crazy, I think we should consider a direct
+submit path, given that you’ve confirmed SurfaceFlinger does not have
+input dependencies. I’m fairly close to having something I feel good
+about posting. If you could test it out and report back, I think that
+would be a good place to start — then we can duke it out among the
+maintainers if this is acceptable.
+
+Matt
+
+> >
+> > > But if drm_sched can support either
+> > > workqueue or kthread_worker during drm_sched_init, drivers can
+> > > selectively use kthread_worker only for RT gpu queues. And because
+> > > drivers require CAP_SYS_NICE for RT gpu queues, this should not cause
+> > > scaling issues.
+> >
+> > I think, whatever we choose to go for, we probably don't want to keep
+> > both models around, because that's going to be a pain to maintain.
