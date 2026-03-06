@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GptJl7Vqmn3XQEAu9opvQ
+	id eAQxDGnWqmn3XQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:23:42 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:28:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EFE22185B
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:23:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939EA22193D
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 14:28:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1984B10E3EA;
-	Fri,  6 Mar 2026 13:23:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mY+bpFst";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E410B10E1F9;
+	Fri,  6 Mar 2026 13:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C8A10E3EA
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:23:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1GmIrQJk+m8p+CyFaaikvvqxgn+guNrK6ciBzIqhFdA=; b=mY+bpFstsoFFVEWfvhIiQocuvz
- 0y8VSfTm3+id6CkgIrFnPcxKUFDI+XJYUGxr47lxyCows4TC39a06JJ+RmiIoZ1G+12O/SJgCA/Lb
- b+K/CrjtQDN5bGt4TNbS72xKQuy08sESyLdttjQt1bN9EaJ1GpCEsGdRGZL7VlhwKbflmLQ/AIj6t
- JP+QJkISVgSjHcbQkoeN19lC46nooqJejGlESo8AB5O3JNRT9HG1wsfADZWehtRsnO33cm41Bxuu0
- aSRnRrCOpjotfxsvuJDnkDRX65frVkQm6xskS92g80Tj+OuMneFbzqoJiqy/htgvkiNh0Ig5X1yG9
- Eiq3cgBQ==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vyV9O-00A56E-1R; Fri, 06 Mar 2026 14:23:30 +0100
-Message-ID: <95f20e14-1fba-4016-8249-72660d45b275@igalia.com>
-Date: Fri, 6 Mar 2026 13:23:29 +0000
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E465B10E1F9
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 13:28:03 +0000 (UTC)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id A387D200107;
+ Fri,  6 Mar 2026 14:28:02 +0100 (CET)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com
+ [134.27.226.22])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 936D32000ED;
+ Fri,  6 Mar 2026 14:28:02 +0100 (CET)
+Received: from lsv15149.swis.ro-buh01.nxp.com (lsv15149.swis.ro-buh01.nxp.com
+ [10.162.246.145])
+ by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 2506920270;
+ Fri,  6 Mar 2026 14:28:01 +0100 (CET)
+From: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+Subject: [PATCH v2 0/9] accel: New driver for NXP's Neutron NPU
+Date: Fri, 06 Mar 2026 15:27:17 +0200
+Message-Id: <20260306-neutron-v2-0-3019bd8c91ef@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/11] drm/vc4: Add DRM GPU scheduler infrastructure
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
- <20260205-vc4-drm-scheduler-v1-5-c6174fd7bbc1@igalia.com>
- <d7b29e86-c5fe-451a-b52d-62b78d908031@igalia.com>
- <469a5d76-191f-481d-8391-198d69b4d4c4@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <469a5d76-191f-481d-8391-198d69b4d4c4@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADbWqmkC/2XMyw6CMBCF4Vchs7amF6jRle9hWNAyyCxsyRQbD
+ Om7W9m6/E9Ovh0SMmGCW7MDY6ZEMdTQpwb8PIQnChprg5baSq2tCPheOQbhW9OhuY7KXiao74V
+ xou2QHn3tmdIa+XPAWf3WfyMrIUVr0XtnnOvkcA/bcvbxBX0p5QtclHlwnAAAAA==
+X-Change-ID: 20260226-neutron-c435e39d167f
+To: Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Frank Li <Frank.Li@nxp.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, Jiwei Fu <jiwei.fu@nxp.com>, 
+ Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772803680; l=3871;
+ i=ruxandra.radulescu@nxp.com; s=20260204; h=from:subject:message-id;
+ bh=lqDoB7KMfku/0vKx1ILRlUdtCxtORssmxE6KB556SDo=;
+ b=V73PbnYRt98K55aGU8OUY1dj8IbWgXlGFZl2PZsf6CgHZeuSfNzvuj/0xYl/hbV+zvlAGXdWU
+ 35pD+XnIjslC7+hPa20BGk9IzTbp9DzuaSabrpNmw5xuAjy3fj0ZcOj
+X-Developer-Key: i=ruxandra.radulescu@nxp.com; a=ed25519;
+ pk=zoq4b4OYR0c4faAH97xoTxdr6vfR8OvPbS+Cx0XhIBY=
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,123 +78,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 13EFE22185B
+X-Rspamd-Queue-Id: 939EA22193D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [0.99 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), No valid DKIM,none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:Frank.Li@nxp.com,m:christian.koenig@amd.com,m:linux-kernel@vger.kernel.org,m:linux-doc@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:jiwei.fu@nxp.com,m:xuelin.shi@nxp.com,m:alexandru.taran@nxp.com,m:daniel.baluta@nxp.com,m:ruxandra.radulescu@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[ruxandra.radulescu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,nxp.com,amd.com];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.310];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[ruxandra.radulescu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	NEURAL_HAM(-0.00)[-0.939];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:mid,nxp.com:email]
 X-Rspamd-Action: no action
 
+Introduce a new accel driver for the Neutron Neural Processing Unit
+(NPU), along with associated dt-bindings and DTS node.
 
-On 06/03/2026 13:01, Maíra Canal wrote:
-> Hi Tvrtko,
-> 
-> On 05/03/26 09:19, Tvrtko Ursulin wrote:
->>
->> On 05/02/2026 21:31, Maíra Canal wrote:
-> 
-> [...]
-> 
-> Ack to all previous comments, thanks a lot!
+The first patch extends the GEM DMA helper APIs to allow bidirectional
+mapping of non-coherent DMA buffers. While not part of the Neutron
+driver, it's a prerequisite allowing us to use the GEM DMA helper.
 
-Okay but beware, I later realised at least one of those was incorrect. :)
+Neutron is a Neural Processing Unit from NXP, providing machine
+learning (ML) acceleration for edge AI applications. Neutron is
+integrated on NXP SoCs such as the i.MX95.
 
->>
->>> +    spin_unlock_irqrestore(&vc4->job_lock, irqflags);
->>> +
->>> +    vc4_flush_caches(dev);
->>> +
->>> +    fence = vc4_fence_create(vc4, VC4_BIN);
->>> +    if (IS_ERR(fence))
->>> +        return NULL;
->>
->> Exits with vc4->bin_job set, safe or accidental?
-> 
-> Accidental 😅
-> 
->>
->>> +
->>> +    if (job->base.irq_fence)
->>> +        dma_fence_put(job->base.irq_fence);
->>
->> When can this happen, on re-submit?
-> 
-> Exactly.
+The NPU consists of the following:
+- RISC-V core running a proprietary firmware
+- One or more Neutron cores, representing the main computation
+  engine performing ML operations
+- Dedicated fast memory (TCM)
+- DMA engine that handles data transfers between DDR and TCM
 
-Comment would probably be good.
+The firmware is closed source and distributed as a binary here [1].
 
-> 
->>
->>> +    job->base.irq_fence = dma_fence_get(fence);
->>> +
->>> +    trace_vc4_submit_cl(dev, false, to_vc4_fence(fence)->seqno,
->>> +                job->ct0ca, job->ct0ea);
->>> +
->>> +    vc4_switch_perfmon(vc4, &job->base);
->>> +
->>> +    V3D_WRITE(V3D_CTNCA(0), job->ct0ca);
->>> +    V3D_WRITE(V3D_CTNEA(0), job->ct0ea);
->>> +
->>> +    return fence;
->>> +}
->>> +
->>> +static struct dma_fence *vc4_render_job_run(struct drm_sched_job 
->>> *sched_job)
->>> +{
->>> +    struct vc4_render_job *job = to_render_job(sched_job);
->>> +    struct vc4_dev *vc4 = job->base.vc4;
->>> +    struct drm_device *dev = &vc4->base;
->>> +    struct dma_fence *fence;
->>> +
->>> +    if (unlikely(job->base.base.s_fence->finished.error)) {
->>> +        vc4->render_job = NULL;
->>
->> No spinlock for render, only bin? By design?
-> 
-> The RENDER job is only changed in two places: when the job is starting
-> (here) and when the job is finishing. As the two situations are mutually
-> exclusive, it's fine not to have the lock. The BIN job is also used in
-> the memory overflow worker and that's why we need the lock.
+The Neutron software stack also contains a userspace library [1] and
+a LiteRT custom delegate [2] that allow integration with standard
+LiteRT tools.
 
-Ack.
+[1] https://github.com/nxp-upstream/neutron/tree/upstream
+[2] https://github.com/nxp-imx/tflite-neutron-delegate
 
-One meta comment, I have a feeling a bunch of places do not need the 
-irqsave spin lock variant, or maybe not even irq, although for later I 
-am not 100% sure. But for stuff running in scheduler callbacks irqsave 
-is not needed since we know the context is never irq.
+Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+---
+Changes in v2:
+- rebase on newer drm-misc-next 
+- dt bindings: clock fixes and renames
+- update DTS to match new names
+- remove unnecessary fields from neutron_job structure
+- fix use of uninitialized variable
 
-Regards,
+- Link to v1: https://lore.kernel.org/r/20260226-neutron-v1-0-46eccb3bb50a@nxp.com
 
-Tvrtko
+---
+Ioana Ciocoi-Radulescu (9):
+      drm/gem-dma: Add flag for bidirectional mapping of non-coherent GEM DMA buffers
+      accel/neutron: Add documentation for NXP Neutron accelerator driver
+      dt-bindings: npu: Add NXP Neutron
+      accel/neutron: Add driver for NXP Neutron NPU
+      accel/neutron: Add GEM buffer object support
+      accel/neutron: Add mailbox support
+      accel/neutron: Add job submission IOCTL
+      accel/neutron: Add logging support
+      arm64: dts: imx95: Add Neutron node
 
+ Documentation/accel/index.rst                      |   1 +
+ Documentation/accel/neutron/index.rst              |  12 +
+ Documentation/accel/neutron/neutron.rst            | 131 ++++++++
+ .../devicetree/bindings/npu/nxp,imx95-neutron.yaml |  96 ++++++
+ MAINTAINERS                                        |  10 +
+ arch/arm64/boot/dts/freescale/imx95.dtsi           |  28 ++
+ drivers/accel/Kconfig                              |   1 +
+ drivers/accel/Makefile                             |   3 +-
+ drivers/accel/neutron/Kconfig                      |  16 +
+ drivers/accel/neutron/Makefile                     |  12 +
+ drivers/accel/neutron/neutron_debugfs.c            |  34 ++
+ drivers/accel/neutron/neutron_debugfs.h            |  15 +
+ drivers/accel/neutron/neutron_device.c             | 239 +++++++++++++
+ drivers/accel/neutron/neutron_device.h             | 155 +++++++++
+ drivers/accel/neutron/neutron_driver.c             | 262 +++++++++++++++
+ drivers/accel/neutron/neutron_driver.h             |  16 +
+ drivers/accel/neutron/neutron_gem.c                | 116 +++++++
+ drivers/accel/neutron/neutron_gem.h                |  14 +
+ drivers/accel/neutron/neutron_job.c                | 372 +++++++++++++++++++++
+ drivers/accel/neutron/neutron_job.h                |  43 +++
+ drivers/accel/neutron/neutron_mailbox.c            |  47 +++
+ drivers/accel/neutron/neutron_mailbox.h            |  42 +++
+ drivers/gpu/drm/drm_gem_dma_helper.c               |   6 +-
+ include/drm/drm_gem_dma_helper.h                   |   3 +
+ include/uapi/drm/neutron_accel.h                   | 130 +++++++
+ 25 files changed, 1801 insertions(+), 3 deletions(-)
+---
+base-commit: 6716101ae42949e98ad4b9e71eeba08c055be410
+change-id: 20260226-neutron-c435e39d167f
 
+Best regards,
+-- 
+Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
 
