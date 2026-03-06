@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SK/EKpmGrWky4AEAu9opvQ
+	id uO0EABiErWkx3wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:13:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72333230ACF
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100 (CET)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8064F2308E4
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:13:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2190810E44E;
-	Sun,  8 Mar 2026 14:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8159610E178;
+	Sun,  8 Mar 2026 14:13:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hxpC6AI1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GzWKegi1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C15A110E04F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 09:29:37 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-b935b8dcab7so1419973066b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 01:29:37 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A97F310E04F
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 09:29:41 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-660fc3f30c1so3856221a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 01:29:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772789376; x=1773394176; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1772789380; x=1773394180; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BLeEDEhf9GDxufVHFP+D7orc27n/ELYDA5X3/DN5+c0=;
- b=hxpC6AI1fxYYjYqWJpfM6SZguA5FMdcuab/cHR8IQ358hw/6GoGVmIZUZrrnDqhEzE
- LVEZATx7x+phWgIcwJoJA1tc1u3FJZIYQAca6Qsp6QP9e0tubLHGu8kXw8JqgYYKTa7y
- 5mLb4P4l9wFboKPHg1pQyzrBh6Gt7+rV+uLZ+k0JHExuP3PzqFzeo6ofDihhddj+1MOg
- Nkt0mGnIWJ0IvaEG9h13zPK8YQvNlAlEuksOfV9ZZDdEtBvK0njNF4xsvT6W+3v6BP2u
- WAeZeasrD0NDTA2Ez07gKOIozXMNGaCgVg9kB9XcR6KlhzDWULRxJlHfjj4OuzR2QyTB
- nSyg==
+ bh=seZ2v6Zztz5cdfyw5k6l6tZogyzOdhCkgzc4DJO4PEE=;
+ b=GzWKegi1TuVYBCu5cgjSBP6fSnJRBT+xdv/fE96skgTN9vANgTo4TUj/69Sj5Ipu/a
+ vouf2l3AiBKXE6e6zd9tz+Em+x5+KiIkBys7w0ROEV0d/mQQzjOVfH46diNljcWBUMUH
+ nZ3QBaacRH8enQ5Y3KV+pPeZwxMOHK0WKgGxXK0u7eaw7Gt5BQ96BcCcPeWF0MJ0dibW
+ xRoz94b63dJxokD/qYkyJ2dj+BM5hC+6eSJggzUlMA0Aohc/P1K/vfNsXugkZJqVDXTR
+ H3SppuGBMDmgNW5y2u6mmKJW0voVaf3h4h0JqzpS+/IA9xX9uOkPKncjqLrihVdaE4Qs
+ BY1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772789376; x=1773394176;
+ d=1e100.net; s=20230601; t=1772789380; x=1773394180;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=BLeEDEhf9GDxufVHFP+D7orc27n/ELYDA5X3/DN5+c0=;
- b=hoMM/ZKjLnhcX/ecEJBQGDe4NdRaEAhb2C+TM7+cvAFUPAS2fFh61JZESIguerVsXd
- F1KCLZblgHPGOBUcydKb8uaICWznuiwM+OM2pi884WxBu8WxdIfOAjFs8IPg8UIyzZHB
- LHvot4zVyJlm36Fhi+OOyXd8bqWucQWlxdMe4rR5qU1K5E0jmyct1Uy+JWCjhgWUra3T
- rCksR7V/uwAqwyy+ThbBSjcdUTY1atojw+Myx+3qYjsMvd4JJ2pnzQDJSbJH6MwLPszB
- bUtCCnJcxnn5s1wgk1I+lqTHANidpaz4KxgeSiNmxnZLT4z92XY2kMOr4RKCZfz8Wwm9
- Y97w==
-X-Gm-Message-State: AOJu0Yy8j1FdHFbci77NQtSBGf9/4k6/XHHtZ5bP5whqenDQzDSKIjJX
- OjXdnRsg70be/CyW2+P66iEvZWKWN3mpa7Y8Z+h4xgD9odobiVMAiApC
-X-Gm-Gg: ATEYQzwXEhUjvz1gleQLgNs56MJsgwjcI2k8lkPf0012m3EAFsRj8S72BFOKjie5C0P
- buBBc6e33LGBMFvLGPpa9jwEIa/aWas+bs38l7t0VIDZMufL5NF2zGO54zl2KOeGBJqj+03rK+k
- yr7IMZGA450c7avWolhK+yySE2O4YwgFd4BSyTsot7tidD+Dqk8r7efBMQfCo7asCmAndmhdQqh
- yFbfSlDy88b1/54M5U7npGyFaudieMGBoz9IMSE23Vg0Rh5+4PBWoAyJX2Koac2xE71e67618J6
- PsWlfv0jTF7m85vH5McMtaioCbdPKSD7gleS0DXyBYn/ZRw/BFWxMVerp4p4qyNsMEYCEzT55pA
- 6MnHG4nrX/7YMEVPECtfjYpI3xRgzf/JaxjDnhQY67UzTEJjQZcta/3cY6b21KdjMcqV5Km6b4x
- AME8qJFkJHYlV7vzpGWehMPOd0+jRQF7dtDUZFjoDJE/6ffWYk7MbmzSS354aSa3HlJwklp5k0I
- 6g49IlrZlRcJ/9gpCupU2GxzU6XgGbgPUVlrGPrFOAsMfmR4NEtl+gQHw==
-X-Received: by 2002:a17:907:d09:b0:b8f:f070:8c30 with SMTP id
- a640c23a62f3a-b942df8ad63mr78594766b.49.1772789375925; 
- Fri, 06 Mar 2026 01:29:35 -0800 (PST)
+ bh=seZ2v6Zztz5cdfyw5k6l6tZogyzOdhCkgzc4DJO4PEE=;
+ b=s+L/7E1DYwq3wHbyHhOCVMO4GCvFbqBV1TKgYiHSQIR67NuhOVhc7pN4Z1MPp7HEYR
+ 1ckxRcWh4lrpX5bTUT1AynGIsN9z471eeUVTlIBRc3ApQefEAtRh7/CNJHq6o/LVQm8c
+ sbfgw/bK1V0+IXtvqG6ogcLxz8X2kuhlEB/mMpTMW80G5O1tdhpKsDe/NP2d64PkcxlI
+ SIRPRkCWn3Z5gCcZ6e30lBXlgviUGc9NSWbFAuqiri38M9fbLWQTXqcNyStSEsFsObli
+ DolfyoinKttZNOeZyj4E5P9UcSGnGggm2j12DQrxLIvMqNsX2E5dV5Oq7M9Ak/Xl0xuF
+ JBhw==
+X-Gm-Message-State: AOJu0YylQO2TaQDmFv80PO9fXhk4azvI1XZVIjWql+F4MGN3td6la/wc
+ tjFuRa/1tJ7C3LIeCkshphwqHLE0/XMRBBK2hhvAx9b5w2FxGe2EIUTc
+X-Gm-Gg: ATEYQzz3HQHHF1dSvrhpYCgTYVq4Xzs6Fof4xKBXCwWORPiT0jj0CIAPMO74sGNEuPZ
+ sOch36uQiMd33HwTmswYecfxzQ+0rG5DpQOdmNhjRH/qJNwSZvxliEDZOYBzdDL/dACGg/2O/s9
+ kJNPmcy42EfX50cfz3pu2YRX+/W2GheFl5WEB93zvF7QFRIGjzBag5edJxAoBgklVQjGUd7zkqf
+ VQMZqP1N30fpkJi9FluWODnJQWduKWz3SA5VqAFYUNzCQKDtFWqsuz/WT8elEsmIQFHE6cAjiIW
+ 5quElVhOEAbkEB1QVplMFfGxd6XlfZStLDW7ZFWuU0A0omdKWbb2KKMUlgbN/6TR9+a1/l94Cm6
+ LZbFV9b8Sw7XzLTrODeEPW2/dU7QSDAJnHVsoE0wNwVnzE6zyR9qEfM0kpq9lmnEoS5FiVCyi9N
+ K+byuw3+TY9jGEuNAAnvrmow3pZXpGZN10U/rLsUsBrUr1ePPcN0qK2Cx4xoSMsqZDdkixQY5zk
+ RMB6OA3ZuGrkgi/C7QmrmtkP7JVZ7PB1oz8D6B0U8Pd/XyCqPZNG5xWkQ==
+X-Received: by 2002:a05:6402:5209:b0:65c:2377:3344 with SMTP id
+ 4fb4d7f45d1cf-6619d54b1a1mr755276a12.25.1772789379944; 
+ Fri, 06 Mar 2026 01:29:39 -0800 (PST)
 Received: from localhost.localdomain (84-24-131-219.cable.dynamic.v4.ziggo.nl.
  [84.24.131.219]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-661a4fd5e87sm307163a12.18.2026.03.06.01.29.35
+ 4fb4d7f45d1cf-661a4fd5e87sm307163a12.18.2026.03.06.01.29.39
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 06 Mar 2026 01:29:35 -0800 (PST)
+ Fri, 06 Mar 2026 01:29:39 -0800 (PST)
 From: MikaelRothig <mrrothig@gmail.com>
 To: corbet@lwn.net
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, MikaelRothig <mrrothig@gmail.com>
-Subject: [PATCH 2/3] docs/gpu: fix typo 'implementions' -> 'implementations'
- in todo.rst
-Date: Fri,  6 Mar 2026 10:28:21 +0100
-Message-ID: <20260306092822.48393-2-mrrothig@gmail.com>
+Subject: [PATCH 3/3] docs/gpu: fix typo 'complection' -> 'completion' in
+ todo.rst
+Date: Fri,  6 Mar 2026 10:28:22 +0100
+Message-ID: <20260306092822.48393-3-mrrothig@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260306092822.48393-1-mrrothig@gmail.com>
 References: <20260306092822.48393-1-mrrothig@gmail.com>
@@ -94,40 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 72333230ACF
+X-Rspamd-Queue-Id: 8064F2308E4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [1.29 / 15.00];
 	DATE_IN_PAST(1.00)[52];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip6:2610:10:20:722:a800:ff:fe36:1795:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:corbet@lwn.net,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:mrrothig@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER(0.00)[mrrothig@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mrrothig@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.996];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mrrothig@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	ASN(0.00)[asn:6366, ipnet:2610:10::/32, country:US];
 	RCPT_COUNT_FIVE(0.00)[5];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
@@ -138,18 +137,18 @@ X-Rspamd-Action: no action
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 33678b669339..4de61d19ecc6 100644
+index 4de61d19ecc6..686a94bead07 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
-@@ -294,7 +294,7 @@ everything after it has done the write-protect/mkwrite trickery:
+@@ -882,7 +882,7 @@ Querying errors from drm_syncobj
+ ================================
  
-       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
+ The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
++completion of submission.
  
--- Set the mkwrite and fsync callbacks with similar implementions to the core
-+- Set the mkwrite and fsync callbacks with similar implementations to the core
-   fbdev defio stuff. These should all work on plain ptes, they don't actually
-   require a struct page.  uff. These should all work on plain ptes, they don't
-   actually require a struct page.
+ One minor feature still missing is a generic DRM IOCTL to query the error
+ status of binary and timeline drm_syncobj.
 -- 
 2.49.0
 
