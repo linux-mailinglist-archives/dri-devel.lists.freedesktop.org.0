@@ -2,118 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKd2MjegqmlLUgEAu9opvQ
+	id mLfCM0egqmlLUgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 10:36:55 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 10:37:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC7421E0D1
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 10:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3183621E100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 10:37:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07DDC10E20D;
-	Fri,  6 Mar 2026 09:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 397C310ECBC;
+	Fri,  6 Mar 2026 09:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uIxphJaj";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="wWz8NWFW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9065610E20D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 09:36:51 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4836f363d0dso80168335e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 01:36:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1772789810; x=1773394610; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=B0FYNp3iUTBt4BnwGEXvA3JaqeHyPg5uieiSbleRNMA=;
- b=uIxphJajrN99s8A607Xij3JdwxrzEgeR3Rv/BS/J9bIBoqz1dNwlIDSrQwHgwGywvq
- a5BgHcQRZNtn6OI6TO+5wtHlVEBBo2mh5gQWoo/ktrYTHpKvNHaGOVZVQaNXNid4q+m8
- +zIsEPGGOrp/Noh843smUEijDsvh+MSUvLT4O7UjvHtK3kt3FI7ywZwIDJAIsHol6W3T
- lqG+3tYm0kAra+JySqS0+Hm0WW6YyDlY/3n/i5DX0Zgok62djGrLnKYURriNSY70JMlf
- pcMjC2essXUtwhRtTXRQ0uz+PrczZHIc29sWR5HVkVLMrAiIwzw9sU1wV7QnLfzv0lC3
- pqEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772789810; x=1773394610;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=B0FYNp3iUTBt4BnwGEXvA3JaqeHyPg5uieiSbleRNMA=;
- b=SiCLEFQgldqban8dphTOtL8FqUuf+dqyq1Etx8a+VLP7BNyDzs/Dw/xbpGZMWAmgFk
- sJ9xn1qEaK+vOqm16yS/DjfUR8KIkO3OCXQNKSbiPwMO1T2RKF3xVsZwXqM3nrQMkG5R
- JNkOtRsremt2HH7nbDT8V5DJjFbO+GwoBB48FD/o8fnf0YdOHL6lLlqDegYMu6eE7IoT
- +qGKpviln3ybQOXo3Mdk5h0PL79SKfS4nG30sDI948vDxUOzpaoACHgBRS+9yNCrjSh9
- 4RpX2AA18fUgtga5NBtb6gvGK1PnmB2GysAYWaFEKt4/2SiJ4rLGLPv7ArefU4aJo4lN
- D59w==
-X-Gm-Message-State: AOJu0YyBTzyWjqRdEVG21vukz2zRevpEqIQdDdjqx3D41IV0ZxovJ5Ib
- U3NSWciEvisvVWR/rBM5XWNSxtaCKkfCW4nvDXpz4Tc8T8Ihf5obnAkgIprcXkr6L6Y=
-X-Gm-Gg: ATEYQzxA1oK4BQdZOqBj6o7SZUGHsMLu+2nDxYC/KjoWfZT2AB7lSABA+73Gi6tX8wa
- UDc9x8+wn5hueLn1V4HIQEgiW6DDOmMxfBuqZmCWZrI5VRtdBYcUwPtn2LtlsMyN9FTuSCultxU
- Mov7rVGdwqGsvWaM48mjiITgwY6Cwo4w1bX2gulA6/D3RuwPJy8Ut3FYtaAYt2JxgiMwp8tvuL0
- mEMQ4eUwB5hXdMF7pkV7pfM0fof3J5QRXywc1US6xMHmv/7MDyFTDz9e6ztXsukTrsbLCUF9SXT
- DMfzBdCe/q5tsH+vyFpyVm7CxLmTqk6J+YbIp30UeJBBBgHjSTDll/Ae5jM2Da3mwFQHqlzF86O
- TMXbQqtdFF/RpSRbdZYVSt4+tAnjlGclNLh2z14wbpREyH/RGj4O39YG8R+1FSG5UinvFUNkMJe
- NrugXaZvolXTOt2ym9Hr2uR13UmG2T/R4sMdW5og+1WJfOsDLKWMGH5XTdoLM229OKmPjr4RCnM
- u2/
-X-Received: by 2002:a05:600c:8b26:b0:480:1c85:88bf with SMTP id
- 5b1f17b1804b1-4852697a5c1mr21181895e9.27.1772789809706; 
- Fri, 06 Mar 2026 01:36:49 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:106d:1080:cbfe:649:7f17:8b95?
- ([2a01:e0a:106d:1080:cbfe:649:7f17:8b95])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4851fad27dbsm87385335e9.2.2026.03.06.01.36.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Mar 2026 01:36:49 -0800 (PST)
-Message-ID: <ab15e9e1-1328-446a-abba-3f9e257454ef@linaro.org>
-Date: Fri, 6 Mar 2026 10:36:48 +0100
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1511610ECBC;
+ Fri,  6 Mar 2026 09:37:07 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fS1Wy6KkBz9tpm;
+ Fri,  6 Mar 2026 10:37:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1772789823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ANaPsF4QJeveKptubtd0nStch7cg+Yo3B2BsZZ9z6Kw=;
+ b=wWz8NWFWYrAW5ljpIcDUJ3sRzKLyXtD6CtgaUvTOAyDw9GJofqZ2b+ZXJy3pcbR/hBnF7V
+ fLkk9PBMMIgLyStqFmQ649w0LnyOeIoiU7ZJcjpFzwsasTPScAXB6AxCOrilb4jGOrH5wU
+ tikKaWCQhzb21g6E+MdmrGVhrLxp2qY7Ses+R4jtSu/GAVW8H7iBCvbAHgP6vIaFijOxtR
+ Kf8bXF2QEh14D/UKgM6sLJs5O29DiO6Na1NItpBIrjJAJqN4EnPSB/rpo3Nc6IhzSE8tEV
+ FnUnOYwfEj+4F5F3jsQyiloPIVZ61oyiwtiUBv4MIZjOOmZ7HgW5Dh9A8onbhw==
+Message-ID: <28ce8bae-bc49-4f51-9f12-ae7bc427c920@mailbox.org>
+Date: Fri, 6 Mar 2026 10:36:56 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm: bridge: anx7625: correctly detect if PD can be
- disabled
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Subject: Re: drm_sched run_job and scheduling latency
+To: Chia-I Wu <olvaffe@gmail.com>, Matthew Brost <matthew.brost@intel.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-xe@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Xin Ji <xji@analogixsemi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260211-anx7625-fix-pd-v1-1-1dd31451b06f@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20260211-anx7625-fix-pd-v1-1-1dd31451b06f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, tj@kernel.org
+References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
+ <aajkqXZDGUFPlq1o@lstrano-desk.jf.intel.com> <20260305092711.20069ca1@fedora>
+ <aalWTOZSNYcKpvdd@lstrano-desk.jf.intel.com> <20260305115201.6fb044f0@fedora>
+ <aans5SMXDbwhpqY8@lstrano-desk.jf.intel.com>
+ <CAPaKu7SXsCv=G+O38unCsdrUNeeOmbopRdBpjqP+Qxp+EP9JtA@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <CAPaKu7SXsCv=G+O38unCsdrUNeeOmbopRdBpjqP+Qxp+EP9JtA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: m14gt1oxa4xx91oiqz3rcunncq3ngwxe
+X-MBO-RS-ID: 787898a7cbfbb7b33de
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,118 +80,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1FC7421E0D1
+X-Rspamd-Queue-Id: 3183621E100
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.75 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_MIXED_CHARSET(0.56)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:andrzej.hajda@intel.com,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:xji@analogixsemi.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,intel.com,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,analogixsemi.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com,intel.com];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[collabora.com,lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:replyto,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email,mailbox.org:dkim,mailbox.org:mid]
 X-Rspamd-Action: no action
 
-On 2/11/26 10:17, Dmitry Baryshkov wrote:
-> During initial checks the ANX7625 bridge can be powered on before
-> setting up the Type-C port. At this point, when
-> anx7625_ocm_loading_check() checks if it can disable PD or not, it will
-> notice that typec_port is not set and disable PD, breaking orientation
-> and HPD handling. Unify the check between anx7625_ocm_loading_check()
-> anx7625_i2c_probe() and anx7625_typec_register() and check for the
-> presence of the "connector" node.
-> 
-> Fixes: 8ad0f7d2e6fd ("drm: bridge: anx7625: implement message sending")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->   drivers/gpu/drm/bridge/analogix/anx7625.c | 21 ++++++++++++++-------
->   1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index c43519097a45..1157a58cf1b1 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1363,6 +1363,18 @@ static void anx7625_configure_hpd(struct anx7625_data *ctx)
->   	anx7625_hpd_timer_config(ctx);
->   }
->   
-> +static bool anx7625_need_pd(struct anx7625_data *ctx)
-> +{
-> +	struct fwnode_handle *fwnode;
-> +
-> +	fwnode = device_get_named_child_node(ctx->dev, "connector");
-> +	if (!fwnode)
-> +		return false;
-> +
-> +	fwnode_handle_put(fwnode);
-> +	return true;
-> +}
-> +
->   static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
->   {
->   	int ret;
-> @@ -1378,7 +1390,7 @@ static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
->   	if ((ret & FLASH_LOAD_STA_CHK) != FLASH_LOAD_STA_CHK)
->   		return -ENODEV;
->   
-> -	if (!ctx->typec_port)
-> +	if (!anx7625_need_pd(ctx))
->   		anx7625_disable_pd_protocol(ctx);
->   	anx7625_configure_hpd(ctx);
->   
-> @@ -2924,12 +2936,7 @@ static int anx7625_i2c_probe(struct i2c_client *client)
->   	}
->   
->   	if (!platform->pdata.low_power_mode) {
-> -		struct fwnode_handle *fwnode;
-> -
-> -		fwnode = device_get_named_child_node(dev, "connector");
-> -		if (fwnode)
-> -			fwnode_handle_put(fwnode);
-> -		else
-> +		if (!anx7625_need_pd(platform))
->   			anx7625_disable_pd_protocol(platform);
->   
->   		anx7625_configure_hpd(platform);
-> 
-> ---
-> base-commit: 400a84e1f7a3681ef24d58d49b5d07e81c14f4e9
-> change-id: 20260211-anx7625-fix-pd-792609132331
-> 
-> Best regards,
+On 3/6/26 06:13, Chia-I Wu wrote:
+> On Thu, Mar 5, 2026 at 12:52 PM Matthew Brost <matthew.brost@intel.com> wrote:
+>> On Thu, Mar 05, 2026 at 11:52:01AM +0100, Boris Brezillon wrote:
+>>> On Thu, 5 Mar 2026 02:09:16 -0800
+>>> Matthew Brost <matthew.brost@intel.com> wrote:
+>>>> On Thu, Mar 05, 2026 at 09:27:11AM +0100, Boris Brezillon wrote:
+>>>>> On Wed, 4 Mar 2026 18:04:25 -0800
+>>>>> Matthew Brost <matthew.brost@intel.com> wrote:
+>>>>>> On Wed, Mar 04, 2026 at 02:51:39PM -0800, Chia-I Wu wrote:
+>>>>>>>
+>>>>>>> Thoughts? Or perhaps this becomes less of an issue if all drm_sched
+>>>>>>> users have concrete plans for userspace submissions..
+>>>>>>
+>>>>>> Maybe some day....
+>>>>>
+>>>>> I've yet to see a solution where no dma_fence-based signalization is
+>>>>> involved in graphics workloads though (IIRC, Arm's solution still
+>>>>> needs the kernel for that). Until that happens, we'll still need the
+>>>>> kernel to signal fences asynchronously when the job is done, which I
+>>>>> suspect will cause the same kind of latency issue...
+>>>>>
+>>>>
+>>>> I don't think that is the problem here. Doesn’t the job that draws the
+>>>> frame actually draw it, or does the display wait on the draw job’s fence
+>>>> to signal and then do something else?
+>>>
+>>> I know close to nothing about SurfaceFlinger and very little about
+>>> compositors in general, so I'll let Chia answer that one. What's sure
+>>
+>> I think Chia input would good, as if SurfaceFlinger jobs have input
+>> dependencies this entire suggestion doesn't make any sense.
+>>
+>>> is that, on regular page-flips (don't remember what async page-flips
+>>> do), the display drivers wait on the fences attached to the buffer to
+>>> signal before doing the flip.
+>>
+>> I think SurfaceFlinger is different compared to Wayland/X11 use cases,
+>> as maintaining a steady framerate is the priority above everything else
+>> (think phone screens, which never freeze, whereas desktops do all the
+>> time). So I believe SurfaceFlinger decides when it will submit the job
+>> to draw a frame, without directly passing in application dependencies
+>> into the buffer/job being drawn. Again, my understanding here may be
+>> incorrect...
+> That is correct. SurfaceFlinger only ever latches buffers whose
+> associated fences have signaled, and sends down the buffers to gpu for
+> composition or to the display for direct scanout. That might also be
+> how modern wayland compositors work nowadays?
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Many (most of the major ones?) do, yes. (Weston being a notable exception AFAIK, though since it supports the Wayland syncobj protocol now, switching to this model should be easy)
 
-Thanks,
-Neil
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
