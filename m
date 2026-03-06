@@ -2,110 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKeCJ5iGrWnZ3wEAu9opvQ:T2
+	id 4MDUJZiGrWkE4AEAu9opvQ:T2
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94196230AA4
+	by mail.lfdr.de (Postfix) with ESMTPS id 735CB230AA0
 	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB5710E42C;
-	Sun,  8 Mar 2026 14:13:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC29E10E439;
+	Sun,  8 Mar 2026 14:13:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=posteo.de header.i=@posteo.de header.b="phk0fw+J";
+	dkim=pass (2048-bit key; unprotected) header.d=meta.com header.i=@meta.com header.b="SjvZB0lf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8919A10E180
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 20:46:22 +0000 (UTC)
-Received: from submission (posteo.de [185.67.36.169]) 
- by mout02.posteo.de (Postfix) with ESMTPS id 9396D240101
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 21:46:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
- t=1772829980; bh=2iaC+pQxbZxpQoXRMUqKToJTmZXkRZTNoMlTI0V8Hnw=;
- h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
- MIME-Version:OpenPGP:From;
- b=phk0fw+J2DkqY919TIIAsyR+a+Rtz4/lr1nuk/ouG3opB6VJdC8rzSClPyt+8vQN4
- i1JBf/paRzFBWcL3jwYwhValdnSWIqcm/1jFQSPNh0LQZ0dcHz0xXganj1ZGKOC9On
- 0uEyYF0rZz9miXFNJiWl65+O91yLCTdcFfLo4jF/WDlAxCWDCPYqKSX/x5eXJsFgdl
- 5PObe5/dzLfp+N3MZER89yroJWHeGlYy/u+aJiDAcx7Nwkbymz9c2H5vUrocePsg6H
- NoDUpfYqG2M/iv/eh4huzkktUvkkgEjmPWqhld0A0VCfVMvhfUNuViCgn0AZsnlTFI
- RmM+pU8lnW/7w==
-Received: from customer (localhost [127.0.0.1])
- by submission (posteo.de) with ESMTPSA id 4fSJN963Qyz6twG;
- Fri,  6 Mar 2026 21:46:17 +0100 (CET)
-Message-ID: <ecb158925934c38bf044adcbacadb920300d35dc.camel@posteo.de>
-Subject: Re: [PATCH v2 3/4] rust: add basic serial device bus abstractions
-From: Markus Probst <markus.probst@posteo.de>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman	
- <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Miguel
- Ojeda	 <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Kari Argillander
- <kari.argillander@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-serial@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, 	linux-pm@vger.kernel.org,
- driver-core@lists.linux.dev, 	dri-devel@lists.freedesktop.org
-Date: Fri, 06 Mar 2026 20:46:19 +0000
-In-Reply-To: <DGVZNDKJ7RAG.A66CR0EV9T3P@kernel.org>
-References: <20260306-rust_serdev-v2-0-e9b23b42b255@posteo.de>
- <20260306-rust_serdev-v2-3-e9b23b42b255@posteo.de>
- <DGVZNDKJ7RAG.A66CR0EV9T3P@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-o/KXAoogandmA1L4aMdF"
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D5A410E3FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 20:55:05 +0000 (UTC)
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 626K5TL12745338
+ for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 12:55:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+ bh=vykdHEryC/vnlsJN6kswrApntHcjxaWoLxbNgiPI9Jc=; b=SjvZB0lfs+bT
+ /H4oSo/hYHehvRpcqfIh5qvn4C5Sy32D1Xdz2jPX044BJGjlqqHJz02TNJAk7fh8
+ /PZOZdFqEZaXIwizpWEYPlfNG68ZCeGMeEX22pgHuiDGnGQHEWbCf3zMm+KCeDDV
+ YygV2FiVeEMoFfrHrgas3oUZN0qHsIblNmYgyLjIT2vl6Io6MU3vfEdNUJAEoci1
+ nLAhcoq3EK10c2IK6ZQ+evp0gzRdP8reZgSvUQqXqWu4cQM+OtiDBTXrwJ+CEm+/
+ sYYdScOCVs+rfxAjcOr6UJeXS8i3b3HfTxnLxnZoqVaeEisPYpQemE6j3tIWEMcF
+ MZWTa5p46w==
+Received: from mail.thefacebook.com ([163.114.134.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4cqp7h1qcy-5
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 12:55:04 -0800 (PST)
+Received: from twshared108366.16.frc2.facebook.com (2620:10d:c085:108::150d)
+ by mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.35; Fri, 6 Mar 2026 20:54:54 +0000
+Received: by devbig259.ftw1.facebook.com (Postfix, from userid 664516)
+ id 9D02712CD8433; Fri,  6 Mar 2026 12:49:00 -0800 (PST)
+From: Zhiping Zhang <zhipingz@meta.com>
+To: Keith Busch <kbusch@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Leon
+ Romanovsky <leon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, <linux-rdma@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Yochai Cohen <yochai@nvidia.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Zhiping Zhang <zhipingz@meta.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [RFC 2/2] RMDA MLX5: get tph for p2p access when registering
+ dmabuf mr
+Date: Fri, 6 Mar 2026 12:48:49 -0800
+Message-ID: <20260306204900.3800370-1-zhipingz@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260301175551.GT44359@ziepe.ca>
+References: <20260301175551.GT44359@ziepe.ca>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc;
- preference=encrypt
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=Q5zfIo2a c=1 sm=1 tr=0 ts=69ab3f28 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=03ozwUkBphtHgyqjj1sw:22 a=RWlL41xuHJUQnbMF2CoA:9
+X-Proofpoint-GUID: hvR3wOCnzZtSbkBQQrUhAiWJs4pP9hr4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE5NyBTYWx0ZWRfX0VN9viEqcBVR
+ McKzgGK7AMM6Ve0DQZDNJV9fv50nyxSJyHH4rPJVYRahbAV/ThWIk6Uhc4WDus8wT8+6MKUHxrf
+ bVJlR5tDQrbtYUm5osddU7dHuaqlqHfG11xOC5vUSjtLB6zBqn85bvfDa6BoLvhE6XeyzD362th
+ RWigVjeW03hLSfXeOho/6rTYIkq/HsRF6IjXwD1JqSe33y0ai5YltJuEsfcVn911lghPsvuSmIL
+ il3CgHNlYBsPlgvPNJjEiNQh5rhFetj6zUI/8Gzr8P02B+nYk/i6Hif6SHYYbU7VbbzJbfjU7Hy
+ a6krPu44fOobNDRJwDp4fUzZfqe3xy0/YDkUZiY/gX517HjImnxjupHUlwO9V1GaRtT0JHM5ojo
+ qXHqz0G7Ps99z8nYhpK4s/NNlaZ+Ks4ow8eab6y6qBpaNg9y/ooLb2xr9DplySi230HMvqv2Id5
+ ++P5jv5lOFuwwwoF0Jw==
+X-Proofpoint-ORIG-GUID: hvR3wOCnzZtSbkBQQrUhAiWJs4pP9hr4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
 X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,135 +96,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 94196230AA4
+X-Rspamd-Queue-Id: 735CB230AA0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	DATE_IN_PAST(1.00)[41];
-	DMARC_POLICY_ALLOW(-0.50)[posteo.de,none];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[posteo.de:s=2017];
+	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,garyguo.net,protonmail.com,google.com,umich.edu,gmail.com,linaro.org,ffwll.ch,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:robh@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:kari.argillander@gmail.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:boqun@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-serial@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-pm@vger.kernel.org,m:driver-core@lists.linux.dev,m:kariargillander@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER(0.00)[markus.probst@posteo.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:kbusch@kernel.org,m:jgg@ziepe.ca,m:leon@kernel.org,m:bhelgaas@google.com,m:linux-rdma@vger.kernel.org,m:linux-pci@vger.kernel.org,m:netdev@vger.kernel.org,m:yochai@nvidia.com,m:yishaih@nvidia.com,m:zhipingz@meta.com,m:helgaas@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[zhipingz@meta.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[zhipingz@meta.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[markus.probst@posteo.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[posteo.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[meta.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,meta.com:dkim,meta.com:mid]
 X-Rspamd-Action: no action
 
+On Sun, 1 Mar 2026 13:55:51 -0400, Jason Gunthorpe wrote:
 
---=-o/KXAoogandmA1L4aMdF
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Feb 26, 2026 at 06:21:28PM -0700, Keith Busch wrote:
+> > On Tue, Feb 10, 2026 at 11:39:55AM -0800, Zhiping Zhang wrote:
+> > > +static void get_tph_mr_dmabuf(struct mlx5_ib_dev *dev, int fd, u16=
+ *st_index,
+> > > +							  u8 *ph)
+> > > +{
+> > > +	int ret;
+> > > +	struct dma_buf *dmabuf;
+> > > +
+> > > +	dmabuf =3D dma_buf_get(fd);
+> > > +	if (IS_ERR(dmabuf))
+> > > +		return;
+> > > +
+> > > +	if (!dif there's any implication mabuf->ops->get_tph)
+> > > +		goto end_dbuf_put;
+> > > +
+> > > +	ret =3D dmabuf->ops->get_tph(dmabuf, st_index, ph);
+> >=20
+> > You defined the "get_tph" function to take a pointer to a raw steerin=
+g
+> > tag value, but you're passing in the steering index to it's table.
+>
+> Yeah that's weird, there should be one TPH for a DMABUF, not many.
+>
 
-On Fri, 2026-03-06 at 21:40 +0100, Danilo Krummrich wrote:
-> On Fri Mar 6, 2026 at 8:35 PM CET, Markus Probst wrote:
-> > +    extern "C" fn receive_buf_callback(
-> > +        sdev: *mut bindings::serdev_device,
-> > +        buf: *const u8,
-> > +        length: usize,
-> > +    ) -> usize {
-> > +        // SAFETY: The serial device bus only ever calls the receive b=
-uf callback with a valid
-> > +        // pointer to a `struct serdev_device`.
-> > +        //
-> > +        // INVARIANT: `sdev` is valid for the duration of `receive_buf=
-_callback()`.
-> > +        let sdev =3D unsafe { &*sdev.cast::<Device<device::CoreInterna=
-l>>() };
-> > +
-> > +        // SAFETY: `receive_buf_callback` is only ever called after a =
-successful call to
-> > +        // `probe_callback`, hence it's guaranteed that `Device::set_d=
-rvdata()` has been called
-> > +        // and stored a `Pin<KBox<T>>`.
-> > +        let data =3D unsafe { sdev.as_ref().drvdata_borrow::<T>() };
-> > +
-> > +        // SAFETY:
-> > +        // - The serial device bus only ever calls the receive buf cal=
-lback with a valid pointer to
-> > +        //   a `struct serdev_device`.
-> > +        // - `receive_buf_callback` is only ever called after a succes=
-sful call to
-> > +        //   `probe_callback`, hence it's guaranteed that `sdev.privat=
-e_data` is a pointer
-> > +        //   to a valid `PrivateData`.
-> > +        let private_data =3D unsafe { &*(*sdev.as_raw()).private_data.=
-cast::<PrivateData>() };
-> > +
-> > +        private_data.probe_complete.complete_all();
->=20
-> Will do a full review pass later on, but one quick question in advance:
->=20
-> What is this used for? It is completed here and in probe(), but I don't s=
-ee it ever
-> being used to actually wait.
-Uh, thats a typo. It is supposed to wait here in receive_buf_callback.
+Good catch, I'll fix it.
 
-Thanks
-- Markus Probst
+> > But in general, since you're letting the user put whatever they want =
+in
+> > the vfio private area, should there be some validation that it's in t=
+he
+> > valid range? I'm also not quite sure how user space comes to know wha=
+t
+> > steering tag to use, or what harm might happen if the wrong one is us=
+ed.
+>
+> If the device is VFIO compatible then it needs to ensure that whatever
+> it does with its steering tags fit the security model of VFIO. You
+> can't harm the device - you can't reach outside the VFIO sandbox (eg
+> into another VF or something) and so on.
+>
+> Under these conditions the kernel doesn't care what TPH is used, just
+> let userspace specify the raw bits on the wire.
+>
+> Jason
 
->=20
-> > +
-> > +        // SAFETY: No one has exclusive access to `private_data.error`=
-.
-> > +        if unsafe { *private_data.error.get() } {
-> > +            return length;
-> > +        }
-> > +
-> > +        // SAFETY: `buf` is guaranteed to be non-null and has the size=
- of `length`.
-> > +        let buf =3D unsafe { core::slice::from_raw_parts(buf, length) =
-};
-> > +
-> > +        T::receive(sdev, data, buf)
-> > +    }
-> > +}
+thanks for clarification, that matches my understanding of how VFIO and=20
+userspace drivers work.
 
---=-o/KXAoogandmA1L4aMdF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmmrPRcbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSWVEP/1ag22PV+effqCIXNtIi
-ojhUChzfy4ZFNQt7RTYHSrKwzWk0LWTMbCrEH2S818Rbhhwb8xVGLKFOujTKFx/0
-RhnYaiCBCa5LmYRcSLIvp4cf9DLR547L9kAIQEbqZ0UaXyINt1sIKm9A17R28Zo8
-JKu+Z57BkfSEn65N0E5w9xcHpzlBx7dK1zp0vLCWT/6GM1uXLwJQ5RYIP0ejcVpc
-xWKbwcLjPY6Wc35tIHOgTW4kJyQOBfNkO7flQn4kZvvnnVqwJz/bVl6TWH93s94H
-np6fggCna/m1JmOklY4MQVPLnLrDAAOSEWVZTytEXH6gYnOCbpYqwIdKiDrbTQKz
-Hki4V/ytUtSvoCtsoj53rPqawbTGP1dBCgcnNZwOf64h4HqY1UGqWGfriRFvczB+
-DuHAndPRI/doaHzm7u/jXmVKjhHIfq1QByvF5n2JEii0YtqvFFqJ/+IOcQLewugx
-p8DUTAhPTLsXwfsuy/D4hgfpJVayXdnGxA7L8IUMbFyMnNS+8qwGSn0OkIfZbQIi
-1zpi2P2FUwAB+YpEGxoI9r9cDSl0TckIoTny8BZskbzb6ZCZP9mB2Ie095UJbP3s
-BauRToFJ+KZi67Z8V4ooNgREBKEECBlxxs4aVPCo2lIHvW8aftj2riSq5Gy4hIgD
-rznZ+gd+0JDfXZFuGhtCi5SM
-=HjzS
------END PGP SIGNATURE-----
-
---=-o/KXAoogandmA1L4aMdF--
+Zhiping
