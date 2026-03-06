@@ -2,154 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yDMsCl/1qmlYZAEAu9opvQ
+	id aOZJEh32qmlaZAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:40:15 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:43:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B5E224005
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66A522413B
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:43:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6A010E315;
-	Fri,  6 Mar 2026 15:40:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1CE10ED66;
+	Fri,  6 Mar 2026 15:43:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="W3mV1Ri4";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AChhY0Kr";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="COjCPTYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9DF10E315
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 15:40:10 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 626FT0mi3748105
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 15:40:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- wpH7c7MyE5oMPFius9rdgPXUx1Fgj3bT2b7iRgr/UYQ=; b=W3mV1Ri4C0Kr+8NY
- z48jIL/Lo5XCeSg8j7D2tMGiz+BixeS5WwAv+77z6Xtmt3pR8njgOFeAZk6HFWcR
- Oe0ZKlLov/jk7pnvYIKXwyH7MfJKbX0HuZ2GueDvAeOb6k9QaQmPqWmOKdAR59pn
- xQjhDSAc5fiGNCDUU7FsPAQh5WM+mj27lJKEClXszb72kWsUAoqrv4mtMbX+Efv/
- m17Hp96OLfYiwK9tX1eSetYWiKUrZXXbobABTIeAuNZmIx4touC45LQCSaHPVUyp
- yRgXXe4KghrLLTAyBzGs+Hpwb/FHWFSoJ1U6gIwIWeqQFSbJtg7+w8atgfY78i8S
- x/xrPg==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com
- [74.125.82.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqg09unf4-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 15:40:10 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id
- 5a478bee46e88-2bdd327d970so4373486eec.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 07:40:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772811609; x=1773416409;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wpH7c7MyE5oMPFius9rdgPXUx1Fgj3bT2b7iRgr/UYQ=;
- b=AChhY0KrwmjL+g2DFr3cAD1bKwc4+T7zOTwyn6uEidmN/Q1uzgr4zdbo9Eto6y/xz/
- G+r3wrGq67w78fBlRuMObIAl/r09IHjn+6mEOlsPXHZJuueA42A1h+7/TlEhGzQ1OMWC
- DrAN8+KwRXITd2s3pZ0V+uPEqvjRl0RySIRm68mLv8Ym2gg1EGsSJjqyyLVZk6N1GJO7
- BHyuFQZollK9fcSS2Uz6cVzmzhjeLC468KCC7f6HgZZdsE1LqdsJwPQ7zSFaYirAHTDl
- RTPuHBx24TICYqGiPExJnXQR/v/VBpE4IbfBWPsVbrn4mmqjoxQXseAXJgkyX1vRbzgF
- JYeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772811609; x=1773416409;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wpH7c7MyE5oMPFius9rdgPXUx1Fgj3bT2b7iRgr/UYQ=;
- b=i4mDGay2wJdLmHMIcqO4WtMCTZ9VjHWTpzWUj09BV1sWjGakkccAXdGg5HnbFhLJtM
- Mi6hRffwFNfHDWfWHumx/KvFsx9w7acic3dHYYdTAO3OUfr3iiPdkSg6DLQgorf36RY6
- kO8tmSK9a3yumF8ZMs5Umnw3V5zEbp3kUN663bwFWW0+KKnrz7Io20QeuQEOLkeqjf3X
- 3jWSkM2iVzmxUXbeRN0c0L6GlM30TLWPzQ0ucAsmBLxxwr4WUloyKSFErD59JZ58KTmQ
- lsPMTVJTUnc8JCSTu6qznodL7EDycJivltiAfZxO6Ui7N+Qq5oLKqqvaT6tITH8yrxS8
- P2lw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQ1AGAizWG9T0BIcoR+91BnMoldFJ30dITQNY1tx2uJspFLgVTOQ/zo8hN6z+XOpxVP9HfSqj3OzQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz96ycbvBOUVDRAVU6v+5+upzE9FnsIc1DSvKHD7qfeRtYns/Is
- VoZMdgWwVpPQCusJfK16CH9Wj37FIbfiiTGZUKp5387FvuglZAejAz9tbFcoYsY1UdqDFGaWYk9
- +HTlmVzgJNRoLGjyORDwxIZKTUZjrSos2uIYwsCw8dD7S+26Z2I5cbQyp5xzaHDFZZi0KG8k=
-X-Gm-Gg: ATEYQzxrvWyEZI2MDix5ziTETnkb1TwjACT9SiyRq9uREebdANcSvlc5ygK+gIew/sr
- /tJCLlJJRB1qolPSwxz/ySjITk3AZJULfplYtN0wp+hbZ0DXXQ9DR1g12c1yE2Jxud9SfKwCIiA
- z9Gxvxkh1lTiAeqD4nDUyOEtsJnNuHaxzT2h0lv0AzoD9hRE8c09OoVfLlThSXkT26GCTZQUQyf
- u31cvuUVvFU/B7odmgfgrcrVEv2YgcR5ERXN2gRW3g7Xd3HpDSrWI+qFopfxIA5/MS8+MHnFvxd
- NsRuzUuAWPOqGK17+kwcHzrbzjt6p1FzHNMxnU4xdB4+kLyxgQEPeiTC7W8+A8rSsSSwj49rhcO
- DtHLwrPRVmyLAMJ/m/6gAOpyG1MSkbRc5/sr6l8Z9o3ubdkr8JgE4WZImnfSq/bZijPDMWZa4Qz
- s0AUv9uTvW5uPtig==
-X-Received: by 2002:a05:7300:ec07:b0:2a4:3593:ccba with SMTP id
- 5a478bee46e88-2be4e56f9f9mr928831eec.1.1772811609208; 
- Fri, 06 Mar 2026 07:40:09 -0800 (PST)
-X-Received: by 2002:a05:7300:ec07:b0:2a4:3593:ccba with SMTP id
- 5a478bee46e88-2be4e56f9f9mr928768eec.1.1772811608557; 
- Fri, 06 Mar 2026 07:40:08 -0800 (PST)
-Received: from [192.168.1.41] (c-24-130-122-79.hsd1.ca.comcast.net.
- [24.130.122.79]) by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2be4f94833bsm1356612eec.18.2026.03.06.07.40.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Mar 2026 07:40:08 -0800 (PST)
-Message-ID: <9741588f-e6a1-4749-970b-3ed814399a32@oss.qualcomm.com>
-Date: Fri, 6 Mar 2026 07:40:04 -0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C9B10ED66
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 15:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772811799;
+ bh=62FawJoxY17x30TF6GSFtNa0reOjhfJ1eKN9mF07kGM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=COjCPTYMVOoAvS8He+HrFz36SeAp32KO8qGizWbL9hlHaAbLGQw/ENOjKLwlmWxc/
+ K3ntvKxOfVYF5ush7XbjcVcLl8FYOtFLvFxXo9FqtBkKdqMoQTzQEO6o9IQ+CebhRP
+ vXfqrJXQHKf1MXYbqRfJUz5Z9fALa02uh9pjTuqGdJhVIt+7+nhjKmTfOQU8MsYE6e
+ ZMVAFKIKnwxAEYESH3BEtVvXpTXi9fmNgsYU7+S/PQr/8O8MOI0eU9A8c7c7PeYLdR
+ LKT2SLLu7d+nzYMdKgvJ7ej1nH/J2M1EGYjnfnnaBNbJKrzcHtCO00JYuWZL+kz81x
+ rvAIbZbPa+KIg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3706E17E0D04;
+ Fri,  6 Mar 2026 16:43:19 +0100 (CET)
+Date: Fri, 6 Mar 2026 16:43:15 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: dma_fence: force users to take the lock manually
+Message-ID: <20260306164315.42524bf0@fedora>
+In-Reply-To: <20260306162525.7ff98df5@fedora>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+ <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+ <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+ <DGVPXPMB8JB3.3VWBBX3YOK3G5@kernel.org>
+ <c3a23b78-68ec-4ee3-b142-3ebf0131a0ce@amd.com>
+ <63dc8c72baac42199ede72b153fdec71e0b4fe9e.camel@mailbox.org>
+ <90b8cc84-7fdb-4116-827a-3fe95b4a8119@amd.com>
+ <20260306162525.7ff98df5@fedora>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
-To: Sumit Garg <sumit.garg@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-media@vger.kernel.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath12k@lists.infradead.org, linux-remoteproc@vger.kernel.org
-Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
- sean@poorly.run, akhilpo@oss.qualcomm.com, lumag@kernel.org,
- abhinav.kumar@linux.dev, jesszhan0024@gmail.com,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
- bod@kernel.org, mchehab@kernel.org, elder@kernel.org,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, jjohnson@kernel.org,
- mathieu.poirier@linaro.org, trilokkumar.soni@oss.qualcomm.com,
- mukesh.ojha@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
- jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
- vignesh.viswanathan@oss.qualcomm.com, srinivas.kandagatla@oss.qualcomm.com,
- amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
- op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
- skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
-References: <20260306105027.290375-1-sumit.garg@kernel.org>
- <20260306105027.290375-3-sumit.garg@kernel.org>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20260306105027.290375-3-sumit.garg@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: JpU_qlcZYw58o1_3la6-rpbe4U9kMQv0
-X-Authority-Analysis: v=2.4 cv=b/u/I9Gx c=1 sm=1 tr=0 ts=69aaf55a cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=Tg7Z00WN3eLgNEO9NLUKUQ==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=VwQbUJbxAAAA:8 a=40pWYZonmZhD7659SdoA:9 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-GUID: JpU_qlcZYw58o1_3la6-rpbe4U9kMQv0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE0NiBTYWx0ZWRfX++IXmUP/3+Zn
- JilVoSym/BUgYf4KY2Cqdx2FmD+p4ExSOOurAi5W26vBHDASqEFSBJacMh01aOQf1vY/8zrPT4E
- IUDIdJ2jUUYjCmA0JejR3c+iwiujizkyau0CfwibSk4tjLlb3WaOt5xN69PIL+YN5eamY4r8fRr
- IwA84GQU/6cEhy7xD3GOyCAewigX5nZSEAFVsx7fPCcHoCh4ZcwK5xNYM4ketgDuVjTi5RI/5WG
- eu6CSiw2SsIJZUypddAm73Fwl9fkwfoQoTgi/HPEXSakPukXwM/3lLwEHFUWsM/5Qeim+lWAvtN
- qtp0yQ9d6kbA9ghmJV5doh01zkfPrca3WzPBc3R+o6Awwb086eLsN3Ivm+iiBa6DwI/W5GBLchr
- 9Or8XGNp+v10vMWW5GdgW+SduEj88kG4wO7TmBs5qEU34QEZYrhnfy8r/+CqsByuwgwdormpjBY
- YaK3R3v81JaZnDq13rw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-06_04,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- adultscore=0 clxscore=1011 phishscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060146
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,146 +82,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 88B5E224005
+X-Rspamd-Queue-Id: A66A522413B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sumit.garg@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-wireless@vger.kernel.org,m:ath12k@lists.infradead.org,m:linux-remoteproc@vger.kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:elder@kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:jjohnson@kernel.org,m:mathieu.poirier@linaro.org,m:trilokkumar.soni@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:pavan.kondeti@oss.qualco
- mm.com,m:jorge.ramirez@oss.qualcomm.com,m:tonyh@qti.qualcomm.com,m:vignesh.viswanathan@oss.qualcomm.com,m:srinivas.kandagatla@oss.qualcomm.com,m:amirreza.zarrabi@oss.qualcomm.com,m:jens.wiklander@linaro.org,m:op-tee@lists.trustedfirmware.org,m:apurupa@qti.qualcomm.com,m:skare@qti.qualcomm.com,m:sumit.garg@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	FORGED_SENDER(0.00)[jeff.johnson@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[jeff.johnson@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel,dt,netdev];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email]
 X-Rspamd-Action: no action
 
-On 3/6/2026 2:50 AM, Sumit Garg wrote:
->  drivers/firmware/qcom/Kconfig          |   8 +
->  drivers/firmware/qcom/Makefile         |   1 +
->  drivers/firmware/qcom/qcom_pas.c       | 295 +++++++++++++++++++++++++
+On Fri, 6 Mar 2026 16:25:25 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-kernel-doc is throwing some warnings in this file which I've listed below.
-kernel-doc is also throwing warnings in some of the other files touched by
-this series, but since those are presumably preexisting I didn't bother to
-mention them. Just want to avoid adding new warnings.
+> On Fri, 6 Mar 2026 15:37:31 +0100
+> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+>=20
+> > On 3/6/26 14:36, Philipp Stanner wrote: =20
+> > >>>>> In other words not signaling a fence can leave the system in a
+> > >>>>> deadlock state, but signaling it incorrectly usually results in
+> > >>>>> random data corruption.   =20
+> > >>>
+> > >>> Well, not signaling it results in a potential deadlock of the
+> > >>> whole kernel, whereas wrongly signaling it is "only" a functional
+> > >>> bug.   =20
+> > >>
+> > >> No, that results in random memory corruption. Which is easily a
+> > >> magnitude worse than just a kernel deadlock.
+> > >>
+> > >> When have seen such bugs numerous times with suspend and resume on
+> > >> laptops in different subsystems, e.g. not only GPU. And I'm
+> > >> absolutely clearly rejecting any attempt to signal DMA fences when
+> > >> an object runs out of scope because of that experience.   =20
+> > >=20
+> > > But you're aware that both in C and Rust you could experience UAF
+> > > bugs if fences drop unsignaled and the driver unloads?
+> > >=20
+> > > Though I tentatively agree that memory corruptions on a large scale
+> > > are probably the worst error you can have on a computer.   =20
+> >=20
+> > Yeah, of course I'm aware of the UAF issue we have.
+> >=20
+> > But those are relatively harmless compared to the random memory
+> > corruption issues.
+> >=20
+> > Linux has the unfortunate habit of re-using memory directly after
+> > freeing it because that means caches are usually hotter.
+> >=20
+> > So rough DMA operations have the tendency to end up anywhere and
+> > tools like KASAN can't find anything wrong.
+> >=20
+> > The only protection you sometimes have is IOMMU, but that is usually
+> > not able to catch everything either.
+> >  =20
+> > >>   =20
+> > >>>> It all stands and falls with the question whether a fence can
+> > >>>> drop by accident in Rust, or if it will only ever drop when the
+> > >>>> hw-ring is closed.
+> > >>>>
+> > >>>> What do you believe is the right thing to do when a driver
+> > >>>> unloads?   =20
+> > >>>
+> > >>> The fence has to be signaled -- ideally after shutting down all
+> > >>> queues, but it has to be signaled.   =20
+> > >>
+> > >> Yeah well this shutting down all queues (and making sure that no
+> > >> write operation is pending in caches etc...) is what people
+> > >> usually don't get right.
+> > >>
+> > >> What you can to is things like setting your timeout to zero and
+> > >> immediately causing terminating the HW operation and resetting the
+> > >> device.
+> > >>
+> > >> This will then use the same code path as the mandatory timeout
+> > >> functionality for DMA operations and that usually works reliable.   =
+=20
+> > >=20
+> > > Why is all that even an issue? The driver controls the hardware and
+> > > must "switch it off" before it unloads. Then the hardware will not
+> > > access any memory anymore for sure.   =20
+> >=20
+> > Well exactly that is usually really complicated. Let me try to
+> > explain that on a HW example.=20
+> >=20
+> > Between a shader and the actual system memory you usually have
+> > different IP blocks or stages where a memory access needs to go
+> > through:
+> >=20
+> > Shader -> device VM -> device cache -> PCI bus -> CPU cache -> memory
+> >=20
+> > Now when you want to terminate some shader or make some memory
+> > inaccessible because it is freed drivers update their page tables and
+> > issue the equivalent of TLB invalidation on a CPU.
+> >=20
+> > The problem is now that this will only invalidate the translation in
+> > the device VM. It doesn't affect the device cache nor any ongoing
+> > memory transaction on the bus which waits to snoop the CPU cache.
+> >=20
+> > To make sure that you don't corrupt system memory you actually need
+> > to wait for a cache flush event to be signaled and *not* just update
+> > the VM page tables and tell the HW to invalidate it's TLB.
+> >=20
+> > So what is needed is usually a fence operation. In other words a
+> > memory value written over the PCIe bus into system memory. Background
+> > is that memory writes are ordered and this one comes after all
+> > previous PCIe memory writes of the device and so is in the correct
+> > order.
+> >=20
+> > Only when the CPU sees this memory write you can be sure that your
+> > operation is completed.
+> >=20
+> > This memory write is then often implemented by using an MSI interrupt
+> > which in turn signals the DMA fence.
+> >=20
+> >=20
+> > So the right thing to do is to wait for the DMA fence to signal
+> > through its normal signaling path which includes both HW and SW
+> > functionality and *not* just tell the HW to stop some ring and then
+> > just assume that this is also sufficient to signal the DMA fence
+> > associated with the HW operation. =20
+>=20
+> Ultimately this
+> "stop-HW-and-make-sure-all-outcomes-are-visible-even-for-partially-execut=
+ed-jobs"
+> is something you'll have to do, no matter what. But it leading to
+> having to wait for each pending fence, I'm not too sure. What about the
+> case where jobs/ops further away in the HWRing were not even considered
+> for execution by the HW, because the STOP operation prevented them from
+> being dequeued. I'd expect that the only event we'll get for those is
+> "HW queue is properly stopped now". So at this point it's a matter of
+> signalling everything that's left, no? I mean, that's basically what
+> Panthor does:
+>=20
+> 1. it stops
+> 2. wait for all executing ops to land (with all the cache maintenance,
+> etc, you described)
+> 3. signal(ECANCELED) what's left (things not picked by the HW by
+> the time the STOP was effective).
+>=20
+> It's currently done manually, but does it have to?
 
->  drivers/firmware/qcom/qcom_pas.h       |  53 +++++
->  include/linux/firmware/qcom/qcom_pas.h |  41 ++++
->  5 files changed, 398 insertions(+)
->  create mode 100644 drivers/firmware/qcom/qcom_pas.c
->  create mode 100644 drivers/firmware/qcom/qcom_pas.h
->  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
-...
-> +/**
-> + * qcom_pas_mem_setup() - Prepare the memory related to a given peripheral
-> + *			  for firmware loading
-> + * @pas_id:	peripheral authentication service id
-> + * @addr:	start address of memory area to prepare
-> + * @size:	size of the memory area to prepare
-> + *
-> + * Returns 0 on success.
-
-kernel-doc complains:
-Warning: drivers/firmware/qcom/qcom_pas.c:103 No description found for return
-value of 'qcom_pas_mem_setup'
-
-should use the kernel-doc Return: tag
-
- * Return: 0 on success
-
-(Returns: is also accepted although not documented)
-
-> + */
-...
-> +/**
-> + * qcom_scm_pas_auth_and_reset() - Authenticate the given peripheral firmware
-> + *				   and reset the remote processor
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Return 0 on success.
-
-hmmm, kernel-doc didn't complain about this one so the script must accept
-'Return' without the ":" (but not 'Returns' without the ":").
-
-Suggest changing to Return: to be conformant with the actual documentation:
-<https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-documentation>
-
-> + */
-> +int qcom_pas_auth_and_reset(u32 pas_id)
-> +{
-> +	if (ops_ptr)
-> +		return ops_ptr->auth_and_reset(ops_ptr->dev, pas_id);
-> +
-> +	return -ENODEV;
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_pas_auth_and_reset);
-...
-> +/**
-> + * qcom_pas_set_remote_state() - Set the remote processor state
-> + * @state:	peripheral state
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Returns 0 on success.
-
-Warning: drivers/firmware/qcom/qcom_pas.c:217 No description found for return
-value of 'qcom_pas_set_remote_state'
-
-> + */
-...
-> +/**
-> + * qcom_pas_shutdown() - Shut down the remote processor
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Returns 0 on success.
-
-Warning: drivers/firmware/qcom/qcom_pas.c:232 No description found for return
-value of 'qcom_pas_shutdown'
-
-> + */
-...
-> +/**
-> + * qcom_pas_supported() - Check if the peripheral authentication service is
-> + *			  available for the given peripheral
-> + * @pas_id:	peripheral authentication service id
-> + *
-> + * Returns true if PAS is supported for this peripheral, otherwise false.
-
-Warning: drivers/firmware/qcom/qcom_pas.c:248 No description found for return
-value of 'qcom_pas_supported'
-
-> + */
-...
-> +/**
-> + * qcom_pas_is_available() - Check for PAS service
-> + *
-> + * Returns true on success.
-
-Warning: drivers/firmware/qcom/qcom_pas.c:262 No description found for return
-value of 'qcom_pas_is_available'
-
-> + */
+All this being said, I'm also a pragmatic guy, so if you tell us "no
+way!" even after these arguments, I'd rather give up on this
+auto-signaling feature and have rust drivers be forced to manually
+signal stuff than have the whole Fence abstraction blocked. We can add
+a warn_on!(!is_signaled()) in the DriverFence::drop() path for the time
+being, so we can at least catch cases where the driver didn't signal
+the fence before dropping the signal-able object.
