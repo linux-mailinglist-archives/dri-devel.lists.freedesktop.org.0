@@ -2,142 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +DT3HPiAqmkMSwEAu9opvQ
+	id Q0qvGa2AqmkMSwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:23:36 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:22:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2277B21C66E
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F4221C5D7
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 08:22:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7364310E397;
-	Fri,  6 Mar 2026 07:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB1010E39B;
+	Fri,  6 Mar 2026 07:22:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Z6LLc8lk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lsz7iOXy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012022.outbound.protection.outlook.com [52.101.43.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B196D10E3B1;
- Fri,  6 Mar 2026 07:23:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3340810E387;
+ Fri,  6 Mar 2026 07:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772781733; x=1804317733;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=3vk2KdnXFvAJwSikdDrPDZhFedgKu1rtGkUP+Gn/djs=;
+ b=lsz7iOXyjrdoJ5Df3E9POasw7PNS788StlMIWF3orEiGCZHltqqIzhH/
+ /tII3MuqOxW0bpT0+zs6xJtWangps/DiqXR7cEOhLqW4DTdHe7XBIY84j
+ gfDnobOSl8Zzl4N+eFMo1blDv6L2lnmi0EbuEpNVbbOhOOFJqOGI0Rx/R
+ lM/MIcfhrbnpn9AJG44R7diulFwSFLa7THcqly2EKwwfJRPzrNQynLIYd
+ whdj7/Uzvc84rwABjImkbTNCJ/OXczUjo57ifhD7/QWRyKvRRKoTMnBQ1
+ ZDZg0ARAX9GMNmBypriHAj/miWGYRWymtVc0OR0Jlftx7C97Ibt/a9t4J Q==;
+X-CSE-ConnectionGUID: UlgHF8X1SeWgO52vhuL04A==
+X-CSE-MsgGUID: IHTeGB4VR1asUVB6+2nnHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73932199"
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; d="scan'208";a="73932199"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2026 23:22:12 -0800
+X-CSE-ConnectionGUID: hZR67rEvST2x98/0C/AJ0w==
+X-CSE-MsgGUID: sPrb43HIStShIU/TIx5EOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; d="scan'208";a="218075492"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2026 23:22:11 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 5 Mar 2026 23:22:10 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 5 Mar 2026 23:22:10 -0800
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.17) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 5 Mar 2026 23:22:10 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bJ1p3KpsgUTkEHkNjxDbWrStuGNDXidxl3UdA8tnR+omu3FYQYlr3rv6v8rYrDgHGen07dm1d5LXAMFJoUEbYtW3HrKY+0fP8aouqzeIzTWJpqVnAVi0u3ec8MPJXDL1nPnBUh6s1CQmeb6bq+/MpCn8Ir0vgLZn7kCq2NHoUw/yQmPMJ8Hf78vQfyCk2EmfsRqBsCYfPm/jPtXUQ6NAyRa9olOXHhi1iMg/zC+4V+5F5p9vvY8pEfm9u15AOK6/HRkFbUtWvypZze2twuZVEb1RzXRDwmah7ilsObaX/UTFWDV8Axn7cqjxgnkzkkCKmVCnB46V3/z3bVnad7W1ig==
+ b=o6TqcZezgX0nAxL4Im9kAkXEkM9kPffX7t6bRj1xZopokbyP2hMjUk1XCiTNgZhg9C+zOFc5rWoq9AFv3xrjwEY8nRgoPDIyMEiQfuIQ9n3TtIe0k6kY3j7GdejzUiocTeWUu6fYWiHeBFp+5GrWlDKlTr/EQYd+vPLnPoAIGOsYeVE5xOe0M811KygiltA9UVZyF/w4eog0golYYBMs07b+mWmLl0Fpy6XEchMPJ4/W8mAvF+j4ixA96GTVeVF+srPV7+wPWFCE5jx53BNcYrj+MG8HqPqB1qAZVwqougqVhTHqxuyDK05ERqou5FYiDZh2Ddc0ikK2cUyDvEynrQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CCDI1FfzpIaUEe+sRzK6rswblJQiKhPyjOAj8CGniP0=;
- b=g8r7YHQGGoQktwjLlocGEoWgfskPEmjuM7K36RvwHvWWe4CPYqFR++/baXHAAiAEoRxcxRdK0VV1fNYPaupoflxIO/qxMBcSehLLwgjHGIOEbMXFHyB/PwC8Qc93o/X/LhFSMif6f46QJpRIJL4eNmYlXviQ1wPr8uVEgEADU8DON1+6YFhx8HRRm9Ze9CCZ2Kk1aIdcxu6H7TyNQ8+qZ2CVO2o9pd2tBRF6axm/og5Bhc8yJBZ4J90fkdmCT7oYYgWh9EVbzAoZ9uCMdN5Po4RVqm77XDVaQ4TG6RG1oETwEpMoQgnIvJRpCtbfBmruvDtOFg111Rnf6bs/d59rNA==
+ bh=5KIlBIKMxSEOrCM9nqsFLLoUc4b/OecdqDFbjmIEjyA=;
+ b=KA/oVnF28nBzgSWj2ZOAGyEGvd9JuhHcGq0+nuFY1UI+uQ0vAkeOHR85tX5GbC/rZItviRUjuEnw2geW9cNmnKVtwxJTILIq6E2QSLnhRCpbjgZhGWgIdxXUPx7rtiNHE0DpQGwls5mOV2iV5mOEy5U/lF40qxRNKxMlXmU3H8893IxtR4mXU65SVf4KwHpadjPb4chCwMAjxIWl4LUpI9hRvRDGer0gJJnYNnx8pATpyK92HRzuHtIXH00JC3FksxRlqiAJQJguxXkgkFhPeXosyJKNbJmwHK+bXr1NHZiYvJfs9GmMe4RCYRHNhZ6Lk+9ymNF0sKNSPeaesN8I5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CCDI1FfzpIaUEe+sRzK6rswblJQiKhPyjOAj8CGniP0=;
- b=Z6LLc8lkpdYDIuF3qFQEQwcEtNH6FbhK/fw1ktj85imtt772lpk8VtcLGq0ha5HP7MlOu207eyc91azLJPZYhW2ZxYTsmRCk38ty2pP+G74dtHQN/tLrqHMIM3QbPAW458bm9H1OOp6UdF2zVvC3GDjKyKPH05wA/+j+z8ksJ4gSXSKmN+UxuY8UlyAHo5MYZL9GCt5YAbyo1BpjARxV0sC8qd6iKYEp+ESQUJG1KAVRp83bAVXu4TJ1GCzN0FDn+U+c0ZOpU7zhabY/IBgHAQc6d30S3+rLgz2KlPIBXAVzMtjGAilzrK1euMHFLRvXfdNp0DVM3yDtvi93bCZJWw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by SA3PR12MB7951.namprd12.prod.outlook.com (2603:10b6:806:318::8)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by LV2PR11MB6045.namprd11.prod.outlook.com (2603:10b6:408:17b::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.5; Fri, 6 Mar
- 2026 07:22:14 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.022; Fri, 6 Mar 2026
- 07:22:14 +0000
-From: Eliot Courtney <ecourtney@nvidia.com>
-Date: Fri, 06 Mar 2026 16:21:59 +0900
-Subject: [PATCH v6 2/9] gpu: nova-core: gsp: add mechanism to wait for
- space on command queue
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Fri, 6 Mar
+ 2026 07:22:02 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%4]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
+ 07:22:02 +0000
+Date: Thu, 5 Mar 2026 23:21:59 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+CC: Boris Brezillon <boris.brezillon@collabora.com>, ML dri-devel
+ <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>, "Steven
+ Price" <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Danilo Krummrich
+ <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, open list <linux-kernel@vger.kernel.org>,
+ <tj@kernel.org>
+Subject: Re: drm_sched run_job and scheduling latency
+Message-ID: <aaqAlz801OuZXh2y@lstrano-desk.jf.intel.com>
+References: <CAPaKu7RbCtkz1BbX57+CebB2uepyCAi-3QzBy8BDGngCJ-Du0w@mail.gmail.com>
+ <aajkqXZDGUFPlq1o@lstrano-desk.jf.intel.com>
+ <20260305092711.20069ca1@fedora>
+ <aalWTOZSNYcKpvdd@lstrano-desk.jf.intel.com>
+ <20260305115201.6fb044f0@fedora>
+ <aans5SMXDbwhpqY8@lstrano-desk.jf.intel.com>
+ <CAPaKu7SXsCv=G+O38unCsdrUNeeOmbopRdBpjqP+Qxp+EP9JtA@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-cmdq-continuation-v6-2-cc7b629200ee@nvidia.com>
-References: <20260306-cmdq-continuation-v6-0-cc7b629200ee@nvidia.com>
-In-Reply-To: <20260306-cmdq-continuation-v6-0-cc7b629200ee@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>
-Cc: Zhi Wang <zhiw@nvidia.com>, John Hubbard <jhubbard@nvidia.com>, 
- Alistair Popple <apopple@nvidia.com>, 
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- Eliot Courtney <ecourtney@nvidia.com>
-X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TYCP286CA0156.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:383::20) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPaKu7SXsCv=G+O38unCsdrUNeeOmbopRdBpjqP+Qxp+EP9JtA@mail.gmail.com>
+X-ClientProxiedBy: BYAPR02CA0025.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::38) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|SA3PR12MB7951:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2efd1cc0-398b-4568-9e0b-08de7b511756
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|LV2PR11MB6045:EE_
+X-MS-Office365-Filtering-Correlation-Id: 916f5e7e-73b5-4618-2384-08de7b510fbf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|10070799003|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: yIr2muZ5wjflGBbmTvkpGgv6UnFPoNfwj3qVjdlxTYDdFHscDjh+T7eBYT6/HjiC43/PDUJYmMVDdT0rhkViOYvpaKdzGZ7L+bj9e2hIzEZTxAr2ePILmZEDemh5KyUCLFyhSSg2mpfHQi/pfXhhQhQGM63fZwP2xdlAG5X5Mq2Z1+b0b+MtGwRmStz2pVmArmTo92cUos/6D4R74TZIVrQl1bdPWNf6/eR0IRaFIKQ2Glymn6vJSbv/BeMs8ahicvkMd/2M+v5u9nBPmAAvbTyKq9+74ZBAPzlb7S/zF96cc7VNEm2R5SCmjMzN+jrqQ/8mzia0OiC8wWM3dP35XK61Ys4Vebs1P7XeuXr2tyaEENr1fBOyUlNl2fkYMjLfV/tfahFO3iT4VS+5xmtv9WaZt/gxyUH5R1KFI7FqY+PKJhFZ9RXxqm4vL5cskaWvSSnMxej8rUvaRO4opzckhV9Ty8WKWS824yxpMgnlU5fVf9A+lki41YZFw+ZYoBDvic7b98hqjbZ6YezDWcvDovUy0Z+6McV+hkvhCojhKHmPjfcgIisGykusiSBJHbRp3iL4vgzr0suaYEuHPKiV16V6JnS4hk60FpTZ21qTo8Txwd2PO4TPm4l5LiHlu1zhWlbbRgt8XZWGLCl0TsVm6ZPb2sHEPXjb+ByzA+Xa3oh8yvSrETZoKapVmi1I+sRaCsadK+VW2b9UeA5SJGRsO4e1jSQp7B2R+FUwMVbPfMWoKnbd++v8tHNofVmAxFtgSShBZtLkkOq4r80t974n/w==
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: +OMRaAlAx98UhOXlpjS9IvqoIfcaT6IIKmKf0/ytemnSkS9kPjrUJhO1v/sFho0HDfzebIaAN6rLsSTX6QfPIKLzA9lWIvHMnrl5ZyKS42oXmarL6QIQtjGmg+CnNOcJO64ocCHzDW/o4F5WubeuLhKNdvk9rvt4qQHuej+ziVUZ1ifdJ8K9EH6ibSo55difxtsK0nK3t3CSXP+ePjdYETmqdqT0eGGnHu4jLPqglhqCCSHmwQZLn2HY6aCfRjvJ9rs3uSAkUmtCTqe3qTY9/m34OHKQLsqpwljXdGR3RLwFVyfDSHaW7aoHgH6OGp0IAY0XzNzkuBwWe222ZWkItiztIqTDP+nbJOA0sGmWOpuAvfc+Jk4Domjw8pvvXKwnRm+cMEAKw1EzVRx41EXBbIxFlm8nS5gx+kNFKyd1/YWQ/VeMd/kkLkNlTdFjfnQf1aDiAmLkXPsBERezJq6zQ1vGhHB6nFuonlpBYz9/j6O2bx6dQ703rzhUUzGBbkvInU8S86fNU9ozUc701U596gq98e/I65jNo8NUNolZUMxOS7du7NqBqEwg9RjuqOuH5gGxwUIPGEv6IHvxWDEhTo4TkL+M3HOGadwfRJTugB18+REp5oAZ8aMxU+Aah3QrT4CX9KgCtE+A4mHSBWMvHHkviHtt0Ocaua5HSzVnuGN5fJj+a5LwwL0u5vDV3QPLt4whrAXYRIYcEaZ/3gduOFdEb1vk9CGGmCgaZKv6bHM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(10070799003)(366016)(7416014)(376014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0hIaWJNbVNqaEgvS05lL3J5aWlxMlFDd3ZSemdSajB3MDZqMjFEdjM4aGhL?=
- =?utf-8?B?V2swdnd4VmpyM3c3THo0UEFHTGJoQVMvRjdDZUxSM1JWUG5uUjBZdno2dzNp?=
- =?utf-8?B?cXpKemZlUkZpdC81bUpCUmZJbmJqRHhaMHd1OTlTTzJIdFMwMVI2dW0yVnZl?=
- =?utf-8?B?NFlPNXEvc2pvdGRlSDlaWndVUG01R1pabUE0dDV5UDB0ZDFDS1Q1UFBUc3Rr?=
- =?utf-8?B?bmQ4T2VRL3VjcGJMOVRXeHd4NUFnT281MG9RNmR2UzIwYmwzVSszYXFRV3R1?=
- =?utf-8?B?NXllclAvT1BLSUZnZVNXK0o1RnZPck91SnhLc3lPZVJDTVhHMmFVbWdTWE5P?=
- =?utf-8?B?V3oyNzVCWC93aWlRQ3YyYVlCV3ZHUnNTdGlpRWRDd0w3TVFUandKNjIrNzZZ?=
- =?utf-8?B?bGxQWlNlWG8rYmthRXR2RURBbktiSXRvbVJ6RjNXZ1lVbGF0V0FmUzNpbkhQ?=
- =?utf-8?B?aTNKMGIzMk0zL2lPTzhiTTJjK1llcTNKeit3TzRJckxRdHoyQytpQXJ3K0RB?=
- =?utf-8?B?Sk8rZlhuWFY2eGVKU1QxL01vcStqSFlXVXZ4c0VpaS96eVExRk1Uc0VwVFl6?=
- =?utf-8?B?b2FXTXdwb3ZjV1dwWWtwQ3pTTUVBMmZ0YWRtQjVlMUZrQ2pxT09WWjNRQVNq?=
- =?utf-8?B?c1JyQ2VERWNyK3ZwYVQ0ajc4SHlKanJnZjMzQ1E3VXJLWFh6Qkh6UzFUMW81?=
- =?utf-8?B?WUh1cldFTVFjVW14NHVNVEZCUG5mWjArRUROQ3QyNW1idjlKbEtqK1NrT3hm?=
- =?utf-8?B?SU5SQUZrNHQ3dTA3MkpSbnFkNnpaNDV4cXRmaWc2TWhZdjVOTFhBK2pWNG9F?=
- =?utf-8?B?OGt1dUppZVA2VjYxTWVnRWIrc2xLWTNvSm9aNlJsd01SY205SjdLd0pibW1s?=
- =?utf-8?B?akNpUEYrL0k4OUNHLzU2NHBHZFI3d0t1MXpydjR5N0xodmFEaTQ4M1NhZ3Mr?=
- =?utf-8?B?bUZITE1UY0c1eEpaQzM3djN4YUhDbWh5UFQzR3lSSjdLZVVBMUtWQ0RiQ1li?=
- =?utf-8?B?UEE3bXRhbmJodDNIellzZnhmNE43c25TbktYeWJpQnVocHlMU3JTelhMZzE5?=
- =?utf-8?B?Vytta1dhc2hTYWlVTUhqeldQYnZUMkdzZUVid0JYVm5kbnEwakN3ZVZCUXFm?=
- =?utf-8?B?b1VJNjQwbFUzVTYxYWVpZXdUcTl1M3d0Qm5SWlZSS0l6RmhQMSt2Z3Iwejdy?=
- =?utf-8?B?R2lCeFovSkFiNGp6RjNjOU41a0w0NDRZSjZwNkdLMm5iK1dBY0xnY3c5MmZ0?=
- =?utf-8?B?NEFSRGlmckdEY3c3ek5HOXllMktSaXVUREFZelA1d3RkNTAwOUl0bTlhVmhG?=
- =?utf-8?B?eE42SWlhQncvNUtuYlYrNk9UTE9XdlVzQllHY0Q5NVF2MjlTV2xveTlqUjE1?=
- =?utf-8?B?ODdGY0IxOXZYVjdKWHRJaDJMMlpmVDZpMjBaQktEVUpzMWM2eHVSSHJjZWMy?=
- =?utf-8?B?VnZQRTFlWjF6bkI2N1N5UjVvb1Q1a1JMeER0TXBPY04xR0JwaG4ySGV6UW1Z?=
- =?utf-8?B?d2JGeDJVTnJWL28vRHlNclNEYXUxQjllVWtEd2VPMFh6N05IaTJjK2xCQmx5?=
- =?utf-8?B?MjNwTUNCbnRyM21GMnRmay9xYXQ5R24xKzNIZnE4WkZjUnE0ZU1RTlZZWTJ1?=
- =?utf-8?B?ZEpXRXhoUmFNU0t2VDB1N1IyRkRkcm9Ea0xNV2N3UFZXUG1LQnF2MGZ4NDVL?=
- =?utf-8?B?UXhxUUhQcElXRlAzOUpweWZ2NVY3YWNLYU91SlVNSGRHaDZrMGRDc2hpek5v?=
- =?utf-8?B?cXlBYS9nREhZQ2E0YzlQcUQwQjIyNVRBTkdpS0s3TEhSUVd3R3pxNGg4VTVU?=
- =?utf-8?B?Z3JsU2ZhU1hqU0xOYmE0WHNDKzRnZHRFR0ZyeGcySWU1RUpEa1diSXI5bDEw?=
- =?utf-8?B?bWxXTlJIaURDNnNLcDR5aXFodEhIM0IxRko4UFpkUitvUVBWUWMzbEVNbVlu?=
- =?utf-8?B?LzVZOUM2MWt3RThaUi90YjJpcHhwRjFOVDNaZzdSZW1qZHk0UGNPTkJwUTdH?=
- =?utf-8?B?SVZEQmJjSEhQVkZaZHZTMGgvU2dSWHRwcjlIbFhRQmpvRUc0dElCU0xkUzdU?=
- =?utf-8?B?cEtpTE0xL0dsWGticUw4UVJXL2Z6SWExWGNSSml0TDI4VCtSejBjMzdreDMz?=
- =?utf-8?B?QlpIWWt1alVLQjZUTEs1clVJWFlmK2pIVithWmhqMDloc3JMYzZ1dkdFOHFk?=
- =?utf-8?B?SncrNktlUFpWVkhON0RwdGxEQk5ra21qY3RQNmI5Q3NtekpDNG5KVWhQUGto?=
- =?utf-8?B?bS9PNG51RTNLVDdBS1BmRHNKM1dKdkNPN09YYlRLUVJJREN6WGxTTUs4c2hn?=
- =?utf-8?B?VDAzSXpwb2YvaHREUW1JdVVkTVZ6RDl4VC9vSTZlZWxSVkdqSTdUMElndUNU?=
- =?utf-8?Q?QB5D/2wuayH7L4WsfmZHPncyl250AEhVsCkQM7RF+lN6I?=
-X-MS-Exchange-AntiSpam-MessageData-1: EpUfKcmjk4udQA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2efd1cc0-398b-4568-9e0b-08de7b511756
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0NDYXI0Q1g2RkF4V2ZRdmxaYkhHUzdWN3o3TkZiSmFrNnRGNW9HOFJ0K25F?=
+ =?utf-8?B?SmNjbDhBZDI5cDRydk00QXloSmQwWHppVGZFTkxoeEJ1eGZSMDQyNDNFVzJB?=
+ =?utf-8?B?dk51REJFeFByOVdBU3BhT0hIMm4waklpZzAxVTVMNjVYckhDUjA5RVdoeUFQ?=
+ =?utf-8?B?amlwTXBZODhJUEkrcUFhR0FYTHNSYzlrN1FDSkw2WlNRWnhWVU1KQzdXSE5G?=
+ =?utf-8?B?L0VyRzhPM1A3b1ZQck55WTI2TmJ4aTE3UndSUndDUHNhbVBiRm5YandqRXhy?=
+ =?utf-8?B?K1hxMEQxMjJ0RWdKemhwY3BwU05OZFU2dXZXUmNHU2t6Q2Nrb0ZXZnJVdE8r?=
+ =?utf-8?B?c1RvMVk5Q1A2dGhNb2hyc05EQlhpajcrcVlod3ppazZqY1JtZk54dm9lMWlz?=
+ =?utf-8?B?RXZ5SlVsRWNnaUhlUGpxTkxZb1dtVEVtUCtCdWxpbXhLaWlrdTdqOEh2S0VN?=
+ =?utf-8?B?dFA2NDgyUS9KQ1FOdmVyemQySDltaXZPMEgxL0RTL3F1VHRmWnMvSk1Jd2d3?=
+ =?utf-8?B?TWlIU0Q4aS9VZEhxT2RQczVicE5TN0k5WWNCNTJsVHFzSEE5d2VibjZMNDA4?=
+ =?utf-8?B?TWg1UmF6OVB2TVNMTnFudnZidXJoSFdjUFdlWGRiaThReEcwNHZuelRqMjNy?=
+ =?utf-8?B?Y2orTWU2cENOVW9hVXRUK0JmWXF3aTVXS1NKbzRTZ3p1ZThYRDBrZ1ZTSnhE?=
+ =?utf-8?B?blpCRWh4S254Q2dGOGlSeEdhbVIzR0tveVFRY1pLOWk5L2p6dHY4Z3k5SlRn?=
+ =?utf-8?B?cmNkUThlK2ZJTUdvRHlYUWRORUxZdEw5VUM0akhvZDd2T3FoQ0lTQlY0ZE54?=
+ =?utf-8?B?bWEvN2Z3REVUa2xsV2tjd0o1WDdiUFFHQmxlNzhFbkw1Mml2THptSlc1NERt?=
+ =?utf-8?B?QVZFaTZCbCtMWnk0YnNBMStyTG4zOS9udE4vRllhRzJJc25xU24rK3RLNkxv?=
+ =?utf-8?B?L2VDZUxONSs3TCtXTDR3b0xBKy9VTXFQUVRPOWkwMWRrcElubWdnckZwVkll?=
+ =?utf-8?B?SEN4bmV1c1lFemhVYlVnY3lvTGlzbHBSemNhMDQ3UVhJbjRndkM5bmxZSlM4?=
+ =?utf-8?B?RjVuOTVkM2kxcDU3YzNBWjJ1TXNId25RNHQ3Q21KZ1BGNERjL2EvdEw1RHYv?=
+ =?utf-8?B?cHpuNUNZZHZiUlVEZEcwTXVFMWlWS294V2xCem9BOUt4TG5ZQTRGdmFnRW4r?=
+ =?utf-8?B?clVTUVBCcUhBRHNCWDJTNnN4Vk14OGsxRXFrSmlrS0h2QWNESjg1Z1NaSjZF?=
+ =?utf-8?B?SGVwdTVLZ3BtNU03VnpYb3Q3WVJyQkQ3UlZqVGVsaFZyVDZBakpIWCtJQ09O?=
+ =?utf-8?B?QmdJSXBlSUIrL0NyNUhrYUtyVHpiS3B3WXFxQ3dOUVhJbmpkZ3ZGL3dRM2M0?=
+ =?utf-8?B?TEJMR3NYM1hWeUUyNlNrVVhhYjI1d2VNY2Z2TnJ4UzB0S3RoZENYeER6OGhX?=
+ =?utf-8?B?eml3RXBlMjFaVkdocm5UdlNRa1o2V1pBdzA3ZklkVlo0K21kQ0w5cHhvTnhi?=
+ =?utf-8?B?Nm1DZmFLaG0ycUNiYnNPdmZpZE1mUTF0cWVQeHJsaUtIbUplWkk4TkVaZklQ?=
+ =?utf-8?B?ZnRUSDZrWjlKN1d1Z0V5OXY1YkFhU3NIaC9aL3FMZXZaNjNwQjJtOG9RaHlX?=
+ =?utf-8?B?QnkzeHlSU1QwYWlrdGVZT01SMHVBbGp0Zy9KUm1QY05aaVBNb0l1cnBrVDNP?=
+ =?utf-8?B?Y0tySkUrN3RXZGlYZ1o1Vnl2dC91M043Zi8wTXlKZjFaTm8rTytXUjYxblcw?=
+ =?utf-8?B?OUxDZWliY2JvUWo5M3FNNll4TllwOUN4N2kxVVRPbUh2dWcrS2tyZ2E4UG5N?=
+ =?utf-8?B?NmI0WkZFREZzbTFJMC9uaERlRVoxZVJYK3J3aGt5WG5sMU5QMEpYd3ZGRHUz?=
+ =?utf-8?B?TkRFcHkvb1V0OG5vdTFsSENaMUFUZlNTM0pMMEtNNFVyZWdKTlhuSUVaMzBs?=
+ =?utf-8?B?dTgrdkVIS0ZlTkZKY3RsM3F4V3Z4cGFNMXRBaDNuNVAwREkxTTNUUDNKTzlj?=
+ =?utf-8?B?Z0MvWTRTcHROeExCMFJzRXoyZVIvVEJZVWd3UEJpWnUrUU9JaFpjaDFQcTlu?=
+ =?utf-8?B?QjJLOUNQRUczQldNNDVXOC84VC9YKzl1Q2FITmU2R2lmNjMxZHU5TFFnWUFR?=
+ =?utf-8?B?R1pMd01Bay9TZnkzeW1XZFZqUkdRUFVYMmxTb3psN3JnU3IxbW44M05oK01t?=
+ =?utf-8?B?c1hoRGIxenRjbThwV1dIRUd0U0lVdlcvQWpuVDEwNUdIemhiZkN5QmZ3TGdF?=
+ =?utf-8?B?c2VCZGRlY1ZkNEcvSWUyZ1J6MjVRY09HeFRIbWxLMmJ4c1doaVVZTjBDelFl?=
+ =?utf-8?B?UUhvSFVwS3d0UVJac3djMSsrUlFZbkR3SnZLQkhWWEhkUnlRQlhDdz09?=
+X-Exchange-RoutingPolicyChecked: rT6d6QQivib6I6TAi6qFRCnwnNPTntS7PpCwMxXC0mnINXYQV9MVH5AxedqjcqjwhgTB9MZTLfmXHLCqqHs6pw5W7pn0gTpIiM2G7RNKJZkmpYHlU8enJ7Qxp5CQrjm7znoutQE7xtCTDnXuZNA2d9cH80ba//lNYpZlkDsQ4cmJN88BuZYxMGR+Dii7MPDirde8MTySjPAfU0Ha6xd4RRHp/2R2swWhbKHk0gcAf/klYFywVJckI6kazO6qsFN/sTwGhrxLKV/KuMfDP2iOlJUiZ53H1WGlhRkUVWR6iDhPsyJ0roCh5OFIMzD/e9r9FKClJY2IRKN63jwSflL9wA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 916f5e7e-73b5-4618-2384-08de7b510fbf
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 07:22:14.8176 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 07:22:02.2771 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FNkqlj69wmolT6sVaDYIvYXoH0S43AkdIugdhtD42AwKXjLyxEiU0/nIX330t/h8q5XTsdQFEQ2RsZdlfJg0Iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7951
+X-MS-Exchange-CrossTenant-UserPrincipalName: S0Q87IHfbWyJD61EHnrzd9zZPolP+K4NSRR+/nnGj3cK3wmZbfP85Kix8F3XRnJjMEGuDtWOtmAth8TQQJbdsg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB6045
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,143 +185,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2277B21C66E
+X-Rspamd-Queue-Id: C7F4221C5D7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,google.com,nvidia.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[collabora.com,lists.freedesktop.org,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
 X-Rspamd-Action: no action
 
-Add a timeout to `allocate_command` which waits for space on the GSP
-command queue. It uses a similar timeout to nouveau.
+On Thu, Mar 05, 2026 at 09:13:44PM -0800, Chia-I Wu wrote:
+> On Thu, Mar 5, 2026 at 12:52 PM Matthew Brost <matthew.brost@intel.com> wrote:
+> >
+> > On Thu, Mar 05, 2026 at 11:52:01AM +0100, Boris Brezillon wrote:
+> > > On Thu, 5 Mar 2026 02:09:16 -0800
+> > > Matthew Brost <matthew.brost@intel.com> wrote:
+> > >
+> > > > On Thu, Mar 05, 2026 at 09:27:11AM +0100, Boris Brezillon wrote:
+> > > >
+> > > > I addressed most of your comments in a chained reply to Phillip, but I
+> > > > guess he dropped some of your email and thus missed those. Responding
+> > > > below.
+> > > >
+> > > > > Hi Matthew,
+> > > > >
+> > > > > On Wed, 4 Mar 2026 18:04:25 -0800
+> > > > > Matthew Brost <matthew.brost@intel.com> wrote:
+> > > > >
+> > > > > > On Wed, Mar 04, 2026 at 02:51:39PM -0800, Chia-I Wu wrote:
+> > > > > > > Hi,
+> > > > > > >
+> > > > > > > Our system compositor (surfaceflinger on android) submits gpu jobs
+> > > > > > > from a SCHED_FIFO thread to an RT gpu queue. However, because
+> > > > > > > workqueue threads are SCHED_NORMAL, the scheduling latency from submit
+> > > > > > > to run_job can sometimes cause frame misses. We are seeing this on
+> > > > > > > panthor and xe, but the issue should be common to all drm_sched users.
+> > > > > > >
+> > > > > >
+> > > > > > I'm going to assume that since this is a compositor, you do not pass
+> > > > > > input dependencies to the page-flip job. Is that correct?
+> > > > > >
+> > > > > > If so, I believe we could fairly easily build an opt-in DRM sched path
+> > > > > > that directly calls run_job in the exec IOCTL context (I assume this is
+> > > > > > SCHED_FIFO) if the job has no dependencies.
+> > > > >
+> > > > > I guess by ::run_job() you mean something slightly more involved that
+> > > > > checks if:
+> > > > >
+> > > > > - other jobs are pending
+> > > > > - enough credits (AKA ringbuf space) is available
+> > > > > - and probably other stuff I forgot about
+> > > > >
+> > > > > >
+> > > > > > This would likely break some of Xe’s submission-backend assumptions
+> > > > > > around mutual exclusion and ordering based on the workqueue, but that
+> > > > > > seems workable. I don’t know how the Panthor code is structured or
+> > > > > > whether they have similar issues.
+> > > > >
+> > > > > Honestly, I'm not thrilled by this fast-path/call-run_job-directly idea
+> > > > > you're describing. There's just so many things we can forget that would
+> > > > > lead to races/ordering issues that will end up being hard to trigger and
+> > > > > debug. Besides, it doesn't solve the problem where your gfx pipeline is
+> > > > > fully stuffed and the kernel has to dequeue things asynchronously. I do
+> > > > > believe we want RT-prio support in that case too.
+> > > > >
+> > > >
+> > > > My understanding of SurfaceFlinger is that it never waits on input
+> > > > dependencies from rendering applications, since those may not signal in
+> > > > time for a page flip. Because of that, you can’t have the job(s) that
+> > > > draw to the screen accept input dependencies. Maybe I have that
+> > > > wrong—but I've spoken to the Google team several times about issues with
+> > > > SurfaceFlinger, and that was my takeaway.
+> > > >
+> > > > So I don't think the kernel should ever have to dequeue things
+> > > > asynchronously, at least for SurfaceFlinger.
+> > >
+> > > There's still the contention coming from the ring buffer size, which can
+> > > prevent jobs from being queued directly to the HW, though, admittedly,
+> > > if the HW is not capable of compositing the frame faster than the
+> > > refresh rate, and guarantee an almost always empty ringbuffer, fixing
+> > > the scheduling prio is probably pointless.
+> > >
+> > > > If there is another RT use
+> > > > case that requires input dependencies plus the kernel dequeuing things
+> > > > asynchronously, I agree this wouldn’t help—but my suggestion also isn’t
+> > > > mutually exclusive with other RT rework either.
+> > >
+> > > Yeah, dunno. It just feels like another hack on top of the already quite
+> > > convoluted design that drm_sched has become.
+> > >
+> >
+> > I agree we wouldn't want this to become some wild hack.
+> >
+> > I could actually see this helping in other very timing-sensitive
+> > paths—for example, page-fault paths where a copy job needs to be issued
+> > as part of the fault resolution to a dedicated kernel queue. I’ve seen
+> > noise in fault profiling caused by delays in the scheduler workqueue,
+> > which needs to program the job to the device. In paths like this, every
+> > microsecond matters, as even minor improvements have real-world impacts
+> > on performance numbers. This will become even more noticeable as
+> > CPU<->GPU bus speeds increase. In this case, typically copy jobs have
+> > no input dependencies, thus the desire is to program the ring as quickly
+> > as possible.
+> >
+> > > >
+> > > > > >
+> > > > > > I can try to hack together a quick PoC to see what this would look like
+> > > > > > and give you something to test.
+> > > > > >
+> > > > > > > Using a WQ_HIGHPRI workqueue helps, but it is still not RT (and won't
+> > > > > > > meet future android requirements). It seems either workqueue needs to
+> > > > > > > gain RT support, or drm_sched needs to support kthread_worker.
+> > > > > >
+> > > > > > +Tejun to see if RT workqueue is in the plans.
+> > > > >
+> > > > > Dunno how feasible that is, but that would be my preferred option.
+> > > > >
+> > > > > >
+> > > > > > >
+> > > > > > > I know drm_sched switched from kthread_worker to workqueue for better
+> > > > > > > scaling when xe was introduced. But if drm_sched can support either
+> > > > > > > workqueue or kthread_worker during drm_sched_init, drivers can
+> > > > > > > selectively use kthread_worker only for RT gpu queues. And because
+> > > > > > > drivers require CAP_SYS_NICE for RT gpu queues, this should not cause
+> > > > > > > scaling issues.
+> > > > > > >
+> > > > > >
+> > > > > > I don’t think having two paths will ever be acceptable, nor do I think
+> > > > > > supporting a kthread would be all that easy. For example, in Xe we queue
+> > > > > > additional work items outside of the scheduler on the queue for ordering
+> > > > > > reasons — we’d have to move all of that code down into DRM sched or
+> > > > > > completely redesign our submission model to avoid this. I’m not sure if
+> > > > > > other drivers also do this, but it is allowed.
+> > > > >
+> > > > > Panthor doesn't rely on the serialization provided by the single-thread
+> > > > > workqueue, Panfrost might rely on it though (I don't remember). I agree
+> > > > > that maintaining a thread and workqueue based scheduling is not ideal
+> > > > > though.
+> > > > >
+> > > > > >
+> > > > > > > Thoughts? Or perhaps this becomes less of an issue if all drm_sched
+> > > > > > > users have concrete plans for userspace submissions..
+> > > > > >
+> > > > > > Maybe some day....
+> > > > >
+> > > > > I've yet to see a solution where no dma_fence-based signalization is
+> > > > > involved in graphics workloads though (IIRC, Arm's solution still
+> > > > > needs the kernel for that). Until that happens, we'll still need the
+> > > > > kernel to signal fences asynchronously when the job is done, which I
+> > > > > suspect will cause the same kind of latency issue...
+> > > > >
+> > > >
+> > > > I don't think that is the problem here. Doesn’t the job that draws the
+> > > > frame actually draw it, or does the display wait on the draw job’s fence
+> > > > to signal and then do something else?
+> > >
+> > > I know close to nothing about SurfaceFlinger and very little about
+> > > compositors in general, so I'll let Chia answer that one. What's sure
+> >
+> > I think Chia input would good, as if SurfaceFlinger jobs have input
+> > dependencies this entire suggestion doesn't make any sense.
+> >
+> > > is that, on regular page-flips (don't remember what async page-flips
+> > > do), the display drivers wait on the fences attached to the buffer to
+> > > signal before doing the flip.
+> >
+> > I think SurfaceFlinger is different compared to Wayland/X11 use cases,
+> > as maintaining a steady framerate is the priority above everything else
+> > (think phone screens, which never freeze, whereas desktops do all the
+> > time). So I believe SurfaceFlinger decides when it will submit the job
+> > to draw a frame, without directly passing in application dependencies
+> > into the buffer/job being drawn. Again, my understanding here may be
+> > incorrect...
+> That is correct. SurfaceFlinger only ever latches buffers whose
+> associated fences have signaled, and sends down the buffers to gpu for
+> composition or to the display for direct scanout. That might also be
+> how modern wayland compositors work nowadays? It sounds bad to let a
 
-This lets `send_command` wait for space to free up in the command queue.
-This is required to support continuation records which can fill up the
-queue.
+Don't know wayland but let me follow up on that.
 
-Tested-by: Zhi Wang <zhiw@nvidia.com>
-Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
----
- drivers/gpu/nova-core/gsp/cmdq.rs | 42 ++++++++++++++++++++++++++++-----------
- 1 file changed, 30 insertions(+), 12 deletions(-)
+> low fps app slow down system composition.
+> 
+> In theory, the gpu driver should not see input dependencies ever. I
+> will need to check if there are corner cases.
+> 
 
-diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 87dbbd6d1be9..12849bc057f2 100644
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -250,6 +250,19 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         }
-     }
- 
-+    /// Returns the size of the region of the CPU message queue that the driver is currently allowed
-+    /// to write to, in bytes.
-+    fn driver_write_area_size(&self) -> usize {
-+        let tx = self.cpu_write_ptr();
-+        let rx = self.gsp_read_ptr();
-+
-+        // `rx` and `tx` are both in `0..MSGQ_NUM_PAGES` per the invariants of `gsp_read_ptr` and
-+        // `cpu_write_ptr`. The minimum value case is where `rx == 0` and `tx == MSGQ_NUM_PAGES -
-+        // 1`, which gives `0 + MSGQ_NUM_PAGES - (MSGQ_NUM_PAGES - 1) - 1 == 0`.
-+        let slots = (rx + MSGQ_NUM_PAGES - tx - 1) % MSGQ_NUM_PAGES;
-+        num::u32_as_usize(slots) * GSP_PAGE_SIZE
-+    }
-+
-     /// Returns the region of the GSP message queue that the driver is currently allowed to read
-     /// from.
-     ///
-@@ -281,15 +294,22 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-     }
- 
-     /// Allocates a region on the command queue that is large enough to send a command of `size`
--    /// bytes.
-+    /// bytes, waiting for space to become available based on the provided timeout.
-     ///
-     /// This returns a [`GspCommand`] ready to be written to by the caller.
-     ///
-     /// # Errors
-     ///
--    /// - `EAGAIN` if the driver area is too small to hold the requested command.
-+    /// - `ETIMEDOUT` if space does not become available within the timeout.
-     /// - `EIO` if the command header is not properly aligned.
--    fn allocate_command(&mut self, size: usize) -> Result<GspCommand<'_>> {
-+    fn allocate_command(&mut self, size: usize, timeout: Delta) -> Result<GspCommand<'_>> {
-+        read_poll_timeout(
-+            || Ok(self.driver_write_area_size()),
-+            |available_bytes| *available_bytes >= size_of::<GspMsgElement>() + size,
-+            Delta::from_micros(1),
-+            timeout,
-+        )?;
-+
-         // Get the current writable area as an array of bytes.
-         let (slice_1, slice_2) = {
-             let (slice_1, slice_2) = self.driver_write_area();
-@@ -298,13 +318,6 @@ fn allocate_command(&mut self, size: usize) -> Result<GspCommand<'_>> {
-             (slice_1.as_flattened_mut(), slice_2.as_flattened_mut())
-         };
- 
--        // If the GSP is still processing previous messages the shared region
--        // may be full in which case we will have to retry once the GSP has
--        // processed the existing commands.
--        if size_of::<GspMsgElement>() + size > slice_1.len() + slice_2.len() {
--            return Err(EAGAIN);
--        }
--
-         // Extract area for the `GspMsgElement`.
-         let (header, slice_1) = GspMsgElement::from_bytes_mut_prefix(slice_1).ok_or(EIO)?;
- 
-@@ -462,6 +475,9 @@ impl Cmdq {
-     /// Number of page table entries for the GSP shared region.
-     pub(crate) const NUM_PTES: usize = size_of::<GspMem>() >> GSP_PAGE_SHIFT;
- 
-+    /// Timeout for waiting for space on the command queue.
-+    const ALLOCATE_TIMEOUT: Delta = Delta::from_secs(1);
-+
-     /// Creates a new command queue for `dev`.
-     pub(crate) fn new(dev: &device::Device<device::Bound>) -> Result<Cmdq> {
-         let gsp_mem = DmaGspMem::new(dev)?;
-@@ -497,7 +513,7 @@ fn notify_gsp(bar: &Bar0) {
-     ///
-     /// # Errors
-     ///
--    /// - `EAGAIN` if there was not enough space in the command queue to send the command.
-+    /// - `ETIMEDOUT` if space does not become available within the timeout.
-     /// - `EIO` if the variable payload requested by the command has not been entirely
-     ///   written to by its [`CommandToGsp::init_variable_payload`] method.
-     ///
-@@ -509,7 +525,9 @@ pub(crate) fn send_command<M>(&mut self, bar: &Bar0, command: M) -> Result
-         Error: From<M::InitError>,
-     {
-         let command_size = size_of::<M::Command>() + command.variable_payload_len();
--        let dst = self.gsp_mem.allocate_command(command_size)?;
-+        let dst = self
-+            .gsp_mem
-+            .allocate_command(command_size, Self::ALLOCATE_TIMEOUT)?;
- 
-         // Extract area for the command itself.
-         let (cmd, payload_1) = M::Command::from_bytes_mut_prefix(dst.contents.0).ok_or(EIO)?;
+Thanks — this matches my understanding from my conversations with Google
+about SurfaceFlinger and the lack of dependencies. If you can also check
+any corner cases, that would be good to understand as well. The kernel
+can technically introduce dependencies if it moves memory around, but
+something like that shouldn’t happen in practice.
 
--- 
-2.53.0
+I'd strongly suggest a bypass path as a solution. I mentioned this to
+Boris — this approach is not mutually exclusive with other RT rework
+either, and in any case it is likely the most performant and stable
+path (i.e. no jitter).
 
+> 
+> >
+> > >
+> > > > (Sorry—I know next to nothing
+> > > > about display.) Either way, fences should be signaled in IRQ handlers,
+> > >
+> > > In Panthor they are not, but that's probably something for us to
+> > > address.
+> Yeah, I am also looking into signaling fences from the (threaded) irq handler.
+> 
+
+I would suggest that you do. The Xe implementation is in xe_hw_fence.c
+if you want a design reference.
+
+Matt
+
+> > >
+> > > > which presumably don’t have the same latency issues as workqueues, but I
+> > > > could be mistaken.
+> > >
+> > > Might have to do with the mental model I had of this "reconcile
+> > > Usermode queues with dma_fence signaling" model, where I was imagining
+> > > a SW job queue (based on drm_sched too) that would wait on HW fences to
+> > > be signal and would as a result signal the dma_fence attached to the
+> > > job. So the queueing/dequeuing of these jobs would still happen through
+> > > drm_sched, with the same scheduling prio issue. This being said, those
+> >
+> > Yes, if jobs have unmet dependencies, the bypass path doesn’t help with
+> > the DRM scheduler workqueue context switches being slow as that path
+> > needs to be taken in taken in this cases.
+> >
+> > Also, to bring up something insane we certainly wouldn’t want to do:
+> > calling run_job when dependencies are resolved in the fence callback,
+> > since we could be in an IRQ handler.
+> >
+> > Matt
+> >
+> > > jobs would likely be dependency less, so more likely to hit your
+> > > fast-path-run-job.
