@@ -2,61 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cIkiDPDCqmlXWQEAu9opvQ
+	id aKKVI2fDqmlXWQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:05:04 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:07:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93FC722012D
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24402201FF
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D476410E1BC;
-	Fri,  6 Mar 2026 12:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2227B10ED16;
+	Fri,  6 Mar 2026 12:07:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QmNu0eId";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AkmrBFKC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2B410E1BC
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 12:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gXZvOjMehc56eDXoCco+Dzj0amJPPX9VhyIqUvYL1Aw=; b=QmNu0eIde9NbJ3Zj56GGKNLPtx
- wxHv4FlNvESXy9NaVoxz179Cmgcbr88E5Hy2m82QLefn7aqrsq4NueBYl5h5DpR1Hc1KdVPtZH78p
- imZ9NtX0ufzBwjSiJE+EHGy2yEeO3Ts0SAmjIHy+5tp47+ci3pe0UQsgwOTnI2DGwYDJcwaG+KJRm
- Wr90+Mmauy/ZLepWyvSxFsv5WhU6As7tKu/bNJh5qoIZFyUfrmpzaXdqweUp/djC7UB/rRR6MfucQ
- Xb92OuNi44DoTemUM71iRIKYOm9b6xuGAtaJvzgJBOySFIKRNvaEJvksn22jb6XFU/oxOtjPt0JTJ
- pxw2au6Q==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vyTvA-00A1DP-6X; Fri, 06 Mar 2026 13:04:44 +0100
-Message-ID: <4c2b82c6-76f6-4a1b-9422-b111b35e47fc@igalia.com>
-Date: Fri, 6 Mar 2026 12:04:43 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B764D10ED1B;
+ Fri,  6 Mar 2026 12:06:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E508260127;
+ Fri,  6 Mar 2026 12:06:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFC1EC4CEF7;
+ Fri,  6 Mar 2026 12:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772798817;
+ bh=vBj3woozlRPQJAsoS5/IW+klSPAITAbOF218ghzCguY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AkmrBFKCRbCHZUTyW9ICY4wBEh7Pe2S+YM/wqEXDcxFbGGnByiHHlbb3EYKuqNZO0
+ q2Usn/TeECRhZl/rRCEONLCagepvAgIirItP2eC3qQ8ChVybtdQP4cnbuxMspCqW2l
+ NuRTEQcZ4fNf0tnEm2Vt9rwza2i3hBvcHJoaSIUIev91gK+ZQxbmGNyuTbfBNfDzL8
+ uczsg8/HVlnzzRmWjuPHT7rnXFdsVjPMqku8Ani2QkPzrZQ1tx0APw0DKJ47bqWkCl
+ F3GWu9zvI/f7ShUPFDiLOLuo7Nr5RGLGYycyCEDy+H2U/X6/mJjX+zGqmWubbpWaHm
+ 6cB2ohevQ1byA==
+Date: Fri, 6 Mar 2026 12:06:54 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, 
+ "linux-mm @ kvack . org" <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+ Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>, 
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Leon Romanovsky <leon@kernel.org>, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, 
+ Neal Cardwell <ncardwell@google.com>, "David S. Miller" <davem@davemloft.net>, 
+ David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, 
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, 
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v1 02/16] mm/memory: remove "zap_details" parameter from
+ zap_page_range_single()
+Message-ID: <6ad209ea-4be2-42f0-94ef-a2da69292dc2@lucifer.local>
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-3-david@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] drm/vc4: Add per-file descriptor seqno tracking
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
- <20260205-vc4-drm-scheduler-v1-7-c6174fd7bbc1@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20260205-vc4-drm-scheduler-v1-7-c6174fd7bbc1@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227200848.114019-3-david@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,235 +110,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 93FC722012D
+X-Rspamd-Queue-Id: F24402201FF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mwen@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,ziepe.ca,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.261];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_GT_50(0.00)[74];
+	FROM_NEQ_ENVFROM(0.00)[ljs@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lucifer.local:mid]
 X-Rspamd-Action: no action
 
+On Fri, Feb 27, 2026 at 09:08:33PM +0100, David Hildenbrand (Arm) wrote:
+> Nobody except memory.c should really set that parameter to non-NULL. So
+> let's just drop it and make unmap_mapping_range_vma() use
+> zap_page_range_single_batched() instead.
+>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-On 05/02/2026 21:31, Maíra Canal wrote:
-> Implement per-file descriptor seqno tracking using an xarray, allowing
-> userspace to wait on specific job completions via vc4_wait_seqno_ioctl.
-> 
-> While this interface should ideally be deprecated in favor of syncobjs,
-> it has long been exposed to userspace and therefore must continue to be
-> supported.
-> 
-> Lay the groundwork to replace the existing `finished_seqno` logic with
-> DMA fence-based tracking. Each allocated seqno is associated with the
-> job's done_fence in a per-fd xarray. This allows vc4_wait_seqno_ioctl()
-> to simply look up the corresponding fence and wait on it.
-> 
-> This changes seqno semantics from global to per-file descriptor.
-> However, this doesn't affect userspace because a client can only wait
-> on seqnos returned from its own submissions.
+This is nice, good cleanup.
 
-Why is this better ie. why is the complication of a per file seqnos 
-worth it?
+Assuming rust side is all sorted (seems it from thread)... LGTM, so:
 
-> 
-> This design is inspired by the user fence handling in the Etnaviv and
-> msm drivers.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+
 > ---
->   drivers/gpu/drm/vc4/vc4_drv.c    |  2 ++
->   drivers/gpu/drm/vc4/vc4_drv.h    | 11 ++++++++
->   drivers/gpu/drm/vc4/vc4_submit.c | 60 ++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 73 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-> index c18178f6c8cea0a182dc67c2b8a992d127c87fec..4d5760192ba090a58d1ec870c37c3459f2cac468 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.c
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-> @@ -166,6 +166,7 @@ static int vc4_open(struct drm_device *dev, struct drm_file *file)
->   				      1, NULL);
->   	}
->   
-> +	xa_init_flags(&vc4file->seqno_xa, XA_FLAGS_ALLOC1);
->   	vc4_perfmon_open_file(vc4file);
->   	file->driver_priv = vc4file;
->   	return 0;
-> @@ -186,6 +187,7 @@ static void vc4_close(struct drm_device *dev, struct drm_file *file)
->   	for (q = 0; q < VC4_MAX_QUEUES; q++)
->   		drm_sched_entity_destroy(&vc4file->sched_entity[q]);
->   
-> +	xa_destroy(&vc4file->seqno_xa);
->   	vc4_perfmon_close_file(vc4file);
->   	kfree(vc4file);
->   }
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index dc04803efad9fdf9179a98701b31b9e360e9ab15..ff6dc9aea52105359b72700ba367d390ddf84262 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -10,6 +10,7 @@
->   #include <linux/of.h>
->   #include <linux/refcount.h>
->   #include <linux/uaccess.h>
-> +#include <linux/xarray.h>
->   
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_debugfs.h>
-> @@ -772,6 +773,10 @@ struct vc4_render_job {
->   	 * Must remain allocated until the render job completes.
->   	 */
->   	uint32_t bin_slots;
+>  arch/s390/mm/gmap_helpers.c    |  2 +-
+>  drivers/android/binder_alloc.c |  2 +-
+>  include/linux/mm.h             |  5 ++---
+>  kernel/bpf/arena.c             |  3 +--
+>  kernel/events/core.c           |  2 +-
+>  mm/madvise.c                   |  3 +--
+>  mm/memory.c                    | 16 ++++++++++------
+>  net/ipv4/tcp.c                 |  5 ++---
+>  rust/kernel/mm/virt.rs         |  2 +-
+>  9 files changed, 20 insertions(+), 20 deletions(-)
+>
+> diff --git a/arch/s390/mm/gmap_helpers.c b/arch/s390/mm/gmap_helpers.c
+> index dea83e3103e5..ae2d59a19313 100644
+> --- a/arch/s390/mm/gmap_helpers.c
+> +++ b/arch/s390/mm/gmap_helpers.c
+> @@ -89,7 +89,7 @@ void gmap_helper_discard(struct mm_struct *mm, unsigned long vmaddr, unsigned lo
+>  		if (!vma)
+>  			return;
+>  		if (!is_vm_hugetlb_page(vma))
+> -			zap_page_range_single(vma, vmaddr, min(end, vma->vm_end) - vmaddr, NULL);
+> +			zap_page_range_single(vma, vmaddr, min(end, vma->vm_end) - vmaddr);
+>  		vmaddr = vma->vm_end;
+>  	}
+>  }
+> diff --git a/drivers/android/binder_alloc.c b/drivers/android/binder_alloc.c
+> index 241f16a9b63d..dd2046bd5cde 100644
+> --- a/drivers/android/binder_alloc.c
+> +++ b/drivers/android/binder_alloc.c
+> @@ -1185,7 +1185,7 @@ enum lru_status binder_alloc_free_page(struct list_head *item,
+>  	if (vma) {
+>  		trace_binder_unmap_user_start(alloc, index);
+>
+> -		zap_page_range_single(vma, page_addr, PAGE_SIZE, NULL);
+> +		zap_page_range_single(vma, page_addr, PAGE_SIZE);
+>
+>  		trace_binder_unmap_user_end(alloc, index);
+>  	}
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index ecff8268089b..a8138ff7d1fa 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2835,11 +2835,10 @@ struct page *vm_normal_page_pud(struct vm_area_struct *vma, unsigned long addr,
+>  void zap_vma_ptes(struct vm_area_struct *vma, unsigned long address,
+>  		  unsigned long size);
+>  void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
+> -			   unsigned long size, struct zap_details *details);
+> +			   unsigned long size);
+>  static inline void zap_vma_pages(struct vm_area_struct *vma)
+>  {
+> -	zap_page_range_single(vma, vma->vm_start,
+> -			      vma->vm_end - vma->vm_start, NULL);
+> +	zap_page_range_single(vma, vma->vm_start, vma->vm_end - vma->vm_start);
+>  }
+>  struct mmu_notifier_range;
+>
+> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
+> index 144f30e740e8..c34510d83b1f 100644
+> --- a/kernel/bpf/arena.c
+> +++ b/kernel/bpf/arena.c
+> @@ -656,8 +656,7 @@ static void zap_pages(struct bpf_arena *arena, long uaddr, long page_cnt)
+>  	guard(mutex)(&arena->lock);
+>  	/* iterate link list under lock */
+>  	list_for_each_entry(vml, &arena->vma_list, head)
+> -		zap_page_range_single(vml->vma, uaddr,
+> -				      PAGE_SIZE * page_cnt, NULL);
+> +		zap_page_range_single(vml->vma, uaddr, PAGE_SIZE * page_cnt);
+>  }
+>
+>  static void arena_free_pages(struct bpf_arena *arena, long uaddr, long page_cnt, bool sleepable)
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index ac70d68217b6..c94c56c94104 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -7215,7 +7215,7 @@ static int map_range(struct perf_buffer *rb, struct vm_area_struct *vma)
+>  #ifdef CONFIG_MMU
+>  	/* Clear any partial mappings on error. */
+>  	if (err)
+> -		zap_page_range_single(vma, vma->vm_start, nr_pages * PAGE_SIZE, NULL);
+> +		zap_page_range_single(vma, vma->vm_start, nr_pages * PAGE_SIZE);
+>  #endif
+>
+>  	return err;
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index efc04334a000..557a360f7919 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -1193,8 +1193,7 @@ static long madvise_guard_install(struct madvise_behavior *madv_behavior)
+>  		 * OK some of the range have non-guard pages mapped, zap
+>  		 * them. This leaves existing guard pages in place.
+>  		 */
+> -		zap_page_range_single(vma, range->start,
+> -				range->end - range->start, NULL);
+> +		zap_page_range_single(vma, range->start, range->end - range->start);
+>  	}
+>
+>  	/*
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 9385842c3503..19f5f9a60995 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -2203,17 +2203,16 @@ void zap_page_range_single_batched(struct mmu_gather *tlb,
+>   * @vma: vm_area_struct holding the applicable pages
+>   * @address: starting address of pages to zap
+>   * @size: number of bytes to zap
+> - * @details: details of shared cache invalidation
+>   *
+>   * The range must fit into one VMA.
+>   */
+>  void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
+> -		unsigned long size, struct zap_details *details)
+> +		unsigned long size)
+>  {
+>  	struct mmu_gather tlb;
+>
+>  	tlb_gather_mmu(&tlb, vma->vm_mm);
+> -	zap_page_range_single_batched(&tlb, vma, address, size, details);
+> +	zap_page_range_single_batched(&tlb, vma, address, size, NULL);
+>  	tlb_finish_mmu(&tlb);
+>  }
+>
+> @@ -2235,7 +2234,7 @@ void zap_vma_ptes(struct vm_area_struct *vma, unsigned long address,
+>  	    		!(vma->vm_flags & VM_PFNMAP))
+>  		return;
+>
+> -	zap_page_range_single(vma, address, size, NULL);
+> +	zap_page_range_single(vma, address, size);
+>  }
+>  EXPORT_SYMBOL_GPL(zap_vma_ptes);
+>
+> @@ -3003,7 +3002,7 @@ static int remap_pfn_range_notrack(struct vm_area_struct *vma, unsigned long add
+>  	 * maintain page reference counts, and callers may free
+>  	 * pages due to the error. So zap it early.
+>  	 */
+> -	zap_page_range_single(vma, addr, size, NULL);
+> +	zap_page_range_single(vma, addr, size);
+>  	return error;
+>  }
+>
+> @@ -4226,7 +4225,12 @@ static void unmap_mapping_range_vma(struct vm_area_struct *vma,
+>  		unsigned long start_addr, unsigned long end_addr,
+>  		struct zap_details *details)
+>  {
+> -	zap_page_range_single(vma, start_addr, end_addr - start_addr, details);
+> +	struct mmu_gather tlb;
 > +
-> +	/* For userspace fence tracking. */
-> +	struct vc4_file *file;
-
-Can jobs outlive clients?
-
-> +	u32 seqno;
->   };
->   
->   struct vc4_exec_info {
-> @@ -904,6 +909,12 @@ struct vc4_file {
->   
->   	struct drm_sched_entity sched_entity[VC4_MAX_QUEUES];
->   
-> +	/* Mapping of seqno to dma_fence for job completion tracking.
-> +	 * Allows userspace to wait on specific submissions.
-> +	 */
-> +	struct xarray seqno_xa;
-> +	u32 next_seqno;
-> +
->   	bool bin_bo_used;
->   };
->   
-> diff --git a/drivers/gpu/drm/vc4/vc4_submit.c b/drivers/gpu/drm/vc4/vc4_submit.c
-> index d6c684a14e6f9d9f7f456ad7fc985dbf631a7fb4..8d82fcb320a7ac16497c3f49e5106cf6b44ee706 100644
-> --- a/drivers/gpu/drm/vc4/vc4_submit.c
-> +++ b/drivers/gpu/drm/vc4/vc4_submit.c
-> @@ -203,6 +203,50 @@ vc4_get_bcl(struct drm_device *dev, struct vc4_exec_info *exec)
->   	return ret;
->   }
->   
-> +int
-> +vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
-> +		     struct drm_file *file_priv)
-> +{
-> +	struct vc4_file *vc4_priv = file_priv->driver_priv;
-> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> +	struct drm_vc4_wait_seqno *args = data;
-> +	unsigned long timeout_jiffies = nsecs_to_jiffies(args->timeout_ns);
-> +	unsigned long start = jiffies;
-> +	struct dma_fence *fence;
-> +	long ret;
-> +
-> +	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
-> +		return -ENODEV;
-> +
-> +	rcu_read_lock();
-> +	fence = xa_load(&vc4_priv->seqno_xa, args->seqno);
-> +	if (fence)
-> +		fence = dma_fence_get_rcu(fence);
-
-The RCU protection is for the drm_sched_fence? Comment maybe?
-
-Regards,
-
-Tvrtko
-
-> +	rcu_read_unlock();
-> +
-> +	if (!fence)
-> +		return 0;
-> +
-> +	trace_vc4_wait_for_seqno_begin(dev, args->seqno, args->timeout_ns);
-> +	ret = dma_fence_wait_timeout(fence, true, timeout_jiffies);
-> +	trace_vc4_wait_for_seqno_end(dev, args->seqno);
-> +
-> +	dma_fence_put(fence);
-> +
-> +	if (ret == -ERESTARTSYS) {
-> +		u64 delta = jiffies_to_nsecs(jiffies - start);
-> +
-> +		if (args->timeout_ns >= delta)
-> +			args->timeout_ns -= delta;
-> +		else
-> +			args->timeout_ns = 0;
-> +
-> +		return ret;
-> +	}
-> +
-> +	return ret > 0 ? 0 : -ETIME;
-> +}
-> +
->   static void
->   vc4_job_free(struct kref *ref)
->   {
-> @@ -262,6 +306,9 @@ vc4_render_job_free(struct kref *ref)
->   	vc4->bin_alloc_used &= ~job->bin_slots;
->   	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
->   
-> +	if (job->seqno)
-> +		xa_erase(&job->file->seqno_xa, job->seqno);
-> +
->   	vc4_job_free(ref);
->   }
->   
-> @@ -433,6 +480,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   		return ret;
->   
->   	exec.render = render;
-> +	render->file = vc4_priv;
->   	INIT_LIST_HEAD(&render->unref_list);
->   
->   	ret = vc4_lookup_bos(dev, file_priv, render, args->bo_handles,
-> @@ -488,10 +536,22 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   	vc4_push_job(&render->base);
->   	mutex_unlock(&vc4->sched_lock);
->   
-> +	ret = xa_alloc_cyclic(&vc4_priv->seqno_xa, &render->seqno,
-> +			      render->base.done_fence,
-> +			      xa_limit_32b, &vc4_priv->next_seqno, GFP_KERNEL);
-> +	if (ret < 0) {
-> +		/* Jobs are already queued, just skip seqno tracking */
-> +		drm_err(dev, "Seqno allocation failed\n");
-> +		render->seqno = 0;
-> +	}
-> +
->   	vc4_attach_fences_and_unlock_reservation(file_priv, render,
->   						 &exec_ctx, args->out_sync,
->   						 render->base.done_fence);
->   
-> +	/* Return the seqno for our job. */
-> +	args->seqno = render->seqno;
-> +
->   	vc4_job_put((void *)bin);
->   	vc4_job_put((void *)render);
->   
-> 
-
+> +	tlb_gather_mmu(&tlb, vma->vm_mm);
+> +	zap_page_range_single_batched(&tlb, vma, start_addr,
+> +				      end_addr - start_addr, details);
+> +	tlb_finish_mmu(&tlb);
+>  }
+>
+>  static inline void unmap_mapping_range_tree(struct rb_root_cached *root,
+> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+> index f84d9a45cc9d..befcde27dee7 100644
+> --- a/net/ipv4/tcp.c
+> +++ b/net/ipv4/tcp.c
+> @@ -2104,7 +2104,7 @@ static int tcp_zerocopy_vm_insert_batch_error(struct vm_area_struct *vma,
+>  		maybe_zap_len = total_bytes_to_map -  /* All bytes to map */
+>  				*length + /* Mapped or pending */
+>  				(pages_remaining * PAGE_SIZE); /* Failed map. */
+> -		zap_page_range_single(vma, *address, maybe_zap_len, NULL);
+> +		zap_page_range_single(vma, *address, maybe_zap_len);
+>  		err = 0;
+>  	}
+>
+> @@ -2269,8 +2269,7 @@ static int tcp_zerocopy_receive(struct sock *sk,
+>  	total_bytes_to_map = avail_len & ~(PAGE_SIZE - 1);
+>  	if (total_bytes_to_map) {
+>  		if (!(zc->flags & TCP_RECEIVE_ZEROCOPY_FLAG_TLB_CLEAN_HINT))
+> -			zap_page_range_single(vma, address, total_bytes_to_map,
+> -					      NULL);
+> +			zap_page_range_single(vma, address, total_bytes_to_map);
+>  		zc->length = total_bytes_to_map;
+>  		zc->recv_skip_hint = 0;
+>  	} else {
+> diff --git a/rust/kernel/mm/virt.rs b/rust/kernel/mm/virt.rs
+> index da21d65ccd20..b8e59e4420f3 100644
+> --- a/rust/kernel/mm/virt.rs
+> +++ b/rust/kernel/mm/virt.rs
+> @@ -124,7 +124,7 @@ pub fn zap_page_range_single(&self, address: usize, size: usize) {
+>          // sufficient for this method call. This method has no requirements on the vma flags. The
+>          // address range is checked to be within the vma.
+>          unsafe {
+> -            bindings::zap_page_range_single(self.as_ptr(), address, size, core::ptr::null_mut())
+> +            bindings::zap_page_range_single(self.as_ptr(), address, size)
+>          };
+>      }
+>
+> --
+> 2.43.0
+>
