@@ -2,159 +2,219 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8Bj6GozCqmlXWQEAu9opvQ
+	id 8HXJKpaGrWkE4AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:03:24 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D39E220093
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 13:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B36230A40
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60ACA10ED1C;
-	Fri,  6 Mar 2026 12:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95C3710E440;
+	Sun,  8 Mar 2026 14:13:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LdXcIVPc";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RK0GUwC5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PCjBLVlD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A69610ED1A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 12:03:21 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 626BbGFf2022593
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Mar 2026 12:03:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- qsIhiDYqrYhyPHQhfvVcO7ffM//NdCFDfvQA4djkeYg=; b=LdXcIVPcF6oBAPeL
- ppHTobtohVIPcESYYqfiTGnSkzigTSitfQsaVJDYoKkeOZeiCXvxUuKpGmeSWjV5
- BAMq+rVvT1QNpGWsvzTl7BtyOfBRqitIcLN02Gr9vAARLuyjxRbh8znuRY8lF7Zz
- KRfhI22YgQYKXftPUp4Va1VxviUCs6SeSBByzJ0dUJuTuN9wLVSuITMzzAQ4kfOc
- fMlYevq89sF3MAKKzhI+ac8HKTVO0ayJrQ9nKuSxCjdrcDMitm530tsaORlm+HAi
- H0V9LotCfxrR+OsyYLCpj1CXOV4bEDfO+rdypjBa4zvLI8zwytsoy5aV1nModZY/
- bCBsuw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqfg6b1px-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 12:03:20 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-8c70b6a5821so4366328785a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 04:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772798599; x=1773403399;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qsIhiDYqrYhyPHQhfvVcO7ffM//NdCFDfvQA4djkeYg=;
- b=RK0GUwC5fc66MeffjZoptTru+Gd99aND6F7XjhhR2rkxfEAAA3g7QzMJDVuimqZN9F
- VCXRpRH+9diAPznpulKFW/wkYel5GJAr9ki0nvPa4PJ50Ck7l9clmt8QGGndQoxYeM5j
- cSOMoPYC5iFRhGuDA6Mjm3Td6ttu3Mpip81e3fg4pW7orZTazAJ5iPT6b7TMsmWXqmKr
- 4PqCxp0fMRAktODBvcGBCTkQoV+zVUKgBfR2JI1/P3pIpV9vifFZFVha2sVFumZ/WRfk
- d6kCR46DqF5Aecmlqg+xj+k6vG2s1a+X6jTSWD9dGXgr+UZjF7zkJpVuEUUsObZD2gfn
- 6hIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772798599; x=1773403399;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=qsIhiDYqrYhyPHQhfvVcO7ffM//NdCFDfvQA4djkeYg=;
- b=my/oHbOj5gWr32g5j1lKljdyDyruW0B2JAJWqON/UvgaCjiBAtEkVtRzXlA3VViBte
- tVlLfbVHkwlDoLp9DtQymJU2pg/U06YWJvRcWKzNl3RThe+xATYiv89SFAMXxsooWtx9
- alMrPmbeF/sXhWgY5cARRLSgmmvzT7eyeTCJPtnDUY6dKM/NCrHxcCMohueyeXAjazTD
- Jielu45B6iUu2ObBMSYh3wapTHqe1vERwfMzElYSbbgV6GMBn/+by3XlnYmd28RaPNcA
- /YNFxx9NQALXEirki/A7sSFhJbfui5lRQjkfR5JfSQR37fl7sXYUoJTt+w3BZNKlh//e
- bKxg==
-X-Gm-Message-State: AOJu0Yz1JX14lioO47cf7iKow7lFNZFf7bIs06d6dJaN9hHiNxTzLXSA
- HHJRZvKpsSRoG2j/V9VeXgCqi+zq1hxYxit/o4wKavDIBlLNP2fSBJY/MVT+42j0lTAuZgxsnVR
- S4dEU9XhKDar1QXASgA1mltxTqpJigDWLwXsO3aaD6JXfhyTV6aLVrsTNXQHYiEUaez82OjU=
-X-Gm-Gg: ATEYQzyoA9c3pnSXOSK4GtUQYuNcakutngRs17Rp1N8SulFRMTRdo5cjI/lt0Xce5AV
- Pu8l9EtligP1ZcI4JPjR/4b4Wj91WVQrhU7LAO01n9cPJPdi1/6pqMGjQO8sXojJMGyLv9o2xba
- N37t/Q9hsVa+UxxFgSpyGoFO/4Z22RNustW39IAoGHnAMrbePq6Iddie+Xz+JErmVmYUqFxbzCE
- tBI+pwOJX0GbXtDl3S9i11p3LC5B5zorvzjOdZ0FE6PVjE05TDICvJxUtciqH9LUG4u7Gv10N7z
- CGUCgoArCw9esA1tknbj1Z1YpScxxFXZ6wDI4VkrhR/aLeROGIPvwGtaAcCXt43L0bVj3ebqrGP
- jo2l2m6LIi32v/E6VGfOVIMXCey2FcvhHMjKnabvszAUQ
-X-Received: by 2002:a05:620a:4691:b0:8cb:3a1d:79f9 with SMTP id
- af79cd13be357-8cd6d40d2f4mr232420985a.6.1772798599070; 
- Fri, 06 Mar 2026 04:03:19 -0800 (PST)
-X-Received: by 2002:a05:620a:4691:b0:8cb:3a1d:79f9 with SMTP id
- af79cd13be357-8cd6d40d2f4mr232416285a.6.1772798598558; 
- Fri, 06 Mar 2026 04:03:18 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.219.94]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439dad1cb7csm3410129f8f.0.2026.03.06.04.03.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2026 04:03:17 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Date: Fri, 06 Mar 2026 13:02:58 +0100
-Subject: [PATCH 5/5] dt-bindings: display: panel: Align style of "true"
- properties
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B62310ED1A;
+ Fri,  6 Mar 2026 12:03:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BBDE443996;
+ Fri,  6 Mar 2026 12:03:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1420C2BCB7;
+ Fri,  6 Mar 2026 12:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772798613;
+ bh=CzoqwvSAeRfK44X4Sq+CvuqCGufXKFog8r6S8FJOxVw=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=PCjBLVlDFqG1oBbiQd+HrQ8rEG3m21Qiku684yY84WX7GTtS+y22sDcetMx6fqlDG
+ LyaV2QWfjEjHKnaTBhb2ZyNX9SFxkrcFxd8xmBSw10TVnHnhS0zklAYvDZWfy1MhCv
+ EqAAKKPvBAf8/leoZU2xyvvUC2H2ff6epkVxlixuQAdN30RqgGAAANDm6+QgRlIONP
+ nSZFLHXIxiEEdhVxKiUpBs4MgDfHXlWKg6jpYf1CJ6BWin5R9K6G5kaUjvZWbwwqHc
+ /GlMSkLIs98hGrKPSpz99NUzB1chQOGo7EfaFgQI/brIj9+nBjb2M5ZbjJGNoDObHM
+ NMEjDVji5mrvw==
+Message-ID: <c1845a4b8d35d367953ac6cbfcf91ac36958ba51.camel@kernel.org>
+Subject: Re: [PATCH v3 01/12] vfs: widen inode hash/lookup functions to u64
+From: Jeff Layton <jlayton@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven Rostedt	
+ <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Dan Williams
+ <dan.j.williams@intel.com>, Eric Biggers	 <ebiggers@kernel.org>, "Theodore
+ Y. Ts'o" <tytso@mit.edu>, Muchun Song	 <muchun.song@linux.dev>, Oscar
+ Salvador <osalvador@suse.de>, David Hildenbrand	 <david@kernel.org>, David
+ Howells <dhowells@redhat.com>, Paulo Alcantara	 <pc@manguebit.org>, Andreas
+ Dilger <adilger.kernel@dilger.ca>, Jan Kara	 <jack@suse.com>, Jaegeuk Kim
+ <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,  Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
+ <chuck.lever@oracle.com>,  NeilBrown <neil@brown.name>, Olga Kornievskaia
+ <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,  Tom Talpey
+ <tom@talpey.com>, Steve French <sfrench@samba.org>, Ronnie Sahlberg
+ <ronniesahlberg@gmail.com>,  Shyam Prasad N <sprasad@microsoft.com>,
+ Bharath SM <bharathsm@microsoft.com>, Alexander Aring	
+ <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+ Viacheslav Dubeyko	 <slava@dubeyko.com>, Eric Van Hensbergen
+ <ericvh@kernel.org>, Latchesar Ionkov	 <lucho@ionkov.net>, Dominique
+ Martinet <asmadeus@codewreck.org>, Christian Schoenebeck
+ <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, Marc Dionne	
+ <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, Luis de
+ Bethencourt	 <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>,
+ "Tigran A. Aivazian"	 <aivazian.tigran@gmail.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Alex Markuze	 <amarkuze@redhat.com>, Jan Harkes
+ <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,  Nicolas Pitre <nico@fluxnic.net>,
+ Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, John
+ Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+ <frank.li@vivo.com>, Mikulas Patocka	 <mikulas@artax.karlin.mff.cuni.cz>,
+ David Woodhouse <dwmw2@infradead.org>,  Richard Weinberger	
+ <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, Konstantin Komarov	
+ <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
+ Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
+ Mike Marshall	 <hubcap@omnibond.com>, Martin Brandenburg
+ <martin@omnibond.com>, Miklos Szeredi	 <miklos@szeredi.hu>, Anders Larsen
+ <al@alarsen.net>, Zhihao Cheng	 <chengzhihao1@huawei.com>, Damien Le Moal
+ <dlemoal@kernel.org>, Naohiro Aota	 <naohiro.aota@wdc.com>, Johannes
+ Thumshirn <jth@kernel.org>, John Johansen	 <john.johansen@canonical.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris	 <jmorris@namei.org>, "Serge
+ E. Hallyn" <serge@hallyn.com>, Mimi Zohar	 <zohar@linux.ibm.com>, Roberto
+ Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin
+ <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, Fan
+ Wu	 <wufan@kernel.org>, Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler
+ <casey@schaufler-ca.com>, Alex Deucher	 <alexander.deucher@amd.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Eric Dumazet	 <edumazet@google.com>, Kuniyuki
+ Iwashima <kuniyu@google.com>, Paolo Abeni	 <pabeni@redhat.com>, Willem de
+ Bruijn <willemb@google.com>, "David S. Miller"	 <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman	 <horms@kernel.org>, Oleg
+ Nesterov <oleg@redhat.com>, Peter Zijlstra	 <peterz@infradead.org>, Ingo
+ Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland	 <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,  Jiri Olsa
+ <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter
+ <adrian.hunter@intel.com>,  James Clark <james.clark@linaro.org>, "Darrick
+ J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>,  Eric Paris
+ <eparis@redhat.com>, Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann
+ <marcel@holtmann.org>,  Johan Hedberg <johan.hedberg@gmail.com>, Luiz
+ Augusto von Dentz <luiz.dentz@gmail.com>, Oliver Hartkopp	
+ <socketcan@hartkopp.net>, Marc Kleine-Budde <mkl@pengutronix.de>, David
+ Ahern	 <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, Steffen
+ Klassert	 <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>,  Remi Denis-Courmont	 <courmisch@gmail.com>,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,  Xin Long
+ <lucien.xin@gmail.com>, Magnus Karlsson <magnus.karlsson@intel.com>, Maciej
+ Fijalkowski	 <maciej.fijalkowski@intel.com>, Stanislav Fomichev
+ <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Jesper Dangaard Brouer	 <hawk@kernel.org>, John
+ Fastabend <john.fastabend@gmail.com>, 	linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-trace-kernel@vger.kernel.org,
+ nvdimm@lists.linux.dev, 	fsverity@lists.linux.dev, linux-mm@kvack.org,
+ netfs@lists.linux.dev, 	linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, 	linux-nfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, 	samba-technical@lists.samba.org,
+ linux-nilfs@vger.kernel.org, 	v9fs@lists.linux.dev,
+ linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
+ ecryptfs@vger.kernel.org, 	linux-mtd@lists.infradead.org,
+ jfs-discussion@lists.sourceforge.net, 	ntfs3@lists.linux.dev,
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
+ linux-x25@vger.kernel.org, 	audit@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, 	linux-can@vger.kernel.org,
+ linux-sctp@vger.kernel.org, bpf@vger.kernel.org
+Date: Fri, 06 Mar 2026 07:03:15 -0500
+In-Reply-To: <aamSFgXhrORAJLBC@infradead.org>
+References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+ <20260304-iino-u64-v3-1-2257ad83d372@kernel.org>
+ <aamSFgXhrORAJLBC@infradead.org>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-dt-bindings-display-panel-clean-v1-5-3086eda1efaf@oss.qualcomm.com>
-References: <20260306-dt-bindings-display-panel-clean-v1-0-3086eda1efaf@oss.qualcomm.com>
-In-Reply-To: <20260306-dt-bindings-display-panel-clean-v1-0-3086eda1efaf@oss.qualcomm.com>
-To: Artur Weber <aweber.kernel@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8793;
- i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
- bh=eOMtL1pudAxDLN8GeGr6PmJf215rpqL51x1GL5PbJIc=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpqsJ2egJADa1wD/I3+dbMeZPrxGfxjU6pK3X3Z
- HOZtmfjJcGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaarCdgAKCRDBN2bmhouD
- 16ASEACankKcaY8YWF8NbeZ0RXRJtmVxWwnfhbOAW8jOU2YvRF9BuWTEmIvLeiSs0aT4LfsxbnJ
- rXKcqHapTug3l5fQs0Xavf0/iaPKEQtbRT/wS4dCy16ecZzybwigHyyilQlYbrQjzAZjDqtE8XX
- KYaJZHUQl3XurOX1AEQMT1t+QE9LGEaYMK//y5ESuUO3mrDAgF/YYrJS+Sa29mu8Z36dluxz1Xc
- fiEesnABLeS2I3fjDsG2K66mNoiFF0zTz0y3oQVKHWRpzoQ36G0J+sE6MytRYyBzqg0C73TyOrr
- sYR1JDrUUHkKcnBojPAAlegsfr7nJfr6ZYQL6BASi8WS+cqH0wFro0ciGTHIKDyNjsvXAmK8tHh
- lXOcOvzaawDizbkaq3xyWgAkEGuEiEcARRSAOyS6i3qPo/RjQ7jdRMuCrQf4QFiipT/9Srrswww
- qpIHIaLW3otUe/BhPch2hwnCkcsWE8464mWYSs0VzDNQSuNlXaj4r3gBr7/mOWvS2iGtaCuo+oN
- 7uoed6sg0XzbX5GpNH6unrSdwCcAlzGpfsqfs2fgTVowZBZrT5+XrhZbASSgPvbmtLNXypqTWFq
- +kX3I/DfFkM/mInvRZCd/kuQGBeiBYO/2dp0kIy5aRU/kYE7Jd9dbJVgcYVgp0Q2GhI4+dGKhFl
- OfmsXAoc0VgIa5Q==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-X-Proofpoint-GUID: o3FbxbFLdeOwK9I_zFTBTtyPyaZhoyMf
-X-Proofpoint-ORIG-GUID: o3FbxbFLdeOwK9I_zFTBTtyPyaZhoyMf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDExNSBTYWx0ZWRfX/BU5yBK3k5Xk
- KKp8CP5dkf8s0FYK8+muxnvu409b74ObgjKQgx4zA4YkXUbVOACiv9eOl9TaBOjNyVSGWkaAUP5
- SFZD5yxQrpZAvw/FM+Y7H5O/3ZJeFBgFVoNwmKzFrIMKbHTxaXgETfAGXXEC+zRUsEdRDYzA3Ec
- 5vPeOeYH+F1BxL4F5Gu4gUZKG3bIR7vn0q5YyZrRFOUGV1L0zi+snSe3/sGjVZbEFN8cZyRn7WH
- WFCDgD7vYiTaRQO1CkwU3lVq6SMK3NhHEHXhPkdOsKiO7I6vpO8FVW7nH2pstdwxnALiv+6zEOR
- jKBQP3okqNwImJaQRTGOjreLbIMJXMkwnAPCMXnppm7cJbmRxATU1/F7kqyaDdJ43SRTyuODX53
- 82ZeC3s6RHrGsicP7xQO8gy4NV4QapkQsJP/rnIJG/7lSXcUtCR699/BUPGInMU5MkEHdXAwE8A
- vBACXmsVg7ISjFLn99A==
-X-Authority-Analysis: v=2.4 cv=XKg9iAhE c=1 sm=1 tr=0 ts=69aac288 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=y7DYbA0_Xfvc-Urf_C0A:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-06_04,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060115
+X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,277 +229,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1D39E220093
+X-Rspamd-Queue-Id: 14B36230A40
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+	DATE_IN_PAST(1.00)[50];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:aweber.kernel@gmail.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:dsankouski@gmail.com,m:tomi.valkeinen@ti.com,m:laurent.pinchart@ideasonboard.com,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:aweberkernel@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[krzysztof.kozlowski@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_TO(0.00)[gmail.com,linaro.org,linux.intel.com,kernel.org,suse.de,ffwll.ch,ti.com,ideasonboard.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[krzysztof.kozlowski@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,infradead.org,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.or
+ g];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.983];
+	RCPT_COUNT_GT_50(0.00)[170];
+	FROM_NEQ_ENVFROM(0.00)[jlayton@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-For code readability, several bindings which list allowed properties
-with ": true" syntax group them in one place, without line breaks
-between each.  Align a few bindings to match this style.  No functional
-impact.
+On Thu, 2026-03-05 at 06:24 -0800, Christoph Hellwig wrote:
+> > =C2=A0extern struct inode *ilookup5_nowait(struct super_block *sb,
+> > -		unsigned long hashval, int (*test)(struct inode *, void *),
+> > +		u64 hashval, int (*test)(struct inode *, void *),
+> > =C2=A0		void *data, bool *isnew);
+> > -extern struct inode *ilookup5(struct super_block *sb, unsigned long ha=
+shval,
+> > +extern struct inode *ilookup5(struct super_block *sb, u64 hashval,
+> > =C2=A0		int (*test)(struct inode *, void *), void *data);
+>=20
+> ...
+>=20
+> Can you please drop all these pointless externs while you're at it?
+>=20
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
- .../devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml | 1 -
- Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml  | 3 ---
- .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml      | 2 --
- .../devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml    | 1 +
- .../devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml    | 1 +
- .../devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml    | 5 ++---
- .../devicetree/bindings/display/panel/novatek,nt35510.yaml         | 3 ++-
- .../devicetree/bindings/display/panel/renesas,r61307.yaml          | 3 +--
- .../devicetree/bindings/display/panel/renesas,r69328.yaml          | 1 -
- .../devicetree/bindings/display/panel/rocktech,jh057n00900.yaml    | 5 ++---
- .../bindings/display/panel/sony,tulip-truly-nt35521.yaml           | 2 --
- .../devicetree/bindings/display/panel/startek,kd070fhfid015.yaml   | 7 ++-----
- 12 files changed, 11 insertions(+), 23 deletions(-)
+I was planning to do that, but then Christian merged it!
 
-diff --git a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-index 92df69e80a82..f288fa2390c9 100644
---- a/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/feiyang,fy07024di26a30d.yaml
-@@ -28,7 +28,6 @@ properties:
- 
-   port: true
-   reset-gpios: true
--
-   backlight: true
- 
- required:
-diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-index 182a2b825e1c..84e840e0224f 100644
---- a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-@@ -33,11 +33,8 @@ properties:
-     maxItems: 1
- 
-   reset-gpios: true
--
-   backlight: true
--
-   rotation: true
--
-   port: true
- 
-   vcc-supply:
-diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-index 5802fb3c9ffe..2fa07ec55b08 100644
---- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
-@@ -35,9 +35,7 @@ properties:
-     description: supply regulator for VCCIO, usually 1.8V
- 
-   reset-gpios: true
--
-   backlight: true
--
-   port: true
- 
- required:
-diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
-index 5fcea62fd58f..2f49a6bbf3d7 100644
---- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk050h3146w.yaml
-@@ -25,6 +25,7 @@ properties:
-   backlight: true
-   port: true
-   reset-gpios: true
-+
-   iovcc-supply:
-     description: regulator that supplies the iovcc voltage
-   vci-supply:
-diff --git a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
-index b0e2c82232d3..3f56047f4469 100644
---- a/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/leadtek,ltk500hd1829.yaml
-@@ -24,6 +24,7 @@ properties:
-   backlight: true
-   port: true
-   reset-gpios: true
-+
-   iovcc-supply:
-     description: regulator that supplies the iovcc voltage
-   vcc-supply:
-diff --git a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
-index 74ff772973d6..b8b153a6e6cc 100644
---- a/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/mantix,mlaf057we51-x.yaml
-@@ -22,7 +22,6 @@ properties:
-       - mantix,mlaf057we51-x
-       - ys,ys57pss36bh5gq
- 
--  port: true
-   reg:
-     maxItems: 1
-     description: DSI virtual channel
-@@ -36,13 +35,13 @@ properties:
-   vddi-supply:
-     description: 1.8V I/O voltage supply
- 
--  reset-gpios: true
--
-   mantix,tp-rstn-gpios:
-     maxItems: 1
-     description: second reset line that triggers DSI config load
- 
-   backlight: true
-+  port: true
-+  reset-gpios: true
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-index b39fd0c5a48a..43d134daf0ac 100644
---- a/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
-@@ -28,13 +28,14 @@ properties:
-   reg:
-     maxItems: 1
- 
--  reset-gpios: true
-   vdd-supply:
-     description: regulator that supplies the vdd voltage
-   vddi-supply:
-     description: regulator that supplies the vddi voltage
-+
-   backlight: true
-   port: true
-+  reset-gpios: true
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
-index 90cce221c0d1..3d7761717b74 100644
---- a/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/renesas,r61307.yaml
-@@ -33,8 +33,6 @@ properties:
-   iovcc-supply:
-     description: Regulator for 1.8V IO power supply.
- 
--  backlight: true
--
-   renesas,gamma:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description:
-@@ -51,6 +49,7 @@ properties:
-     type: boolean
-     description: digital contrast adjustment
- 
-+  backlight: true
-   reset-gpios: true
-   port: true
- 
-diff --git a/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml b/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
-index 1cd219b510ee..740185f778a1 100644
---- a/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/renesas,r69328.yaml
-@@ -33,7 +33,6 @@ properties:
-     description: Regulator for 1.8V IO power supply.
- 
-   backlight: true
--
-   reset-gpios: true
-   port: true
- 
-diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-index 4ae152cc55e0..ebfc825b8346 100644
---- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
-@@ -33,7 +33,6 @@ properties:
-       # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
-       - xingbangda,xbd599
- 
--  port: true
-   reg:
-     maxItems: 1
-     description: DSI virtual channel
-@@ -44,9 +43,9 @@ properties:
-   iovcc-supply:
-     description: I/O voltage supply
- 
--  reset-gpios: true
--
-   backlight: true
-+  port: true
-+  reset-gpios: true
-   rotation: true
- 
- required:
-diff --git a/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml b/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
-index a58a31349757..85c5dee65383 100644
---- a/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/sony,tulip-truly-nt35521.yaml
-@@ -31,9 +31,7 @@ properties:
-     description: Negative 5V supply
- 
-   reset-gpios: true
--
-   enable-gpios: true
--
-   port: true
- 
- required:
-diff --git a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-index 0819f38a9d2c..7fd9364fa385 100644
---- a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
-@@ -16,8 +16,6 @@ properties:
-   compatible:
-     const: startek,kd070fhfid015
- 
--  enable-gpios: true
--
-   iovcc-supply:
-     description: Reference to the regulator powering the panel IO pins.
- 
-@@ -25,11 +23,10 @@ properties:
-     maxItems: 1
-     description: DSI virtual channel
- 
--  reset-gpios: true
--
-+  enable-gpios: true
-   port: true
--
-   power-supply: true
-+  reset-gpios: true
- 
- required:
-   - compatible
+I'll do a patch on top of this that does this in the range of fs.h that
+the patch touches. Christian can throw it on top of the series, and
+that shouldn't be too bad for backports.
 
--- 
-2.51.0
+> Otherwise looks good:
+>=20
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
+Thanks for the review!
+--=20
+Jeff Layton <jlayton@kernel.org>
