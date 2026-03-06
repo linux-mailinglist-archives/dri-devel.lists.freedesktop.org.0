@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WFEHJ7JdqmkVQQEAu9opvQ
+	id uGUTJLhdqmkVQQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:53:06 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:53:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A5E21B891
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A2921B8A0
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 05:53:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7919410E359;
-	Fri,  6 Mar 2026 04:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86AB110E36B;
+	Fri,  6 Mar 2026 04:53:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jJrEtgID";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="k9ZCUX+5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010009.outbound.protection.outlook.com [52.101.85.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B19C10E37A;
- Fri,  6 Mar 2026 04:53:03 +0000 (UTC)
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011009.outbound.protection.outlook.com [52.101.52.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7633810E379;
+ Fri,  6 Mar 2026 04:53:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=udAfRvLDm0MK+HUfZ2sKbI1l5NCTFf+wg/JxTeSZ31m67noYVOH8OZpNLoUyHYBQXpdEW1xnjX6dxRlE3M2uEP3eczBQSv+oNSLM6K4s3pa+o0S0sIkDToeWg/O6pmnTw8Svb3n+se4pxsJikdoLn0FPnZfoipAZB/F+Q9C8chjIEAtWH0EKJTNMZExHFO1hEIkJbZjEskUBneGYy5wR2u1NZxfBDvqY3wiwIdB2CH0O6lLDDxDwQyikXHuQNwyhVVPDWFvCafbmDGkLMP0wge6yUjas4fpBPxN/FiJmTf+EyuiLLNuS2HxaujHv8hW1W+vKVZRsOGwGYX+UhJCOHQ==
+ b=BiXfvD/mOb5gYATMYHmHXxJmR36UiI3PEet6Ha3Btal2eq6AS6Y8yvdgj12EJTrw4fjRpiujQOb92jtJfEdfInQ+572WO7A3qAxa01M1ZcNiTMAECsjdziL3Ln84eg7OegK2Lhl6Kpdfpkx5d9tUJzQXSHra1bxd7sgOouykyoMoBrAWrRtKX2N49a1QkKebnV2+i6lruI/f8ZitVxjpuJQqnpY5tnZQISXIvsHih2HukapSKUUB78utJRg6ZWZZaaBovXwb0z2SqcX/z9iasGMo4rrjE5rK72e7kLZnj4ihHt+rn29EM5Trjh/yVt+WZ7kLzIM/eYyD2MaHMiX+0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KJHNqvj+vHIFOj+nbKza1C9BCWGxq0Yuhe0jCOsEXSw=;
- b=ffu8FKDGa8nKwAmGiIAVTH2/oflYL0l/ImrQDo495tuVDIxmFCI7DstYhz6Ku8g9S+qeemVyqxYL9dkjoQh3Ol2ojP/nEFFPwtMaozpgmewJr9jJVURdUM+H3dwAWFIQGzxH/wixgQPRbDWB9sLEqUJtI/DSbBx22DWIhKYG6NAk8EOlOLCpB8KyZvYY1nASjOgm4iYv+KT6k/SDlVMw36MRRCaTQOCa0KPplErgHPyI7SrUsVcy+07EnS/JxgDDE9QQOgdOjIpTjxxQ5NEneGmM+KH/6An7LZFF3HZGjY6P6NWuEWQ34pVjvCd5vTk4tJucbAUvFXxacDZcK8cDoA==
+ bh=x0FrlLKstD7V3MD7Dyhsh+R12xbYsBkvZ6tlBJhfGQE=;
+ b=jg94rqvrLC7oNAYznT2SSOTsATjyMI0VgWo3pkxbB4/3bAeygyTVr8L50nhX70BvEyfzdwSpZzFxNWDXBYBl6EwNRAxFTNhdWMy+rcAfNbvw9od3Bi8ivrTJC0Pp+wzomhmxroN1vki4SInkhh5Rn7WcYC5Ku2ADyLT6zf8IhXGJVJnAgt45QA2aC2bBWKyKQ2mwNiT92tp9CvQu4VxUGccrYH9n/6iCxDSBooxYm35R7YjPlvNiWw0qA4FCJ6YMzM5fwOucbaJX4qPpElP1Z5cGyz7YHIPQEtxoEOVcMMMa+LvFVcpUa7W9vGRlTRJ0VyE/GJEPUfp+JDZz6SeWlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KJHNqvj+vHIFOj+nbKza1C9BCWGxq0Yuhe0jCOsEXSw=;
- b=jJrEtgIDJQ0L47GtxxQsdBJQP3elSLfkb5oh4GfS2IFgbh+63xY5tgcDAV+KajlnFpt1WI5aeAmLXYguZSiriULYAzXEayzCCQnlg0RDwrRvk2jct7esNt7drCAzNgLygjyZSheRv6tIJOptSdGUy7fUP09tHlvymSHrUR0lGbblH/oiKNivw6aKPqAV9M7W/PQWSQhPxAVRlXViBGHLbM7ZBZo38N0TuFLpjZ2gxzd+uZHg13DBxEFHrL1jMDizm6Q2tJOv/zkG80SJa+JojuqqggmpuXOYhkAlo46pYt5qZyNS81HvnpXNRh2k+EFYnHGQk5KFNiQd0TzrgHpi8w==
+ bh=x0FrlLKstD7V3MD7Dyhsh+R12xbYsBkvZ6tlBJhfGQE=;
+ b=k9ZCUX+5VwW8atWXgzlO5N023riHaQyP7JcwqL27eA+yzk8EBmbHVelqGPMXA00SVXjvPiUgmDO6X0KuEPkDiQUz2Lq+2+qlUD9b3Qgwo7byqZ+tMXFF3dOo16mz5IopS1h2yO4z3k9TGh1LjqxOpp2EtxtXFQ+oMWhCpsC5kZ+5altVk3eCcZQMBFi+Izhhcb2TQn+eaxcEperaWkmF0vY9I00eamAxs1ypTYONUtTUhWsqNSlp/BmiffAwAqOR9tSb1WcTgzqgM1V3wwexyQOSmm4FRMOJFeSFlApfsmjlwoDV3rgKvdO9kv+HHgMvBTCK3JWWg2fYtZKvxZBVkQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by BL3PR12MB6569.namprd12.prod.outlook.com (2603:10b6:208:38c::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.5; Fri, 6 Mar
- 2026 04:52:59 +0000
+ 2026 04:53:03 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9700.003; Fri, 6 Mar 2026
- 04:52:59 +0000
+ 04:53:03 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Fri, 06 Mar 2026 13:52:40 +0900
-Subject: [PATCH v11 03/12] gpu: nova-core: falcon: rename load parameters
- to reflect DMA dependency
+Date: Fri, 06 Mar 2026 13:52:41 +0900
+Subject: [PATCH v11 04/12] gpu: nova-core: falcon: remove FalconFirmware's
+ dependency on FalconDmaLoadable
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-turing_prep-v11-3-8f0042c5d026@nvidia.com>
+Message-Id: <20260306-turing_prep-v11-4-8f0042c5d026@nvidia.com>
 References: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
 In-Reply-To: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, 
@@ -65,71 +65,71 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TY4PR01CA0094.jpnprd01.prod.outlook.com
- (2603:1096:405:37d::18) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TY1PR01CA0191.jpnprd01.prod.outlook.com (2603:1096:403::21)
+ To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|BL3PR12MB6569:EE_
-X-MS-Office365-Filtering-Correlation-Id: abab9dd2-5629-49e0-1399-08de7b3c3d10
+X-MS-Office365-Filtering-Correlation-Id: 8c729fef-4da3-4a93-2833-08de7b3c3fad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|366016|10070799003|376014;
-X-Microsoft-Antispam-Message-Info: 4WUmug/Uq39B7qe1jKxYF9qUuQ1Qut1+wVJRRnzObvv4EyFMZr/gY2ULaRSMAHiKj3z9iFmXCccpCzbWCOKZay/jvr/RFEFodYzOgrfRxJLvEAsR8cA8dOWOD+m3SjXyL0OuQAa1zjOwgcvKZA1GgFbKz24f4ncsOzLTAzDnutqU4lRI5YFWKVhXdQW7MRMYH+iku9LVEwcbjniUb2Dl9bHkdnQFu+j8Ul+OZjgXSgdQ4utFrffePkmaKoNbw+lO3e1RFzhT3vxmiTuSXaUvBCCBf1gGhh/r19Wp+OFtPbh0IUa94Mhnad5iSkhd9iLsu3jUrrjzCx4/DWLQZk62uPVsTuc3WUEiHf94PtUzE7mm8vdu/l8QdXLj4LL3q97YJmvTYeGKShStbAoPKhKPtfWLXxSLEVjFizXy8Orel7o2YppOhIwLb/jZIbrTHYlMHZxbxv9B4bkZPYj/JloiTsQFGoX/la7Y6RiwOlh4xx2p3WA8YtUZ4TY2Y+hwOTxwxzD4sX3WpTA3teSESOpe13ytrIVUduo9G0GQ8sdsGYZGjFR8iM74IpbFqcPIznPjdKb5Czqk0jypZkTfI0wJ+6xlRu2rqVWN7vzuMcG59IX7ADClGUzzNimrCZ68nzLpt3NhvXbtekuoNOSQ+9MOTeoOsqpPAgDTrPI9jit/bBG1Z23rjFJGgMPESdex5wzbFE8AbPei7eY9gah81LNTDbJfe9NV7nFB1jFhsHjqwHY=
+X-Microsoft-Antispam-Message-Info: 8S92rpcbzRuQbt45X0XB2Z+606dzxZlFQ+TGnb2S19fSeQ8oFfei0p/S6eF7yQZq77Fm/5C5xzejEyaE5/uCeFTBgv6zZlyvrDwZFsfmMeWzGzJcl6wmREywHUXwZYRoZTPRLdBU9zWAbfwl0yRpQq2V4GMTLkzwE23fiZJwaUmeMiBhDpu5Tz09RdIune4TPJlUanH7mdp5ptCcIc+Xs9HmwbqFfSAA6Ol2m8iz4oRAveLthQT8L5F33IKnGn9HOUBMFFw+h9LlOhKskz10jVUvN7iJ/Hjk0QjoMBCuM/ZQhB+WNpO8EsMvVvsG0yqxmEvYl4GVaZBYnokcGU36tUrkYtsD8QEE5yC4L/R66AD9kqIAjJz5FRJCUmFeFPbHWVAbtrc5n1S6ODw9n+GiuoFEB1UB3oLcYROVGsasRMdgcPUq387TpzIH7ojWRU6/YE954TTul2Ovq/NTJhCBJicvfwTx7UVBOZxr0AuNWFY55yrtIAQK9+GTYwCA68dLxOaaKgG9/PZ23bNk7fCOz9qr7TGpi6z4o24yCGINeyTaaS6ImMaUF/4QbAtgFWqziVxdW0A/UJUIrJOimahisRO+BLLWOmL2cBWMMQResdwTy5Wkd+q5msvnwdr/75NlzRlqFeSsOatRek9PrKDYAq/cq13X+gDGJvgESQaFiWJoPB68yy8xambLLxdxgw4wyhxZQdb2KBtTnjr8fncCJmil8i00QoFcXUPp/8iEox4=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(10070799003)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDBNeGhhNUFpMjNlM0VLM1JxcTdmUTdwaXMzZTZmWXlwVnd5NnRIZG96Rm9H?=
- =?utf-8?B?TXNiYXo0RkVWdGtMdkhPelVwYUNxaXN6Myttand0eVFUdHc1a212dUhXd0Qw?=
- =?utf-8?B?WWJ3WHU0K1BPWUFOR1hSM3dreWV1WHhXbWxCc0RxaEdoczYwOGtnRFhqWWZ1?=
- =?utf-8?B?MFVHRncweFZ1Tm5FUEgzN005RDRrOTAzVlFEdVNIcHkxcmllZDdEVnBsdzVO?=
- =?utf-8?B?TXRxZ3J0cGxpVFFGUW1TaUh2ellNalhvNkk1UWdGUnF3QnlWRExOeHpZRjA2?=
- =?utf-8?B?VytLMGJJc1lucjZ1eHgzUmRUUkc2SXllV3FrVFRNc3h2R3pmQS9qT29qVmlu?=
- =?utf-8?B?L2hFa09MYUFQV2lQVkErN25WazFkcGJTalVJV2VLNkpmd1ZLK1hMdlhTTk9X?=
- =?utf-8?B?bVhXakprb3RYRjUwUURJeWQ2bXcreWVMalJjd2N3bTcwdE50MitwYzZsYmVJ?=
- =?utf-8?B?RmR4VVlzVlhrTzdBTlVkVlg3NEVzTGJORngxZHZGbHlGZFVhZnRRck1XaTYr?=
- =?utf-8?B?V1BHK3pYUWRMZlBVWDY3V1VzR2tKM1o5RThMMWZWc1V3TGVWWUNlamMrS0R0?=
- =?utf-8?B?ZDNuc1hmSDgrZEkzNVo1Tm00M25uZmwrZ0NzcFljQ3ZTU3hjREpOajlzSWhr?=
- =?utf-8?B?Mkc0eDlGUE1kdnF1REExRVJPbEM2YTNxYndza0hmNjJweTdqTC9ISUdsaHF3?=
- =?utf-8?B?K2J2SmJiblJTOVkzNFhRTTkxSDU1c2sxRmllcWEvZjFZc0lvQkdNV1ZNWXZD?=
- =?utf-8?B?ZlkvY3k0NFNNbTdTb0xqMjFySHNrckZGUEhIWXpmTkRvOFQzN2FuenJpTExz?=
- =?utf-8?B?VllNakJSN0s5cWhhdE1leWFOdjl5M0o0Q1pDWmc4UWFpV2NRZWJ3MjZHWkkr?=
- =?utf-8?B?alRlUExmeGFtNlVqaG9YMk0yVFZGK0J3bHdJMnB6eUR4UW43cTJEV0htNHlP?=
- =?utf-8?B?Y3dsWHdsaTdYdmZHZ01md2hpc1pubFlmbkd0VnZha2VWTU1KT1RNRmo4aUtN?=
- =?utf-8?B?ajlhb0p3bDhYaGxZSDNpNTRXcmVBVWVkM0dLbG82S1lxc2d2NEdmTUJkajFj?=
- =?utf-8?B?SldkNVZaWDhmWVRCYzBwdGtNVk8zQzdNelJFTXpkTkc4Zmd0TDJNL3lOYUpx?=
- =?utf-8?B?cy9Od0xleDJ3UWZJL2ppaU9MVzJrSTNEYmxoNWhncG1ESHN3cWNOcjBodysr?=
- =?utf-8?B?YXRqWUFxa1FCNzhYL205d0dvQ1g0YWMrcXNNMFArY3VCL2lzRVRNUmtHWGJn?=
- =?utf-8?B?aU5CZ3BvbDk0a1laMUVMTERtWTJKTHFJd2dmelZDODQwVmdOT0FrOGJMQmpH?=
- =?utf-8?B?N0VtZHdwV0lJbGRQKzlZSDBsU2dxTlRvRGtaRXdRSUw3cVNPM0loZmxGZkZO?=
- =?utf-8?B?UnBxZmxlVEVQNWYvejFkUVlTOU9CUHZ1RUY0eDYrZXB2aU40V2FLbHAyVDQ0?=
- =?utf-8?B?ODZjZFFtZUhKbmZ2QVJaRVlGMUhucDJmK0dmRXc3WmRCWnFVbGhFcndIQllr?=
- =?utf-8?B?SkNXU1UxR0tYR0hPTndreHRmR2FHTFhRQjdNOFpObDNaay9XNUp3dWZTbGlk?=
- =?utf-8?B?RTY0YjlZQm5yNndDVk55QnN6ZHdEWThDQWhwd3dwYWhaZlNWbXJ5dnRZVVNt?=
- =?utf-8?B?dXBUTStITGFGdndpenYvOTBrWVUrUEoreE5vTjJzdlNxL05VaHpLWmNjVHV4?=
- =?utf-8?B?RWhiWlBiemY3clRuSVdiWm5DNHRDWU5NWkpwc2hxY0svcytRN1liNml4akJm?=
- =?utf-8?B?SWtWUFdQSkxObjZiVWlIQ2YybXVzREhWakFUN0I5YllxOStUL3V0NzhRWDg4?=
- =?utf-8?B?bXRUMnJOa3RUSkR5MU5yTFFqb0cyWlpKTDMvOURjNW5heEVpYlNNWUJTMEp0?=
- =?utf-8?B?NytKVFNaVlRja3lCZm1SdnJ6T0pLTEExbnRHTTBZQ280NmdLM05GcXNCeXVD?=
- =?utf-8?B?K3kxdlo0NDZCczZpV3RnYjdhNStVWHh0akY5dFJ2bTRrSkRlRHRxUldkVUh5?=
- =?utf-8?B?ZjRhekJvTzRLRGw3Uko0TjFkSkRJbnpMMFdtbDNHbXhCd0JKNGFuZnVYcG51?=
- =?utf-8?B?Z1FkV1BqeXhjL2pFR09mYmJNeFlwcHQzWC9JNXdHM09NQ1pRYUZGS1ZRRVkv?=
- =?utf-8?B?Y05VLzNISE9yVEZCOFpKanRtZGpGRTNuZ3g0bDlQdU1Tc1hHbTEvZCtMOUtv?=
- =?utf-8?B?YVRTckhFemt0cGo2UmJFRkNqRTY1L01DSlY2ZzZKYWlGSzh0UURIUEhxY1hX?=
- =?utf-8?B?c29TYzZ0S1pKUEVPTDh0dzBxZFJmYmZDUGNNeXVxSUFGNUdOQ0x6MjlySUls?=
- =?utf-8?B?NnNuTUpqV3lvVm16VllGa3RnSDVYNlhQdkhhTnk4aXhDWWNEUkJzTFUvelhp?=
- =?utf-8?Q?Nwe1Ve/nUEolAYVxzaGwIYtyZkud45dWkTYOkeYYInoJ4?=
-X-MS-Exchange-AntiSpam-MessageData-1: RlE42s9Lc3WrOA==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmdwRG1jTTZ6cjliREI3a1BBSmdnMFM0VmFGV0ZMcVJ5NGIwckNnb0ZuZGlV?=
+ =?utf-8?B?Mk1WRVlJZDNGR1c0RmZvcTV6ZUtMdWtwNVFMbEF3K09ZQkc0dytPN0MvWloy?=
+ =?utf-8?B?YmViT2NrVGs4RHdxNkM4d2w1eUhZY00rVVFIS2loUWZERDFDbDI1V3BueDh5?=
+ =?utf-8?B?NWU3WEpLTFl0N2xwaUtrY1YzYTJkRE95cVJNVWg0MnYwOGw4UTUxN0ZTYXBi?=
+ =?utf-8?B?N0RJN3pHZlBIbnhWbllsRDlYdjZWeG5PMi8yWlY1TjRJdUhzcXlmbWtvYnla?=
+ =?utf-8?B?alJUOUtYWWw5OFUrTlZ0TkcvcjQ2VDBiclp0S2VtSTBrUElncFhMYU5nMEYx?=
+ =?utf-8?B?aFlxY29TVHVrc3AzbG81QjFmMHppZE54bVNqZWhPalp3aS85SWtRS3RJZW13?=
+ =?utf-8?B?SHVpYUxhaXJUM1I5UXM5Sms2Vnp4TnYzQU9DZlMxdDl1c2RwNENHQ3dFbktr?=
+ =?utf-8?B?T0FMdjRQQ2FmVUZUazZDalVieHFjMW11SjcyZEhUREp3a1IweStLU0hJWFVj?=
+ =?utf-8?B?V2NQaU9OanM0WTk0ZERjNmZtdXBGR2U2NXhRV0NyRzR4eHdScUVQWmJHNmM1?=
+ =?utf-8?B?OWRhTXIreVRJZkZDZm5hOVQ1U3NpVXlKUVAvRTlmV1BodWM1T0ZuWkhXTzRV?=
+ =?utf-8?B?Mkp1SVZNcUVYWE0vamhidkVJNVNSQk04bnM2V3V5a09BdlNaYXlPNkFZRTFU?=
+ =?utf-8?B?WjEzYzdBcnV6WVFRZGloUjNZeDBSbFFNYmtZWE1nMEM4Q3NTeGNkaTN2YnRl?=
+ =?utf-8?B?TG12WmJ3UFZraXpST05CdGpkUDJ3THZEUlBUZWFRT0VtNXJEM0o4aitZNlBM?=
+ =?utf-8?B?ZFVJU2RKbmUzYmh5ZEpTdDVLa1lrTzIwUDlkQnZ6dUFHS2xZOW5Fb0gwZ1pY?=
+ =?utf-8?B?VUVGQXVJeFdIVjVrdXQvMW5DSUNnRlZIVUJnZUdnaFlFeFZqREh2SmFIMzg5?=
+ =?utf-8?B?ZTZCUi9Cd1BZdlFpclhnT0Y2MnNHcnFwMnFlNTJxZnk1YkphUzN2Tko3ZUh0?=
+ =?utf-8?B?RElyWW91Ri9HR1hNcDlJa2dIZEFSV2ZnVzkxejFuTTZjOXF2bE5oSi9jWnNJ?=
+ =?utf-8?B?YVl2UERWVjZ6cmJKRmtvMURKclppSFQ4MldncDZKclhiMkJPd2pualUvbHhJ?=
+ =?utf-8?B?dmcwTGlHVjNSYU9BT3BHZFJmOWZlb1hFY1BvK0lhbnJSc09mdVRrd1AyNDhr?=
+ =?utf-8?B?SzFiVkJrL1RJY0d1SlR1RUpGWVh3WUFaeHVlVW5WWE8xYlVTN1dJM3NOd2Iv?=
+ =?utf-8?B?M2lZTDBlZ3VUZHY3dUN2dWtHTXljSlY1TzkwRGNRTnJHVm5iVUNJQzNzVC9t?=
+ =?utf-8?B?djRSc1gwbEZ0cU9tR3dISFhOa0JDQXJEdlBrRGJmeVZqS2dtRldXZjJOcVVG?=
+ =?utf-8?B?b0hWU1VTNEZXa25Ya2ZFYTVvT2wwNkUwQkNQTXFaMGtBRGdZc1hsNGYzRk5Y?=
+ =?utf-8?B?ektqSGt5Vnh1VGFxTEFuNTF3OXh1OHNEdk5PT0ljbldlbjQ4S3BXU1RWWExI?=
+ =?utf-8?B?ZDZOdlFqc0tVaGJCQjFmNmJlRnFDWFh4UFdXRWZ6K2FFQnliM0VWVW9EeS9q?=
+ =?utf-8?B?YmlLMTBCYmxMRDkxU3pxQk1OZGlrUTlzQ09zbTZFZE1nSlUvL1ZlNmZlL1NK?=
+ =?utf-8?B?bUwvMXVsRlU2bDc2UDBLeEVoMytsTUtCTXljaDRlUFhJK21YdWNmdEY5enc4?=
+ =?utf-8?B?cGhHdXFaUEZCbTdQODhFNXBaY095Nm1NYU5FUFd4b0lxZFA2SDlkeG55TzFn?=
+ =?utf-8?B?dEZmY3o5Q1hNV0lmbXo4OXBWSzhZNlRPcHVnRnZhczdBV3h3akZnVmV0ckdG?=
+ =?utf-8?B?MmJrMjJGTGh1WDBxRWVpanQ1L0N0UVBCekgvSE1IR2VPQmVDbC9wYSszMlhX?=
+ =?utf-8?B?Y1NWR2dCZWg4ZHEyUFBEN2NjbDVPM0hiSi9lVWxJZ25ZK25WcEVoaStiY2tL?=
+ =?utf-8?B?ZmlSY1JTUTBOekJQOHRtQWZkL2F6U0VaT0xYMnkzVTEwbU5KZGdkcHQ0V0g1?=
+ =?utf-8?B?Q2tMeVJFaU1Hc0xYVHJ5V2JBajZnSStXb2lsUkkyYXkyRERvYUM5Uk9icDUw?=
+ =?utf-8?B?dkdldm9ZQ1pvRVY0N1ZWVTA5cUtlNzhhbk9URWZSSUZydGNwNVltRlRKYTZW?=
+ =?utf-8?B?WW9na0paMGhiMWdMeW1lU1NQM1pkTEpYNytjRHd4MFJZeG1MY0gxMFIrMU5L?=
+ =?utf-8?B?b3VVRUNGS3cvMHJzcW8xemVqckhjK2JmVmtTSlI1T0RtdkRVQkRlYXVhd1dH?=
+ =?utf-8?B?bnRTM2M2Yk1wY3M5QjBiK3ZUd2pIZVZ0NWtmejBwYUgzMmpTU2QrMzBvaXNQ?=
+ =?utf-8?B?cFBDYytEYTJMNGl6WHhyV0tKMmkzMG9JL0d1QWpKQXE4RTlwUXBMeS9DQms5?=
+ =?utf-8?Q?ZG1zRxDCg76u1aqAGfYZyKsyUVxP7+rxdaMuUh+ptKm7c?=
+X-MS-Exchange-AntiSpam-MessageData-1: i7jEpyvsmgY6Iw==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abab9dd2-5629-49e0-1399-08de7b3c3d10
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c729fef-4da3-4a93-2833-08de7b3c3fad
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 04:52:58.9914 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 04:53:03.1351 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cbJLuN1XjLlng2Qc87bz60I9o9p+acy9uldO66mOAMlE2T9Mll3HYFbhiojQ+I1VG1DtPC2HZtEim3fryz2i0Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mi/QhskMDfhMr4bL/5DYYs5ILHuN2XzgVJ6Y4muI1PAC4E8fRICTgohEuW7jrgPqgXrYDK7apCwN+SSQwX+6ow==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6569
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -145,7 +145,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 31A5E21B891
+X-Rspamd-Queue-Id: 41A2921B8A0
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
@@ -174,288 +174,47 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid,nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-The current `FalconLoadParams` and `FalconLoadTarget` types are fit for
-DMA loading, but not so much for PIO loading which will require its own
-types. Start by renaming them to something that indicates that they are
-indeed DMA-related.
+Not all firmware is necessarily loaded by DMA. Remove the requirement
+for `FalconFirmware` to implement `FalconDmaLoadable`, and adapt
+`Falcon`'s methods constraints accordingly.
 
+Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/falcon.rs          | 19 ++++++++++---------
- drivers/gpu/nova-core/firmware.rs        | 30 +++++++++++++++---------------
- drivers/gpu/nova-core/firmware/booter.rs | 24 ++++++++++++------------
- drivers/gpu/nova-core/firmware/fwsec.rs  | 12 ++++++------
- 4 files changed, 43 insertions(+), 42 deletions(-)
+ drivers/gpu/nova-core/falcon.rs | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
-index 31217cd3a795..9eb827477e5e 100644
+index 9eb827477e5e..450431804e1c 100644
 --- a/drivers/gpu/nova-core/falcon.rs
 +++ b/drivers/gpu/nova-core/falcon.rs
-@@ -330,9 +330,10 @@ pub(crate) trait FalconEngine:
-     const ID: Self;
- }
- 
--/// Represents a portion of the firmware to be loaded into a particular memory (e.g. IMEM or DMEM).
-+/// Represents a portion of the firmware to be loaded into a particular memory (e.g. IMEM or DMEM)
-+/// using DMA.
- #[derive(Debug, Clone)]
--pub(crate) struct FalconLoadTarget {
-+pub(crate) struct FalconDmaLoadTarget {
-     /// Offset from the start of the source object to copy from.
-     pub(crate) src_start: u32,
-     /// Offset from the start of the destination memory to copy into.
-@@ -352,20 +353,20 @@ pub(crate) struct FalconBromParams {
-     pub(crate) ucode_id: u8,
- }
- 
--/// Trait for providing load parameters of falcon firmwares.
--pub(crate) trait FalconLoadParams {
-+/// Trait implemented by falcon firmwares that can be loaded using DMA.
-+pub(crate) trait FalconDmaLoadable {
-     /// Returns the firmware data as a slice of bytes.
-     fn as_slice(&self) -> &[u8];
- 
-     /// Returns the load parameters for Secure `IMEM`.
--    fn imem_sec_load_params(&self) -> FalconLoadTarget;
-+    fn imem_sec_load_params(&self) -> FalconDmaLoadTarget;
- 
-     /// Returns the load parameters for Non-Secure `IMEM`,
-     /// used only on Turing and GA100.
--    fn imem_ns_load_params(&self) -> Option<FalconLoadTarget>;
-+    fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget>;
- 
-     /// Returns the load parameters for `DMEM`.
--    fn dmem_load_params(&self) -> FalconLoadTarget;
-+    fn dmem_load_params(&self) -> FalconDmaLoadTarget;
- 
-     /// Returns the parameters to write into the BROM registers.
-     fn brom_params(&self) -> FalconBromParams;
-@@ -377,7 +378,7 @@ pub(crate) trait FalconLoadParams {
+@@ -378,7 +378,7 @@ pub(crate) trait FalconDmaLoadable {
  /// Trait for a falcon firmware.
  ///
  /// A falcon firmware can be loaded on a given engine.
--pub(crate) trait FalconFirmware: FalconLoadParams {
-+pub(crate) trait FalconFirmware: FalconDmaLoadable {
+-pub(crate) trait FalconFirmware: FalconDmaLoadable {
++pub(crate) trait FalconFirmware {
      /// Engine on which this firmware is to be loaded.
      type Target: FalconEngine;
  }
-@@ -425,7 +426,7 @@ fn dma_wr(
+@@ -521,7 +521,7 @@ fn dma_wr(
+     }
+ 
+     /// Perform a DMA load into `IMEM` and `DMEM` of `fw`, and prepare the falcon to run it.
+-    fn dma_load<F: FalconFirmware<Target = E>>(
++    fn dma_load<F: FalconFirmware<Target = E> + FalconDmaLoadable>(
+         &self,
+         dev: &Device<device::Bound>,
          bar: &Bar0,
-         dma_obj: &DmaObject,
-         target_mem: FalconMem,
--        load_offsets: FalconLoadTarget,
-+        load_offsets: FalconDmaLoadTarget,
-     ) -> Result {
-         const DMA_LEN: u32 = num::usize_into_u32::<{ MEM_BLOCK_ALIGNMENT }>();
- 
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index 09b12ad546c2..677e1dac6d9f 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -16,8 +16,8 @@
- 
- use crate::{
-     falcon::{
-+        FalconDmaLoadTarget, //
-         FalconFirmware,
--        FalconLoadTarget, //
-     },
-     gpu,
-     num::{
-@@ -170,9 +170,9 @@ fn size(&self) -> usize {
-         ((hdr & HDR_SIZE_MASK) >> HDR_SIZE_SHIFT).into_safe_cast()
+@@ -660,7 +660,7 @@ pub(crate) fn is_riscv_active(&self, bar: &Bar0) -> bool {
      }
  
--    fn imem_sec_load_params(&self) -> FalconLoadTarget;
--    fn imem_ns_load_params(&self) -> Option<FalconLoadTarget>;
--    fn dmem_load_params(&self) -> FalconLoadTarget;
-+    fn imem_sec_load_params(&self) -> FalconDmaLoadTarget;
-+    fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget>;
-+    fn dmem_load_params(&self) -> FalconDmaLoadTarget;
- }
- 
- impl FalconUCodeDescriptor for FalconUCodeDescV2 {
-@@ -204,24 +204,24 @@ fn signature_versions(&self) -> u16 {
-         0
-     }
- 
--    fn imem_sec_load_params(&self) -> FalconLoadTarget {
--        FalconLoadTarget {
-+    fn imem_sec_load_params(&self) -> FalconDmaLoadTarget {
-+        FalconDmaLoadTarget {
-             src_start: 0,
-             dst_start: self.imem_sec_base,
-             len: self.imem_sec_size,
-         }
-     }
- 
--    fn imem_ns_load_params(&self) -> Option<FalconLoadTarget> {
--        Some(FalconLoadTarget {
-+    fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget> {
-+        Some(FalconDmaLoadTarget {
-             src_start: 0,
-             dst_start: self.imem_phys_base,
-             len: self.imem_load_size.checked_sub(self.imem_sec_size)?,
-         })
-     }
- 
--    fn dmem_load_params(&self) -> FalconLoadTarget {
--        FalconLoadTarget {
-+    fn dmem_load_params(&self) -> FalconDmaLoadTarget {
-+        FalconDmaLoadTarget {
-             src_start: self.dmem_offset,
-             dst_start: self.dmem_phys_base,
-             len: self.dmem_load_size,
-@@ -258,21 +258,21 @@ fn signature_versions(&self) -> u16 {
-         self.signature_versions
-     }
- 
--    fn imem_sec_load_params(&self) -> FalconLoadTarget {
--        FalconLoadTarget {
-+    fn imem_sec_load_params(&self) -> FalconDmaLoadTarget {
-+        FalconDmaLoadTarget {
-             src_start: 0,
-             dst_start: self.imem_phys_base,
-             len: self.imem_load_size,
-         }
-     }
- 
--    fn imem_ns_load_params(&self) -> Option<FalconLoadTarget> {
-+    fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget> {
-         // Not used on V3 platforms
-         None
-     }
- 
--    fn dmem_load_params(&self) -> FalconLoadTarget {
--        FalconLoadTarget {
-+    fn dmem_load_params(&self) -> FalconDmaLoadTarget {
-+        FalconDmaLoadTarget {
-             src_start: self.imem_load_size,
-             dst_start: self.dmem_phys_base,
-             len: self.dmem_load_size,
-diff --git a/drivers/gpu/nova-core/firmware/booter.rs b/drivers/gpu/nova-core/firmware/booter.rs
-index 2b7166eaf283..c5963f79a08e 100644
---- a/drivers/gpu/nova-core/firmware/booter.rs
-+++ b/drivers/gpu/nova-core/firmware/booter.rs
-@@ -18,9 +18,9 @@
-         sec2::Sec2,
-         Falcon,
-         FalconBromParams,
-+        FalconDmaLoadTarget, //
-+        FalconDmaLoadable,
-         FalconFirmware,
--        FalconLoadParams,
--        FalconLoadTarget, //
-     },
-     firmware::{
-         BinFirmware,
-@@ -256,12 +256,12 @@ impl<'a> FirmwareSignature<BooterFirmware> for BooterSignature<'a> {}
- /// The `Booter` loader firmware, responsible for loading the GSP.
- pub(crate) struct BooterFirmware {
-     // Load parameters for Secure `IMEM` falcon memory.
--    imem_sec_load_target: FalconLoadTarget,
-+    imem_sec_load_target: FalconDmaLoadTarget,
-     // Load parameters for Non-Secure `IMEM` falcon memory,
-     // used only on Turing and GA100
--    imem_ns_load_target: Option<FalconLoadTarget>,
-+    imem_ns_load_target: Option<FalconDmaLoadTarget>,
-     // Load parameters for `DMEM` falcon memory.
--    dmem_load_target: FalconLoadTarget,
-+    dmem_load_target: FalconDmaLoadTarget,
-     // BROM falcon parameters.
-     brom_params: FalconBromParams,
-     // Device-mapped firmware image.
-@@ -370,7 +370,7 @@ pub(crate) fn new(
-         let (imem_sec_dst_start, imem_ns_load_target) = if chipset <= Chipset::GA100 {
-             (
-                 app0.offset,
--                Some(FalconLoadTarget {
-+                Some(FalconDmaLoadTarget {
-                     src_start: 0,
-                     dst_start: load_hdr.os_code_offset,
-                     len: load_hdr.os_code_size,
-@@ -381,13 +381,13 @@ pub(crate) fn new(
-         };
- 
-         Ok(Self {
--            imem_sec_load_target: FalconLoadTarget {
-+            imem_sec_load_target: FalconDmaLoadTarget {
-                 src_start: app0.offset,
-                 dst_start: imem_sec_dst_start,
-                 len: app0.len,
-             },
-             imem_ns_load_target,
--            dmem_load_target: FalconLoadTarget {
-+            dmem_load_target: FalconDmaLoadTarget {
-                 src_start: load_hdr.os_data_offset,
-                 dst_start: 0,
-                 len: load_hdr.os_data_size,
-@@ -398,20 +398,20 @@ pub(crate) fn new(
-     }
- }
- 
--impl FalconLoadParams for BooterFirmware {
-+impl FalconDmaLoadable for BooterFirmware {
-     fn as_slice(&self) -> &[u8] {
-         self.ucode.0.as_slice()
-     }
- 
--    fn imem_sec_load_params(&self) -> FalconLoadTarget {
-+    fn imem_sec_load_params(&self) -> FalconDmaLoadTarget {
-         self.imem_sec_load_target.clone()
-     }
- 
--    fn imem_ns_load_params(&self) -> Option<FalconLoadTarget> {
-+    fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget> {
-         self.imem_ns_load_target.clone()
-     }
- 
--    fn dmem_load_params(&self) -> FalconLoadTarget {
-+    fn dmem_load_params(&self) -> FalconDmaLoadTarget {
-         self.dmem_load_target.clone()
-     }
- 
-diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
-index 7fff3acdaa73..d5bb7d279fa7 100644
---- a/drivers/gpu/nova-core/firmware/fwsec.rs
-+++ b/drivers/gpu/nova-core/firmware/fwsec.rs
-@@ -30,9 +30,9 @@
-         gsp::Gsp,
-         Falcon,
-         FalconBromParams,
-+        FalconDmaLoadTarget, //
-+        FalconDmaLoadable,
-         FalconFirmware,
--        FalconLoadParams,
--        FalconLoadTarget, //
-     },
-     firmware::{
-         FalconUCodeDesc,
-@@ -180,20 +180,20 @@ pub(crate) struct FwsecFirmware {
-     ucode: FirmwareObject<Self, Signed>,
- }
- 
--impl FalconLoadParams for FwsecFirmware {
-+impl FalconDmaLoadable for FwsecFirmware {
-     fn as_slice(&self) -> &[u8] {
-         self.ucode.0.as_slice()
-     }
- 
--    fn imem_sec_load_params(&self) -> FalconLoadTarget {
-+    fn imem_sec_load_params(&self) -> FalconDmaLoadTarget {
-         self.desc.imem_sec_load_params()
-     }
- 
--    fn imem_ns_load_params(&self) -> Option<FalconLoadTarget> {
-+    fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget> {
-         self.desc.imem_ns_load_params()
-     }
- 
--    fn dmem_load_params(&self) -> FalconLoadTarget {
-+    fn dmem_load_params(&self) -> FalconDmaLoadTarget {
-         self.desc.dmem_load_params()
-     }
- 
+     // Load a firmware image into Falcon memory
+-    pub(crate) fn load<F: FalconFirmware<Target = E>>(
++    pub(crate) fn load<F: FalconFirmware<Target = E> + FalconDmaLoadable>(
+         &self,
+         dev: &Device<device::Bound>,
+         bar: &Bar0,
 
 -- 
 2.53.0
