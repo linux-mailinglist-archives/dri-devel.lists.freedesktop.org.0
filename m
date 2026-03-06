@@ -2,40 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sAiUNa/xqmncYwEAu9opvQ
+	id 0ChDKO7xqmncYwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:24:31 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:25:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8E8223B80
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E40C223BEA
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Mar 2026 16:25:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44F1910ED53;
-	Fri,  6 Mar 2026 15:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5541A10ED52;
+	Fri,  6 Mar 2026 15:25:32 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q7POa/1H";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5E910ED53;
- Fri,  6 Mar 2026 15:24:27 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2400:2410:b120:f200:2e09:4dff:fe00:2e9])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE8E10ED52
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Mar 2026 15:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1772810729;
+ bh=tOJe47dSzXuDvO6uC8RtFYxjeXISbSC6Rk4/tpjbFUA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Q7POa/1HBrR74RZJK4tJQvhObfnIox7H/6M3eZQF87+AUQ18OoROOAxJHejbjomyT
+ 0eU+yt0gtVY6Qn+jlR1jWPdMqCnFyki8JiShpjfeOczjkLqafvwU8DJp+xcoshQrPq
+ oieQJ7ZYqHZ/tdaLmJYpJmBvS5kGVLtY44yEzoy502uZIMOBzWnyEIttCI7JeqkglB
+ PwZiz/VhBAsCfz6KJFMCQ8oqbtteZQhBRcY/c6XGWuYbSRTT/+I44Vewf8M4iner5i
+ yUGjTlDmHn3N2/FW+nbL9pnxE2a+70oQJIqUJgNtX+vdVe33ONUxyhp4zq74E1oNpw
+ 26cVwB1fYUxHg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by psionic.psi5.com (Postfix) with ESMTPSA id B45C53F28A;
- Fri,  6 Mar 2026 16:24:24 +0100 (CET)
-From: Simon Richter <Simon.Richter@hogyros.de>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Simon Richter <Simon.Richter@hogyros.de>
-Subject: [PATCH 1/1] drm/i915: handle failure from vga_get_uninterruptible()
-Date: Sat,  7 Mar 2026 00:23:47 +0900
-Message-ID: <20260306152413.758919-2-Simon.Richter@hogyros.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260306152413.758919-1-Simon.Richter@hogyros.de>
-References: <20260306152413.758919-1-Simon.Richter@hogyros.de>
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6229217E0DC0;
+ Fri,  6 Mar 2026 16:25:29 +0100 (CET)
+Date: Fri, 6 Mar 2026 16:25:25 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: dma_fence: force users to take the lock manually
+Message-ID: <20260306162525.7ff98df5@fedora>
+In-Reply-To: <90b8cc84-7fdb-4116-827a-3fe95b4a8119@amd.com>
+References: <080395923c92ef758ca6062f1e01392186413015.camel@mailbox.org>
+ <718ad034-8fc2-4b43-9b04-729c5befc3ca@amd.com>
+ <20260305161212.7dfbadbd@fedora>
+ <e8b47e9f-f8cd-4be4-953a-931816e5f429@amd.com>
+ <20260306104646.36319162@fedora>
+ <9718fa34-95f7-4461-9d01-2ad4eed60b14@amd.com>
+ <20260306113723.1f13010c@fedora>
+ <b5830a15-af9f-47b0-a811-d43c0c3828dd@amd.com>
+ <20260306122417.6febebf4@fedora>
+ <6246da89fed7669247527fc36bfee5d92ada96e3.camel@mailbox.org>
+ <0009b35c-265f-43ff-84bc-39fbf7109a3d@amd.com>
+ <87197ff8d812debbd348ccb2befff855b30abb31.camel@mailbox.org>
+ <DGVPXPMB8JB3.3VWBBX3YOK3G5@kernel.org>
+ <c3a23b78-68ec-4ee3-b142-3ebf0131a0ce@amd.com>
+ <63dc8c72baac42199ede72b153fdec71e0b4fe9e.camel@mailbox.org>
+ <90b8cc84-7fdb-4116-827a-3fe95b4a8119@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,108 +81,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 8E8E8223B80
+X-Rspamd-Queue-Id: 0E40C223BEA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[hogyros.de];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:dakr@kernel.org,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_THREE(0.00)[3];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Simon.Richter@hogyros.de,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.181];
-	TAGGED_RCPT(0.00)[dri-devel];
-	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,hogyros.de:mid,hogyros.de:email]
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,collabora.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-The vga_get_uninterruptible() function can return an error if it fails to
-set up VGA decoding for the requested device.
+On Fri, 6 Mar 2026 15:37:31 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-If VGA decoding is unavailable, we don't need to be careful to leave the
-VGA emulation in a usable state, as vgacon will also be unable to get
-access later on, so just skip over the VGA accesses and the vga_put() call
-matching the failed vga_get_uninterruptible().
+> On 3/6/26 14:36, Philipp Stanner wrote:
+> >>>>> In other words not signaling a fence can leave the system in a
+> >>>>> deadlock state, but signaling it incorrectly usually results in
+> >>>>> random data corruption. =20
+> >>>
+> >>> Well, not signaling it results in a potential deadlock of the
+> >>> whole kernel, whereas wrongly signaling it is "only" a functional
+> >>> bug. =20
+> >>
+> >> No, that results in random memory corruption. Which is easily a
+> >> magnitude worse than just a kernel deadlock.
+> >>
+> >> When have seen such bugs numerous times with suspend and resume on
+> >> laptops in different subsystems, e.g. not only GPU. And I'm
+> >> absolutely clearly rejecting any attempt to signal DMA fences when
+> >> an object runs out of scope because of that experience. =20
+> >=20
+> > But you're aware that both in C and Rust you could experience UAF
+> > bugs if fences drop unsignaled and the driver unloads?
+> >=20
+> > Though I tentatively agree that memory corruptions on a large scale
+> > are probably the worst error you can have on a computer. =20
+>=20
+> Yeah, of course I'm aware of the UAF issue we have.
+>=20
+> But those are relatively harmless compared to the random memory
+> corruption issues.
+>=20
+> Linux has the unfortunate habit of re-using memory directly after
+> freeing it because that means caches are usually hotter.
+>=20
+> So rough DMA operations have the tendency to end up anywhere and
+> tools like KASAN can't find anything wrong.
+>=20
+> The only protection you sometimes have is IOMMU, but that is usually
+> not able to catch everything either.
+>=20
+> >> =20
+> >>>> It all stands and falls with the question whether a fence can
+> >>>> drop by accident in Rust, or if it will only ever drop when the
+> >>>> hw-ring is closed.
+> >>>>
+> >>>> What do you believe is the right thing to do when a driver
+> >>>> unloads? =20
+> >>>
+> >>> The fence has to be signaled -- ideally after shutting down all
+> >>> queues, but it has to be signaled. =20
+> >>
+> >> Yeah well this shutting down all queues (and making sure that no
+> >> write operation is pending in caches etc...) is what people
+> >> usually don't get right.
+> >>
+> >> What you can to is things like setting your timeout to zero and
+> >> immediately causing terminating the HW operation and resetting the
+> >> device.
+> >>
+> >> This will then use the same code path as the mandatory timeout
+> >> functionality for DMA operations and that usually works reliable. =20
+> >=20
+> > Why is all that even an issue? The driver controls the hardware and
+> > must "switch it off" before it unloads. Then the hardware will not
+> > access any memory anymore for sure. =20
+>=20
+> Well exactly that is usually really complicated. Let me try to
+> explain that on a HW example.=20
+>=20
+> Between a shader and the actual system memory you usually have
+> different IP blocks or stages where a memory access needs to go
+> through:
+>=20
+> Shader -> device VM -> device cache -> PCI bus -> CPU cache -> memory
+>=20
+> Now when you want to terminate some shader or make some memory
+> inaccessible because it is freed drivers update their page tables and
+> issue the equivalent of TLB invalidation on a CPU.
+>=20
+> The problem is now that this will only invalidate the translation in
+> the device VM. It doesn't affect the device cache nor any ongoing
+> memory transaction on the bus which waits to snoop the CPU cache.
+>=20
+> To make sure that you don't corrupt system memory you actually need
+> to wait for a cache flush event to be signaled and *not* just update
+> the VM page tables and tell the HW to invalidate it's TLB.
+>=20
+> So what is needed is usually a fence operation. In other words a
+> memory value written over the PCIe bus into system memory. Background
+> is that memory writes are ordered and this one comes after all
+> previous PCIe memory writes of the device and so is in the correct
+> order.
+>=20
+> Only when the CPU sees this memory write you can be sure that your
+> operation is completed.
+>=20
+> This memory write is then often implemented by using an MSI interrupt
+> which in turn signals the DMA fence.
+>=20
+>=20
+> So the right thing to do is to wait for the DMA fence to signal
+> through its normal signaling path which includes both HW and SW
+> functionality and *not* just tell the HW to stop some ring and then
+> just assume that this is also sufficient to signal the DMA fence
+> associated with the HW operation.
 
-Signed-off-by: Simon Richter <Simon.Richter@hogyros.de>
----
- drivers/gpu/drm/i915/display/intel_vga.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+Ultimately this
+"stop-HW-and-make-sure-all-outcomes-are-visible-even-for-partially-executed=
+-jobs"
+is something you'll have to do, no matter what. But it leading to
+having to wait for each pending fence, I'm not too sure. What about the
+case where jobs/ops further away in the HWRing were not even considered
+for execution by the HW, because the STOP operation prevented them from
+being dequeued. I'd expect that the only event we'll get for those is
+"HW queue is properly stopped now". So at this point it's a matter of
+signalling everything that's left, no? I mean, that's basically what
+Panthor does:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
-index 6e125564db34..dd581f20e962 100644
---- a/drivers/gpu/drm/i915/display/intel_vga.c
-+++ b/drivers/gpu/drm/i915/display/intel_vga.c
-@@ -49,6 +49,7 @@ void intel_vga_disable(struct intel_display *display)
- 	enum pipe pipe;
- 	u32 tmp;
- 	u8 sr1;
-+	int err;
- 
- 	tmp = intel_de_read(display, vga_reg);
- 	if (tmp & VGA_DISP_DISABLE)
-@@ -65,13 +66,22 @@ void intel_vga_disable(struct intel_display *display)
- 		    pipe_name(pipe));
- 
- 	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
--	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-+	/*
-+	 * if the VGA ports are inaccessible now, the chance that vgacon
-+	 * will be able to access them later is low enough that we don't
-+	 * have to care about the emulation state machines being in sync
-+	 */
-+	err = vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-+	if (err)
-+		goto skip;
-+
- 	outb(0x01, VGA_SEQ_I);
- 	sr1 = inb(VGA_SEQ_D);
- 	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
- 	vga_put(pdev, VGA_RSRC_LEGACY_IO);
- 	udelay(300);
- 
-+skip:
- 	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
- 	intel_de_posting_read(display, vga_reg);
- }
-@@ -79,6 +89,7 @@ void intel_vga_disable(struct intel_display *display)
- void intel_vga_reset_io_mem(struct intel_display *display)
- {
- 	struct pci_dev *pdev = to_pci_dev(display->drm->dev);
-+	int err;
- 
- 	/*
- 	 * After we re-enable the power well, if we touch VGA register 0x3d5
-@@ -89,8 +100,14 @@ void intel_vga_reset_io_mem(struct intel_display *display)
- 	 * console_unlock(). So make here we touch the VGA MSR register, making
- 	 * sure vgacon can keep working normally without triggering interrupts
- 	 * and error messages.
-+	 *
-+	 * We ignore this issue if we can't access the VGA registers, because
-+	 * neither can vgacon.
- 	 */
--	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-+	err = vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-+	if (err)
-+		return;
-+
- 	outb(inb(VGA_MIS_R), VGA_MIS_W);
- 	vga_put(pdev, VGA_RSRC_LEGACY_IO);
- }
--- 
-2.47.3
+1. it stops
+2. wait for all executing ops to land (with all the cache maintenance,
+etc, you described)
+3. signal(ECANCELED) what's left (things not picked by the HW by
+the time the STOP was effective).
 
+It's currently done manually, but does it have to?
