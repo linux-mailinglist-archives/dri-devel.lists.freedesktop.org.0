@@ -2,63 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sOU9LLV8q2lUdgEAu9opvQ
+	id kKeCJ5iGrWnZ3wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 02:17:41 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4062294F1
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 02:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D1E230A94
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0674110E335;
-	Sat,  7 Mar 2026 01:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A84410E431;
+	Sun,  8 Mar 2026 14:13:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=sina.com header.i=@sina.com header.b="qbD0Wymb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X09NVS21";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from r3-20.sinamail.sina.com.cn (r3-20.sinamail.sina.com.cn
- [202.108.3.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89E9A10E335
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2026 01:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208;
- t=1772846255; bh=hl5Gx8ORpg4RhkGdyFFWdkjfTiswS1fYGPRgCUTRirg=;
- h=From:Subject:Date:Message-ID;
- b=qbD0WymbbJDT1RgDY3T7ipI/+ApRoP9785pphBDXBNG8QF9IaNpDfw7p2YD/r4wJp
- o/EtO+O2DM3x9G7W5jSkEdTXhwk+73kkjSKz8CcJyWM/8kJ+6DyhQ9lxtfZfWKSB3g
- l8Vyi9YZsRtKUlBjwq+Nr8lil2JEl9AL1KAErJ+Q=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
- by sina.com (10.54.253.32) with ESMTP
- id 69AB7CA700001F82; Sat, 7 Mar 2026 09:17:30 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com; spf=none smtp.mailfrom=hdanton@sina.com;
- dkim=none header.i=none;
- dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 1019254456634
-X-SMAIL-UIID: C83C79BFABAE416FB5C5AE7B220CC511-20260307-091730-1
-From: Hillf Danton <hdanton@sina.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v5 09/28] drm/sched: Add fair scheduling policy
-Date: Sat,  7 Mar 2026 09:17:15 +0800
-Message-ID: <20260307011717.712-1-hdanton@sina.com>
-In-Reply-To: <b5b3461f-7434-42db-bad3-ae9187fdbfc1@igalia.com>
-References: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
- <20251219135351.25880-10-tvrtko.ursulin@igalia.com>
- <DFONORJMB1ZM.1JHSIXB9ULHJV@kernel.org>
- <1fceb644-ff22-45c8-bd83-4a32786c35f2@igalia.com>
- <DFP4XVVKNIRC.2O817MGMKCQ3P@kernel.org>
- <7b1d848c-a0e3-4960-94da-4f9001c1d96f@igalia.com>
- <DFPK5HIP7G9C.2LJ6AOH2UPLEO@kernel.org>
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE2410E012
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2026 03:33:07 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-79801df3e21so90626977b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 19:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772854386; x=1773459186; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/NIaTR733CEI10YxzEjaU+igMogbfaVYBZNgtGsYrGs=;
+ b=X09NVS21bXVxaNDknlxyszZj9lWTlGgSYIciHl86zEynC4NCX/5W1SdAOFHBUOYnTH
+ dEIMqtd6SVFbxKpJE8tjaMxWV6g6BT3B9OpUPZf00DTLx1dbRdpS00uXdqtkIgIW4qHl
+ zzOi341m7jME6Xz6Rr2mBVcbWgbh5T08Gat0bRVEicWVjtl9hTc1VT6kLiHsB8wby6pn
+ r6jMykHnNdJjI8I5J+lUdNLJ5oN/FZQrCxV3LXp2kYu8Hpp4XUXlHBNWIBJTmZOhJGLA
+ 6wvvXKbhXH2DteTHtAuIDnt37+sOFJkimmyE77lz4ug/8nnif2re7Jb95VdA4tZszbcP
+ RDtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772854386; x=1773459186;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/NIaTR733CEI10YxzEjaU+igMogbfaVYBZNgtGsYrGs=;
+ b=cmHaUJlislbr3aGbrdXLzIpuXgV7GYUUYm8dDTJmEkBr+Djw3Zq6Jb5g7Bbr8KLLza
+ 3ZxRJmjFTjquTq0F2AB/tRsjcL9insY/CG0gogEzzATD7n9pIq751aYnNIUIoQQ5FtPE
+ egg8OT4MAV/D6NgiV/l3IUkTVTiRYSs7IL0fmzbZvD6dfw2w/JtelKDULzv/xEyVa2cN
+ ZgzDoTIUpvFHHobk8OY4QEsXa9cnuPrIcx80oJcm+K/sRfMkYEPuGgDQx+s71u985kU5
+ iDjv6lq2E/tgG3E5GZF+ecHCX9aSGN0KBP6iaR4T6jTg/DCwZcfaSHu5bJWbGT0y4bS3
+ SjTA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbB2tP5563BuUzzI1+H3cY5lmt8dUnqyBfGHOlU5mJ9XRHtIIESnk7hZUlKNdwkgIabnRqmTrkWoY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWR7ovfhfhmfoE1oudzqL6bbR4+q96t0oRBvOsi/ETqpiX/GdJ
+ hzfdzorrQHpQpvuLhKexU+2fotzR6Q3uw3o+EhtQPg4xx+rOgIDrNLGi
+X-Gm-Gg: ATEYQzyjQwzTOwt+DXt6pu0lhsdGCEHP4ccqXpAXlS7SPuRiGaF58Y7Y97BBFPSPv/u
+ AMbCdwgPsJPUW/EAGTaxHyhaE8FmL+gk8wPLzcswiYJTy7dFLLPAFvop3q14QbX5V+mmD6AVp53
+ CnsJGfCNRW6+pR2gFvfCdFQmR1N7QIeRYBncSa6bJz/sQrV5ZxRDuR+9m2Y1hMEtbnoUN6jvx57
+ ULAL0+QVbC2tfXpDGB+WS4nDZ2qu8Cc2LcUU8ypp6wij61FTOO8gSusILY/MIHAJU1YHfEaKnzh
+ 4CNCRf+o+RD+HGwc1opO1Vxmvxdu6vW8yrrxoHUnOUigd+0kvH1P8A3M+s8A2f2NzUjTd2pAQT1
+ Kwi1136u5oHZ6he5jZn00mep+sYTZqClmnXJEHABSZ68mz6E1wrYryh3GHYCDiPg7cL5h6vJXxo
+ mQVATClw98gae6MZ2JhFvQcfU0DndzwZVFiJtfQ27aoCygXSmJyGCb18483qDwkYPiAXrXgNZpH
+ 0GlhDYN8WVMTiwrP1g8R8xJ
+X-Received: by 2002:a05:690c:ed5:b0:798:578c:2ad7 with SMTP id
+ 00721157ae682-798dd756781mr41072307b3.39.1772854386380; 
+ Fri, 06 Mar 2026 19:33:06 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00::5585])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-798dee4a70bsm15274827b3.32.2026.03.06.19.33.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Mar 2026 19:33:06 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Joseph Guo <qijian.guo@nxp.com>, Ethan Tidmore <ethantidmore06@gmail.com>,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH]  drm/bridge: waveshare-dsi: Fix signedness bug
+Date: Fri,  6 Mar 2026 21:32:45 -0600
+Message-ID: <20260307033245.71666-1-ethantidmore06@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,114 +102,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0E4062294F1
+X-Rspamd-Queue-Id: 34D1E230A94
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [2.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DATE_IN_PAST(1.00)[34];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[sina.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[sina.com:s=201208];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:dakr@kernel.org,m:amd-gfx@lists.freedesktop.org,m:kernel-dev@igalia.com,m:matthew.brost@intel.com,m:phasta@kernel.org,m:pierre-eric.pelloux-prayer@amd.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:marek.vasut+renesas@mailbox.org,m:qijian.guo@nxp.com,m:ethantidmore06@gmail.com,m:lkp@intel.com,m:jernejskrabec@gmail.com,m:marek.vasut@mailbox.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[sina.com];
-	FORGED_SENDER(0.00)[hdanton@sina.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[sina.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.967];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hdanton@sina.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,bootlin.com,mailbox.org,nxp.com,intel.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	NEURAL_HAM(-0.00)[-0.998];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Tue, 20 Jan 2026 09:51:48 +0000 Tvrtko Ursulin wrote:
-> On 15/01/2026 23:39, Danilo Krummrich wrote:
-> > On Thu Jan 15, 2026 at 2:00 PM CET, Tvrtko Ursulin wrote:
-> 
-> 8><
-> 
-> >> Okay but I am sure you know there are memory barriers, RCU, SPSC queue,
-> >> completions, worker management, and at least two locks, and everything
-> >> is interdependent.
-> > 
-> > I am, and I couldn't describe the maintainance burden of the scheduler any
-> > better. :)
-> > 
-> >> This series at least removes a bunch of code without making things more
-> >> complicated and so can be a good base for further rework. If you suggest to
-> >> hold it until all of the above is resolved it will be a few more years easily.
-> > 
-> > Let me explain a bit where I'm coming from:
-> > 
-> >  From a maintainer perspective - without saying that things are either black or
-> > white - I'm assessing contributors and contributions on whether the intention is
-> > to improve the infrastructure in terms of design and maintainability or whether
-> > the main intention is to "just" get a certain feature merged.
-> > 
-> > While both are valuable contributions that are appreciated, contributions that
-> > have a tendency into the latter direction, have to be seen with more sceptisism.
-> > 
-> > Especially when the code base already has known design issues, bulding features
-> > on top is very dangerous. Not necessarily because the resulting code might be
-> > wrong or because of regressions, etc. But because it most likely increases the
-> > difficulty resolving the existing issues -- in the worst case leading to a dead
-> > end.
-> > 
-> > Having that said, I am not saying that you "just" try to get your feature merged
-> > no matter what. Quite the opposite, I very much appreciate your contributions to
-> > the scheduler and recognize the cleanup work you are doing.
-> > 
-> > However, for this series I require you to acknowledge that, even if correct,
-> > some of this code introduces additional workarounds due to existing design
-> > issues, locking and synchronization subtleties that should be solved in better
-> > ways.
-> > 
-> > I have no objections going ahead with this series if we are on the same page
-> > regarding this and you are willing to also help out fixing those underlying
-> > design issues, locking and synchronization quirks, etc. subsequently.
-> > 
-> > But if you are more leaning in the direction of "I don't see an issue overall,
-> > the code is correct!" I do have concerns.
-> > 
-> > Improving the situation with the scheduler is the fundamental reason why Philipp
-> > and me were stepping up as maintainers, Philipp being more of the active part
-> > (doing a great job) and me working more in the background, helping and mentoring
-> > him.
-> > 
-> > Believe me when I say that we want this to move forward, but we also have to
-> > ensure that we are not making a step into the direction of increasing the
-> > difficulty to solve the underlying issues.
-> > 
-> > So, again, if we are on the same page with this, no objections from my side.
-> 
-> I thought it would have been obvious by now that I am trying to improve 
-> and fix things across the board. I even mentioned I had attempted a more 
-> ambitious rewrite already, which hit some stumbling blocks, so I settled 
-> for this smaller step first.
-> 
-> I am also glad to hear there is desire to attempt more significant 
-> refactors. Because in the past I was a bit concerned with a little bit 
-> of "it's scary don't touch it" messaging.
-> 
-> So yes, I do plan to stick around to keep fixing and improving things.
->
-After FIFO and RR are cut in the subsequent 12/28, you have a couple of options
-1, forget priority once for all given vruntime, or
-2, prio will not change once entity is created, or
-3, move prio to entity->stats
+The function drm_of_get_data_lanes_count_ep() returns negative error
+codes and dsi->lanes is an unsigned integer, so the check (dsi->lanes <
+0) is always impossible.
+
+Make the return value of drm_of_get_data_lanes_count_ep() be assigned to
+ret, check for error, and then assign dsi->lanes to ret.
+
+Detected by Smatch:
+drivers/gpu/drm/bridge/waveshare-dsi.c:70 ws_bridge_attach_dsi() warn:
+unsigned 'dsi->lanes' is never less than zero.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202603060341.hNj0pl9L-lkp@intel.com/
+Fixes: fca11428425e9 ("drm/bridge: waveshare-dsi: Add support for 1..4 DSI data lanes")
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+---
+ drivers/gpu/drm/bridge/waveshare-dsi.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
+index 0497c7ecbc7a..32d40414adb9 100644
+--- a/drivers/gpu/drm/bridge/waveshare-dsi.c
++++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
+@@ -66,11 +66,13 @@ static int ws_bridge_attach_dsi(struct ws_bridge *ws)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
+ 			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->lanes = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
+-	if (dsi->lanes < 0) {
++	ret = drm_of_get_data_lanes_count_ep(dev->of_node, 0, 0, 1, 4);
++	if (ret < 0) {
+ 		dev_warn(dev, "Invalid or missing DSI lane count %d, falling back to 2 lanes\n",
+-			 dsi->lanes);
++			 ret);
+ 		dsi->lanes = 2;	/* Old DT backward compatibility */
++	} else {
++		dsi->lanes = ret;
+ 	}
+ 
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+-- 
+2.53.0
+
