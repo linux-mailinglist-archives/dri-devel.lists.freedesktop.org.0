@@ -2,108 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KPMiOtnHq2mZgwEAu9opvQ
+	id yDCZLJiGrWkC4AEAu9opvQ:T3
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 07:38:17 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B86922A62D
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 07:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC71230ADB
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB19510E416;
-	Sat,  7 Mar 2026 06:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE25010E437;
+	Sun,  8 Mar 2026 14:13:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iG5/fmIh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nf5iFZjS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
- [209.85.222.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76FCC10E416
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2026 06:38:13 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id
- a1e0cc1a2514c-94de4f5531eso3233785241.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 22:38:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772865492; cv=none;
- d=google.com; s=arc-20240605;
- b=CLKEsYGqHtKV+5NNy4K+7Knj7Bufl1RN5zMq67J1GW7gCOwaFNetvirG3OeB07bX36
- aIgcZp61Ub7zl03K4N0QIxl9pn5TEhlUA7YToiF/1Miw0ereLgTe4dtV3bLd7mNqxbo3
- 1eBkV23MAqgSpNd/zS7wD7ahGhDYijqOAE9WMbJzN2dKXyntyFnbFYss7xxrJUsV/U6Z
- wWgeKOX/UtRjKetjDgZDGi/8rJ5qLyaeOPfCd0202eDh3mpcmNOUhDUBNvuHbVxTi0l+
- MU7TRqTjHsMxmNUEBHUpvwHAsDK04WyWb9/KsYlPyI4wKWfqxyjntxXQ+bk5+8YLugxK
- I/lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=EBVEj6M68804v9va0+q2jki79x2IL4Aa9REwQR+xUpI=;
- fh=9YO37rTE7TD9cVBtHcm54UGveT0dec/JPJeKLPr2AOw=;
- b=V2M5ToUy5Ouwh0z+fAxJdfggrQkaS+D4CLORtcs9D2HB/s4HJ75O9aNLSNZBuzTCR8
- RdV/mb0jebaeRa3R7ubsPPdfsn0PlxZDyxgLKLgrHPRYwEmBKnnb1QG5Jo3SPS8U/BJw
- LnS1SQX+dRv23OEGxPqoEDQ7dDnf90+neajQaa0hnVKNjNaDwtSBWN6GIygZ4j08CHZA
- AT3MhzOnuh+Tcryr6zRnPrFK/m2eyihh2gyi9M+cNeT+pu8QY1iYtbaASEk54BJqbVHu
- mkXL1fdYgIQj2epOXPSc+/UwNgADUjwDzGWfdt6IzxD+LQtOZazeamkYlB+rJYm9SPe6
- 8+Lg==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6771E10E34D
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2026 06:42:58 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-794719afcd4so93911337b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Mar 2026 22:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772865492; x=1773470292; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1772865777; x=1773470577; darn=lists.freedesktop.org;
+ h=in-reply-to:references:to:from:subject:cc:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EBVEj6M68804v9va0+q2jki79x2IL4Aa9REwQR+xUpI=;
- b=iG5/fmIhi3QVvgR1mjnK5FZrGhE6yelqKRAwIEglzWUd2zICktKFifY37PKHNTW4qa
- i7EXSPkCiQAnsC+jlmmVwQn/Je0kW8lFsKeqPe2G34Al21i//JmThZdDcYNwnrzMZJu/
- lCKlXWIzdWONxsHAM1Z52FRSo0xTkR+hpsuqf378Io2rlAUhN+NMlBSCAXuqwpLBmfjB
- Lse+CBmRu3EukXFdNWA4o7WVm2UqehIw/HzJJT7rvpED/Trn5Y/wgZ2BzmndBi3OUtTT
- gSrxcJXtlkyRRl0WGjtTg+9sHfN6IJapStsBLVEqVNivlKIkZCGMO17GjRpakw7V1QAg
- se2Q==
+ bh=eKYDChRb6rbEh78AuDm4/w6blF1xZFWjywF+w20xLIQ=;
+ b=Nf5iFZjS5fqgdPPZb1dpMapeG53S5v2Zzm+RZN22m9yGXa4SmeCaeVTLZCMl63o9GV
+ Rl9u2ZmFhVg/obyNc21DEESHHmsIRwuCAyI2R5wipbnyf5jXAX6poIk9Zk17y4X9uPcw
+ RTZfuA2skuyqPQ3rofLIbs+TvkUGMGoqnokEbLEwt4A08mG1gKC+KrfEsWfPYU6gaeOX
+ 7TQTYVZe0xwlPHbvQP2JH2OoxxDE2JrTfgd2Xg5ifivYp4Mi/mWdCH2yJ69sxRWvEO4y
+ HwclOLHGVu9qtH0s7UBlCPmuHGKYB1+frVDhSGrR7hglkFEEpImzZB919l63cKTA29HC
+ kNUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772865492; x=1773470292;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=EBVEj6M68804v9va0+q2jki79x2IL4Aa9REwQR+xUpI=;
- b=h7OvfXSZBqcqq7J+R/b1MCqwQMti4rPCvTsKSnCEuGX83J1EpK8YCLGjdsYdSMSb4a
- fAXzN6IaYgMpjan2LVk6aEWZdVPzjhDjgZ6vRyp9FgiTtpX5wvYLYgretofAdb/9XbEP
- 8bHK/HTpysLAQ41impL9Ec3190FBZaAENhGYHoaCe64B6RJoJ5I48PeEjXKu6elvhbgC
- xtBM8YaoC77FoJE4fFIdnkm2QmuMcqiaiuJQ8suHgn5cvEyfU4xoEdEsOI14lWWytNga
- PasRNCix75jYJJqrft9yGGgtUfElDdmt11da0hrN9kvGfTwuFd4UFOQlKD1XakE8Vh/1
- /TxQ==
+ d=1e100.net; s=20230601; t=1772865777; x=1773470577;
+ h=in-reply-to:references:to:from:subject:cc:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eKYDChRb6rbEh78AuDm4/w6blF1xZFWjywF+w20xLIQ=;
+ b=lfpWhmljc+WzWvl6gdgMtXEJrCDal4f1Ib920WL3dAWFi97eESMbyMpHxhFNjuSGxY
+ VYK/GhghsEa3tVFwqAmKXaQyefux50oz4IZ7LzPUVYF/nRctPkEn9kwuz14J20d3pD6g
+ NvfdCbdu1n9MBYGU27Ry33gRpD1orbT+fZU4sbz+wvmTtt9n7eku8T60L3QPoMOmAig/
+ JHMEorgrwqXSFYI6w/hNEBidtDL35FuUlo91wCdY+fcPv5UOiBqpLgEbQEOQX/fAO2Gm
+ Dc+BAx2agLvF5njvRrIBCCNEiRCZKlvErpscvOpNRhVFUOyJ//JYTrd/XuEzuCxLVy1I
+ ZIzA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXKN32A6stn1tVXDpcVJrCnfPAeVpzBg7dFGaBJHIzwsp6dh4rUbwHSt91qIjvxwcrhxSLVnX4UNfM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAqmk1gaI0kzTFd1b1uL6fAUE6UEEqg87nYLsnSkNrF7U78uZh
- gmBxiTkkQgUx7yp/UN/wtIol0B4nI27UqYVdYk+gdfEYWhJuXNgpJG1I/QZy6jj9WBqhe9ej6qc
- yh80Ay8IRnsxBLCi9U60d+mYL1xRqdGU=
-X-Gm-Gg: ATEYQzyvLjSGM9vPUQ9biCK0vU14xMbNXSAscHGLX6Pjbf0rt0d7O1Mi4t/hAqWyLyJ
- Gk2o8kKXEmjE6QMTR6HEoY5ZtR41anhUQCXynwx6RZNswAR9rb4Ywe1PEWQCXFGRxE47Miw0VF9
- 0yAkJGQR7tWHjIJ55XXao1xYjWofYnxH4548TKUiAXBIbMggMq71BGpX2gxSQx7ERa5oAkLKtGZ
- AM4tMmLILxN+kGZp4GZHhxzpwJCOAU1uqmVBozhm0uD6cRKYHDFzgilcrmpIfJJ2yxqOxwAJY7p
- F1bZgtyb
-X-Received: by 2002:a05:6102:3a0b:b0:5f5:40ab:2d65 with SMTP id
- ada2fe7eead31-5ffe614cb63mr1619980137.22.1772865492332; Fri, 06 Mar 2026
- 22:38:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20260306092518.37849-1-mitltlatltl@gmail.com>
- <groq7xzuqen2bhumrjt7u4v6mnpbnoxzpvn4cue2fayb2mim67@u2ya7glxxgv3>
- <CAAjZPThsEGKFY_z+w9p+c1_L4CZOhkba=hz2kmAyVoMUiXMVPQ@mail.gmail.com>
-In-Reply-To: <CAAjZPThsEGKFY_z+w9p+c1_L4CZOhkba=hz2kmAyVoMUiXMVPQ@mail.gmail.com>
-From: Pengyu Luo <mitltlatltl@gmail.com>
-Date: Sat, 7 Mar 2026 14:37:51 +0800
-X-Gm-Features: AaiRm51z5Jl0rIbfj9Qhdy98oqHJyd1EH7rdlZU1JRZ1VO1ldASebfgwROZoW5I
-Message-ID: <CAH2e8h6zQRi5XKLpb5bnQAdamc9qp06PvUU=AqVbtOq-g4OTyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dsi: remove bpc > 8 entries from allow list
-To: =?UTF-8?B?0JXQstCz0LXQvdC40Lkg0JvQtdC/0YjQuNC5?= <fekz115@gmail.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Danila Tikhonov <danila@jiaxyga.com>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ AJvYcCVXNnO6NS6IhHVFgDOdDZ0j6Qx5fEBuubpF7ifwoSRkRYmpxn+SvnMyf3wJvhYXCEOVy/ii3635l7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQE6Rwd4MvKaPd7gEoFxoK9NG706pC4tgWQxlA4pwffCsuKcBI
+ O4ovl/2LOLrWKLnGZkjEtGdtgqkHJjoZLANuSI76gfYF03+rYsXupMrN
+X-Gm-Gg: ATEYQzy+qVVnVoJej1wgSXNo0RCbXC8lF1fo33yWILYoiM+2R9Sj/zSf8oFdM+ulWcM
+ 7H8/iieIloygI3udh6eFx+Xvpvp0sxBEaasoWLnxldF1o14njdiyb3VW7Ncb91qZ/Tre3ztEDyV
+ Z2WcawgRzd4TVuswSngRKYVe3SMljsX01OCLSA8YSlGM3NYCXj44VlVSxJljEz4YnZ9uylFF+Cs
+ VrwuZACcsDBlhYJUQBaIFA6yZWg4LwVtnJQywmq/ZCa3AZ10Y/T6kzo0gj59JlVJID7OLyDOgUw
+ QgtlE+kug+zjSzhnHHXBQs1GhnnsIN3ONAhqwicapwPwOtXjMV5Yyext08MG/cFTXrK35mIkE1X
+ lZypc4FM1mwKpD/T857KQyXmUrO0NmhS3qQhpJehwZv8zmQgj5nobQqkfiRhycFDbfKreMA9AeS
+ k8kqT3euO7rqHjDnl0LTmfAQJawj3vJe3wnyAeSiyZJMYgb9I9bM/hgZhAqMdUm+EXA6YgaSAGS
+ iKmJY2y9OhnXb1d7sseKlKXJ+RS9Vg+J8Xf9gqTt/QARaGKqmiE4O5jqCv0WngIXls=
+X-Received: by 2002:a05:690c:6b82:b0:798:764d:dfa5 with SMTP id
+ 00721157ae682-798dd6733d5mr43655997b3.3.1772865777298; 
+ Fri, 06 Mar 2026 22:42:57 -0800 (PST)
+Received: from localhost ([2601:7c0:c37c:4c00:151a:1f16:9af7:946c])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-798dee69ed6sm17400517b3.38.2026.03.06.22.42.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Mar 2026 22:42:57 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 07 Mar 2026 00:42:56 -0600
+Message-Id: <DGWCGTZNG2VK.3DIFKJWW3SPUW@gmail.com>
+Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, "Marek Vasut"
+ <marek.vasut+renesas@mailbox.org>, "Joseph Guo" <qijian.guo@nxp.com>,
+ "kernel test robot" <lkp@intel.com>
+Subject: Re: [PATCH] drm/bridge: waveshare-dsi: Fix signedness bug
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Marek Vasut" <marek.vasut@mailbox.org>, "Ethan Tidmore"
+ <ethantidmore06@gmail.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
+ <rfoss@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260307033245.71666-1-ethantidmore06@gmail.com>
+ <fe3c0b16-1d29-4bca-bff3-15217f9b73f7@mailbox.org>
+In-Reply-To: <fe3c0b16-1d29-4bca-bff3-15217f9b73f7@mailbox.org>
+X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,133 +107,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9B86922A62D
+X-Rspamd-Queue-Id: ABC71230ADB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DATE_IN_PAST(1.00)[31];
+	MV_CASE(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:fekz115@gmail.com,m:dmitry.baryshkov@oss.qualcomm.com,m:danila@jiaxyga.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:luca.ceresoli@bootlin.com,m:marek.vasut+renesas@mailbox.org,m:qijian.guo@nxp.com,m:lkp@intel.com,m:marek.vasut@mailbox.org,m:ethantidmore06@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[mailbox.org,gmail.com,intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.990];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mitltlatltl@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,jiaxyga.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,bootlin.com,mailbox.org,nxp.com,intel.com];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Sat, Mar 7, 2026 at 4:20=E2=80=AFAM =D0=95=D0=B2=D0=B3=D0=B5=D0=BD=D0=B8=
-=D0=B9 =D0=9B=D0=B5=D0=BF=D1=88=D0=B8=D0=B9 <fekz115@gmail.com> wrote:
->
-> Hi,
->
-> I have a concern regarding this patch. The Nothing Phone (1)
-> (sm7325-nothing-spacewar), which is already supported in mainline,
-> utilizes a panel with bpc=3D10 and bpp=3D8 (DSC) [1].
->
-> Currently, this configuration works properly. While I have encountered
-> minor graphical artifacts during brightness changes, the display
-> output is otherwise reliable across all supported refresh rates
-> (60/90/120 Hz).
->
-> Since this panel is already upstreamed, this patch might cause regression=
-s.
->
-> [1] https://github.com/NothingOSS/android_kernel_devicetree_nothing_sm732=
-5/blob/6f027f0440e3dce8a674d9cbd2f6ad944120e209/msm-extra/display-devicetre=
-e/display/dsi-panel-rm692e5-visionox-fhd-plus-120hz-cmd.dtsi#L483-L484
->
+On Fri Mar 6, 2026 at 9:44 PM CST, Marek Vasut wrote:
+> On 3/7/26 4:32 AM, Ethan Tidmore wrote:
 
-
-Oh, I see. I messed up bpc, it is fine now. Recently, encoders have
-supported src bpc > 8, dsi don't support dst bpc > 8. But the nothing
-phone panel does not require dsi to support it.
-
-Since the panel is a 8-bit panel, and src bpc !=3D dst bpc. Although they
-are equal on some devices(they are, on my 8-bit or 10-bit devices).
-
-i.e. qcom,mdss-dsc-bit-per-component !=3D qcom,mdss-dsi-bpp / 3
-
-Please ignore this patch.
-
-Best wishes,
-Pengyu
-
-> Best regards,
-> Eugene Lepshy
+> I already sent:
 >
-> =D0=BF=D1=82, 6 =D0=BC=D0=B0=D1=80. 2026=E2=80=AF=D0=B3. =D0=B2 21:47, Dm=
-itry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com>:
-> >
-> > On Fri, Mar 06, 2026 at 05:25:00PM +0800, Pengyu Luo wrote:
-> > > In upstream the msm, for bpc greater than 8 are not supported yet,
-> > > although the hardware block supports this. Remove them until we
-> > > support them.
-> > >
-> > > Fixes: b0e71c2637d1 ("drm/msm/dsi: Allow values of 10 and 12 for bits=
- per component")
-> > > Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> >
-> > I hope Marijn, Danila or Eugeny can comment. The patch series with this
-> > patchset added 10 bpc panel and used it for one of the phones.
-> >
-> > > ---
-> > >  drivers/gpu/drm/msm/dsi/dsi_host.c | 7 ++-----
-> > >  1 file changed, 2 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm=
-/dsi/dsi_host.c
-> > > index e8e83ee61e..b60b26ddb0 100644
-> > > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > > @@ -1824,12 +1824,9 @@ static int dsi_populate_dsc_params(struct msm_=
-dsi_host *msm_host, struct drm_dsc
-> > >
-> > >       switch (dsc->bits_per_component) {
-> > >       case 8:
-> > > -     case 10:
-> > > -     case 12:
-> > >               /*
-> > > -              * Only 8, 10, and 12 bpc are supported for DSC 1.1 blo=
-ck.
-> > > -              * If additional bpc values need to be supported, updat=
-e
-> > > -              * this quard with the appropriate DSC version verifica=
-tion.
-> > > +              * In the upstream msm, only 8 bpc is supported for DSC=
- 1.1/1.2
-> > > +              * block.
-> > >                */
-> > >               break;
-> > >       default:
-> > > --
-> > > 2.53.0
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+> [PATCH] drm/bridge: waveshare-dsi: Use temporary signed variable for DSI=
+=20
+> lanes validation
+
+Sorry about that! I glanced at lore looking for the kernel test robot,
+should have looked for patches already for this.
+
+Thanks,
+
+ET
