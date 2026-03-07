@@ -2,132 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CJtaKg1yq2m6dAEAu9opvQ
+	id sOU9LLV8q2lUdgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 01:32:13 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 02:17:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D67A228FEE
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 01:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4062294F1
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Mar 2026 02:17:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF2FE10E16B;
-	Sat,  7 Mar 2026 00:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0674110E335;
+	Sat,  7 Mar 2026 01:17:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ix4bQZN6";
+	dkim=pass (1024-bit key; unprotected) header.d=sina.com header.i=@sina.com header.b="qbD0Wymb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012021.outbound.protection.outlook.com [40.107.209.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7362610E16B;
- Sat,  7 Mar 2026 00:32:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kHJRvJhwrjKHUA8TlJ5HEGPQII2T4+8P1eBGPhXZrdBXGL7r+QHHebdm/4whsy0gshvhqCGQSXnf83af9JXAw50xtedMB03j6x20JaGCbHU5JoOKgpTjKE0qbUqTIErBff5MA+2ZZL7qNkXmU27gq/a3n7Od+N1hnUKjEoHny6G+f27YdXgOu04oo13n1jk9i+LxQqDYvaGFuzdl+hOfu1HYzHvg7M6V87l64929xsivSJ7HGLokvbQqRwWZP5nYcwecs5+8IUSuUEVTW/Dn627CV6OdLc+kTn7gl38cZ2IbgaZhKdYxL4PnGZm/+34rus12E9eeLTZNw16qtFkWxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=okRw990TBilXNGOuvNqfBXTxkn7tC2GrRK93MwqCN20=;
- b=KLzAOw/q8MDhfb5Cn1pUvc3en5G6Qf2JKiWZ18MyI9cWc/7/ptXNEtkbqoK9YYc+RsDxVo7i0jaQzQTQeC1jbQrvMLPkE7YouqwRdCH/kpXWMbzQe3J1Cwl7RSb1hB3Z9JZ8flurPWb+slGAf7oC5me/1iTok4qrymxFCRuxy9Pmus0fwQEBp4dBpt6J3d2/GFsZ/4zMHDVRHEdhIYwn9FsJ6i8nmV+ctVxX9lyLbxNIXrwJLUZ8g9qd1ofZ/5vEHaszzHN4RfqU+X03wYiScTP0uRRXebWzqRD0RbI8aS7gGAsnIE12sJDAhqIzUj7VD/QFUe+PJ2yCj46RENWUMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=okRw990TBilXNGOuvNqfBXTxkn7tC2GrRK93MwqCN20=;
- b=ix4bQZN67/DI2k3oNNuS1sbsVuUrFoCry6P7COCvhOTGng8B42om2Rsc2YwzkQiaiwFbmc6CUQai1Lvs7CuGi/gWsZL36gvj1KdmBrvH35G/YBuyNQCpE/KCcarvNbMDqXrKK6iNY5sBH+VaLO5Vu2KAMJlrJUzoz9j9ahFaqoMsHIxXdqM3lsBt123gcp4g2n5dfcNPId2zvozeXuzflDeOVxlTVNOkuGfjJTDASa97iPJ59nz4szgqA/V188TM9tobi4pFEAUsiD1LcVD4wJo1tv/QigZm3Jokbt2G6+rg99us/hMma7/C6RmC2y9jWDj3nCPEfP077lieoT3jmQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by LV9PR12MB9781.namprd12.prod.outlook.com (2603:10b6:408:2f6::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.5; Sat, 7 Mar
- 2026 00:32:05 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9700.003; Sat, 7 Mar 2026
- 00:32:05 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 07 Mar 2026 09:32:00 +0900
-Message-Id: <DGW4KTZVH0FR.1P3LGSR7HNUL0@nvidia.com>
-Cc: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>, <aliceryhl@google.com>, <simona@ffwll.ch>
-Subject: Re: [PATCH] gpu: nova: add impl_num_enum!() macro to replace
- FromPrimitive boilerplate
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Artem Lytkin" <iprintercanon@gmail.com>, "Jesung Yang"
- <y.j3ms.n@gmail.com>
-References: <20260304181420.5482-1-iprintercanon@gmail.com>
-In-Reply-To: <20260304181420.5482-1-iprintercanon@gmail.com>
-X-ClientProxiedBy: TYCP286CA0133.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::20) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from r3-20.sinamail.sina.com.cn (r3-20.sinamail.sina.com.cn
+ [202.108.3.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E9A10E335
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2026 01:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208;
+ t=1772846255; bh=hl5Gx8ORpg4RhkGdyFFWdkjfTiswS1fYGPRgCUTRirg=;
+ h=From:Subject:Date:Message-ID;
+ b=qbD0WymbbJDT1RgDY3T7ipI/+ApRoP9785pphBDXBNG8QF9IaNpDfw7p2YD/r4wJp
+ o/EtO+O2DM3x9G7W5jSkEdTXhwk+73kkjSKz8CcJyWM/8kJ+6DyhQ9lxtfZfWKSB3g
+ l8Vyi9YZsRtKUlBjwq+Nr8lil2JEl9AL1KAErJ+Q=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
+ by sina.com (10.54.253.32) with ESMTP
+ id 69AB7CA700001F82; Sat, 7 Mar 2026 09:17:30 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com; spf=none smtp.mailfrom=hdanton@sina.com;
+ dkim=none header.i=none;
+ dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 1019254456634
+X-SMAIL-UIID: C83C79BFABAE416FB5C5AE7B220CC511-20260307-091730-1
+From: Hillf Danton <hdanton@sina.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v5 09/28] drm/sched: Add fair scheduling policy
+Date: Sat,  7 Mar 2026 09:17:15 +0800
+Message-ID: <20260307011717.712-1-hdanton@sina.com>
+In-Reply-To: <b5b3461f-7434-42db-bad3-ae9187fdbfc1@igalia.com>
+References: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
+ <20251219135351.25880-10-tvrtko.ursulin@igalia.com>
+ <DFONORJMB1ZM.1JHSIXB9ULHJV@kernel.org>
+ <1fceb644-ff22-45c8-bd83-4a32786c35f2@igalia.com>
+ <DFP4XVVKNIRC.2O817MGMKCQ3P@kernel.org>
+ <7b1d848c-a0e3-4960-94da-4f9001c1d96f@igalia.com>
+ <DFPK5HIP7G9C.2LJ6AOH2UPLEO@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV9PR12MB9781:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1a10e2d-13a4-48de-5513-08de7be0f549
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|10070799003|7053199007; 
-X-Microsoft-Antispam-Message-Info: k23LLVR8gOetNfPQYmioqNSsUWrJaXgyHNwTKiPyAwRyfFrEAI5dkmYV2gqCkJdB9uRq6Ggh9vmdHlPQDqfqq6uehO6MUu7qVENZkkRwZLsQeBCWEuQwOiANu/pEcsNgQAlR+SwaLUm7gVDz8F7eFeUymlSvKngWelqjsaAcqWK0MlNC0tJspZdgHrevA95MbENLhBySfiyxXDn7Po0DX2ZG8cPZK+yyEazujNedsOwUR4Ub+X0EidAXKQRYuuyyEfpVyFUFyCvLrdFWgT5Vrq6c1MVVqWpeKun8C+oxWagooXytVaZFcyPSHxf31EzMPpoU97losYunomRmqzjxA2jdOO3rZygqvaDGa6xXUr1uxIH7gstNbonmCVejuKu+GUURqHf4qpnZc97R1YQtpsLpqOwSULpSIHm6oz7i/w505TejEaKqf1gw85iaqVi4sHfpqG/8SDRbkw4STMN6QEUeJcgLwpp2aIHc/QBb5llCqvNM4bG1A4s9qRy3HAOhhP07VHuiX5APbNsyVS1QiCOftuplAfnNGYMNRHPqsAhYCzC6jCmJxKOpF4Wo9SP6yXhHviCuSlEo+2bkrEWbq0myBVwopSG9dkLcUd5aYnywZJb/+2W0Wa+hh0xw8xZkCNCE44kYRf97lVu0XaRlp9IXConp9evAS6uaw5qw5h5LMBHdDWWMOmF2nirz/LKNLhcHrHejdb4n7LFP6DpQIzrRUfpfL0U+8TqTEOhySJ3CnXNiwQcj7uIvqW1qi1Gu
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(10070799003)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djdPTy9XMFR0TWpBRGNSa3hGOTJkMEVQQ1F2OUUvMzhKL09yRmxGdW43VGJI?=
- =?utf-8?B?ekU1VkNlRHJwR0VwRERZM2o2QXMrVC9MY0FSbjFUajRxUUtkdHRGNk4wSU5T?=
- =?utf-8?B?UXBES1l0RVhvZHZXWUJLa1dsaFJzc1pINEhucUNxc2sxamFGUVlrd0FHUzNI?=
- =?utf-8?B?UGVpdm9vYnRLQmZ4ZGZEaEQrUy92cU5LaFlCbHhqamNJdzZqYkczWmt4UTIz?=
- =?utf-8?B?UXcvVjhxN0RzWG8rMkZJcDM4MWhXdUlaK0hqNE1CTTlTMUhCNFVTOCtlaVdz?=
- =?utf-8?B?RE1wL0h0SUFIZWI2R0txMTJzVFZ5MHg3K0FjdnlrYkRGWUV3OVVLZmdoeUhT?=
- =?utf-8?B?eDFjNklEMSs5Yk94OW05T0tVUXZ3d29zNFdvUFRaNHdKNy9jdFFtTkZ3TkJK?=
- =?utf-8?B?TnhBSEV1eGZaMWtqQW1haG9IaHU5THBrSWczbFpLZGZrK2R3d2Uzb1lZSUds?=
- =?utf-8?B?ajAxOTU0ZmdMZWhIY1o1ZHVUN3BqWDlxeUN1MlB1THllSzlxc1Eyc0ZubXNK?=
- =?utf-8?B?Mm1qTUNXRDJoRmNvMjFJYzk0QitUZjM0RWVUOXRBbWhQWUtZVG9VVHFicUdN?=
- =?utf-8?B?QXZlYXc4U2x1MXI2d3h5TFNHR1djSDJkaXFGY3dmVlNLWGh2SjdXUkJ1djVt?=
- =?utf-8?B?VXNWZnhVQ3RFZGVZeVRzNFp1eER3ZTFTZi9EVnRzMVIxTFlKV1UwSXRodzNo?=
- =?utf-8?B?QjhSRkVuNnozOGF0VlZqVDhXb2NpZ0R5TTVkdk9MWXh5MjNseDVnN2U5M3JU?=
- =?utf-8?B?WG9IaUY1aU03RE53UXQwSUpYSStTb1pnQVREaUpkcVBTVlVjZ3lXZ0ROSThQ?=
- =?utf-8?B?K3A1S2toN0JGSGFjVCtPOWYzWFVxMndzK0RLZ3lxVTE2c3p4Wk9PNHNEdlZk?=
- =?utf-8?B?R1hmdDRSM1ovM1dsd0dCME9hNnBuQnRVbFdvSGdYemswbFFGd2tDL3VhSkdX?=
- =?utf-8?B?a3pid2c4SmZsTGRXN0RGYzE1bm1iRzR6R3ZLOFBnNEhRTDJ3TzVGOWcxV0Q1?=
- =?utf-8?B?bzhIZmRpTzhyS2NNQkR3M2Q0UmJUWXdBY3BzSlpYNklGNFNudlZoL3ZiOC9t?=
- =?utf-8?B?WlQzamkxM21Gc1ZWNlRzMTdyc3VXcVQyU1N6aUE0Wi9Sbmd4UzhmSXgrN2RT?=
- =?utf-8?B?V3RBSEM2TitDWTFycm5lVzVhbVh5c2djS0lJUUNsdHFCMTBVSGRZd2dEbWp5?=
- =?utf-8?B?djNFbHRWT0dpOE1LVUxOMmFPYWRzOWt5cXg5ejhJdkhwY2VLTkZnSWIzdGhz?=
- =?utf-8?B?OTV0NnFkRzRCN0pjT1FuYyt5NE9rZEhYbWhDUjlVakVsOXcyR3pVeUNFUDNn?=
- =?utf-8?B?QUhBVEdPaDBmM3h6NWxsczVJVXc0UzNBb3BvbE9RYjh0TStlUjhlTFB0VEsy?=
- =?utf-8?B?NTNtQmNuelpaanNzNXRFTUx5YkVlM2NCM0RVaS9UUU02eWxXU005VHRwV3hI?=
- =?utf-8?B?aWlJVlRWQVpJKy9KVmlHNWh0cXJHbjJNcS9La3ZEV2RCUlk5NXgrRmdYY0pJ?=
- =?utf-8?B?UFc5dXYvcFZmbW81V0ZXMUFic1h3T0NJOGNIQ0VpSXFoOHpzak14eTF0OHFB?=
- =?utf-8?B?Qlp4cEdMbUFyTUhRams3Qkh2N2JKaDg4NU5FZ1hXNXAvMWd1bXVqeXl1NW9x?=
- =?utf-8?B?QlR5Q0NsdVg2RFAzT2xLdkJkNlgzVEZNRCtFb1JHTlUvQkZRMitLOGxYSm9v?=
- =?utf-8?B?clJmU3lLSk5wclRXQURwSUoweWMycGJTUndJdUVHZWdxL2lSRkVmNkxFTWNs?=
- =?utf-8?B?eDR4cE5venN0enJXeFFZWVBONlk1OGZxMDZFRi9tdFpmTUFnb3V6OWNZUm4z?=
- =?utf-8?B?TjJIUHJwWUZZKzdPbkt3bVBjcmtveGViNWsyVnlyRDdhT3Zjb0hjR3lBVFpi?=
- =?utf-8?B?bENNemhRU1l3WWFRZUFXdGFUQnVuZGFDOXN2L2pVVDRRK3l1OTdwemptaE5I?=
- =?utf-8?B?RExjQklYdjg0cWFuN0lZdjc1dDU0WUY0ZzBGd0FTWVExMmlQT0MwSEFiSmYy?=
- =?utf-8?B?K0xhWFZEWU5tSURyWHNJMVFpaDVUZVlIbVRSamtUaDBacWFWaGhUdk9CNVJK?=
- =?utf-8?B?MzkwZWNmejhvOThRQXZTc1dsTjYrdzdZd1RKWWxDUDg4SU1paDdLdit3akJZ?=
- =?utf-8?B?UGpaaVYyc0F0eXBCa0ZIMk5lVXBSaS94Mldrclhaa0dDcDQwWEgxZkJ5N1c1?=
- =?utf-8?B?Qkl6aTZzMzMwMlhVdjc2K0J5YTV2cEtEQW9oRTJ1UUZreHI4WUV2R2kvK1BC?=
- =?utf-8?B?T0U3a1E5REllTzBqbkNwVzR5R001R0hmMEJJVXk4alBRZEowSERPYWhzUVY3?=
- =?utf-8?B?dTVPUm9CQ3FQcWxQTVNiK0cxaW10am5Sb0Z4eVRFeTZPYXRIbk1SaE1nQTVk?=
- =?utf-8?Q?0NIcqwqsQrN3dbVNmJLxh2LnFMK6q7TZLxlU39HKy9nH0?=
-X-MS-Exchange-AntiSpam-MessageData-1: OsySYpnbtXf7vg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1a10e2d-13a4-48de-5513-08de7be0f549
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2026 00:32:05.4042 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rTF7PQb+Mjrb5aRsLIuyUJpbg3l8zJIYisZ9a9urEOQmXijNafOb/UvD+jA+4/iCxe1YMBh4LZVW4vLu85sdLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV9PR12MB9781
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,67 +73,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 0D67A228FEE
+X-Rspamd-Queue-Id: 0E4062294F1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[sina.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[sina.com:s=201208];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:dakr@kernel.org,m:amd-gfx@lists.freedesktop.org,m:kernel-dev@igalia.com,m:matthew.brost@intel.com,m:phasta@kernel.org,m:pierre-eric.pelloux-prayer@amd.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[sina.com];
+	FORGED_SENDER(0.00)[hdanton@sina.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.975];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[sina.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.967];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hdanton@sina.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid]
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Thu Mar 5, 2026 at 3:14 AM JST, Artem Lytkin wrote:
-> Add a declarative macro impl_num_enum!() to generate both From<Enum>
-> for primitive and TryFrom<primitive> for Enum implementations for
-> repr(primitive) enums. This addresses the TODO[FPRI] markers
-> throughout the driver.
+On Tue, 20 Jan 2026 09:51:48 +0000 Tvrtko Ursulin wrote:
+> On 15/01/2026 23:39, Danilo Krummrich wrote:
+> > On Thu Jan 15, 2026 at 2:00 PM CET, Tvrtko Ursulin wrote:
+> 
+> 8><
+> 
+> >> Okay but I am sure you know there are memory barriers, RCU, SPSC queue,
+> >> completions, worker management, and at least two locks, and everything
+> >> is interdependent.
+> > 
+> > I am, and I couldn't describe the maintainance burden of the scheduler any
+> > better. :)
+> > 
+> >> This series at least removes a bunch of code without making things more
+> >> complicated and so can be a good base for further rework. If you suggest to
+> >> hold it until all of the above is resolved it will be a few more years easily.
+> > 
+> > Let me explain a bit where I'm coming from:
+> > 
+> >  From a maintainer perspective - without saying that things are either black or
+> > white - I'm assessing contributors and contributions on whether the intention is
+> > to improve the infrastructure in terms of design and maintainability or whether
+> > the main intention is to "just" get a certain feature merged.
+> > 
+> > While both are valuable contributions that are appreciated, contributions that
+> > have a tendency into the latter direction, have to be seen with more sceptisism.
+> > 
+> > Especially when the code base already has known design issues, bulding features
+> > on top is very dangerous. Not necessarily because the resulting code might be
+> > wrong or because of regressions, etc. But because it most likely increases the
+> > difficulty resolving the existing issues -- in the worst case leading to a dead
+> > end.
+> > 
+> > Having that said, I am not saying that you "just" try to get your feature merged
+> > no matter what. Quite the opposite, I very much appreciate your contributions to
+> > the scheduler and recognize the cleanup work you are doing.
+> > 
+> > However, for this series I require you to acknowledge that, even if correct,
+> > some of this code introduces additional workarounds due to existing design
+> > issues, locking and synchronization subtleties that should be solved in better
+> > ways.
+> > 
+> > I have no objections going ahead with this series if we are on the same page
+> > regarding this and you are willing to also help out fixing those underlying
+> > design issues, locking and synchronization quirks, etc. subsequently.
+> > 
+> > But if you are more leaning in the direction of "I don't see an issue overall,
+> > the code is correct!" I do have concerns.
+> > 
+> > Improving the situation with the scheduler is the fundamental reason why Philipp
+> > and me were stepping up as maintainers, Philipp being more of the active part
+> > (doing a great job) and me working more in the background, helping and mentoring
+> > him.
+> > 
+> > Believe me when I say that we want this to move forward, but we also have to
+> > ensure that we are not making a step into the direction of increasing the
+> > difficulty to solve the underlying issues.
+> > 
+> > So, again, if we are on the same page with this, no objections from my side.
+> 
+> I thought it would have been obvious by now that I am trying to improve 
+> and fix things across the board. I even mentioned I had attempted a more 
+> ambitious rewrite already, which hit some stumbling blocks, so I settled 
+> for this smaller step first.
+> 
+> I am also glad to hear there is desire to attempt more significant 
+> refactors. Because in the past I was a bit concerned with a little bit 
+> of "it's scary don't touch it" messaging.
+> 
+> So yes, I do plan to stick around to keep fixing and improving things.
 >
-> The macro accepts a list of variants to map, allowing certain variants
-> to be excluded from the reverse mapping (e.g. dead_code variants like
-> FalconModSelAlgo::Aes).
->
-> Replace the manual TryFrom and impl_from_enum_to_u8!() boilerplate for:
->   - FalconCoreRev
->   - FalconSecurityModel
->   - FalconModSelAlgo
->   - DmaTrfCmdSize
->   - FalconFbifTarget
->   - Architecture
->
-> FalconCoreRevSubversion retains its manual TryFrom because it requires
-> a bitmask operation on the input value. The Chipset enum retains its
-> existing define_chipset!() macro which already generates TryFrom.
->
-> While at it, add the missing repr(u8) attribute to FalconFbifTarget,
-> which is needed for the enum-to-primitive cast to be well-defined.
->
-> Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
-
-Thanks for looking into this - but actually there is a kernel-level
-effort to do the same thing in progress:
-
-https://lore.kernel.org/all/20260129-try-from-into-macro-v5-0-dd011008118c@=
-gmail.com/
+After FIFO and RR are cut in the subsequent 12/28, you have a couple of options
+1, forget priority once for all given vruntime, or
+2, prio will not change once entity is created, or
+3, move prio to entity->stats
