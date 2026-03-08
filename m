@@ -2,70 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLL0KNeirWle5QEAu9opvQ
+	id +Ex8GwWqrWmE5gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 17:24:55 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 17:55:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450E4231108
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 17:24:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190D123142D
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 17:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5553B10E473;
-	Sun,  8 Mar 2026 16:24:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C43D10E0A0;
+	Sun,  8 Mar 2026 16:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RMDXHICc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GbasPdSL";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cxt5ei7F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE63810E052;
- Sun,  8 Mar 2026 16:24:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772987090; x=1804523090;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rTWIJZBcalYJMD/t0wxWOLNYJhY28C5F43rXAM+gZOo=;
- b=RMDXHICcdMrQzXkt7FCBqWH3FgkeM+pV5nE42oh4ZFiZ6wSv+lTebS3W
- cEDoT+Zx1aUzYUMcoCtU24hgmoLI49JVEbindScZD4QJJpBvB9Ily3Ux2
- ee+sqwLHR5+XKgdiX3/Tdf3MynFH5xZe+iVXdsVUW1sdx8Ijvq7ITWxZf
- 46HAZKJqanVMgQkxzPokcnwxBw+BlXSDjC3ZHI0cWJCsZGn1Bqk7Df5HK
- IVbatZ+0UNnA1uTjjwJ5OZ5moSuV97xcf8GPVW3L+1/66IV2o+ps38nfu
- KJmuBfJEuUY4LN21GPCQHWgkgcg9hbKNW+j9F6FZnr3lhRzGvv44vHNbt g==;
-X-CSE-ConnectionGUID: oekkO4olQo6c8GVK1ecFpQ==
-X-CSE-MsgGUID: xLzKZQ3iRFOiFGN8aerCyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="85499923"
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="85499923"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2026 09:24:50 -0700
-X-CSE-ConnectionGUID: 946eHPfJQZyqreQ/mFLVhw==
-X-CSE-MsgGUID: ORm1g5ejSMi8QdGGBSMLEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="219645059"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 08 Mar 2026 09:24:46 -0700
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vzGvq-000000003FU-1oV2;
- Sun, 08 Mar 2026 16:24:42 +0000
-Date: Mon, 9 Mar 2026 00:23:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rafael Passos <rafael@rcpassos.me>, alexdeucher@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, BhuvanaChandra.Pinninti@amd.com,
- Harry.Wentland@amd.com, Martin.Leung@amd.com, Sunpeng.Li@amd.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- daniel.wheeler@amd.com, davidbtadokoro@ime.usp.br,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rafael@rcpassos.me, ray.wu@amd.com, rcpassos@ime.usp.br,
- siqueira@igalia.com
-Subject: Re: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir
- iGPU
-Message-ID: <202603090058.Jvh5jmdd-lkp@intel.com>
-References: <20260308000515.890688-1-rafael@rcpassos.me>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6C7210E083
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 16:55:28 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 628DeNg03958093
+ for <dri-devel@lists.freedesktop.org>; Sun, 8 Mar 2026 16:55:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=zR+AF/0MXFFus+Zm+XvGXicb
+ OlDeqrhcCp/osYW0yXA=; b=GbasPdSLyOmfFetceiARVv2UIm0uQ9FY+GDyfQzk
+ +X1CwpX27oBVWMw2/0yJbGm2EI1Su8w9I1XzAnmCAaTS5U+uGcI5KEQrTPN68vb6
+ qpMnTFZISBVr5RF3yQ0SACknmdXq/gdKQW4zLsp4LurHjmb7HdeJCYUNdjT1ikk0
+ dIefBcyw+SYCsq7Wh0mleJtxqgfIPh+BreZScBOWh6RWhGMohtoA6b9DgDJVtaWN
+ tN1K3/OOZo25VK63nXr0VtiYZ6bX9FM6QMkcnRGWeatnQNh2dGPspPM4vlCRVILt
+ 6TR6DYNGyybNq7MdEhbGn7inKEMfjVOOkQf37QoImRDkcg==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4crcse2rbe-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 16:55:28 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-89a08e6cd15so412958076d6.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 09:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1772988927; x=1773593727;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=zR+AF/0MXFFus+Zm+XvGXicbOlDeqrhcCp/osYW0yXA=;
+ b=cxt5ei7FKR4Tu1yjh2k+6mpbQAJlsHbOG7O8+tzMoXayCXWshrzOOVYxzre4a/muGG
+ Z/A7s0XvO+DHBpQu9fJWUSukIIWbALvcKTjavYifSLF80tS6RKUidvwWIknpCNhJoAQF
+ qgM66v1fdJ71A1uNhP8kwCBVUUTMndNfUpr7Ywb9dl0RPogIuSzN0PATkdujYMWh2URp
+ WRDHu0LYoasGH5DOTdFOLGl6F/Ud4NsFwmC9npR+67gqUYd238iEWZPu2U3yr6Dy4QNB
+ cSVQEgoROwM0H8W8iZL8vhpYkG77jrkeV3YNhs9iXAHMexDPgnPzcpcDD7vmUoE6FuWV
+ ZSuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772988927; x=1773593727;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zR+AF/0MXFFus+Zm+XvGXicbOlDeqrhcCp/osYW0yXA=;
+ b=lCXwK9zRfPiKjUPycrYAgdsxfXER/PdiQRgY9o/ymZDmL5Qc9XiKJS9k6QaWMFIKUi
+ 3Pcjc/ftQJQpiX1UjJGwPuQUxl+7yzGR+QALlsY7L+9S+S+PnhHTflOYWkFXLa2YC/ei
+ Fbw2x+dw4GAXONSZUwayNOWIelpdUTg/8cZmUR7DVsKs1UKZE60vfeFqA5FXhQJaAxP6
+ KeCRNe72YbmfKIpnyk1p2z/UinO86khExtQHFhpobKtciiClT/kwMp/43bMPVZhsMfjX
+ 5c2oiNy8KhrV4Wz8Z5r7c7Qk5i40sPtD5YBlbLVHM33C0ZJgZgnye6lNm+DYCdvce66w
+ m/cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWd5JR/+JFHZXzQqzfd1SQmAhCwERrquHO/KguqwuGaDoGaP7WeRd6gyougYanV5O2IalDnZazLFkI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLV7i8Bb8pjmsebXp9CJbsqr7IVQ0GJBeTvMZVvqfk0E1rjQhM
+ xjm8OOxc5Bhryg83Um/7Ju3dPow4tIJzk6yz248bd0II/JuCgHyc22u/CYU+FuxcO2ZKPiCvZRb
+ x34rDf9YZiJHs6OFq7fannOLb10KlgjuP+7maxrFmzEdpHrqwRzFPmDKjwCK2NL/Zb8ZVnOs=
+X-Gm-Gg: ATEYQzyFz33G5dxwHnCw2XvyEFi4tZA/guRhAQ+dR+WwxOlYtl+ghopKMYn8j/agR6K
+ BEhN0of25bWRzt9ZUGl8ia5XDWOwhFWvaNEeEC5IgPYwwXgmPzTs5xqmNGW0MUtETG2Q4XbGjHL
+ VaF6L2gqL/TJwuW0gZngXPF9xCkwT9rxEEEzWziYPsb/rhMN/qXbL/mDeSqxsOx8jrCjzh5+ejc
+ de3hqH+AsmQaFm15c3mF9NNOFG0YjGUe+AGaQMQiVsJyG3w0MPGOwZ0ZxpWX09iAWGRaB+uw9dp
+ 6aMXEQUHi96aLr3WgmdzEdKzarn8RAHt18cJy7aYD/SgwfNQE9ccfM6QjNT2T5LncGrani6Ni6I
+ 4kzSybhqL6ZNII0sr3T71xF5woEetQxM38a9JBAZJODvCSdsvXZ65YtP+r12aBmWb9WzYKgzTAv
+ cj0gKKBMuz8JMpJDMVLcVEsTuS8+US5Sar3lE=
+X-Received: by 2002:a05:620a:46a6:b0:8b0:f2bd:4762 with SMTP id
+ af79cd13be357-8cd6d4aa038mr1050257485a.75.1772988927076; 
+ Sun, 08 Mar 2026 09:55:27 -0700 (PDT)
+X-Received: by 2002:a05:620a:46a6:b0:8b0:f2bd:4762 with SMTP id
+ af79cd13be357-8cd6d4aa038mr1050255985a.75.1772988926629; 
+ Sun, 08 Mar 2026 09:55:26 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5a13f598ff8sm1219628e87.16.2026.03.08.09.55.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Mar 2026 09:55:24 -0700 (PDT)
+Date: Sun, 8 Mar 2026 18:55:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm/dsi: fix pclk calculation for bonded dsi
+Message-ID: <jcrcq23c4e47dcvrrucj4jqwtjcuaa5qxkbckwp73fqakpvdxh@r44ykjcl3u3h>
+References: <20260308070628.482527-1-mitltlatltl@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260308000515.890688-1-rafael@rcpassos.me>
+In-Reply-To: <20260308070628.482527-1-mitltlatltl@gmail.com>
+X-Authority-Analysis: v=2.4 cv=IdqKmGqa c=1 sm=1 tr=0 ts=69adaa00 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=pGLkceISAAAA:8
+ a=EUspDBNiAAAA:8 a=Fte5J7dvKBLabNbbCpwA:9 a=CjuIK1q_8ugA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-GUID: zMU8lglWF-Lcew1H9mwkB1teFDcG4SjI
+X-Proofpoint-ORIG-GUID: zMU8lglWF-Lcew1H9mwkB1teFDcG4SjI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA4MDE1NSBTYWx0ZWRfX7BaXPM2O8anR
+ RLQ80urMNrZYBT5xaHpBLidOwarv0+JR35HParUesejdxxsC2yvR5pvlHtdECq4lvVAinktZsDs
+ jUmehPaf7OmRCwONlzGmG/3Aa5hDNd+7b5I8xBESIcGwUN9KONP7NTk7gyIMuEAN1ZNRxFzRUQ6
+ JsFWoUUt1W+i4CVtvOqCZ+wlQ6nMr26logSlXk0q39UfvwM8MOX+IEbfknDOXgliXKBQ4750thS
+ 1tVLzkJxPf7LipVYkYNcEytuMjotfGdfTPp2Mo1mh/bf2Htpm72YH+Y3AEXMJ2PtypBFDkF/JET
+ 5DrkOEgHaOqeqrsRXnYbYDGnyHux8EeqpwSLGiMDKatTowccZbk2c5YD81nwhktaUuF370hSh9J
+ trZarR4YgcMliCCx6j0jMk9LbMkywa+Igfe5aFtgm/xtyOuCkysgxESxZSx9HX+jnkkrKtH73wU
+ 9dSB7wuBWrvcMdSt0GQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-08_05,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
+ malwarescore=0 clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603080155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,85 +148,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 450E4231108
+X-Rspamd-Queue-Id: 190D123142D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[rcpassos.me,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.928];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-0.994];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim]
 X-Rspamd-Action: no action
 
-Hi Rafael,
+On Sun, Mar 08, 2026 at 03:06:27PM +0800, Pengyu Luo wrote:
+> Recently, we round up new_hdisplay once at most, for bonded dsi, we
+> may need twice, since they are independent links, we should round up
+> each half separately. This also aligns with the hdisplay we program
+> later in dsi_timing_setup()
+> 
+> Example:
+> 	full_hdisplay = 1904, dsc_bpp = 8, bpc = 8
+> 	new_full_hdisplay = DIV_ROUND_UP(1904 * 8, 8 * 3) = 635
+> 
+> if we use half display
+> 	new_half_hdisplay = DIV_ROUND_UP(952 * 8, 8 * 3) = 318
+> 	new_full_display = 636
+> 
+> Fixes: 7c9e4a554d4a ("drm/msm/dsi: Reduce pclk rate for compression")
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+> v2: add a parameter desciption to the function doc (kernel test robot)
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 32 +++++++++++++++++++++++-------
+>  1 file changed, 25 insertions(+), 7 deletions(-)
 
-kernel test robot noticed the following build warnings:
+The previous version has been picked up alrady (before the report came).
+Would you mind sending a fix for it, describing the parameter?
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0-rc2 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-Passos/drm-amd-display-fix-resuming-from-S3-sleep-for-Renoir-iGPU/20260308-080715
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260308000515.890688-1-rafael%40rcpassos.me
-patch subject: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir iGPU
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260309/202603090058.Jvh5jmdd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260309/202603090058.Jvh5jmdd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603090058.Jvh5jmdd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c:99:6: warning: no previous prototype for 'dccg21_init' [-Wmissing-prototypes]
-      99 | void dccg21_init(struct dccg *dccg)
-         |      ^~~~~~~~~~~
-
-
-vim +/dccg21_init +99 drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c
-
-    98	
-  > 99	void dccg21_init(struct dccg *dccg)
-   100	{
-   101		struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
-   102	
-   103		/* Hardcoded register values for DCN21
-   104		 * These are specific to 100Mhz refclk
-   105		 * Different ASICs with different refclk may override this in their own init
-   106		 */
-   107		REG_WRITE(MICROSECOND_TIME_BASE_DIV, 0x00120464);
-   108		REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x001186a0);
-   109		REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x0e01003c);
-   110	
-   111		if (REG(REFCLK_CNTL))
-   112			REG_WRITE(REFCLK_CNTL, 0);
-   113	}
-   114	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
