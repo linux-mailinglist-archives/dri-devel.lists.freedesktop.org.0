@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id xyP2L5SGrWkC4AEAu9opvQ
+	id Q5oAJryJrWna4AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:20 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:37:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178D6230A16
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0762230B8D
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:37:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7212E10E469;
-	Sun,  8 Mar 2026 14:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5EF910E027;
+	Sun,  8 Mar 2026 14:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lv0xnwrJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hUT20viC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F4A10E469
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 14:17:42 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8444210E027
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 14:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772979462; x=1804515462;
+ t=1772980664; x=1804516664;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=8qeFutWw+BB4rroxVqdEPs7a3s6Ta8CazCTn6Ie2wzc=;
- b=lv0xnwrJ6/KdS8EV8g9w8V3A3j3yleTceETtPf0UbthsOl3cgeQPVSXE
- 6fpNK4QUw6XqSN8jFAPA3ofQz2arN5kv8I8bAL2fX/mEL2qS13enjblub
- fNloCe1/TBo3JOecp9m076jW4D7IeNt9pkCHvlp0mh56vBt1NjHr016uf
- LhJ/nxwYLSoxbYDjDa8geBJGpjo9TE+Viqr4xT776KFipm5IPAPDEaQPQ
- QQJj/vXkV5LubbX7G2Uaw+bWsdhw/6Hr/iCNougi1WHKfCXshS/JqtGGZ
- F16wtxtms2345FKK1PwOEs5iB87hMtG0VSP2Wbmt4yZ8oVtKAQbpd1nXa g==;
-X-CSE-ConnectionGUID: D78QLtE7RpK3Vp/90WPX0g==
-X-CSE-MsgGUID: E/ncXh5aRpyYRAWvNg4ShA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="77898217"
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="77898217"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2026 07:17:41 -0700
-X-CSE-ConnectionGUID: vK5RaDZZTU+P8ecYkBrL4g==
-X-CSE-MsgGUID: KN9S+TStSV65E+A7SP3bog==
+ bh=texYecOx1G6VAtPnt/oo5M8yOZE/OMC31g9BmuVmDjo=;
+ b=hUT20viCv0sgYJP5n7/K8jlrYPdE6v1wLBnitActmEATZ1U+X5X+9282
+ 9y0zHCYj6Om0yCHnoU/hpfNn7ZVyQZS7KIFDypRqrsJuF4wa/e6AdQFz3
+ q6vw72fyLA4r0H1XNZk15I94gVr9xWuEx0qkYAcEaCATy2VNkIUAa4pfO
+ ctJlL8X2Laz4ueF2HBASqxz0oF9DPs15hGszI7wnAysMSNkPv4VrCh/9e
+ vyKSzM4Q1tpm1SAmZnYmf1THgmrQ7JuBZMFCVVdu0HhYKsDM1THjiQffw
+ OW9ovTz0z0zTmeq04Tn7gHA9MC3+su8ITYUxoXTuO8bt3PLaG3zQjm/OQ A==;
+X-CSE-ConnectionGUID: mp77roeQRFSPJnvZxK5Wxg==
+X-CSE-MsgGUID: jPh3GY0DToyA3kZKCgsPng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="77874578"
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="77874578"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2026 07:37:42 -0700
+X-CSE-ConnectionGUID: WQ/8v7cSQzGZqRBE+4dG4g==
+X-CSE-MsgGUID: CT/JL0eFTuavVzxt61I/Fw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="222211592"
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="219455261"
 Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 08 Mar 2026 07:17:36 -0700
+ by orviesa009.jf.intel.com with ESMTP; 08 Mar 2026 07:37:37 -0700
 Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vzEwn-000000003AW-3Wna;
- Sun, 08 Mar 2026 14:17:33 +0000
-Date: Sun, 8 Mar 2026 22:16:57 +0800
+ (envelope-from <lkp@intel.com>) id 1vzFGA-000000003Am-0sOb;
+ Sun, 08 Mar 2026 14:37:34 +0000
+Date: Sun, 8 Mar 2026 22:37:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alexander Koskovich <AKoskovich@pm.me>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -58,11 +58,11 @@ To: Alexander Koskovich <AKoskovich@pm.me>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Alexander Koskovich <akoskovich@pm.me>
 Subject: Re: [PATCH 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
-Message-ID: <202603082210.FAhPnZOe-lkp@intel.com>
+Message-ID: <202603082223.61KVemAP-lkp@intel.com>
 References: <20260308-tianma-ta066vvhm03-v1-2-869fac443b20@pm.me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -82,7 +82,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 178D6230A16
+X-Rspamd-Queue-Id: D0762230B8D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -96,9 +96,9 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:AKoskovich@pm.me,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk@kernel.org,m:conor+dt@kernel.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:akoskovich@pm.me,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:AKoskovich@pm.me,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk@kernel.org,m:conor+dt@kernel.org,m:oe-kbuild-all@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:akoskovich@pm.me,m:conor@kernel.org,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[pm.me,linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
@@ -116,7 +116,7 @@ X-Spamd-Result: default: False [1.19 / 15.00];
 	NEURAL_HAM(-0.00)[-0.995];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,01.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,intel.com:email,intel.com:mid]
 X-Rspamd-Action: no action
 
 Hi Alexander,
@@ -129,21 +129,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Koskovich/dt-bi
 base:   11439c4635edd669ae435eec308f4ab8a0804808
 patch link:    https://lore.kernel.org/r/20260308-tianma-ta066vvhm03-v1-2-869fac443b20%40pm.me
 patch subject: [PATCH 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603082210.FAhPnZOe-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082210.FAhPnZOe-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603082223.61KVemAP-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082223.61KVemAP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603082210.FAhPnZOe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082223.61KVemAP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c:335:7: error: no member named 'dsc_slice_per_pkt' in 'struct mipi_dsi_device'
+   drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c: In function 'tianma_ta066vvhm03_probe':
+>> drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c:335:12: error: 'struct mipi_dsi_device' has no member named 'dsc_slice_per_pkt'
      335 |         dsi->dsc_slice_per_pkt = 2;
-         |         ~~~  ^
-   1 error generated.
+         |            ^~
 
 
 vim +335 drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c
