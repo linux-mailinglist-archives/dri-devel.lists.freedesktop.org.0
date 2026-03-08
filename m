@@ -2,138 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Ex8GwWqrWmE5gEAu9opvQ
+	id GOoNE0a6rWk+6gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 17:55:33 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 19:04:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190D123142D
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 17:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD86231880
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 19:04:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C43D10E0A0;
-	Sun,  8 Mar 2026 16:55:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 773DB10E0AB;
+	Sun,  8 Mar 2026 18:04:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GbasPdSL";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cxt5ei7F";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="UoipFnRL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C7210E083
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 16:55:28 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 628DeNg03958093
- for <dri-devel@lists.freedesktop.org>; Sun, 8 Mar 2026 16:55:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=zR+AF/0MXFFus+Zm+XvGXicb
- OlDeqrhcCp/osYW0yXA=; b=GbasPdSLyOmfFetceiARVv2UIm0uQ9FY+GDyfQzk
- +X1CwpX27oBVWMw2/0yJbGm2EI1Su8w9I1XzAnmCAaTS5U+uGcI5KEQrTPN68vb6
- qpMnTFZISBVr5RF3yQ0SACknmdXq/gdKQW4zLsp4LurHjmb7HdeJCYUNdjT1ikk0
- dIefBcyw+SYCsq7Wh0mleJtxqgfIPh+BreZScBOWh6RWhGMohtoA6b9DgDJVtaWN
- tN1K3/OOZo25VK63nXr0VtiYZ6bX9FM6QMkcnRGWeatnQNh2dGPspPM4vlCRVILt
- 6TR6DYNGyybNq7MdEhbGn7inKEMfjVOOkQf37QoImRDkcg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4crcse2rbe-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 16:55:28 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-89a08e6cd15so412958076d6.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 09:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1772988927; x=1773593727;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zR+AF/0MXFFus+Zm+XvGXicbOlDeqrhcCp/osYW0yXA=;
- b=cxt5ei7FKR4Tu1yjh2k+6mpbQAJlsHbOG7O8+tzMoXayCXWshrzOOVYxzre4a/muGG
- Z/A7s0XvO+DHBpQu9fJWUSukIIWbALvcKTjavYifSLF80tS6RKUidvwWIknpCNhJoAQF
- qgM66v1fdJ71A1uNhP8kwCBVUUTMndNfUpr7Ywb9dl0RPogIuSzN0PATkdujYMWh2URp
- WRDHu0LYoasGH5DOTdFOLGl6F/Ud4NsFwmC9npR+67gqUYd238iEWZPu2U3yr6Dy4QNB
- cSVQEgoROwM0H8W8iZL8vhpYkG77jrkeV3YNhs9iXAHMexDPgnPzcpcDD7vmUoE6FuWV
- ZSuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772988927; x=1773593727;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zR+AF/0MXFFus+Zm+XvGXicbOlDeqrhcCp/osYW0yXA=;
- b=lCXwK9zRfPiKjUPycrYAgdsxfXER/PdiQRgY9o/ymZDmL5Qc9XiKJS9k6QaWMFIKUi
- 3Pcjc/ftQJQpiX1UjJGwPuQUxl+7yzGR+QALlsY7L+9S+S+PnhHTflOYWkFXLa2YC/ei
- Fbw2x+dw4GAXONSZUwayNOWIelpdUTg/8cZmUR7DVsKs1UKZE60vfeFqA5FXhQJaAxP6
- KeCRNe72YbmfKIpnyk1p2z/UinO86khExtQHFhpobKtciiClT/kwMp/43bMPVZhsMfjX
- 5c2oiNy8KhrV4Wz8Z5r7c7Qk5i40sPtD5YBlbLVHM33C0ZJgZgnye6lNm+DYCdvce66w
- m/cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWd5JR/+JFHZXzQqzfd1SQmAhCwERrquHO/KguqwuGaDoGaP7WeRd6gyougYanV5O2IalDnZazLFkI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLV7i8Bb8pjmsebXp9CJbsqr7IVQ0GJBeTvMZVvqfk0E1rjQhM
- xjm8OOxc5Bhryg83Um/7Ju3dPow4tIJzk6yz248bd0II/JuCgHyc22u/CYU+FuxcO2ZKPiCvZRb
- x34rDf9YZiJHs6OFq7fannOLb10KlgjuP+7maxrFmzEdpHrqwRzFPmDKjwCK2NL/Zb8ZVnOs=
-X-Gm-Gg: ATEYQzyFz33G5dxwHnCw2XvyEFi4tZA/guRhAQ+dR+WwxOlYtl+ghopKMYn8j/agR6K
- BEhN0of25bWRzt9ZUGl8ia5XDWOwhFWvaNEeEC5IgPYwwXgmPzTs5xqmNGW0MUtETG2Q4XbGjHL
- VaF6L2gqL/TJwuW0gZngXPF9xCkwT9rxEEEzWziYPsb/rhMN/qXbL/mDeSqxsOx8jrCjzh5+ejc
- de3hqH+AsmQaFm15c3mF9NNOFG0YjGUe+AGaQMQiVsJyG3w0MPGOwZ0ZxpWX09iAWGRaB+uw9dp
- 6aMXEQUHi96aLr3WgmdzEdKzarn8RAHt18cJy7aYD/SgwfNQE9ccfM6QjNT2T5LncGrani6Ni6I
- 4kzSybhqL6ZNII0sr3T71xF5woEetQxM38a9JBAZJODvCSdsvXZ65YtP+r12aBmWb9WzYKgzTAv
- cj0gKKBMuz8JMpJDMVLcVEsTuS8+US5Sar3lE=
-X-Received: by 2002:a05:620a:46a6:b0:8b0:f2bd:4762 with SMTP id
- af79cd13be357-8cd6d4aa038mr1050257485a.75.1772988927076; 
- Sun, 08 Mar 2026 09:55:27 -0700 (PDT)
-X-Received: by 2002:a05:620a:46a6:b0:8b0:f2bd:4762 with SMTP id
- af79cd13be357-8cd6d4aa038mr1050255985a.75.1772988926629; 
- Sun, 08 Mar 2026 09:55:26 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5a13f598ff8sm1219628e87.16.2026.03.08.09.55.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Mar 2026 09:55:24 -0700 (PDT)
-Date: Sun, 8 Mar 2026 18:55:21 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/msm/dsi: fix pclk calculation for bonded dsi
-Message-ID: <jcrcq23c4e47dcvrrucj4jqwtjcuaa5qxkbckwp73fqakpvdxh@r44ykjcl3u3h>
-References: <20260308070628.482527-1-mitltlatltl@gmail.com>
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012044.outbound.protection.outlook.com
+ [40.107.200.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705BD10E06D;
+ Sun,  8 Mar 2026 18:04:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MTurcWn75uGAN4xKlcN3Y6EP0Gr3DBj+edhp8D8pxF7Hj1ZlLqEiQJJ+TVg/dEWfk1ugKAOB0rcEvU4Vbx4rZbVMmGizQPd9/EhoNnE3GidueqBeeDqFre/GDwpHD5JXNzQhkdL9JTS7RDJfbveH6EdeNZI6f4QPofRP2WXJK700BFnU3mLCw2zrJvsef/7hzPffCUFMZCJqanpIvTG8qDUZeuha/jVcMLJA3z3TX3iM6eLVkHFEefvc+qRHipv1TnMA24mBkn/syIixfWgEinYtx0D0ghe1vaTgAdha9ij1w777lCi7JJWMuSrdPBAdJYt8ubcsCKyQrjopLwXKpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vm/yi/B0SiRtuoazW8QXTYVEUol9azZQQ9DlDHCtI9o=;
+ b=l2hUmVcfIQ3bw3X0OtNzKHZvV9SRb+knFEmjq0OnBnDGlP/MmVVKqaIexg6M7t7R6iCde3Tu44NVNR4OU1ay9Ramvey9g/Xd95i1OSiEZ+qqAeBVhnJBAVz6/si26gKgdwDBZIutIHwLpgi09JbGEj8xj2rzShIB08QtQMtC6EEX85LzVm1gNEKF7uQxEBZO7v/RZvdGCRu92FhqzwHas6orydisNrWhdCD0YK+Q5c7MTfN0RF32488YQNycHSdQtjuVBE3+rphx1jMDaA5o6Husi9/w/IR9RnNKP9Ev2ltekXwTENaOawD+9jkPxM7+qAYPJGjJPLd2A2sNUefKXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vm/yi/B0SiRtuoazW8QXTYVEUol9azZQQ9DlDHCtI9o=;
+ b=UoipFnRLQ+35ExOWmYPc1hgryO1cijMGEtbSNu/Fwq/uwvLPp5bsFkX5gdOyDElrzTgbZRw3j2Navzl1/r+ucuj0NmvqM25yrpbIMjUOZXhAtGDgQPGHHcXx4vgYfdQfC2uBm+LWg3YmPRci5WI3tz43dp6W5mj7WcFmykmzU6eWivXNgLNFqtcVYJgy56C3urxNU2AVTmPLy10hHUMyaxvP0IYtn9D3XOcxUAYVhOxgIsFaeAV8e5i+Kau8B9cMNGrpaAQEvYuKMTacdE6FS1OfDZA+dF4Bp0neK2mooyBVcmXTCYwY8Gfn/1fYJZ8ojtXvdwdR0uV/5HJ/FX9RpQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ DS7PR12MB6022.namprd12.prod.outlook.com (2603:10b6:8:86::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9700.9; Sun, 8 Mar 2026 18:04:37 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9700.006; Sun, 8 Mar 2026
+ 18:04:36 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [PATCH v12 0/1] Rust GPU buddy allocator bindings
+Date: Sun,  8 Mar 2026 14:04:06 -0400
+Message-Id: <20260308180407.3988286-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CY5PR15CA0145.namprd15.prod.outlook.com
+ (2603:10b6:930:67::13) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308070628.482527-1-mitltlatltl@gmail.com>
-X-Authority-Analysis: v=2.4 cv=IdqKmGqa c=1 sm=1 tr=0 ts=69adaa00 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=pGLkceISAAAA:8
- a=EUspDBNiAAAA:8 a=Fte5J7dvKBLabNbbCpwA:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: zMU8lglWF-Lcew1H9mwkB1teFDcG4SjI
-X-Proofpoint-ORIG-GUID: zMU8lglWF-Lcew1H9mwkB1teFDcG4SjI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA4MDE1NSBTYWx0ZWRfX7BaXPM2O8anR
- RLQ80urMNrZYBT5xaHpBLidOwarv0+JR35HParUesejdxxsC2yvR5pvlHtdECq4lvVAinktZsDs
- jUmehPaf7OmRCwONlzGmG/3Aa5hDNd+7b5I8xBESIcGwUN9KONP7NTk7gyIMuEAN1ZNRxFzRUQ6
- JsFWoUUt1W+i4CVtvOqCZ+wlQ6nMr26logSlXk0q39UfvwM8MOX+IEbfknDOXgliXKBQ4750thS
- 1tVLzkJxPf7LipVYkYNcEytuMjotfGdfTPp2Mo1mh/bf2Htpm72YH+Y3AEXMJ2PtypBFDkF/JET
- 5DrkOEgHaOqeqrsRXnYbYDGnyHux8EeqpwSLGiMDKatTowccZbk2c5YD81nwhktaUuF370hSh9J
- trZarR4YgcMliCCx6j0jMk9LbMkywa+Igfe5aFtgm/xtyOuCkysgxESxZSx9HX+jnkkrKtH73wU
- 9dSB7wuBWrvcMdSt0GQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-08_05,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- malwarescore=0 clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603080155
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DS7PR12MB6022:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb8aaf5e-a432-47de-a243-08de7d3d28d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: YrplS0I3IVIn3sX/Px231fd2NQsiXjWtpWrFoItTyMADJEjf6P4ssO2hL+umywd46itnQOTyrkObhNKNFTSlDY9pFP4Y3ZxiY1Gvrhd89J/DHxvbYNTTlXjy2jk+GnMiJI0/4WtwuhinzW1AdpIaN350rZlONm6VcuVcQtPMrXY7gCt+kyoe0TzF37H4oAgN+P4A/QG1f98tlgepMgG0I4L+pE2g6Ixpak2oqdV9HTzy/gRSdTBxsrvpPE0wGaHr9ytuxORe9nUJdDnrd/+B6CfHl8dRrR00T6AiVv5b9TuFw/+NXH/9mDD3batvBIlILUZtWacv92MNF98swvB09pe40js5c+g4rFKGdPJcbXlHFG2gOgbch34iHqhL+UPJYSuDVoM6P01CPVZdi02FOUnXUwcDOTXnevPHLXzNVPQF+0jg7nLdJWC1upKatdz8utUVxktleXgN50wRa6t9cv83VreQTrywM4b5DdlKZcQ3BSMcL0U2aKYTdx0ojXa23LeHYEj4d9x8Htl6HY8s7Gtl6IO0NeqPD/yq5KUiu0x+VwTUNFK49Pk8aL7qHv//PpBSE8HMar06l3GMxHZ1XCoAIBpy5gZawvnqLzT9YFPb7TlU/KSaccsSjdKzo5kaUm2TKfLu+ntvj6kZrGGh+o+ATR+nY+slO4XT9uLThsWuyFkwcUYAgo7SFPNPR7eZyLMw3kWZk2TGsrjoBkwU4Sxm3y+N6yx5LjxyU9h0FGc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?stwp3e6ORK8sFGXA+zyS37dS8a6iIsHOLmjL6478v5zV8Kx9qXh6lq8fINKQ?=
+ =?us-ascii?Q?NQPRaL40wykV5gndLQ09ffjCteujswDw0ItSDxqOgWB0rxmYLbYKCTQN5k56?=
+ =?us-ascii?Q?bGMTdBKDeI2odhftWnog+UKzoS7IYmgx3qWCNXOB8zw75sQUJljG5J4dzMBs?=
+ =?us-ascii?Q?96A9Zz90deBPXjQiZi04aEEUYtoVKi9ZSjYG1BhjnwWAHk0nI1fgO833gpIj?=
+ =?us-ascii?Q?acLOE3PxAVEcP5A1vq6VunIOHY/W/hnelbja1plwsSl4pFOG1HveBHFuTNrl?=
+ =?us-ascii?Q?NUcgdCMZTfnzoTMM9VHhvuFYL++1MPhuGzCGpl0C4XXLao/krXuIi/Adl2bC?=
+ =?us-ascii?Q?Jbd1FOnURmHcup3AudzZx/w1LKnxNEGXQyTEFA1I8uHEm0vtEmbNTtoCAHPx?=
+ =?us-ascii?Q?zT4RnbsoN1euf2Ov4A3jNY9rCHVf3sdqwRv7f59rPNZZBt9dofmNonmxbSuN?=
+ =?us-ascii?Q?XKxNcMgYYzkM31Xvvh/vDSVMNINg7pETMgJs2lYqXpcpfZbhVXWXAKh6lPOu?=
+ =?us-ascii?Q?omEkqqrOoA+8MEnjHGguG1JwaSnfDj6CpOGOEYZczxTWZuc2RpUvf+h6bfF8?=
+ =?us-ascii?Q?QVrsIkRcwA90siciZUCO7qzEwkdEMyEJSz1berP/tHuowy/7p7HjDhomCnm+?=
+ =?us-ascii?Q?65U0lpZETIKz3fR6QGkPfMURtc2vntipY1nazRTtEbaQMuzbkuwS4SZxmf5i?=
+ =?us-ascii?Q?oozSsgNPLJ+dEGpGk3VAon+d9fUxnTrnZed8Px5Tvq+K/ZNXdk9RTUjNb8up?=
+ =?us-ascii?Q?qW5iJlRcBZArSnqi2EVIugXDHOLtGXyFmRmA9q4uhIySYWnDfCJYNV9uZiTE?=
+ =?us-ascii?Q?J7AehoFltWaoPbBPCW5cIbQchdvbnZZToFaU3MwQHvouvUC5zN11Wu5q+lnP?=
+ =?us-ascii?Q?uyFpRcy1PAYFWjSTKlgsAWPfDXF2c1fsWnXQTIQ2dYcHU3hzfTcdxjFwmJJa?=
+ =?us-ascii?Q?AWO9IOhR0eOHI6cuxEsaoDwbVF+Llj7VUns7sfWjMAy4fA8aw+jm1SesAc7B?=
+ =?us-ascii?Q?Al5oe9kAswNemizANziNpoUig4LG26iU6sH9ymNWzTDzhBvDgI2tQ0LJSCNn?=
+ =?us-ascii?Q?TT4+0Vka8YrrJCNIjXIBJtaM4T/FIPJMPkoQ30DuJhQdD2+1ZklHB+E6jpzN?=
+ =?us-ascii?Q?eySZXawAHJIqHWcUwPcxDvcJkrqq3bSVp2G59rvhYnpP1p8QLW/coRkLF9iK?=
+ =?us-ascii?Q?w8TYL3HOCwCiJ4S+xQCRKzGBTsgkeyPqkszca6tgba+inunCyv28luhkPEUc?=
+ =?us-ascii?Q?MRCvCBKny9mVcAnvYTqltodJb2D++8VlalW5sPu5kO0OywHIB42/DIQLezP4?=
+ =?us-ascii?Q?8uRuCdGNFRfdwBl9Pmaqawm1ZuLdJMHc5QsZAaqhm6mehX4gFTRpuXNiMf60?=
+ =?us-ascii?Q?wobxRIuK32S12ScSLO+B5ihTR8bb7efTu5u+87zcpYFtn6KpzGIrpazq2qC5?=
+ =?us-ascii?Q?qs/3mZR0cbPU49opK5M/7/+uYAjJoR2PqxHOD6z8ZJhayIGpCcO4VXxLlrAn?=
+ =?us-ascii?Q?O62B0WmCXPNN+Sh2IdHrTPaknWFT6UtXdTxiILb1f/ml571uXi3jrrCGqH4m?=
+ =?us-ascii?Q?v/RRHWbJu0HIWzZSdptjJUBUMfVAjeXO7u0tHpeFMHp4J5Ibe00aPct/3cNf?=
+ =?us-ascii?Q?JOAv5AVtTCFy697f52aY8Q8qRLb6pnS+7Gaib1LQ7h5lFt5y0BqepkkaxjwM?=
+ =?us-ascii?Q?R9D66jgQWr2EpvisE0+OUhf2GuFl5PJAKakxEBTg+YzXX85IfD/OsVqbdHDx?=
+ =?us-ascii?Q?ArIXY9MY1A=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb8aaf5e-a432-47de-a243-08de7d3d28d1
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 18:04:36.6408 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ElYqE94SjxhkWdd+DDv/YuyXP9TRt99RjpajKVWl6sfJRqtoYRc3/u2jhazOhYu67JFiBE4KKr5ycR5UC2Rkgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,71 +161,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 190D123142D
+X-Rspamd-Queue-Id: EDD86231880
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,redhat.com,collabora.com,linux.intel.com,lists.freedesktop.org,vger.kernel.org,nvidia.com,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,weathered-steel.dev,joelfernandes.org];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:mitltlatltl@gmail.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	NEURAL_HAM(-0.00)[-0.994];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	RCPT_COUNT_GT_50(0.00)[57];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Sun, Mar 08, 2026 at 03:06:27PM +0800, Pengyu Luo wrote:
-> Recently, we round up new_hdisplay once at most, for bonded dsi, we
-> may need twice, since they are independent links, we should round up
-> each half separately. This also aligns with the hdisplay we program
-> later in dsi_timing_setup()
-> 
-> Example:
-> 	full_hdisplay = 1904, dsc_bpp = 8, bpc = 8
-> 	new_full_hdisplay = DIV_ROUND_UP(1904 * 8, 8 * 3) = 635
-> 
-> if we use half display
-> 	new_half_hdisplay = DIV_ROUND_UP(952 * 8, 8 * 3) = 318
-> 	new_full_display = 636
-> 
-> Fixes: 7c9e4a554d4a ("drm/msm/dsi: Reduce pclk rate for compression")
-> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> v2: add a parameter desciption to the function doc (kernel test robot)
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 32 +++++++++++++++++++++++-------
->  1 file changed, 25 insertions(+), 7 deletions(-)
+This patch adds safe Rust abstractions over the Linux kernel's GPU buddy
+allocator for physical memory management. The prerequisite infrastructure
+patches (DRM buddy code movement and the uninitialized buddy fix) have been
+absorbed into upstream -next, so this is now a standalone patch.
 
-The previous version has been picked up alrady (before the report came).
-Would you mind sending a fix for it, describing the parameter?
+The series along with all dependencies, including clist and nova-core mm
+patches, are available at:
+git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova-mm-current-3-8)
 
+This patch is also here:
+https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=gpu-buddy-bindings-v12 
 
--- 
-With best wishes
-Dmitry
+Change log:
+
+Changes from v11 to v12:
+- Rebased on linux-next his is now a standalone single patch as dependencies
+  are absorbed (but not clist is a prequisite)
+- Redesigned allocation API (Alexandre Courbot) for better Rust ergonomics.
+- Split single long example into 4 self-contained examples (Alexandre Courbot).
+- Several safety and invariant comment changes (Danilo).
+- MAINTAINERS changes (Arun, Mathew, Danilo, Dave).
+- Fixed `#[cfg(CONFIG_GPU_BUDDY)]` to `#[cfg(CONFIG_GPU_BUDDY = "y")]` (Danilo Krummrich).
+- Updated `ffi::clist::CListHead` to `interop::list::CListHead`.
+
+Changes from v10 to v11:
+- Dropped "rust: ffi: Convert pub use to pub mod and create ffi module" patch;
+  the ffi module restructuring will go through a different path.
+- Dropped "rust: clist: Add support to interface with C linked lists" patch;
+  the clist module will be submitted separately.
+- Dropped "nova-core: Kconfig: Sort select statements alphabetically" cosmetic
+  patch.
+- Patches 1-3 (DRM buddy movement and fix) are included as reference only;
+  they are already being pulled into upstream via drm-misc-next.
+- Removed clist patches as those can go in independently (Alice).
+- Moved the Kconfig GPU_BUDDY selection patch to nova-core mm series to enable
+  it when it is actually used.
+- Various nits to comments, etc.
+
+Changes from v9 to v10:
+- Absorbed the DRM buddy code movement patches into this series as patches 1-2.
+  Dave Airlie reworked these into two parts for better git history.
+- Added "gpu: Fix uninitialized buddy for built-in drivers" fix by Koen Koning,
+  using subsys_initcall instead of module_init to fix NULL pointer dereference
+  when built-in drivers use the buddy allocator before initialization.
+- Added "rust: ffi: Convert pub use to pub mod and create ffi module" to prepare
+  the ffi module for hosting clist as a sub-module.
+- Moved clist from rust/kernel/clist.rs to rust/kernel/ffi/.
+- Added "nova-core: Kconfig: Sort select statements alphabetically" (Danilo).
+
+Changes from v8 to v9:
+- Updated nova-core Kconfig patch: addressed sorting of Kconfig options.
+- Added Daniel Almeida's Reviewed-by tag to clist patch.
+- Minor refinements to GPU buddy bindings.
+
+Changes from v7 to v8:
+- Added nova-core Kconfig patch to select GPU_BUDDY for VRAM allocation.
+- Various changes suggested by Danilo Krummrich, Gary Guo, and Daniel Almeida.
+- Added Acked-by: Gary Guo for clist patch.
+
+Changes from v6 to v7:
+- Major restructuring: split the large 26-patch v6 RFC series. v7 only contains
+  the Rust infrastructure patches (clist + GPU buddy bindings), extracted from
+  the full nova-core MM series. The nova-core MM patches follow separately.
+- Rebased on linux-next.
+
+Changes from v5 to v6:
+- Rebased on drm-rust-kernel/drm-rust-next.
+- Expanded from 6 to 26 patches with full nova-core MM infrastructure including
+  page table walker, VMM, BAR1 user interface, TLB flush, and GpuMm manager.
+
+Changes from v4 to v5:
+- Added PRAMIN aperture support with documentation and self-tests.
+- Improved buddy allocator bindings (fewer lines of code).
+- Based on drm-rust-next instead of linux-next.
+
+Changes from v3 to v4:
+- Combined the clist and DRM buddy series into a single coherent series.
+- Added DRM buddy allocator movement from drivers/gpu/drm/ up to drivers/gpu/,
+  renaming API from drm_buddy to gpu_buddy.
+- Added Rust bindings for the GPU buddy allocator.
+
+Changes from v2 to v3:
+- Squashed 3 clist patches into one due to inter-dependencies.
+- Changed Clist to Clist<'a, T> using const generic offset (Alex Courbot).
+- Simplified C helpers to only list_add_tail (Alex Courbot, John Hubbard).
+- Added init_list_head() Rust function (Alex Courbot).
+- Added FusedIterator, PartialEq/Eq impls.
+- Added MAINTAINERS entry (Miguel Ojeda).
+
+Changes from v1 (RFC) to v2:
+- Dropped DRM buddy allocator patches; series focuses solely on clist module.
+- Dropped sample modules, replaced with doctests.
+- Added proper lifetime management similar to scatterlist.
+- Split clist into 3 separate patches.
+
+Link to v11: https://lore.kernel.org/all/20260224224005.3232841-1-joelagnelf@nvidia.com/
+
+Joel Fernandes (1):
+  rust: gpu: Add GPU buddy allocator bindings
+
+ MAINTAINERS                     |   6 +-
+ rust/bindings/bindings_helper.h |  11 +
+ rust/helpers/gpu.c              |  23 ++
+ rust/helpers/helpers.c          |   1 +
+ rust/kernel/gpu/buddy.rs        | 611 ++++++++++++++++++++++++++++++++
+ rust/kernel/gpu/mod.rs          |   5 +
+ rust/kernel/lib.rs              |   2 +
+ 7 files changed, 658 insertions(+), 1 deletion(-)
+ create mode 100644 rust/helpers/gpu.c
+ create mode 100644 rust/kernel/gpu/buddy.rs
+ create mode 100644 rust/kernel/gpu/mod.rs
+
+--
+2.34.1
+
