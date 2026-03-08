@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GM0TOU6NrWlN4QEAu9opvQ
+	id MINmO1CNrWlE4QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:02 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39920230C05
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6AB230C22
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A44910E02E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1510410E0B8;
 	Sun,  8 Mar 2026 14:52:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sj3vt+sv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kQ8XdQsd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA4F10E16A
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 14:52:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 138AD10E02E
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 14:52:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7028D444CD;
+ by sea.source.kernel.org (Postfix) with ESMTP id 81AE144539;
  Sun,  8 Mar 2026 14:52:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5146FC2BCF4;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 600E3C2BCB6;
  Sun,  8 Mar 2026 14:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1772981577;
- bh=Vc6BStLhf2YonGOFI3gte4yDvX6yz4QhBccE8uQ9lOE=;
+ bh=ITIzJ391ANp6nbjewwCbUe4dFguoK4zneXWK8YutLdc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=Sj3vt+svFQC6tXmAjrlqtCIbD306D1JScAruTHzKC6jqNwc/PJCWrXIq5oPtcdK+7
- OJIIGnEgWdGV+cYTo0upZk1f47l5foQUGcPn0pD3l3t2mgqzBVgTetZbsRHZhGqcyN
- zR+BJhtjQBe3o2aKigsXo7kmz6Br/zGShbRw1yS0sreqqZ/HX1mhcb+z7OBVaipapa
- 5gwu6XDvefTOluTaUnpcPJrVINsfYyzEaXXKJZWQQqDoxwOQy63+YbYLLus3unfYVK
- d/nkCS58yEoNFkWOF0hXLMV9TJti/dyUt/IphoKQQdtMPO8P1SqyQoc9AXq6lr6u4r
- d25u1k2dySBgA==
+ b=kQ8XdQsdQmLI7EiLYwlL+xA98ZvRqiCGrgbzp1N+PFJKetCI34OfNLx2MFO01OPzs
+ HUPLs9MCQsTynvlAQFbgoUKRhzaEY6flzNaSreTaXn8pLPKtdktsaR2BkGSWmr+9dO
+ 0kUPptQX11dOtKnmWiRZoJXEcslNXiy1eQaNhoFrpaVMB1UlBW6Z21R8dUv8DoxvgL
+ lIfFKe2mSfCYWeMwuB+Ou5dKONJvWrAkpovDx7YEdYNJBAD987WzA+iDeryLLdWt3O
+ s+1o6Js0yL0rLrvkodol7pW6GeEFpg59Rt3/tiFFDdW1aW+jIu0cbNfZ4v2N9gHmJX
+ gieMt3C/7TsSw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 453C5EA8520;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 5419FEA8524;
  Sun,  8 Mar 2026 14:52:57 +0000 (UTC)
 From: Cristian Cozzolino via B4 Relay
  <devnull+cristian_ci.protonmail.com@kernel.org>
-Date: Sun, 08 Mar 2026 16:52:45 +0100
-Subject: [PATCH 5/6] arm64: dts: qcom: msm8953-flipkart-rimob: Enable
- touchscreen
+Date: Sun, 08 Mar 2026 16:52:46 +0100
+Subject: [PATCH 6/6] arm64: dts: qcom: msm8953-flipkart-rimob: Enable Hall
+ sensor
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260308-rimob-new-features-v1-5-aa2c330572c0@protonmail.com>
+Message-Id: <20260308-rimob-new-features-v1-6-aa2c330572c0@protonmail.com>
 References: <20260308-rimob-new-features-v1-0-aa2c330572c0@protonmail.com>
 In-Reply-To: <20260308-rimob-new-features-v1-0-aa2c330572c0@protonmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -63,11 +63,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
  Cristian Cozzolino <cristian_ci@protonmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772985181; l=1526;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772985181; l=1434;
  i=cristian_ci@protonmail.com; s=20250620; h=from:subject:message-id;
- bh=XQl5nSdg+PoeO9f/GA6vS7lJytMiNgLggtR2JXTp7MI=;
- b=NbQPg1CIk5z+Ptu+IL8KRnHwrrtpGoLeeH6hvVcmPcVLfRg1WYlpUusBZSiOqVHfSZl84MK3C
- SoPWhVd/7n/AAGB1wWJNYIeaJXkkr1wvF7OGuefQ3nJgYOXo/opxCoo
+ bh=/6j0+t2XKdKx1e1cFAgI0as9W1ExR5I7yqNCXHZ/Uzs=;
+ b=NzbU54tsA4XN8Nz2MbLAnZnyrJar55S2NfzMDiqjaBAhTT2PFW84rbNSK+RHqLfbFlgz8pfgW
+ brFoFv9OkFFCjXVwpiII9P8yS/qAxX8jxuvtydmjSD5egBN68AjQz/j
 X-Developer-Key: i=cristian_ci@protonmail.com; a=ed25519;
  pk=xH5IvIPUNHV1Q8R0/pq2CfuVFR/wTiAyuyi6IwedjZY=
 X-Endpoint-Received: by B4 Relay for cristian_ci@protonmail.com/20250620
@@ -88,7 +88,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Reply-To: cristian_ci@protonmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 39920230C05
+X-Rspamd-Queue-Id: 5A6AB230C22
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.19 / 15.00];
 	FREEMAIL_REPLYTO_NEQ_FROM(2.00)[];
@@ -131,64 +131,57 @@ X-Rspamd-Action: no action
 
 From: Cristian Cozzolino <cristian_ci@protonmail.com>
 
-This device uses a Goodix GT5688 touch controller, connected to i2c_3.
-Add it to the device tree.
+Enable the Hall effect sensor (flip cover) for Billion Capture+.
+The GPIO is mapped to SW_LID events as in other qcom devices.
 
 Signed-off-by: Cristian Cozzolino <cristian_ci@protonmail.com>
 ---
- .../arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts | 32 ++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ .../arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts | 25 ++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts b/arch/arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts
-index 7b2849405462..709ea6fc9fbb 100644
+index 709ea6fc9fbb..83812050a0a3 100644
 --- a/arch/arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts
 +++ b/arch/arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts
-@@ -94,6 +94,31 @@ &hsusb_phy {
- 	status = "okay";
- };
+@@ -44,6 +44,24 @@ framebuffer@90001000 {
+ 		};
+ 	};
  
-+&i2c_3 {
-+	status = "okay";
++	gpio-hall-sensor {
++		compatible = "gpio-keys";
 +
-+	touchscreen@5d {
-+		compatible = "goodix,gt5688";
-+		reg = <0x5d>;
-+
-+		interrupts-extended = <&tlmm 65 IRQ_TYPE_LEVEL_LOW>;
-+
-+		pinctrl-0 = <&tsp_int_rst_default>;
++		pinctrl-0 = <&hall_sensor_default>;
 +		pinctrl-names = "default";
 +
-+		irq-gpios = <&tlmm 65 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
++		label = "GPIO Hall Effect Sensor";
 +
-+		VDDIO-supply = <&pm8953_l6>;
-+		AVDD28-supply = <&pm8953_l10>;
-+
-+		touchscreen-size-x = <1080>;
-+		touchscreen-size-y = <1920>;
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
++		event-hall-sensor {
++			label = "Hall Effect Sensor";
++			gpios = <&tlmm 46 GPIO_ACTIVE_LOW>;
++			linux,input-type = <EV_SW>;
++			linux,code = <SW_LID>;
++			linux,can-disable;
++			wakeup-source;
++		};
 +	};
-+};
 +
- &ibb {
- 	qcom,discharge-resistor-kohms = <32>;
- };
-@@ -324,6 +349,13 @@ mdss_sleep: mdss-sleep-state {
- 		drive-strength = <2>;
- 		bias-pull-down;
- 	};
-+
-+	tsp_int_rst_default: tsp-int-rst-default-state {
-+		pins = "gpio64", "gpio65";
-+		function = "gpio";
-+		drive-strength = <8>;
-+		bias-pull-up;
-+	};
- };
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
  
- &usb3 {
+@@ -335,6 +353,13 @@ gpio_key_default: gpio-key-default-state {
+ 		bias-pull-up;
+ 	};
+ 
++	hall_sensor_default: hall-sensor-default-state {
++		pins = "gpio46";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-disable;
++	};
++
+ 	mdss_default: mdss-default-state {
+ 		pins = "gpio61";
+ 		function = "gpio";
 
 -- 
 2.52.0
