@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id xFuCDJeGrWkY4AEAu9opvQ
+	id kKeCJ5iGrWnZ3wEAu9opvQ:T3
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:23 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B423230A48
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB56230AD5
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C4410E43D;
-	Sun,  8 Mar 2026 14:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C299E10E3AE;
+	Sun,  8 Mar 2026 14:13:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=rcpassos.me header.i=@rcpassos.me header.b="Fyl6+6CA";
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=purelymail.com header.i=@purelymail.com header.b="Dnxht6qa";
+	dkim=pass (2048-bit key; secure) header.d=pm.me header.i=@pm.me header.b="LqKj8Duw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sendmail.purelymail.com (sendmail.purelymail.com
- [34.202.193.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890F710E00C
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 00:05:36 +0000 (UTC)
-Authentication-Results: purelymail.com; auth=pass
-DKIM-Signature: a=rsa-sha256;
- b=Fyl6+6CAtGGGKuJ+BVAHrzaZUCZfO7TgXcjm2dFdflfaCdhzaM1Pe0bs3r5t1owbLfkCG6nizSS88lmwqR0rejl2rdVogx13Tdjw615QFcbFsUNBb0Xis5SCRorfQF8X5XqUDni7l6uNVcmOG2rIuEg5araRHETpcCJ7nK1xd5rgl/HZuEOyvtX/GjPvujQaFV4RjwoBl06qSfXi1lGx/N3T/nrTRfSj/F1/PLIrmZUVQcQ4Sniy37ruyJgD/KJzCoerryUHcG+XOutrDE9MkBjV/HMIgA/hbtlNLY3awyLMOTP9gD4C5hPdRt6lvdqWsAYBwmvmtb3i5gwEP1bEZw==;
- s=purelymail1; d=rcpassos.me; v=1;
- bh=R8xSOdzYzJCd5hJX+8z//Gh+40HMLCgVDc2ZQ55Cqnk=;
- h=Received:From:To:Subject:Date; 
-DKIM-Signature: a=rsa-sha256;
- b=Dnxht6qae2y0e8Q6It/WKwP+UVTkUyVIfp2SBmllxmU7CwvqMYxA5l9ng6Jkm0IAvMJAA8uN2461zvI5jSwj1K0wu1PRVyGjC5ET/GkwzIpa5lmvJL+dk5E6IGgg+2WkxQIYF9gVfCO0T0Pxpmfs0dBTzJ2DccqHBpQJxC6bA3SXSp5go9w2QnRA5CxKwLAEom4NGlgFi7wP+OYDAaRX54hYj81ia1TQ8uCY1g7n7wdEbkQS0sgOD3lh52wAyFB8puVBxfD3lXd3tNvEYfq+PrUwlInjgbxuysFn2/CYHlbD7vZVN5tXsKuBLxtWvxjSYW8H28QXnL9GwflYIrXFOQ==;
- s=purelymail1; d=purelymail.com; v=1;
- bh=R8xSOdzYzJCd5hJX+8z//Gh+40HMLCgVDc2ZQ55Cqnk=;
- h=Feedback-ID:Received:From:To:Subject:Date; 
-Feedback-ID: 45355:7809:null:purelymail
-X-Pm-Original-To: dri-devel@lists.freedesktop.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -240878125; 
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sun, 08 Mar 2026 00:05:19 +0000 (UTC)
-From: Rafael Passos <rafael@rcpassos.me>
-To: alexdeucher@gmail.com
-Cc: BhuvanaChandra.Pinninti@amd.com, Harry.Wentland@amd.com,
- Martin.Leung@amd.com, Sunpeng.Li@amd.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, daniel.wheeler@amd.com,
- davidbtadokoro@ime.usp.br, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rafael@rcpassos.me, ray.wu@amd.com,
- rcpassos@ime.usp.br, siqueira@igalia.com
-Subject: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir iGPU
-Date: Sat,  7 Mar 2026 21:04:22 -0300
-Message-ID: <20260308000515.890688-1-rafael@rcpassos.me>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <CADnq5_Msmohg3T5KLrqPwvJGbXPOMKeNN-ZcqgTS2pHb+GjuYQ@mail.gmail.com>
-References: <CADnq5_Msmohg3T5KLrqPwvJGbXPOMKeNN-ZcqgTS2pHb+GjuYQ@mail.gmail.com>
+Received: from mail-4321.protonmail.ch (mail-4321.protonmail.ch [185.70.43.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC5510E062
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 06:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+ s=protonmail3; t=1772949806; x=1773209006;
+ bh=NFz/ADbf6pESwwM27NmyYlJClVBpWvvDg479laeIfdU=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=LqKj8Duww0BqsqZK5wq4gj7+rfZH7UYnlKJ8gaJ7wdGwA77xQHqPIUABgZWMctExN
+ o0p3GKtha7OHpUxAfVWEZ3GR/oB/2Zda1ZBdxTAxl7WyfgEorFqB2zUOF316L0sxpD
+ yKnNH97XRwsebzI4je3bioax3CGC4Ey3I18GYhQJDYtOVshKOn2EHESUHaZsLUXJx4
+ 3ovRkcB9GxGBadVaE24LWY/l0n2CcyvWMJOU9zgcTJhLYuIN16JyRTCQeibRIyzNa9
+ UgiMckh+mQpIFxbcRhpdKpJOTHtO//4YxwOjLrrNXgI+sAzHXC8Sz4swi8qSs3gcxq
+ vhiVuK7m7HmDQ==
+Date: Sun, 08 Mar 2026 06:03:22 +0000
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+From: Alexander Koskovich <AKoskovich@pm.me>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
+Subject: [PATCH 0/2] Add support for Tianma TA066VVHM03 DSI panel
+Message-ID: <20260308-tianma-ta066vvhm03-v1-0-869fac443b20@pm.me>
+Feedback-ID: 37836894:user:proton
+X-Pm-Message-ID: ec8bcfedb72faacdb2594220ccb0e3698349f9d4
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
-Content-Type: text/plain; charset=UTF-8
 X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,162 +64,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 7B423230A48
+X-Rspamd-Queue-Id: 9FB56230AD5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.39 / 15.00];
-	DMARC_POLICY_REJECT(2.00)[rcpassos.me : SPF not aligned (relaxed),reject];
-	R_DKIM_REJECT(1.00)[rcpassos.me:s=purelymail1,purelymail.com:s=purelymail1];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:akoskovich@pm.me,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:alexdeucher@gmail.com,m:BhuvanaChandra.Pinninti@amd.com,m:Harry.Wentland@amd.com,m:Martin.Leung@amd.com,m:Sunpeng.Li@amd.com,m:alexander.deucher@amd.com,m:amd-gfx@lists.freedesktop.org,m:daniel.wheeler@amd.com,m:davidbtadokoro@ime.usp.br,m:linux-kernel@vger.kernel.org,m:rafael@rcpassos.me,m:ray.wu@amd.com,m:rcpassos@ime.usp.br,m:siqueira@igalia.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[AKoskovich@pm.me,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_TO(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[pm.me:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[AKoskovich@pm.me,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[rcpassos.me:-,purelymail.com:-];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_SPAM(0.00)[0.154];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,usp.br:email,rcpassos.me:mid,rcpassos.me:email]
+	NEURAL_HAM(-0.00)[-0.991];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,pm.me:dkim,pm.me:email,pm.me:mid]
 X-Rspamd-Action: no action
 
-[WHAT]
-Set the register offset MICROSECOND_TIME_BASE_DIV in dccg_registers for DCN=
-21.
-Introduce a new dccg21_init function, used in dccg_funcs.dccg_init for DCN2=
-1.
-The new dccg21_init sets 0x00120464 to set the MICROSECOND_TIME_BASE_DIV
-register instead of 0x00120264, set by dccg2_init.
+Add dt-binding and driver for the Tianma TA066VVHM03 6.59" 1080x2340
+AMOLED DSI panel with DSC compression, found in the ASUS ROG Phone 3.
 
-[WHY]
-The previous commit introduced a change where the dcn21_s0i3_golden_init_wa
-function used to read the MICROSECOND_TIME_BASE_DIV reg from hwseq, and
-now started reading from dccg using dccg2_is_s0i3_golden_init_wa_done.
-However, this register is not properly initialized in dccg.
-Also, the value was initialized to 0x00120264 by dccg2_init, but
-compared to 0x00120464. For this reason, we created a new dccg21_init
-with the values specific to this card.
+This panel depends on slice_per_pkt support currently being reviewed:
+https://lore.kernel.org/linux-arm-msm/20251001135914.13754-3-caojunjie650@g=
+mail.com
 
-Fixes: 4c595e75110e ("drm/amd/display: Migrate DCCG registers access from h=
-wseq to dccg component.")
-Signed-off-by: Rafael Passos <rafael@rcpassos.me>
-Co-developed-by: David Tadokoro <davidbtadokoro@ime.usp.br>
-Signed-off-by: David Tadokoro <davidbtadokoro@ime.usp.br>
+Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
 ---
+Alexander Koskovich (2):
+      dt-bindings: display: panel: Document Tianma TA066VVHM03
+      drm/panel: Add support for Tianma TA066VVHM03 panel
 
-It took a lot of debugging to get to this point.
-We are not sure this is the right fix, but it works.
-We found that when reading the MICROSECOND_TIME_BASE_DIV register,
-the offset was 13b in the old path and 0 in the new path.
+ .../bindings/display/panel/tianma,ta066vvhm03.yaml |  67 ++++
+ MAINTAINERS                                        |   6 +
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c   | 387 +++++++++++++++++=
+++++
+ 5 files changed, 472 insertions(+)
+---
+base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+change-id: 20260308-tianma-ta066vvhm03-a72bd18f2b3f
 
-The dcn21_s0i3_golden_init_wa is called when booting
-and when waking from sleep. It compares the value from
-MICROSECOND_TIME_BASE_DIV to 0x00120464.
-When booting, the value was different (and this function returns true).
-When waking from sleep, the value should be equal; thus,
-this function would return false.
-
-After 4c595e75110e, the value was always different than 0x00120464, so
-this function always returned true, failing to wake the screen.
-This happened because the offset of MICROSECOND_TIME_BASE_DIV was 0,
-and READ_REG always returned 0x1186A0 (value from MILLISECOND_TIME_BASE_DIV=
-?).
-
-Things we are unsure of:
-- We used SR to set MICROSECOND_TIME_BASE_DIV direclty in the
-=09dccg_registers struct. We did not find other examples of this.
-=09Should we set MICROSECOND_TIME_BASE_DIV to the DCCG_COMMON_REG_LIST_DCN_=
-BASE ?
-=09I only added it to DCN21, because it is the hardware I have (and validat=
-ed it works).
-- We changed 0x00120264 to 0x00120464 in the init, but dccg2 has the
-=09same difference in setting and reading. We would like to know if this is=
-sue
-=09also affects dccg2 (and other cards), or if we are missing something.
-=09Maybe we should change this value in dccg2_is_s0i3_golden_init_wa_done.
-
-It applies to the mainline master, amdgpu drm-next and amd-staging-drm-next=
-.
-
-Any feedback is appreciated. It was a fun-frustrating-veryfun journey. :)
-Code written only by humans.
-
-
- .../drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c  | 17 ++++++++++++++++-
- .../display/dc/resource/dcn21/dcn21_resource.c  |  3 ++-
- 2 files changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c b/drive=
-rs/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
-index 75c69348027e..6f96e9c189dc 100644
---- a/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
-@@ -96,6 +96,21 @@ static void dccg21_update_dpp_dto(struct dccg *dccg, int=
- dpp_inst, int req_dppcl
- =09dccg->pipe_dppclk_khz[dpp_inst] =3D req_dppclk;
- }
-=20
-+void dccg21_init(struct dccg *dccg)
-+{
-+=09struct dcn_dccg *dccg_dcn =3D TO_DCN_DCCG(dccg);
-+
-+=09/* Hardcoded register values for DCN21
-+=09 * These are specific to 100Mhz refclk
-+=09 * Different ASICs with different refclk may override this in their own=
- init
-+=09 */
-+=09REG_WRITE(MICROSECOND_TIME_BASE_DIV, 0x00120464);
-+=09REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x001186a0);
-+=09REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x0e01003c);
-+
-+=09if (REG(REFCLK_CNTL))
-+=09=09REG_WRITE(REFCLK_CNTL, 0);
-+}
-=20
- static const struct dccg_funcs dccg21_funcs =3D {
- =09.update_dpp_dto =3D dccg21_update_dpp_dto,
-@@ -103,7 +118,7 @@ static const struct dccg_funcs dccg21_funcs =3D {
- =09.set_fifo_errdet_ovr_en =3D dccg2_set_fifo_errdet_ovr_en,
- =09.otg_add_pixel =3D dccg2_otg_add_pixel,
- =09.otg_drop_pixel =3D dccg2_otg_drop_pixel,
--=09.dccg_init =3D dccg2_init,
-+=09.dccg_init =3D dccg21_init,
- =09.refclk_setup =3D dccg2_refclk_setup, /* Deprecated - for backward comp=
-atibility only */
- =09.allow_clock_gating =3D dccg2_allow_clock_gating,
- =09.enable_memory_low_power =3D dccg2_enable_memory_low_power,
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c=
- b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
-index 0f4307f8f3dd..7f8f657eb0f2 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
-@@ -222,7 +222,8 @@ static const struct dce_audio_mask audio_mask =3D {
- };
-=20
- static const struct dccg_registers dccg_regs =3D {
--=09=09DCCG_COMMON_REG_LIST_DCN_BASE()
-+=09=09DCCG_COMMON_REG_LIST_DCN_BASE(),
-+=09=09SR(MICROSECOND_TIME_BASE_DIV)
- };
-=20
- static const struct dccg_shift dccg_shift =3D {
+Best regards,
 --=20
-2.53.0
+Alexander Koskovich <akoskovich@pm.me>
+
 
