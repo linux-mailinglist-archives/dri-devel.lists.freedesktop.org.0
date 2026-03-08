@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UJNnBfIbrWlzyQEAu9opvQ
+	id +KkiHfsbrWlxyQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 07:49:22 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 07:49:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85D222EC27
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 07:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2853D22EC3D
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 07:49:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E847410E0CA;
-	Sun,  8 Mar 2026 06:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8026710E0D9;
+	Sun,  8 Mar 2026 06:49:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DrWKj7Mq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JdaTGw04";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9890D10E0C7
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 06:49:18 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-2aae4816912so70318695ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2026 22:49:18 -0800 (PST)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 698A310E062
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 06:49:28 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id
+ 41be03b00d2f7-c70ea5e9e9dso3984869a12.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2026 22:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772952558; x=1773557358; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1772952568; x=1773557368; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=htFMdi0PCVoInWxpb9fYJOUgvIOz96/javA4OzFNMiI=;
- b=DrWKj7MqLmJk6n9Wvvk3UfccDSbGpvvxijt71g7mixO8dEmXO/fEFF+plTsIn72plU
- sf/cMbpNh/ii42OP4FOkYgvEx057dE4IwD3ZG21YHqeHI9r7dRAijeyTT3rCfTEYQS5F
- Z2lPScjpwhmwkwCCZoigMvP1eQ3MZLh31F5PlvnU/xPi+LxedtzWmFrJNHByOT6/AWA+
- rhasKnR2fSg3gkHRfGmzAUprG01m7QMOYxwM+h1CBDcSsrOgTLiFUMqq8fOLh+aq4Gd3
- Ifjkr1J4b1mjxlL89HDGor8h/iRY4MHd5Y22zV31VGE3bXhe6WN+HzLGXhXWVyWygiBS
- ejeA==
+ bh=XVqZVQCQ9M+s/60nh17cYdg5jAVVqaMsdAamEjRVdF0=;
+ b=JdaTGw04LFDpMozrdpo/I0cpem5oTvY2126JKylpSYue9Dk4tnfY3BTkhwYA2QiOqY
+ 0eXI2rd8iJuZPehC125EuxUwD65lS//q0oUUrgykmqHYH1OFRvpakX2ptiSVMnlT/i5L
+ ogAwLEU8nbCHqu04mmMYrnEQxwTW/uEVM0s2TkAj4O3aSJsgjfDdy9/sf8iD91Bzb919
+ BfEISlVENGht8hCWNxPe4g9am3hoz0zIs8+N6zCRmQ+up7JW+pCSIP/7k7hXHm79dvfB
+ Tu0Q8LCpK009qbQ3iSPWzyO5knOgZzSM9fyTUSUk2rVI8N3ULAyxsXlX9gJqHeL6GvFr
+ hPxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772952558; x=1773557358;
+ d=1e100.net; s=20230601; t=1772952568; x=1773557368;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=htFMdi0PCVoInWxpb9fYJOUgvIOz96/javA4OzFNMiI=;
- b=LsGfWf32+04AekJfDw11F05UnY+DrPaKs1BxwfgBDTJZ20RdXs+shoQgAdrYTHGl4Q
- /2vKHl/BvJ6Zc0ILgUCVjjGeDS1iY9UyWg5qoFRQob379VaNl0GjP/YD4Z65dsLzmKgQ
- 2ncKYVZXStMMcutaELFByfvb3KDHuXwag/DXsKRvIZa5pIgKUI5ChWgNeksowQ385QXi
- 37HV0NYcRSJFxAXbwHk+9k7xARjaoyg8EXCDKo3WHF9Y5ehCKUJV0BBClQ/mk2pIU62q
- RjDwrQKsVf6vZSx4MvI6Y7Utje7TVk/kgcw40mYvWC6L5u0TntKfMV2+UyZsbiRp5Sjq
- N8eg==
+ bh=XVqZVQCQ9M+s/60nh17cYdg5jAVVqaMsdAamEjRVdF0=;
+ b=OfLL/GxwJqCAZlJYmQn3vn30Uc7tsYQDies+CqvvMNDZC/7yQgi5IQ2Dm1WQVihnLD
+ V43dhZsxr//tTEQBSdloop6TJGf1NMyn1BG/5USp02J/tWhU32vp6xDZqq/qPliD/X79
+ KZBrxxf4x521v/mydJmUidrDC7SYhg+UtRj5q+6wyAnXcx5AB1YZIbmkX84EQqc9DUWG
+ OOOGtRVnMEIYhkgwUyo0OQAUi1Dnmy2NlNMb64CiL2Chgvunb2AtD0e1IUSfNzi3gBQG
+ DKitrE+TZ6uxv6jpnt2HKjjNKugma7dSD3oecFBTielshAvhZjdcledC8OvHweM+pCgL
+ /GdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtKfyFIP4QS8UzszFE8QUZyprWSvv8hel3SPmgjp1cfLZHRJJXIs8ZHrb+L790wZ3fX0UDH9L43qY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOc0VaJ31EsyhlE8bAdh5ioj5YJerGir/7ihMSvvCK4h2xioZ8
- M9yhxfWoK8sqtMA3SU4xJpet8/e68a4sKq4k7qE9iv9MrN8g84RwUXXJ
-X-Gm-Gg: ATEYQzxF8tcjVETfaBUeChwy+484eIVw7TJK30ylLCu7bOMPdaxXY6cxR2o0LSsjfPf
- b72dzQS465cjTin/Vss3VWnwesHoTuZPjIxYE7T0OEm7OuStPbx1GCIviRdoz7arQmEuEzkEK2l
- ZLHeIQOvxn5Fwg2VFLZRKKaX51RksejXmj3xrWtxwDDZGbhC5SpV0FmYaqzHKvOin01YP2lbXqU
- 6qtf84BROrxJLC4Cvcm24wGP/Wgr+7nM5kzpd64D8KM42aKkPegRaftUuoBLoFvJHOjZT43/OK4
- EJKNu0nsOdg4z+oKqFZIcta6xnm37BcrJE/bP/5lpddW3a7vdAJATKK9TBTBDD8P1HvOfW/aySE
- kTS1+aabzlv1YoGhtkyPJjMpqqV/5xbJcA3p+wfIafEEOF5kX3XqSHkD3xmTxwOvymniukGsYPW
- eTHkW1yQ6uwAu+j6o7LpoUX57WfcWJ
-X-Received: by 2002:a17:902:c401:b0:2ae:4f15:1aba with SMTP id
- d9443c01a7336-2ae82443f7cmr78483015ad.30.1772952558001; 
- Sat, 07 Mar 2026 22:49:18 -0800 (PST)
+ AJvYcCWhg24awj1lgiwloV3UBf8KlL1eLrelqsJ1avEwXrvv8J4PLtCvnCioGr0vDwbyMfS3BBaSwwb+NZI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbA5TyXQcevekfH4mmhyznbtVWJTGOR/y1miGIiA6NDXXQ6Hb3
+ nOe6J574pF42+o5G0yeqwAIX+9sPS4Hh5Ykek6OuTbDOxBTUX/vtBbyd
+X-Gm-Gg: ATEYQzyPz54MLZjXsBFRtXwM+wLwZ9emkKWCrPqYQ916F/EwevE5EQoD3s8yW9q2eBG
+ 44f9MDVsVI1yKxpZtswh2TEkC6lgfIuSEk7Q6lijRKGDmEjFJz4hqwCJVTkwMLcu65AnKg8dluy
+ qvJIUFTTIIhzLdqo1bmTZYHay8+2OGY49VOpHmA2B5Gttlu0A796uAO1vxtWlnqLixe3ctTMhwv
+ MxwyicHTmrdqWjJc0BJSFf01QSht/YNRgBYH5UtfkjNjrxttyY06daX9/YVeN099p1pxQUuKAfh
+ AA2ZLkfYhSq1+mEyElODXz74j1ku603lybUZrKiXrppcmIhYQMEn/o9Pk7SCTaoiO8TXUDyRE8P
+ 2vhQ5dVrQlD3ZSOzrBinfdRZyZ519Ab6TKk5IeTmE5yx0v4yG0ckJJmf0PGm64atrqeNUtwN9AO
+ kzTzgwowRg4cnNc4XDWA==
+X-Received: by 2002:a17:903:f87:b0:2ae:44f4:1678 with SMTP id
+ d9443c01a7336-2ae824b83e7mr69310475ad.57.1772952567915; 
+ Sat, 07 Mar 2026 22:49:27 -0800 (PST)
 Received: from nuvole ([109.166.36.159]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2ae840c9a0csm72503225ad.91.2026.03.07.22.49.08
+ d9443c01a7336-2ae840c9a0csm72503225ad.91.2026.03.07.22.49.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Mar 2026 22:49:17 -0800 (PST)
+ Sat, 07 Mar 2026 22:49:27 -0800 (PST)
 From: Pengyu Luo <mitltlatltl@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
@@ -86,9 +86,10 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Tianyu Gao <gty0622@gmail.com>,
  White Lewis <liu224806@gmail.com>, Pengyu Luo <mitltlatltl@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v4 1/4] dt-bindings: display: msm-dsi-phy-7nm: Add SC8280XP
-Date: Sun,  8 Mar 2026 14:48:32 +0800
-Message-ID: <20260308064835.479356-2-mitltlatltl@gmail.com>
+Subject: [PATCH v4 2/4] dt-bindings: display/msm: dsi-controller-main: Add
+ SC8280XP
+Date: Sun,  8 Mar 2026 14:48:33 +0800
+Message-ID: <20260308064835.479356-3-mitltlatltl@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260308064835.479356-1-mitltlatltl@gmail.com>
 References: <20260308064835.479356-1-mitltlatltl@gmail.com>
@@ -108,7 +109,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B85D222EC27
+X-Rspamd-Queue-Id: 2853D22EC3D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -145,32 +146,32 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-Since SC8280XP and SA8775P have the same values for the REVISION_ID
-registers, then we fallback to SA8775P compatible.
+Since SC8280XP and SA8775P have the same DSI version(2.5.1), then we
+fallback to SA8775P compatible.
 
 Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
 v4: There were no changes to the patch.
 ---
- Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
+ .../devicetree/bindings/display/msm/dsi-controller-main.yaml     | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-index 9a9a6c4abf..532f371829 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-@@ -32,6 +32,7 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index eb6d38dabb..617dd110db 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -49,6 +49,7 @@ properties:
        - items:
            - enum:
-               - qcom,qcs8300-dsi-phy-5nm
-+              - qcom,sc8280xp-dsi-phy-5nm
-           - const: qcom,sa8775p-dsi-phy-5nm
- 
-   reg:
+               - qcom,qcs8300-dsi-ctrl
++              - qcom,sc8280xp-dsi-ctrl
+           - const: qcom,sa8775p-dsi-ctrl
+           - const: qcom,mdss-dsi-ctrl
+       - enum:
 -- 
 2.53.0
 
