@@ -2,70 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILMxN0JLrWld1AEAu9opvQ
+	id dRe5Dn1MrWnY1AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 11:11:14 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 11:16:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912F122F4A6
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 11:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECFC22F4CA
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 11:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C7610E0FE;
-	Sun,  8 Mar 2026 10:11:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE1E10E0F5;
+	Sun,  8 Mar 2026 10:16:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jm+8Zf+/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l/psn+Ur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E50410E0FE;
- Sun,  8 Mar 2026 10:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772964668; x=1804500668;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=e7VQSTQMtLAY116kGpVCvwpkviv2oXrPqJ9NjU7r+sg=;
- b=jm+8Zf+/baPy7ft2F0Vo7D06JypLZ5IpwN5V8nDQpAxMR1ON9bKq+GAK
- vAwVhH13tYv5ntrqKlEhQeceGhQWi45yiIWb7G2MV4eILB4IWbUv/P6zw
- J9bX/e6bqcnX74j/HEK4hbFOLsQS9YHBFElnzRiH9M/lp2MAK0vT+bA82
- ccHJz0Z/fMrCZXnAzN0MP7tCxyYj1448zJ9VwpZJhfCnoPW3qWNOWKG6u
- WezK14vaeFq6uMkmumKmHYdPocD2Qys2dRk5krweU6ICpBuVkOnnZ9LRu
- 8tY2TuOxeSHpcmfcZVyWKU+dBX2wih7ba854z6g+04iMQ6abSkbUuJDKy g==;
-X-CSE-ConnectionGUID: g5oCWI0dSXaN3kPb7DAc9A==
-X-CSE-MsgGUID: O9kJm/vTQ4etIBcG8YAAbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74086084"
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="74086084"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2026 03:11:05 -0700
-X-CSE-ConnectionGUID: KcTc1s/DREKLcWZRphkk/A==
-X-CSE-MsgGUID: poFTVjzPQcyjufj83ZmODA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="223572702"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 08 Mar 2026 03:11:02 -0700
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vzB6A-0000000031R-3zWf;
- Sun, 08 Mar 2026 10:10:58 +0000
-Date: Sun, 8 Mar 2026 18:10:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v7 04/29] drm/sched: Add some scheduling quality unit tests
-Message-ID: <202603081744.gNhsEN20-lkp@intel.com>
-References: <20260306163445.97243-5-tvrtko.ursulin@igalia.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3091510E0F5
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 10:16:24 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-4327790c4e9so8216622f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 03:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1772964982; x=1773569782; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=r1M7cJDIewQ99ulliRiFRi494hczaIMjS0kWLIY8AF4=;
+ b=l/psn+UrTE/2fRzFxbOJL2UMyUET6jynaUk/dGot8sSTcreEQSOveGZMuFO9V+vPOP
+ L4CFSpCs2TByzf96oMEOZ8Lv4U9AAD3pbksWfAasIXmjqsfc0Y4CHRgwIDkdLMNYol+u
+ s8UQ8bqfEBCEy0RDCGYYMW8x9f6jkPnX1TkboifdD7KhaViGiOvz3Cj+2MLn90MnkVy+
+ apHhRyZVUG4hmMoH+bUi3/jQ7ATnw22glzbGAJVsn22P7Tk6G9V5yUD0Pm4RIZGV1A3m
+ tNNc+xljg8i+wYzgwnu7CSoBL7mU+H17BdXDRVb3o50z9hF0iAN1SJoCIyZZ/M/Umwev
+ fp2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1772964982; x=1773569782;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=r1M7cJDIewQ99ulliRiFRi494hczaIMjS0kWLIY8AF4=;
+ b=C28/kc/1HNYD0rMRP18Q5ltlAOH3Rm9HRLly+cjDm+aSxPVHXkIgi6AlZTE7Iy6tU5
+ Jky5GFoQWlwWA5XQvQXlXzX+sgfRIiKM89eZoIXmK9I92pEHhaIHf+cIhfWi25AXrEyW
+ VhopEDjuv3dM9MQzcFP/wzkjLR/hD3QcdtApR8QMzCi40aL8VTtJRMXBR4wcQ+bq7fl6
+ O+F8tV0PL+xNZkCJJvY/4WUePmAiir9Szeb2zO7ekZvrZIa7d1PHUbH2D+60HgmI8j3y
+ 5dQJnlInku9PUb223jbVC2h9YDQuo3Qod6LYHIIf0kKxQBujibUEPYK5i1kNHW5uXWUz
+ 9Lkg==
+X-Gm-Message-State: AOJu0Yyewx1NfXPRvC3I/xehYY780y12UWrpC3iUpQNWi4GWVyuAlIlb
+ lJ26dhjtnkGNCcTV29mC/W1b5UYMtv9dL2FlhoAinYUqqfitU82bh93/JIZM5+/G
+X-Gm-Gg: ATEYQzyZCjJIHM5NmNGKjN6JWVyQQXhhoGoh2IB3MPXF2Y1NAgIDo1+IhdURxL+yR0Q
+ YawZc7idaKaio6MPCXi9ZlPv9eIzuN9jYCSWaaxE+WjPjPV05nk1ZNA2xu22N5qJSCbcLPCujqI
+ KTgEm1pbmxdMr25+qNVwn2DcEhDGN0IH+NZ7HCHP/NeXA2pgE1ksCpsqfc4oPn4IgkoxU+Oyp12
+ jyzw7aXnhA2UwzCtOVRH+y39ykqplLzuktiP43ZWec3dvCI+/e7r5CSjXmqBEiIklkDKnqFn0oQ
+ pyhyJ49vtTQSLd0Lztj2wOsPafQoC1OrpYSziZ87dC3i/PeXMoNBOKPQopzHY3OSJfthv1bPTHS
+ Wo6fCpQSfrOjs/Ts0h+JE//3YtrQnrZ2bq9l7WvqH2Pb6dYQLPQG2BAye0HnCuk5ek6iJuQ5S3e
+ speyaYFd5uOKYv1e+0u1Jm+9Y+JF3aIPwgX08DDJynzuEeqJeiQ5IeOQn0cbio7+a7uOP/94LR2
+ ao22ehqWpNt/kTLXGT5
+X-Received: by 2002:a05:6000:178f:b0:439:b2d9:cf35 with SMTP id
+ ffacd0b85a97d-439da64f838mr13391513f8f.8.1772964982098; 
+ Sun, 08 Mar 2026 03:16:22 -0700 (PDT)
+Received: from [127.0.1.1]
+ (2a01cb0012bffa003c9ca4edfdd4e172.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:12bf:fa00:3c9c:a4ed:fdd4:e172])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-439dae45786sm18890466f8f.32.2026.03.08.03.16.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 08 Mar 2026 03:16:21 -0700 (PDT)
+From: Amin GATTOUT <amin.gattout@gmail.com>
+Date: Sun, 08 Mar 2026 11:15:57 +0100
+Subject: [PATCH] drm/loongson: use drm_gem_ttm_dumb_map_offset()
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306163445.97243-5-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260308-master-v1-1-af32d71c8a1d@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAFxMrWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwML3dzE4pLUIl1TizSD5CQTS6Nk01QloOKCotS0zAqwQdGxtbUAokM
+ nPVgAAAA=
+To: Sui Jingfeng <suijingfeng@loongson.cn>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Amin GATTOUT <amin.gattout@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772964981; l=2766;
+ i=amin.gattout@gmail.com; h=from:subject:message-id;
+ bh=eFxzNr5PrfT1jo5pKjIS5kQAx8mJ0kgA3mYlRoLglEM=;
+ b=rnkhjvgGpACrE2+9kB8RCAmhgwFKWWOgS2YZl/Jg9CiJ2VCQGPXGlXiTZrGNwe+wG+yBZl0B+
+ cZLJ2wlhRRSCmrUIdfCUY4qYisusQR/8lDAsMBbvqP7DDxfsIgfLSrr
+X-Developer-Key: i=amin.gattout@gmail.com; a=ed25519;
+ pk=C9HM6Jf5d9dPl9fnP9pM/nhMwm+c280ldqYZ0ESu3a8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,80 +105,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 912F122F4A6
+X-Rspamd-Queue-Id: 8ECFC22F4CA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:suijingfeng@loongson.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:amin.gattout@gmail.com,m:amingattout@gmail.com,s:lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.936];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FREEMAIL_TO(0.00)[loongson.cn,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	TAGGED_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[amingattout@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.992];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[amingattout@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,01.org:url,git-scm.com:url,intel.com:dkim,intel.com:email,intel.com:mid]
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hi Tvrtko,
+Replace the open-coded lsdc_dumb_map_offset() with the generic
+drm_gem_ttm_dumb_map_offset() helper, which is functionally identical.
+This removes unnecessary boilerplate and aligns with the DRM convention
+for TTM-based drivers.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Amin GATTOUT <amin.gattout@gmail.com>
+---
+ drivers/gpu/drm/loongson/lsdc_drv.c |  3 ++-
+ drivers/gpu/drm/loongson/lsdc_gem.c | 15 ---------------
+ drivers/gpu/drm/loongson/lsdc_gem.h |  4 ----
+ 3 files changed, 2 insertions(+), 20 deletions(-)
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v7.0-rc2 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+index abf5bf68eec2..1ece1ea42f78 100644
+--- a/drivers/gpu/drm/loongson/lsdc_drv.c
++++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+@@ -13,6 +13,7 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fbdev_ttm.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_gem_ttm_helper.h>
+ #include <drm/drm_ioctl.h>
+ #include <drm/drm_modeset_helper.h>
+ #include <drm/drm_print.h>
+@@ -45,7 +46,7 @@ static const struct drm_driver lsdc_drm_driver = {
+ 
+ 	.debugfs_init = lsdc_debugfs_init,
+ 	.dumb_create = lsdc_dumb_create,
+-	.dumb_map_offset = lsdc_dumb_map_offset,
++	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
+ 	.gem_prime_import_sg_table = lsdc_prime_import_sg_table,
+ 	DRM_FBDEV_TTM_DRIVER_OPS,
+ };
+diff --git a/drivers/gpu/drm/loongson/lsdc_gem.c b/drivers/gpu/drm/loongson/lsdc_gem.c
+index 6372db2d3093..2fb03487c983 100644
+--- a/drivers/gpu/drm/loongson/lsdc_gem.c
++++ b/drivers/gpu/drm/loongson/lsdc_gem.c
+@@ -234,21 +234,6 @@ int lsdc_dumb_create(struct drm_file *file, struct drm_device *ddev,
+ 	return 0;
+ }
+ 
+-int lsdc_dumb_map_offset(struct drm_file *filp, struct drm_device *ddev,
+-			 u32 handle, uint64_t *offset)
+-{
+-	struct drm_gem_object *gobj;
+-
+-	gobj = drm_gem_object_lookup(filp, handle);
+-	if (!gobj)
+-		return -ENOENT;
+-
+-	*offset = drm_vma_node_offset_addr(&gobj->vma_node);
+-
+-	drm_gem_object_put(gobj);
+-
+-	return 0;
+-}
+ 
+ void lsdc_gem_init(struct drm_device *ddev)
+ {
+diff --git a/drivers/gpu/drm/loongson/lsdc_gem.h b/drivers/gpu/drm/loongson/lsdc_gem.h
+index 92cbb10e6e13..96729b3eebec 100644
+--- a/drivers/gpu/drm/loongson/lsdc_gem.h
++++ b/drivers/gpu/drm/loongson/lsdc_gem.h
+@@ -14,10 +14,6 @@ lsdc_prime_import_sg_table(struct drm_device *ddev,
+ 			   struct dma_buf_attachment *attach,
+ 			   struct sg_table *sg);
+ 
+-int lsdc_dumb_map_offset(struct drm_file *file,
+-			 struct drm_device *dev,
+-			 u32 handle,
+-			 uint64_t *offset);
+ 
+ int lsdc_dumb_create(struct drm_file *file,
+ 		     struct drm_device *ddev,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-sched-Disallow-initializing-entities-with-no-schedulers/20260307-012142
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260306163445.97243-5-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH v7 04/29] drm/sched: Add some scheduling quality unit tests
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603081744.gNhsEN20-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081744.gNhsEN20-lkp@intel.com/reproduce)
+---
+base-commit: c23719abc3308df7ed3ad35650ad211fb2d2003d
+change-id: 20260308-master-58f0cb492c5e
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603081744.gNhsEN20-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/scheduler/tests/tests_scheduler.c:676:10: error: initializer element is not a compile-time constant
-                                 drm_sched_scheduler_two_clients_attr),
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:224:13: note: expanded from macro 'KUNIT_CASE_PARAM_ATTR'
-                     .attr = attributes, .module_name = KBUILD_MODNAME}
-                             ^~~~~~~~~~
-   1 error generated.
-
-
-vim +676 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
-
-   672	
-   673	static struct kunit_case drm_sched_scheduler_two_clients_tests[] = {
-   674		KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
-   675				      drm_sched_scheduler_two_clients_gen_params,
- > 676				      drm_sched_scheduler_two_clients_attr),
-   677		{}
-   678	};
-   679	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Amin GATTOUT <amin.gattout@gmail.com>
+
