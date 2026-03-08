@@ -2,71 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qIqhJksxrWl1zQEAu9opvQ
+	id eC5sAbU2rWkdzgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 09:20:27 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 09:43:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEB522F045
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 09:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635E122F0E4
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 09:43:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8418B10E00E;
-	Sun,  8 Mar 2026 08:20:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2A310E036;
+	Sun,  8 Mar 2026 08:43:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cG69BamK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LXo89Vdg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE84310E009;
- Sun,  8 Mar 2026 08:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1772958023; x=1804494023;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Pe3lvvOiPMFQ46F7OuVkf8+omFdhw7YDqvcnRRAGsLQ=;
- b=cG69BamKluF1caNfEh5dVLWrVHbBCY8SHoyC+efyJvplN30iCLplnaue
- lLb4VE2/TwbGhmGuEoLjgjFeMy8jHPN2CwD6uOyPjBNyz8b/iHXZ76Fia
- hQmSshidyTS++UqD+8SovdSSQliaoIGigkjbX/kgPdb7Mez1eXgp+bDDr
- T1GcnoPfcv79OKMXIChqKSzgvhnXpusF4z4gXjd7PL0D/CTbgItXA++nv
- TazAe4/ZUiYvxq7nPDLFZQ6gmtOB97hUdR1iwTGKKGqBnjS2oKO8KB3YH
- hD9Ply3hoBL7r/p9jMV+aHsPnD1GHsFSxcYdJZCQRhkG7swptw1hPEIrP w==;
-X-CSE-ConnectionGUID: C/Q2ZzfqQcyas5/bETPWkA==
-X-CSE-MsgGUID: 76Q20NvHQRWX5UHf3ancQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73977855"
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="73977855"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2026 00:20:22 -0800
-X-CSE-ConnectionGUID: lA4yGwBVQuKcjREHK06l5Q==
-X-CSE-MsgGUID: A+qRt4H6RvW8JfY0/nx6vA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="218641940"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2)
- ([10.211.93.152])
- by orviesa010.jf.intel.com with ESMTP; 08 Mar 2026 00:20:18 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vz9N1-000000002eD-2dND;
- Sun, 08 Mar 2026 08:20:15 +0000
-Date: Sun, 8 Mar 2026 09:19:42 +0100
-From: kernel test robot <lkp@intel.com>
-To: Rafael Passos <rafael@rcpassos.me>, alexdeucher@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, BhuvanaChandra.Pinninti@amd.com,
- Harry.Wentland@amd.com, Martin.Leung@amd.com, Sunpeng.Li@amd.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- daniel.wheeler@amd.com, davidbtadokoro@ime.usp.br,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rafael@rcpassos.me, ray.wu@amd.com, rcpassos@ime.usp.br,
- siqueira@igalia.com
-Subject: Re: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir
- iGPU
-Message-ID: <202603080959.llKqWvRQ-lkp@intel.com>
-References: <20260308000515.890688-1-rafael@rcpassos.me>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD0A510E036
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 08:43:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8AE3040C1F;
+ Sun,  8 Mar 2026 08:43:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B12FC116C6;
+ Sun,  8 Mar 2026 08:43:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1772959407;
+ bh=wBJY5rzFDw2qSjmsNIfNn/LBfLOokhBatWku10VNP2U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LXo89Vdgft2lKAePhnklJsK/DrOC44pUAo+LzHUESmEwcsvqXYlIK017nexWDeiPB
+ L0SwywvsVwVsMn054y5r6ebUdxvlpgd5xnbx57b6DgAi7hKo1HX3XsSSToZc4M9oO3
+ Qp2dG5LmdDuQKMZfuk8dlEikJLCcaGrMr2YMTNwoocCea2W/U7dH+xeSGE+Xj6j4a4
+ UpDBuywkaum9zrpEqustmgsjKR1XdOeZfpuapH9UK1mP7bYQ8pW3KmkevBjCkP4nKM
+ YBqum7fkwFOQbSUl5aY/jXO0HXr7qIli0kVfC3mc294EDSHp8RFgqeF1mCM1Ey8ePl
+ mBjiFVCP+sq1Q==
+Message-ID: <bf67a30a-c051-4877-904e-5c583bc673c7@kernel.org>
+Date: Sun, 8 Mar 2026 09:43:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260308000515.890688-1-rafael@rcpassos.me>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Document Tianma
+ TA066VVHM03
+To: Alexander Koskovich <AKoskovich@pm.me>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260308-tianma-ta066vvhm03-v1-0-869fac443b20@pm.me>
+ <20260308-tianma-ta066vvhm03-v1-1-869fac443b20@pm.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20260308-tianma-ta066vvhm03-v1-1-869fac443b20@pm.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,86 +115,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4BEB522F045
+X-Rspamd-Queue-Id: 635E122F0E4
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:AKoskovich@pm.me,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[pm.me,linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[rcpassos.me,gmail.com];
+	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.928];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.994];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,gitlab.freedesktop.org:url,01.org:url]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Rafael,
+On 08/03/2026 07:03, Alexander Koskovich wrote:
+> +
+> +  vddio-supply: true
+> +  vci-supply: true
+> +  vdd-supply: true
+> +  port: true
+> +  enable-gpios: true
+> +  reset-gpios: true
+> +
+> +additionalProperties: false
 
-kernel test robot noticed the following build warnings:
+This should be placed after "required:" block.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0-rc2 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-Passos/drm-amd-display-fix-resuming-from-S3-sleep-for-Renoir-iGPU/20260308-080715
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260308000515.890688-1-rafael%40rcpassos.me
-patch subject: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir iGPU
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260308/202603080959.llKqWvRQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080959.llKqWvRQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603080959.llKqWvRQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c:99:6: warning: no previous prototype for 'dccg21_init' [-Wmissing-prototypes]
-      99 | void dccg21_init(struct dccg *dccg)
-         |      ^~~~~~~~~~~
-
-
-vim +/dccg21_init +99 drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c
-
-    98	
-  > 99	void dccg21_init(struct dccg *dccg)
-   100	{
-   101		struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
-   102	
-   103		/* Hardcoded register values for DCN21
-   104		 * These are specific to 100Mhz refclk
-   105		 * Different ASICs with different refclk may override this in their own init
-   106		 */
-   107		REG_WRITE(MICROSECOND_TIME_BASE_DIV, 0x00120464);
-   108		REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x001186a0);
-   109		REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x0e01003c);
-   110	
-   111		if (REG(REFCLK_CNTL))
-   112			REG_WRITE(REFCLK_CNTL, 0);
-   113	}
-   114	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vddio-supply
+> +  - vci-supply
+> +  - vdd-supply
+> +  - reset-gpios
+> +  - port
+Best regards,
+Krzysztof
