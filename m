@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PCWIFSNrWlE4QEAu9opvQ
+	id IHDoCVaNrWlE4QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:08 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2707B230C4F
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C394B230C6B
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:53:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 207E610E44B;
-	Sun,  8 Mar 2026 14:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D730B10E46E;
+	Sun,  8 Mar 2026 14:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eydfh4+9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k77hhvnE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3223B10E08A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31DF610E02E
  for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 14:52:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 354DF600AE;
+ by tor.source.kernel.org (Postfix) with ESMTP id 5DC8B600B0;
  Sun,  8 Mar 2026 14:52:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D22BBC116C6;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E9600C19423;
  Sun,  8 Mar 2026 14:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1772981576;
- bh=wQ7u13m0ex1l7LW2+VlBPd+UnM7kt74ULo4GFRhXDqE=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=eydfh4+9YlmWGtHriVpXVt5QKgbtUmGX5SbVJ2dkDPuPvZu01sBGGYlVltPYQZWIL
- 7qqbWZFux1gquLqiOW3bKwwYJTHtgh26HxhwwVf8ZzXeVIFI6VItHQECJImJl2vM7e
- 3qXbam++60Sq4CVy4SXMr9ws4DrpV6QMUt9VQT84vjHZ3xSVvvzbAi1muHKx+JiXzZ
- 5oPl/AAQPqgRFLJuIQnqRnk5p16dHzM1QOawRTHE0+rCnki7jfCT7jDgXgYtvsplgR
- nyVxejuKb6Rn39l2Q0M0SO7j64Jn3iw9L+MchVrxXU8KJm2v1A1f7hf2/EGMgDuN2/
- Y3BWyoq081Vvg==
+ s=k20201202; t=1772981577;
+ bh=h9lR2FOnXE7uoB+tCaLzQ8fel/j8lhzsuvRhfAbAB9w=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=k77hhvnEvTSU6lpLA1+SBP5JZknY/DEi5bTfGwnZOEeHg1EJEOfC/pNvbntjxr5ak
+ qYvxejUfCBVEtQMzWIBqrQ+vAVSTh9F2hV+odWI/NpbRLItZ73eWc42CH8EGjpUhsW
+ CRG1VvXdGXy2Ch3IGyiY8WipOPBg1ZHvXk7r4hFHJI+QUUxOpWMatMewN/aG/CO5yx
+ 7nuQWbwNkP3hAKND+mbqh7oVmJAhzfcwGvz6etEKUMHSI6Ucg7MjKDgUrnJDy9RGtN
+ HzFg+QjuKYGcrTfu2ifNuMCk012bNoPxC6je0iNACJq7kTR+j3foVNSkUiKxOGsWAv
+ Qr+VH9LHcXGaA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id BBCC8EA8525;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id D0BFBEA8524;
  Sun,  8 Mar 2026 14:52:56 +0000 (UTC)
 From: Cristian Cozzolino via B4 Relay
  <devnull+cristian_ci.protonmail.com@kernel.org>
-Subject: [PATCH 0/6] Enable new features for flipkart-rimob
-Date: Sun, 08 Mar 2026 16:52:40 +0100
-Message-Id: <20260308-rimob-new-features-v1-0-aa2c330572c0@protonmail.com>
+Date: Sun, 08 Mar 2026 16:52:41 +0100
+Subject: [PATCH 1/6] dt-bindings: display: panel: Add Novatek NT35532 LCD DSI
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQ5AMBBA4avIrE0yWiFcRSyKwSyUTP0l4u4ay
- 2/x3gOBVThAnTygfEqQ1UdkaQL97PzEKEM0GDIFWbKosqwder5wZLcfygHJllWed9YVhiCGm/I
- o9z9t2vf9AGG4EOFkAAAA
-X-Change-ID: 20260303-rimob-new-features-037944b3a620
+Message-Id: <20260308-rimob-new-features-v1-1-aa2c330572c0@protonmail.com>
+References: <20260308-rimob-new-features-v1-0-aa2c330572c0@protonmail.com>
+In-Reply-To: <20260308-rimob-new-features-v1-0-aa2c330572c0@protonmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <jesszhan0024@gmail.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
@@ -64,11 +62,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
  Cristian Cozzolino <cristian_ci@protonmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772985180; l=2259;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772985180; l=2664;
  i=cristian_ci@protonmail.com; s=20250620; h=from:subject:message-id;
- bh=wQ7u13m0ex1l7LW2+VlBPd+UnM7kt74ULo4GFRhXDqE=;
- b=DyAla0iz3gxfGuxFSxXh9oTIG5bqNawVTwKQWHjPRBDnN70k+mt1r1WrfmpW56H6yHoRF9Sc/
- cpB1HrLoTviCcxxzcWC7AdMP0pSqiuXo4WgbtvyRPE5zOpvtB5Rn2kK
+ bh=CY/PsVM9Vewhtr4VFeBaWeD4SwFUa8brDk4OcdsJP5M=;
+ b=SnKXcuSfJ5wjVhp0OwfLf5Z6gv09wYnZZm/lTRzSr02v7j7PV4pf2qRwBopZH4NI/D8uWpyS9
+ ZS3EFrraTRNAmIco82D0JH6KAHO4PzJVYEDoNbS2mMdfXTQDSK2uUPw
 X-Developer-Key: i=cristian_ci@protonmail.com; a=ed25519;
  pk=xH5IvIPUNHV1Q8R0/pq2CfuVFR/wTiAyuyi6IwedjZY=
 X-Endpoint-Received: by B4 Relay for cristian_ci@protonmail.com/20250620
@@ -89,7 +87,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Reply-To: cristian_ci@protonmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2707B230C4F
+X-Rspamd-Queue-Id: C394B230C6B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.19 / 15.00];
 	FREEMAIL_REPLYTO_NEQ_FROM(2.00)[];
@@ -130,59 +128,106 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-This series enables a set of miscellaneous features for Billion Capture+ 
-(a handset using the MSM8953 SoC released in 2017):
-- Panel and GPU
-- Touchscreen
-- WiFi + Bluetooth
-- Hall sensor 
+From: Cristian Cozzolino <cristian_ci@protonmail.com>
 
-Patches 1 and 2 provide a driver for Novatek NT35532 and its corresponding
-devicetree bindings, required for enabling panel in DTS. The remaining 
-patches are all DTS changes, aimed to enable the features listed above.
-
-To: Neil Armstrong <neil.armstrong@linaro.org>
-To: Jessica Zhang <jesszhan0024@gmail.com>
-To: David Airlie <airlied@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: ~postmarketos/upstreaming@lists.sr.ht
-Cc: phone-devel@vger.kernel.org 
+Document Novatek NT35532-based DSI display panel.
 
 Signed-off-by: Cristian Cozzolino <cristian_ci@protonmail.com>
 ---
-Cristian Cozzolino (6):
-      dt-bindings: display: panel: Add Novatek NT35532 LCD DSI
-      drm/panel: Add driver for Novatek NT35532
-      arm64: dts: qcom: msm8953-flipkart-rimob: Enable display and GPU
-      arm64: dts: qcom: msm8953-flipkart-rimob: Enable WiFi/Bluetooth
-      arm64: dts: qcom: msm8953-flipkart-rimob: Enable touchscreen
-      arm64: dts: qcom: msm8953-flipkart-rimob: Enable Hall sensor
+ .../bindings/display/panel/novatek,nt35532.yaml    | 66 ++++++++++++++++++++++
+ MAINTAINERS                                        |  5 ++
+ 2 files changed, 71 insertions(+)
 
- .../bindings/display/panel/novatek,nt35532.yaml    |  66 ++
- MAINTAINERS                                        |   6 +
- .../arm64/boot/dts/qcom/msm8953-flipkart-rimob.dts | 152 ++++
- drivers/gpu/drm/panel/Kconfig                      |  11 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-novatek-nt35532.c      | 767 +++++++++++++++++++++
- 6 files changed, 1003 insertions(+)
----
-base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
-change-id: 20260303-rimob-new-features-037944b3a620
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt35532.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt35532.yaml
+new file mode 100644
+index 000000000000..de11cce83b40
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt35532.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/novatek,nt35532.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Novatek NT35532-based DSI display panels
++
++maintainers:
++  - Cristian Cozzolino <cristian_ci@protonmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: novatek,nt35532
++
++  reg:
++    maxItems: 1
++
++  backlight: true
++  reset-gpios: true
++
++  vsn-supply:
++    description: negative voltage supply for analog circuits
++  vsp-supply:
++    description: positive voltage supply for analog circuits
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - reset-gpios
++  - vsn-supply
++  - vsp-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "novatek,nt35532";
++            reg = <0>;
++
++            backlight = <&pmi8950_wled>;
++            reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
++            vsn-supply = <&ibb>;
++            vsp-supply = <&lab>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 61bf550fd37c..12243feb0b27 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8139,6 +8139,11 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
+ F:	drivers/gpu/drm/panel/panel-novatek-nt35510.c
+ 
++DRM DRIVER FOR NOVATEK NT35532 PANELS
++M:	Cristian Cozzolino <cristian_ci@protonmail.com>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/novatek,nt35532.yaml
++
+ DRM DRIVER FOR NOVATEK NT35560 PANELS
+ M:	Linus Walleij <linusw@kernel.org>
+ S:	Maintained
 
-Best regards,
 -- 
-Cristian Cozzolino <cristian_ci@protonmail.com>
+2.52.0
 
 
