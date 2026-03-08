@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4MDUJZiGrWkE4AEAu9opvQ:T3
+	id UCC3KJiGrWkn4AEAu9opvQ:T3
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B421230ACD
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F940230ACB
 	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7E8E10E447;
-	Sun,  8 Mar 2026 14:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2582A10E445;
+	Sun,  8 Mar 2026 14:13:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="ZJzjd0po";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="MH8DPax2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013014.outbound.protection.outlook.com [40.107.159.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7682E10E004;
- Sun,  8 Mar 2026 11:43:13 +0000 (UTC)
+ (mail-norwayeastazon11013048.outbound.protection.outlook.com [40.107.159.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61FBC10E11F;
+ Sun,  8 Mar 2026 11:43:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yGzIhjuW1NsKGhEaLs79c19Ho4TjyHr1ShLEDPohJOMLPdvh3pgGn2XsdZ13UY2Q8XTt4eqLaNqx3J1PmGBKsDADRxYqeDhuLQXevS9dgZT1cSeggcx2qAQE7DMHrPlpMdvhuygbVvIam9riqDVn6EPPHRiHjfVgeCDfY2dfYySDdbYZEDkJMHrunyuD5huSieHYIUFO+29PEB99g9E/iB4fqh8pX/S8YP/twxM+g9DWbQCqrGbTBBsHrzXPGbbYZirn+Pj8r0oi/9ogbgWRrQaFzX0H2nr5xse3EZVLsU7mIHXnkJct76xAH06NdFize4xaOlY4k1PRwTRo/wDg8w==
+ b=excD8rfcMoV4KepGdYHsrCy6cxWBsHhnbTlPyyrI2Wmr18GJHhL7T9RVNkYyYXFlQYYij+Vzq+7OGOjxl/DMSx4SkfY/FiVeOtBOLyFc95Jo/xN3Je9doxK0zaIY4eRotFtL+nADnUwGf826m3/oIsPaT5AefnxuPfMKsBCdIYO8kUXBjeXbGgKbxGXoIYf8KVp5X2KxWE7phE5r7eBjYgOvlO40WIiHPU19goV07YaKtygik8K5mR92+khDXoqknnP4F7YyFPAzRXsVsaGya62Qbm77nYXo7EuYdFDUNDgjWnVaYYyJKZXKMbolOvAz3a+SQQF26+pl2ymZX5gzaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OIuv7xfAiGi/g8HMIs+Sm5UJ2WMH+94b+U2ZPe3K2pk=;
- b=GEDFQpVP4Js1wShohGbiQUiy49rPHJwH3TUVkdN4T3vRHeWYGQQHoz3m84bohWlo38RkosM67ooS49b8ZJo+8y6WRDHV/aPd+0li0Cl3cG32pwnVNwQpTRGVNFtwQcnDkuuyefyG41NCTYFEK3bENG7j05NbeTbnVBW8FumXLllZE06fp6JCK3HFXUTJPVT1jQg21LDzfJx/jqz0DWu4qiOyd5Ab7w7tZRVEh5GVwuwn3u+VhmB/UzX/UPo1M5ZXp62jJAbk3+H58SJp7+zzvBq+PHg7FXEqVssH68oq1ot8l6DSReifwj2o6S1qXZOfjREZmF3YwiDUtiqr8gGesQ==
+ bh=Ncxqppb1+FFNQtWO5efqY92SyZpwEHdQEBSlEDYd8lc=;
+ b=eMyWUU4RehKCOYOtRZV2KIHTuW7oi5Q+SU6MuktwySaZOU3HO84C8+SGNBy+3r+H53D0PpdhHkkIFc9BqGV/1Hc2NocQ7bE4Ass4fGEY+OWRG4OT0neIpNXTo6K6FeXcrgyI55exyp938LEuS820ZffFlbKW5GBLdxmXouCzWpq7RJqKQLi/QdlmCCTiSROLkr2IksO/E0y8LaJdcyIzdbmj1O6ABdhE/hkFKrEQA5vSa+FQGf0UPaUS3QpP+DUnu/qwQw4etVvCx0rP3GnvZSHhEAVPQwzWMWDEXj13xsIa3vOJz9G69I6Boui77pTtD+gJ1mZQsp92BJTkd2GBtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIuv7xfAiGi/g8HMIs+Sm5UJ2WMH+94b+U2ZPe3K2pk=;
- b=ZJzjd0pog2puD2DIfkf/JcTIXjmfmFYF23lWE7yKFVHdCeHVfG2lwSB1TjWDhm0hahBBuwmlb98bNFNTDTRyPzwb7v0BcbtnFLjxrIwnVfE6DAiga4mUhJo3YCk9i5mU+tPaXMnBCcCM3F0tdX6OSmDe2ihlSDXNN2+re9a3iSSjeZ5LSEzZVbFvKnsuphXCl8unTaZN/4kiRg035LWrSDUCqshCQnHKunZIW5K84DLkd4Q5AfSUsdhSNqyGcHe64w5bYR9RJYHmn2ZQa7HoAW7JuaQ4Pa6tZlton3LuI5v7XWGPQ3Pilp4QTXmeLGdGu3Sn7IUDBX2BgEgVRwti3w==
+ bh=Ncxqppb1+FFNQtWO5efqY92SyZpwEHdQEBSlEDYd8lc=;
+ b=MH8DPax22YUqCG8r6J4jfJzraOVWhIJJ6qH79N15xXtB94+ZZnrd3uhNh+kLYgUtXymfwaalCthuosdreBZRvbRrkFkIt2xghKBVWH91/95qjpfXiSVNQ05Hcgw9PMST4/tzE9S2itbAdTeMaF4ESm9FgHgKqP5FA/BywoDEHAGaLHe9Phk7zT/rjNAUCYHafWhfiaDwif5Qx+nuvJCUMWgBfd5kh01NCHvzcAcaDln2p/ObG6NUDkFCn8Y4S8TSoWr6W/D4a+vGh0rhH72gEJmsW+xHVXUSU7jZ4cp/u14ttOKZaEPmMsktE2Tooqt8q93kVg5Rne4ozFiv+1875A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
  by DB9PR04MB12426.eurprd04.prod.outlook.com (2603:10a6:10:614::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.23; Sun, 8 Mar
- 2026 11:43:11 +0000
+ 2026 11:43:13 +0000
 Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
  ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
  ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Sun, 8 Mar 2026
- 11:43:12 +0000
+ 11:43:14 +0000
 From: vladimir.oltean@nxp.com
 To: linux-phy@lists.infradead.org
 Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
@@ -59,87 +59,78 @@ Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Siddharth Vadapalli <s-vadapalli@ti.com>
-Subject: [PATCH v2 phy-next 08/24] PCI: Remove device links to PHY
-Date: Sun,  8 Mar 2026 13:39:53 +0200
-Message-ID: <20260308114009.2546587-9-vladimir.oltean@nxp.com>
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v2 phy-next 09/24] ufs: exynos: stop poking into struct phy
+ guts
+Date: Sun,  8 Mar 2026 13:39:54 +0200
+Message-ID: <20260308114009.2546587-10-vladimir.oltean@nxp.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
 References: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA2P291CA0031.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::12) To AM9PR04MB8585.eurprd04.prod.outlook.com
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR0102CA0011.eurprd01.prod.exchangelabs.com
+ (2603:10a6:802::24) To AM9PR04MB8585.eurprd04.prod.outlook.com
  (2603:10a6:20b:438::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|DB9PR04MB12426:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab4e078f-bae5-45ff-6a1e-08de7d07e0b4
+X-MS-Office365-Filtering-Correlation-Id: f68c74ab-a77b-4dd9-c4c9-08de7d07e1be
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|376014|7416014|19092799006|10070799003|1800799024; 
-X-Microsoft-Antispam-Message-Info: tA7AggBo6pr42ZXpJ8096XcW0Y3zmKEd0l4mmbGp+sA98lCvd0WBNKB52OGBT7eOYptOg9E3XwTbfjprd9G3Kcwt5O10wqUyOIniTOk5sVsrS57HmQpvrRN/dJ9M8fdJjSLaJPZVcqTkxIJ8Qh15jOh0guX0/jvjWNPI62G+xVrwQk2xq1wa1WnSI2vrwMztBsBzxyu9iY/QXRD1Fb6t4ulz/OAV6IrTC9yIcWdkQnf4yGw7MLfLrxmuD62QbnU5RajSYZFhEM1TIiEQlA8V4WK8FbmWA3eAXG6XsK5gE8Nh6bWoK9Uuc31DbG8pyeHCLmVi+jDGdslBP2KkFsk8kKgYSYb6pm7UIHUPpgb99Tld7Q+EmfJUlCClD23p6Ui0MB8UU+E4tmZ99XqAbCp11j6OeYPXho8LJasE08xMCsvgun8fhstX7ckSrx3SxcAfxfXKOAmdFK+pYc+TIzAjaAQCSVcvOCnI+7uPXQMeSqjLDE0XRKrRETVUomEBL91Muvhk822FF5OV7y5LqGE7QzLcxrb/721Sy4v5kR122BOKfWJC+YubI8ZNkUAaTyWYih9ZH8LLPu3KmPJma2GI/PRw6Ec+y/tC47dk/+FxPSMD2AjtzMenDSlkdfGAJfWXidvVSRcdcD8a46hjG2jQbRkjpaF4fAOm7su+gYYxZYo/K20rFDgLwVDc5ShftqG4WwKxT91tSwShIJSW8Sxl7XnO5b2HxUxucRVU2Sq5rRI=
+X-Microsoft-Antispam-Message-Info: R+W5Kd3TP2y72nGo6OIpgs0qF0VZ86GBg2vM3aBrQs6C9uHIHMTn81xCw0bOhWhWUtpyDvc4n1Q4S4lMN9sU0A+4J+zco08E1V8UARbHU2S2aiAwhxD1LosWtBb14FZxH5QGJyHQA37en2MNjkkw5NsqZ7hBhgQgT8bzDbsSuRnGeD7Ea5RNQM8tebFEupkLI0Io6HdpnDb2bfalbvLllkRXUkz4WJm5C10x5ZLwR4qEU2UV6jbAt0LfsOR5KdEI719ZPi+KxzY7GSG/c3/JsZQ3BT2U+u+6Y+HjphyShuhB/woPtoXZobJJRjEAtnn0Ivi/kFsFf6gmLH2fd8ohBexi8uU8pnmANlVZaMz+mFibmHO48xjE3b0EsHY4VLvi2iM5Q3OWHZPNzEmRgucy0mHEzfupxd74BeRYXNuUKWybixlh9L0xB0z/4+z2FnDEQmYBkllvz15yvVAAvGpajNfsKFYfQ1fn47iOFi+pge1NIpBrWhHiGRllBsPfdG6H6YUnug5LAS7DxEtj7QzIH0WCYSv4O7lAfx31BxCIwBt1SwYwEk+TxOfUeSmxjduVmbp5ErOC1cPiCWo2/8uEL/PU+tCk2Bm4+Uiz9lASm589hqskK2+zs4mYhLlMEzQilo3t7v4VNBdxBX6pzan/bdCweQpOMSvLrEXddkPfpji44xgm5v/LchIn2texbe660iqU/fMMiNn81oHGavg0ZONBqB1leJoq6f+0yzvFYwU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR04MB8585.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(376014)(7416014)(19092799006)(10070799003)(1800799024);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGgvbjRuR3BrckdYYXdoZGRVdmh6ZjRsSjJhU3pmY25GWjRSU3NJQkFnMWQ1?=
- =?utf-8?B?UEhIS0NjbS9KNVF5UzBpVGltNnR6WmtoTzFJNGNTRXVTMmRkOTZRMlFuMFRj?=
- =?utf-8?B?SytVMU1URm9PdC9kRzBtNGxKbGl5UzhkN0xHSStQUjlNcUJETEM1YUtmV0E5?=
- =?utf-8?B?cmtNdk5qbmpxOUk5R0FkODVrNm5nekdWa0FWenh4ZUR5VmNWSmR0SWozYVZW?=
- =?utf-8?B?cU1taDJDQzBJazlwR2FrQURWWEl4VGdQUUpMWXFHR21OWXZ3QVFsNWpISkZi?=
- =?utf-8?B?Y1VVbVdwcW02ZElUNGNaOUZDRnZmWWNqbDQwRHZYOHgyYnZFaDZ0d2d3Q1Yw?=
- =?utf-8?B?Z2IyRVpvRWFGOEFtVXZreDI5ZDZmWnp5Qk9kcmxUZlczM1BHd09zTmx3L093?=
- =?utf-8?B?TUhKMkFscUxzRzdZaWF1b1Btc09wYWhlYmt1dXY0WmFxelFOMG51R2VOdWh4?=
- =?utf-8?B?M1BSTU9OajhaV21RMXRiaDJyU2VYZG13R2gvL3lLYXVZM09PSEFTWTlSb2lN?=
- =?utf-8?B?aTVmVTErTmtRSkcrdUdpeGthOWNIVVVsaW9yZm4rK2dTNm55aGdhK2paNG8y?=
- =?utf-8?B?K05GTVF2Y3NKQ2dRWlk1c05KWUJEK2F2dCtvWnBCeXZnSlhpNS8wY3F5Ty9h?=
- =?utf-8?B?cGxieFkvSTV2b1lNVHZOK0w1M2hwR1p2WnVXQUlRUG9JR0JhSmxoSlcrT1VN?=
- =?utf-8?B?V1NZWFIvVTVJSUxhK2N0akFlejgwOVgxVVp0Q2hUY2JzclM5ckRVWDJ6eDNS?=
- =?utf-8?B?RFdrRFpneUt2MSsyU0l6RmljU0laOFBpR3UxTnp3RTdCK2lna3h3S283QWNZ?=
- =?utf-8?B?aVIwQ3UxTlB4aTU0b2JzSjErQjVraEdYMlphK011UlRybmp4WDJoLzY2ckw2?=
- =?utf-8?B?NWxpM014WWZndGZrRlBLTlJoaGR2bWFaUmxjQ2hubS9KaHJ3SDlWUXBuNXpp?=
- =?utf-8?B?QnVMVmFSVS9oWENVa2VmeTMyVEZEcEZPOStyTmNib3dFZUdsVGtXR1ZoaWpm?=
- =?utf-8?B?S2hxY1cxVUIyNVpLYU5TM0RMRnJKUG9kR0wwb2xIM2N0aHJadVBQWTF1NS9D?=
- =?utf-8?B?VVJObG41VmJtVFRCelZsZE5IUldGdGo5ZFFQZ2FTRDdsTlZCLytKcCtKaUdE?=
- =?utf-8?B?dDA5bE91MDR0WlM2NHgxTWgxNFpUZTloZCsyS3M2SzMvMjlmQXVFYmI0S2VQ?=
- =?utf-8?B?OVBrU0hmN0g3bjRhV25lYUs1NzRweTJPREVRTXhoTHRoOXQxdlBwSllhd0Yv?=
- =?utf-8?B?ZjRRb2FqbjBhNnJCQ0FLOStvOUVOOXFRSDdka0REN1I5azh0WWlhbE9EOUpv?=
- =?utf-8?B?Q3BpaVE5N21kdURFWFRkQ0Q2dS9JRW9IRWhRT1ZvR2JvOGwrMXhob3hETzhV?=
- =?utf-8?B?UGlwTGRESWJwaDU2SlF1dzgxUUN5ZnR5T2Y3WWdLVnoxeHdGT1dCTEJhY2pH?=
- =?utf-8?B?R0ZWVldxNVozdi9OT0ttRlZ5WjR1RFd4d09tK0NSaWFBUDNvNXpUODFNV2pN?=
- =?utf-8?B?eDlYUVkyVnhVMCt6SGowMk1wS255NngzdjZaQ3RHT1doVC9nQ0ZJVG9LczVo?=
- =?utf-8?B?RFhIOEprN0ZKak80Yi95clpPaFdhTXR3Z3cyM3J1bFZDWkFDTkxIeCswTkJ2?=
- =?utf-8?B?TnNnQXEwMm1hdXVqc2RHY3JXYTdHbzNBSU5Ha2ppUG1Ga3N0cjVwK21QNS9P?=
- =?utf-8?B?dk5UdVo2UVIvbnBqcjRDTXd1RXhCNVBkYktqWnMvUi80QnZ6MnVpTXdyUXFL?=
- =?utf-8?B?K0FyS2dvWUhVc1ExWGliL0xJcjlYOEgwMUVEQzMrMUNtdFdYdk1uZUJQaHVI?=
- =?utf-8?B?VjRZVlF5ajdGdHdVempFQXpKY1JxSWdtUWpkU1BMRHpSR1g4K2ZKdUxWOW9L?=
- =?utf-8?B?emIwbVNFWGdJbE1QbjRqRTdTWjJIbkZlbitBanM4dzZDZUplRkFYN1ZkK0VD?=
- =?utf-8?B?WlFLdnVFOXl5akF3U1BLa1k3Y2wxSXVLTnRGb09jY3VXQ1BKcVc2dDh2c1hZ?=
- =?utf-8?B?UFQ4Q1BUVFl1OEc2d3JVMHlYcWRZTjU4TjNDdngxdC92U0phN3h4UTZyM0dE?=
- =?utf-8?B?dDh6SkdMU3ZoU1I4UGJ4NFpwWS82UDF5Q0xLVmVlWm9KU0Y2T3VoWXM4WGxO?=
- =?utf-8?B?OCsrVjh4UFFvSEJxcFVWZ2hSL0dac3FFZERrWkNFeUovWjRQRjVuRWFjOVd3?=
- =?utf-8?B?U21JS0NzMnVMcGQwcDE3Z3pnQlFOZXZHSXJUSmxES0grbWs2VzV3NDg4Smor?=
- =?utf-8?B?bWlpRjZCREkxODJrWU0xTHhyL2kxRnpBV0VYbzllNzF2cEJrWkVrbDhOYk5I?=
- =?utf-8?B?elB0dmFoaEwwdkxRNmV3TFoxbFdCMUlPUHhJMWwzQURjQzdkZUhnNk5HUGhk?=
- =?utf-8?Q?MmoSbVMOGHxyzjEYBupsEDHc6d+Q99t/STDaKr1IRabd/?=
-X-MS-Exchange-AntiSpam-MessageData-1: QyqwqrKmKDE8BG/nYx7PX7l/HHLdHVB5hVc=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qL3oeIZoUgNOFdtcmPrZwJeK8bgnwGwn8qXB6PQwYK4wymtR5S7CCOlcGQFY?=
+ =?us-ascii?Q?bWh1cVrYxpn43kWSCeztSAzfMFWXV+pwFN8i7ZA50C1oqW7D3xa4vZS4m7Wo?=
+ =?us-ascii?Q?EzAWf66FEDUZgXZz0JVdfohsoUeAK5D7Fgl7PqsS+I0yANJOikiUx2Re4ipk?=
+ =?us-ascii?Q?DNqkcm964DphaSSE6jwRsCtxcjWG1aNWt3DCdTlqK1JtPzjS+3RpvZFNu/4H?=
+ =?us-ascii?Q?CdSgxa9BV112m4WllKD6XsgYnKS02joTy0tCREFdPaThPVV+rkGS6QnHTh52?=
+ =?us-ascii?Q?38T+dcoCBF7oFQJDSjpve+sC2e3P4pMwBKnuxuJTFV5hHhNRFlAMC21k1+xn?=
+ =?us-ascii?Q?PIy2PcfjOgM0jwjYl+iPz3sIoXxhEvGrHvZR1dckVnXvvugvOD3TUB+TZVz+?=
+ =?us-ascii?Q?k89+qGqXqcylEnNxiZR/0kbHxY0cL6Cl8o2Umqg4yaETs8DdF2XSQrFX4WeR?=
+ =?us-ascii?Q?O3ZYNp3WCBx5bVVJ8ry6l619bMYF8nDyg68zoNeqfnb0jCLn/I4V4WTebEKC?=
+ =?us-ascii?Q?j17Ci7L039VEmgpE7FiiVDkGNKWVtnHnRHHi6Ml2v1zkLgB8wBudLldpS4Ly?=
+ =?us-ascii?Q?qDcCe4miyXvjQQD6cNpn71I1qyvHzg/hsbZZ5BTbZQ6y43riF5qOB+VeIcyt?=
+ =?us-ascii?Q?DlDMnBdd0MW+N0poE20+G4SQY0LmSURqYOh3PD02VToAuGJHzbujVQtx2vOD?=
+ =?us-ascii?Q?duvpeVgGokbMyz/25BxtGOALSrA0HxbdlDej0GFS4amOjauQUY9M86U9fkyw?=
+ =?us-ascii?Q?lahfUIEgxgNT8Jswn/yBPOVh26E65m1wQFugmonHVl9yyNVIGV3N/YKoHvbG?=
+ =?us-ascii?Q?q+9D6WifGsqdR9A+TzUVZdSJS4UB3LNKihN70N3OAvMdkFbD46R7qCHwNSyB?=
+ =?us-ascii?Q?DRS/17uwN1p3ukm9rKj55a9Xax8oVG+KK59fTisy1KFuO2eV3cT1Khn1K4oU?=
+ =?us-ascii?Q?XMIVxrVtuY0ReC4LhWLWIgP0pYt2wJ7BHK2QYJkzx5n7Sqpq3tVhsaql0FaL?=
+ =?us-ascii?Q?OTTnLpiawDmwyT44CSYbleE3KCI+pDvX+Kn3yBfPK3+XYeoxPtBtWQxPBvTm?=
+ =?us-ascii?Q?MOB7mi5T4BNdBwwmpBkJ+zDNF97JiaqtsjkS0TWcpEyFGBMOhWRk8FA2hS+3?=
+ =?us-ascii?Q?ZC8qUCcNyNJwnsdwelSkn5R/zzw7FriFploCqtvwsbaKOEz9Jhy6S+RtZ8Yb?=
+ =?us-ascii?Q?VCBoDJSeuTL/m6ACRp7azcCxVe44m7cW9vSP9Jf3V6YuxEO0Iiw9vcCjF56N?=
+ =?us-ascii?Q?1toz2flEfRB1xz9rj2yXh6eMU2Kbocjy9qjlhyMouRVVUixf+zaTxEjBrIzk?=
+ =?us-ascii?Q?VOKwYflo8KYJFSVffB6hRabkOctc3A19pCkwO/yIol+pX0SCgMHtFkYDZj+S?=
+ =?us-ascii?Q?gZ/XSEMgbnNb/5DAR8gxWH3Cd22JrVXhjLjcAn595crZMfYileuBCon7VBs9?=
+ =?us-ascii?Q?T3JYoJBgQWZK8P7QSUHV4Dt5hqHhH27hBfYpcANg89jGxoR55iYYMpKRTYYx?=
+ =?us-ascii?Q?WvT7O4rGeUx8DmwnwQv0j9w6ImPRhAxbq0ju5S/1f3MFX1Fx2Ze2sFCDllec?=
+ =?us-ascii?Q?InFMDw7qgbEslbg0l8hYvetDiFf8Kr2rtcaWm64PpGR1TX4j6N7yg+bdB7jz?=
+ =?us-ascii?Q?VN2ng7kMDnYkbsoVRz6jwBmkXvDCwmZ9nN4xUvPWxQIzx88snPOVgKTtyC8x?=
+ =?us-ascii?Q?s8f8GiviubjGcvNp+L4L0vBkc17l1xIotguuPf8bLDLSAfcdO6ufHkHNVkKi?=
+ =?us-ascii?Q?zczCD+azZ1stiFUXiAZd7hKIB3D5VP7mdgwfL3OuvAqQcQgq6l6r6fHrLOst?=
+X-MS-Exchange-AntiSpam-MessageData-1: pV6vv4KEDu4gJ+x9SCwp63uWFHWczsMIAhM=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab4e078f-bae5-45ff-6a1e-08de7d07e0b4
+X-MS-Exchange-CrossTenant-Network-Message-Id: f68c74ab-a77b-4dd9-c4c9-08de7d07e1be
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 11:43:12.3094 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 11:43:14.1692 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FfB0WVqP9QZyFuDusDDwHp7T+9SQjeGbhdnJpOk/qCx06QlFFQ652wNiY8ZyfNyGhE9xz5PYgY4Mslq757pKRg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: IHUp0PdRFNWfQTPYC/uTagyjCSIhypc/P7dtkdHAQLglaDXr7Vlb4a1+IZk1JEtn698D/EOEb4iO0EXTukR3hQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB12426
 X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -156,311 +147,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 4B421230ACD
+X-Rspamd-Queue-Id: 3F940230ACB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FROM_NO_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,nxp.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.918];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[nxp.com:+]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.978];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nxp.com:dkim,nxp.com:email,nxp.com:mid,linaro.org:email,oracle.com:email]
 X-Rspamd-Action: no action
 
-This is practically a full revert of commit
-7a4db656a635 ("PCI: dra7xx: Create functional dependency between PCIe and PHY")
-and a partial revert of the device link pieces from commits
-dfb80534692d ("PCI: cadence: Add generic PHY support to host and EP drivers")
-49229238ab47 ("PCI: keystone: Cleanup PHY handling")
+The Exynos host controller driver is clearly a PHY consumer (gets the
+ufs->phy using devm_phy_get()), but pokes into the guts of struct phy
+to get the generic_phy->power_count.
 
-The trouble with these commits is that they dereference fields inside
-struct phy from a consumer driver, which will become no longer possible.
+The UFS core (specifically ufshcd_link_startup()) may call the variant
+operation exynos_ufs_pre_link() -> exynos_ufs_phy_init() multiple times
+if the link startup fails and needs to be retried.
 
-Since commit 987351e1ea77 ("phy: core: Add consumer device link
-support") from 2019, the PHY core also adds a device link to order PHY
-provider and consumer suspend/resume operations. All reverted commits
-are from 2017-2018, and what they do should actually be redundant now.
+However ufs-exynos shouldn't be doing what it's doing, i.e. looking at
+the generic_phy->power_count, because in the general sense of the API, a
+single Generic PHY may have multiple consumers. If ufs-exynos looks at
+generic_phy->power_count, there's no guarantee that *ufs-exynos* is the
+one who previously bumped that power count. So it may be powering down
+the PHY on behalf of another consumer.
+
+The correct way in which this should be handled is ufs-exynos should
+*remember* whether it has initialized and powered up the PHY before, and
+power it down during link retries. Not rely on the power_count (which,
+btw, on the writer side is modified under &phy->mutex, but on the reader
+side is accessed unlocked). This is a discouraged pattern even if here
+it doesn't cause functional problems.
 
 Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
-Cc: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Peter Griffin <peter.griffin@linaro.org>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
 
-v1->v2:
-- fully remove struct device link **link from struct cdns_pcie and from
-  cdns_plat_pcie_probe() error path
-- collect tag
-- adjust commit title
+v1->v2: add better ufs->phy_powered_on handling in exynos_ufs_exit(),
+exynos_ufs_suspend() and exynos_ufs_resume() which ensures we won't
+enter a phy->power_count underrun condition
 ---
- .../controller/cadence/pcie-cadence-plat.c    |  2 --
- drivers/pci/controller/cadence/pcie-cadence.c | 16 +---------
- drivers/pci/controller/cadence/pcie-cadence.h |  2 --
- drivers/pci/controller/dwc/pci-dra7xx.c       | 16 ----------
- drivers/pci/controller/dwc/pci-keystone.c     | 31 +++----------------
- 5 files changed, 5 insertions(+), 62 deletions(-)
+ drivers/ufs/host/ufs-exynos.c | 24 ++++++++++++++++++++----
+ drivers/ufs/host/ufs-exynos.h |  1 +
+ 2 files changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-index b067a3296dd3..54531f86bf45 100644
---- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
-+++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-@@ -123,8 +123,6 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 	cdns_pcie_disable_phy(cdns_plat_pcie->pcie);
- 	phy_count = cdns_plat_pcie->pcie->phy_count;
--	while (phy_count--)
--		device_link_del(cdns_plat_pcie->pcie->link[phy_count]);
+diff --git a/drivers/ufs/host/ufs-exynos.c b/drivers/ufs/host/ufs-exynos.c
+index 76fee3a79c77..274e53833571 100644
+--- a/drivers/ufs/host/ufs-exynos.c
++++ b/drivers/ufs/host/ufs-exynos.c
+@@ -963,9 +963,10 @@ static int exynos_ufs_phy_init(struct exynos_ufs *ufs)
  
- 	return 0;
- }
-diff --git a/drivers/pci/controller/cadence/pcie-cadence.c b/drivers/pci/controller/cadence/pcie-cadence.c
-index a1eada56edba..0ac980249941 100644
---- a/drivers/pci/controller/cadence/pcie-cadence.c
-+++ b/drivers/pci/controller/cadence/pcie-cadence.c
-@@ -222,7 +222,6 @@ int cdns_pcie_init_phy(struct device *dev, struct cdns_pcie *pcie)
- 	struct device_node *np = dev->of_node;
- 	int phy_count;
- 	struct phy **phy;
--	struct device_link **link;
- 	int i;
- 	int ret;
- 	const char *name;
-@@ -238,10 +237,6 @@ int cdns_pcie_init_phy(struct device *dev, struct cdns_pcie *pcie)
- 	if (!phy)
- 		return -ENOMEM;
+ 	phy_set_bus_width(generic_phy, ufs->avail_ln_rx);
  
--	link = devm_kcalloc(dev, phy_count, sizeof(*link), GFP_KERNEL);
--	if (!link)
--		return -ENOMEM;
--
- 	for (i = 0; i < phy_count; i++) {
- 		of_property_read_string_index(np, "phy-names", i, &name);
- 		phy[i] = devm_phy_get(dev, name);
-@@ -249,17 +244,10 @@ int cdns_pcie_init_phy(struct device *dev, struct cdns_pcie *pcie)
- 			ret = PTR_ERR(phy[i]);
- 			goto err_phy;
- 		}
--		link[i] = device_link_add(dev, &phy[i]->dev, DL_FLAG_STATELESS);
--		if (!link[i]) {
--			devm_phy_put(dev, phy[i]);
--			ret = -EINVAL;
--			goto err_phy;
--		}
+-	if (generic_phy->power_count) {
++	if (ufs->phy_powered_on) {
+ 		phy_power_off(generic_phy);
+ 		phy_exit(generic_phy);
++		ufs->phy_powered_on = false;
  	}
  
- 	pcie->phy_count = phy_count;
- 	pcie->phy = phy;
--	pcie->link = link;
- 
- 	ret =  cdns_pcie_enable_phy(pcie);
+ 	ret = phy_init(generic_phy);
+@@ -979,6 +980,8 @@ static int exynos_ufs_phy_init(struct exynos_ufs *ufs)
  	if (ret)
-@@ -268,10 +256,8 @@ int cdns_pcie_init_phy(struct device *dev, struct cdns_pcie *pcie)
+ 		goto out_exit_phy;
+ 
++	ufs->phy_powered_on = true;
++
  	return 0;
  
- err_phy:
--	while (--i >= 0) {
--		device_link_del(link[i]);
-+	while (--i >= 0)
- 		devm_phy_put(dev, phy[i]);
--	}
- 
- 	return ret;
- }
-diff --git a/drivers/pci/controller/cadence/pcie-cadence.h b/drivers/pci/controller/cadence/pcie-cadence.h
-index 443033c607d7..35b0b33bc6fb 100644
---- a/drivers/pci/controller/cadence/pcie-cadence.h
-+++ b/drivers/pci/controller/cadence/pcie-cadence.h
-@@ -82,7 +82,6 @@ struct cdns_plat_pcie_of_data {
-  * @is_rc: tell whether the PCIe controller mode is Root Complex or Endpoint.
-  * @phy_count: number of supported PHY devices
-  * @phy: list of pointers to specific PHY control blocks
-- * @link: list of pointers to corresponding device link representations
-  * @ops: Platform-specific ops to control various inputs from Cadence PCIe
-  *       wrapper
-  * @cdns_pcie_reg_offsets: Register bank offsets for different SoC
-@@ -95,7 +94,6 @@ struct cdns_pcie {
- 	bool			             is_rc;
- 	int			             phy_count;
- 	struct phy		             **phy;
--	struct device_link	             **link;
- 	const  struct cdns_pcie_ops          *ops;
- 	const  struct cdns_plat_pcie_of_data *cdns_pcie_reg_offsets;
- };
-diff --git a/drivers/pci/controller/dwc/pci-dra7xx.c b/drivers/pci/controller/dwc/pci-dra7xx.c
-index d5d26229063f..b91ab37845c9 100644
---- a/drivers/pci/controller/dwc/pci-dra7xx.c
-+++ b/drivers/pci/controller/dwc/pci-dra7xx.c
-@@ -9,7 +9,6 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/device.h>
- #include <linux/err.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
-@@ -683,7 +682,6 @@ static int dra7xx_pcie_probe(struct platform_device *pdev)
- 	int i;
- 	int phy_count;
- 	struct phy **phy;
--	struct device_link **link;
- 	void __iomem *base;
- 	struct dw_pcie *pci;
- 	struct dra7xx_pcie *dra7xx;
-@@ -731,10 +729,6 @@ static int dra7xx_pcie_probe(struct platform_device *pdev)
- 	if (!phy)
- 		return -ENOMEM;
- 
--	link = devm_kcalloc(dev, phy_count, sizeof(*link), GFP_KERNEL);
--	if (!link)
--		return -ENOMEM;
--
- 	dra7xx->clk = devm_clk_get_optional(dev, NULL);
- 	if (IS_ERR(dra7xx->clk))
- 		return dev_err_probe(dev, PTR_ERR(dra7xx->clk),
-@@ -749,12 +743,6 @@ static int dra7xx_pcie_probe(struct platform_device *pdev)
- 		phy[i] = devm_phy_get(dev, name);
- 		if (IS_ERR(phy[i]))
- 			return PTR_ERR(phy[i]);
--
--		link[i] = device_link_add(dev, &phy[i]->dev, DL_FLAG_STATELESS);
--		if (!link[i]) {
--			ret = -EINVAL;
--			goto err_link;
--		}
- 	}
- 
- 	dra7xx->base = base;
-@@ -856,10 +844,6 @@ static int dra7xx_pcie_probe(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 	dra7xx_pcie_disable_phy(dra7xx);
- 
--err_link:
--	while (--i >= 0)
--		device_link_del(link[i]);
--
- 	return ret;
- }
- 
-diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
-index 642e4c45eefc..07698c645e02 100644
---- a/drivers/pci/controller/dwc/pci-keystone.c
-+++ b/drivers/pci/controller/dwc/pci-keystone.c
-@@ -130,7 +130,6 @@ struct keystone_pcie {
- 	int			num_lanes;
- 	u32			num_viewport;
- 	struct phy		**phy;
--	struct device_link	**link;
- 	struct			device_node *msi_intc_np;
- 	struct irq_domain	*intx_irq_domain;
- 	struct device_node	*np;
-@@ -1118,7 +1117,6 @@ static int ks_pcie_probe(struct platform_device *pdev)
- 	enum dw_pcie_device_mode mode;
- 	struct dw_pcie *pci;
- 	struct keystone_pcie *ks_pcie;
--	struct device_link **link;
- 	struct gpio_desc *gpiod;
- 	struct resource *res;
- 	void __iomem *base;
-@@ -1189,31 +1187,17 @@ static int ks_pcie_probe(struct platform_device *pdev)
- 	if (!phy)
- 		return -ENOMEM;
- 
--	link = devm_kcalloc(dev, num_lanes, sizeof(*link), GFP_KERNEL);
--	if (!link)
--		return -ENOMEM;
--
- 	for (i = 0; i < num_lanes; i++) {
- 		snprintf(name, sizeof(name), "pcie-phy%d", i);
- 		phy[i] = devm_phy_optional_get(dev, name);
- 		if (IS_ERR(phy[i])) {
- 			ret = PTR_ERR(phy[i]);
--			goto err_link;
--		}
--
--		if (!phy[i])
--			continue;
--
--		link[i] = device_link_add(dev, &phy[i]->dev, DL_FLAG_STATELESS);
--		if (!link[i]) {
--			ret = -EINVAL;
--			goto err_link;
-+			goto err;
- 		}
- 	}
- 
- 	ks_pcie->np = np;
- 	ks_pcie->pci = pci;
--	ks_pcie->link = link;
- 	ks_pcie->num_lanes = num_lanes;
- 	ks_pcie->phy = phy;
- 
-@@ -1223,7 +1207,7 @@ static int ks_pcie_probe(struct platform_device *pdev)
- 		ret = PTR_ERR(gpiod);
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(dev, "Failed to get reset GPIO\n");
--		goto err_link;
-+		goto err;
- 	}
- 
- 	/* Obtain references to the PHYs */
-@@ -1238,7 +1222,7 @@ static int ks_pcie_probe(struct platform_device *pdev)
- 
- 	if (ret) {
- 		dev_err(dev, "failed to enable phy\n");
--		goto err_link;
-+		goto err;
- 	}
- 
- 	platform_set_drvdata(pdev, ks_pcie);
-@@ -1325,25 +1309,18 @@ static int ks_pcie_probe(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 	ks_pcie_disable_phy(ks_pcie);
- 
--err_link:
--	while (--i >= 0 && link[i])
--		device_link_del(link[i]);
--
-+err:
- 	return ret;
- }
- 
- static void ks_pcie_remove(struct platform_device *pdev)
+ out_exit_phy:
+@@ -1527,6 +1530,9 @@ static void exynos_ufs_exit(struct ufs_hba *hba)
  {
- 	struct keystone_pcie *ks_pcie = platform_get_drvdata(pdev);
--	struct device_link **link = ks_pcie->link;
--	int num_lanes = ks_pcie->num_lanes;
- 	struct device *dev = &pdev->dev;
+ 	struct exynos_ufs *ufs = ufshcd_get_variant(hba);
  
- 	pm_runtime_put(dev);
- 	pm_runtime_disable(dev);
- 	ks_pcie_disable_phy(ks_pcie);
--	while (num_lanes--)
--		device_link_del(link[num_lanes]);
++	if (!ufs->phy_powered_on)
++		return;
++
+ 	phy_power_off(ufs->phy);
+ 	phy_exit(ufs->phy);
  }
+@@ -1728,8 +1734,10 @@ static int exynos_ufs_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op,
+ 	if (ufs->drv_data->suspend)
+ 		ufs->drv_data->suspend(ufs);
  
- static struct platform_driver ks_pcie_driver = {
+-	if (!ufshcd_is_link_active(hba))
++	if (!ufshcd_is_link_active(hba) && ufs->phy_powered_on) {
+ 		phy_power_off(ufs->phy);
++		ufs->phy_powered_on = false;
++	}
+ 
+ 	return 0;
+ }
+@@ -1737,9 +1745,17 @@ static int exynos_ufs_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op,
+ static int exynos_ufs_resume(struct ufs_hba *hba, enum ufs_pm_op pm_op)
+ {
+ 	struct exynos_ufs *ufs = ufshcd_get_variant(hba);
++	int err;
+ 
+-	if (!ufshcd_is_link_active(hba))
+-		phy_power_on(ufs->phy);
++	if (!ufshcd_is_link_active(hba) && !ufs->phy_powered_on) {
++		err = phy_power_on(ufs->phy);
++		if (err) {
++			dev_err(hba->dev, "Failed to power on PHY: %pe\n",
++				ERR_PTR(err));
++		} else {
++			ufs->phy_powered_on = true;
++		}
++	}
+ 
+ 	exynos_ufs_config_smu(ufs);
+ 	exynos_ufs_fmp_resume(hba);
+diff --git a/drivers/ufs/host/ufs-exynos.h b/drivers/ufs/host/ufs-exynos.h
+index abe7e472759e..683b9150e2ba 100644
+--- a/drivers/ufs/host/ufs-exynos.h
++++ b/drivers/ufs/host/ufs-exynos.h
+@@ -227,6 +227,7 @@ struct exynos_ufs {
+ 	int avail_ln_rx;
+ 	int avail_ln_tx;
+ 	int rx_sel_idx;
++	bool phy_powered_on;
+ 	struct ufs_pa_layer_attr dev_req_params;
+ 	struct ufs_phy_time_cfg t_cfg;
+ 	ktime_t entry_hibern8_t;
 -- 
 2.43.0
 
