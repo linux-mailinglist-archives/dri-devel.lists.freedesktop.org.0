@@ -2,94 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6DrPF5J2rWkC3QEAu9opvQ
+	id xyP2L5SGrWkC4AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 14:16:02 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109DA2305F0
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 14:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178D6230A16
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8365D10E06C;
-	Sun,  8 Mar 2026 13:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7212E10E469;
+	Sun,  8 Mar 2026 14:17:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UdIMsgoh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lv0xnwrJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2CBF10E06C
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 13:15:57 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-48534b59cf3so3516055e9.2
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 06:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1772975756; x=1773580556; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W16o/5pYkG3GvaHOdd+xpHF0ibaFhIutuRk+8zbaIXo=;
- b=UdIMsgohadtbwsK5hcRWw/LKhDT3VVyO2wuV5hs0EaAsEcrPQzYjFf7xz5P6aMW2oD
- 7ja/PfPv1HdlW85fhQT601nJsgYzpK1I+bm6B36jTMerFi4hPdM7l3ogkOt/se4+06wE
- 7UNfD9qYOGCYG5Hl5UB9bfZr0o0ujNNfpQB8b3ddCKOSXxQk85EwiYHZOKLM9+ieADSi
- bRdv7nQGvdzvnokUwMt9HzT7Jla+3ooD0Nuf3iX7DyNf74yWJAwqmnx251KYw7pLVu6i
- 82kng8hnYBxxnZChxgjTuosz8VhFQCwrkooKlIjXJRrmYUV/w02xKFluE8grCvHaqC/k
- yuEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772975756; x=1773580556;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=W16o/5pYkG3GvaHOdd+xpHF0ibaFhIutuRk+8zbaIXo=;
- b=GkIFXy/mYXT9g4mFIidumkfigkZlt+Qz7+wYxtDpRUjGwMb+FfE061u2mROlBd/Hyi
- 1jx5dVWk/l4ambJ9oIDaRZEfGIXzTleOQQI1jUGkb7CfAtuZZWskoeFWvFVrXjuGk3N3
- Ttc1ZLpJY4aq/Nfn/XbK6hEZyvQfQJYwJpnJHm7E01Zhebv87vRtRfx86fcuzQZ/1p22
- rOZRErw+h1F98pvPu7Dc2ISIodjKGFKDpULw16ShGKjBszCmHdH26xZ7eMuxrXjuJKdp
- ATz7a7EXakQdQYQGyNQNL3FsBQEN2iaNZwYm3fO045H4oJF87zLMubsGoHVCYhu0HUK2
- iXfg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW1sc5Fk8uitc8LbJbNsxV75G9V/qK3YwiNWl1CQSIMazARkkQfvGaiscTgjogKgahqtGHR9TL+ze0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBIvSTW6P+LqXXRFCbkGT4UvFtv2K2cyZvXWn9v8j0aCbXxcr/
- cFdSHnEbSEVL/vDvW3oCOKZ0GKNkFVIh9klmXbXluYyCtyGNwMao1isg
-X-Gm-Gg: ATEYQzxuPnd7hclGHL2bFHt+JWTspNQqPQytp9YVXacxGSLwkg0VnKW8lvSiRQSc8uL
- eIE292/E7lk2XthA3JAHN4l4PMOqbj5XFmJooRDfsxeiIjYYd/eHpJP5y4OG62k+0cpct0gh6e9
- +yR1591JSz+PYkFNy5snqY2b1DgdCYo/jAhgSWlusrXSwqSmRfOGk3RtzmHKBoaXNnXy1XqS8zr
- xCTg1hI4iwnq+ohLNHgeRgwdZpcUXO+htq37f+hO29CXMa3ByfKBp3yL/5VgT4CJ1Fy8fyNJcJI
- zmdK+PF2Y+tYB1YipY/ftHH+DvpIpT8IbBVsdELw8yhw2XZvNEN0/8P7HOQimoQAH3JulrrOmI+
- 7LAR1GgG0MbpKEVxL5jdH+lLueuOV+ggTbKm7X6ygRLCZZ+VyO6wb16E+Z7TmiTp3a2BQW+bNj5
- ryTIEewupaSrDhQXPaZ1QaHH7mEkhCqlnR/KXFv3r/HmsqEw+nC3/CUrGHQKhpPj2075LZdcRF
-X-Received: by 2002:a05:600c:b93:b0:483:badb:618e with SMTP id
- 5b1f17b1804b1-48526923941mr132168465e9.8.1772975756097; 
- Sun, 08 Mar 2026 06:15:56 -0700 (PDT)
-Received: from timur-hyperion.localnet (5E1B97DE.dsl.pool.telekom.hu.
- [94.27.151.222]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4852f6994a1sm92743425e9.9.2026.03.08.06.15.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Mar 2026 06:15:54 -0700 (PDT)
-From: Timur =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Kenneth Feng <kenneth.feng@amd.com>,
- Alex Hung <alex.hung@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lijo Lazar <lijo.lazar@amd.com>, "chr[]" <chris@rudorff.com>,
- Sasha Levin <sashal@kernel.org>, Wentao Liang <vulab@iscas.ac.cn>,
- "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCHv2 for 6.112 and 6.6 0/2] amdgpu: fix panic on old GPUs
-Date: Sun, 08 Mar 2026 14:15:54 +0100
-Message-ID: <2332143.t9SDvczpPo@timur-hyperion>
-In-Reply-To: <CAKxU2N9MHp+m3A0w38pfGEJUkLKCCsLgvmgAG3sfSn-Rhc0sgA@mail.gmail.com>
-References: <20260228045356.3561-1-rosenp@gmail.com>
- <5828571.IbC2pHGDlb@timur-hyperion>
- <CAKxU2N9MHp+m3A0w38pfGEJUkLKCCsLgvmgAG3sfSn-Rhc0sgA@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32F4A10E469
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 14:17:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1772979462; x=1804515462;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8qeFutWw+BB4rroxVqdEPs7a3s6Ta8CazCTn6Ie2wzc=;
+ b=lv0xnwrJ6/KdS8EV8g9w8V3A3j3yleTceETtPf0UbthsOl3cgeQPVSXE
+ 6fpNK4QUw6XqSN8jFAPA3ofQz2arN5kv8I8bAL2fX/mEL2qS13enjblub
+ fNloCe1/TBo3JOecp9m076jW4D7IeNt9pkCHvlp0mh56vBt1NjHr016uf
+ LhJ/nxwYLSoxbYDjDa8geBJGpjo9TE+Viqr4xT776KFipm5IPAPDEaQPQ
+ QQJj/vXkV5LubbX7G2Uaw+bWsdhw/6Hr/iCNougi1WHKfCXshS/JqtGGZ
+ F16wtxtms2345FKK1PwOEs5iB87hMtG0VSP2Wbmt4yZ8oVtKAQbpd1nXa g==;
+X-CSE-ConnectionGUID: D78QLtE7RpK3Vp/90WPX0g==
+X-CSE-MsgGUID: E/ncXh5aRpyYRAWvNg4ShA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="77898217"
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="77898217"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2026 07:17:41 -0700
+X-CSE-ConnectionGUID: vK5RaDZZTU+P8ecYkBrL4g==
+X-CSE-MsgGUID: KN9S+TStSV65E+A7SP3bog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; d="scan'208";a="222211592"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 08 Mar 2026 07:17:36 -0700
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vzEwn-000000003AW-3Wna;
+ Sun, 08 Mar 2026 14:17:33 +0000
+Date: Sun, 8 Mar 2026 22:16:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Koskovich <AKoskovich@pm.me>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
+Subject: Re: [PATCH 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
+Message-ID: <202603082210.FAhPnZOe-lkp@intel.com>
+References: <20260308-tianma-ta066vvhm03-v1-2-869fac443b20@pm.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260308-tianma-ta066vvhm03-v1-2-869fac443b20@pm.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,78 +82,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 109DA2305F0
+X-Rspamd-Queue-Id: 178D6230A16
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:rosenp@gmail.com,m:christian.koenig@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kenneth.feng@amd.com,m:alex.hung@amd.com,m:gregkh@linuxfoundation.org,m:lijo.lazar@amd.com,m:chris@rudorff.com,m:sashal@kernel.org,m:vulab@iscas.ac.cn,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_ALL(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linuxfoundation.org,rudorff.com,kernel.org,iscas.ac.cn,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:AKoskovich@pm.me,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk@kernel.org,m:conor+dt@kernel.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:akoskovich@pm.me,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[pm.me,linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.984];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TAGGED_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,01.org:url]
 X-Rspamd-Action: no action
 
-On Wednesday, March 4, 2026 11:23:33=E2=80=AFPM Central European Standard T=
-ime Rosen=20
-Penev wrote:
-> The DC code path just works bettter. So what if suspend is broken. I
-> would much rather a working system. Hyprsunset for example doesn't
-> work without DC. No idea why.
+Hi Alexander,
 
-It's great that it works better for you. Unfortunately that isn't the case =
-for=20
-everyone. It wasn't feature complete until 6.19 so it wasn't a feasible=20
-default until then on these GPUs. Since 6.19 I would say it's pretty good n=
-ow.
+kernel test robot noticed the following build errors:
 
-> Speaking of suspend, the fixes for it are fairly trivial to backport
-> to 6.12 as well.
+[auto build test ERROR on 11439c4635edd669ae435eec308f4ab8a0804808]
 
-Yes. I don't understand why those patches weren't backported.
-Like I said, I sent them for backporting to 6.17 many months ago and expect=
-ed=20
-to see them backported to older kernels as well.
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Koskovich/dt-bindings-display-panel-Document-Tianma-TA066VVHM03/20260308-140525
+base:   11439c4635edd669ae435eec308f4ab8a0804808
+patch link:    https://lore.kernel.org/r/20260308-tianma-ta066vvhm03-v1-2-869fac443b20%40pm.me
+patch subject: [PATCH 2/2] drm/panel: Add support for Tianma TA066VVHM03 panel
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260308/202603082210.FAhPnZOe-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603082210.FAhPnZOe-lkp@intel.com/reproduce)
 
-> > Now that the situation is cleared up, is there anything else we need to=
- do
-> > for these two patches here?
->=20
-> Speaking of which, it's probably best to take over here. It's not fun
-> dealing with stable. I also didn't author these patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603082210.FAhPnZOe-lkp@intel.com/
 
-The question was meant for Christian and Greg.
-What do I need to do to get these patches backported?
+All errors (new ones prefixed by >>):
 
-Thanks & best regards,
-Timur
+>> drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c:335:7: error: no member named 'dsc_slice_per_pkt' in 'struct mipi_dsi_device'
+     335 |         dsi->dsc_slice_per_pkt = 2;
+         |         ~~~  ^
+   1 error generated.
 
 
+vim +335 drivers/gpu/drm/panel/panel-tianma-ta066vvhm03.c
+
+   286	
+   287	static int tianma_ta066vvhm03_probe(struct mipi_dsi_device *dsi)
+   288	{
+   289		struct device *dev = &dsi->dev;
+   290		struct tianma_ta066vvhm03 *ctx;
+   291		int ret;
+   292	
+   293		ctx = devm_drm_panel_alloc(dev, struct tianma_ta066vvhm03, panel,
+   294					   &tianma_ta066vvhm03_panel_funcs,
+   295					   DRM_MODE_CONNECTOR_DSI);
+   296		if (IS_ERR(ctx))
+   297			return PTR_ERR(ctx);
+   298	
+   299		ret = devm_regulator_bulk_get_const(dev,
+   300						    ARRAY_SIZE(tianma_ta066vvhm03_supplies),
+   301						    tianma_ta066vvhm03_supplies,
+   302						    &ctx->supplies);
+   303		if (ret < 0)
+   304			return ret;
+   305	
+   306		ctx->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+   307		if (IS_ERR(ctx->enable_gpio))
+   308			return dev_err_probe(dev, PTR_ERR(ctx->enable_gpio),
+   309					     "Failed to get enable-gpios\n");
+   310	
+   311		ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+   312		if (IS_ERR(ctx->reset_gpio))
+   313			return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+   314					     "Failed to get reset-gpios\n");
+   315	
+   316		ctx->dsi = dsi;
+   317		mipi_dsi_set_drvdata(dsi, ctx);
+   318	
+   319		dsi->lanes = 4;
+   320		dsi->format = MIPI_DSI_FMT_RGB888;
+   321		dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET |
+   322				  MIPI_DSI_CLOCK_NON_CONTINUOUS;
+   323	
+   324		ctx->panel.prepare_prev_first = true;
+   325	
+   326		ctx->panel.backlight = tianma_ta066vvhm03_create_backlight(dsi);
+   327		if (IS_ERR(ctx->panel.backlight))
+   328			return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
+   329					     "Failed to create backlight\n");
+   330	
+   331		drm_panel_add(&ctx->panel);
+   332	
+   333		/* This panel only supports DSC; unconditionally enable it */
+   334		dsi->dsc = &ctx->dsc;
+ > 335		dsi->dsc_slice_per_pkt = 2;
+   336	
+   337		ctx->dsc.dsc_version_major = 1;
+   338		ctx->dsc.dsc_version_minor = 1;
+   339	
+   340		ctx->dsc.slice_height = 20;
+   341		ctx->dsc.slice_width = 540;
+   342		WARN_ON(1080 % ctx->dsc.slice_width);
+   343		ctx->dsc.slice_count = 1080 / ctx->dsc.slice_width;
+   344		ctx->dsc.bits_per_component = 10;
+   345		ctx->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
+   346		ctx->dsc.block_pred_enable = true;
+   347	
+   348		ret = mipi_dsi_attach(dsi);
+   349		if (ret < 0) {
+   350			drm_panel_remove(&ctx->panel);
+   351			return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+   352		}
+   353	
+   354		return 0;
+   355	}
+   356	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
