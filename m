@@ -2,93 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IzjsNnK0rGn5tAEAu9opvQ
+	id xFuCDJeGrWkY4AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 00:27:46 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8AA22DFB7
-	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 00:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B423230A48
+	for <lists+dri-devel@lfdr.de>; Sun, 08 Mar 2026 15:24:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABA910E030;
-	Sat,  7 Mar 2026 23:27:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C4410E43D;
+	Sun,  8 Mar 2026 14:13:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="wKJtZZKc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=rcpassos.me header.i=@rcpassos.me header.b="Fyl6+6CA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=purelymail.com header.i=@purelymail.com header.b="Dnxht6qa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
- [209.85.160.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E12D610E030
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Mar 2026 23:27:41 +0000 (UTC)
-Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-4138136f02eso3988129fac.2
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Mar 2026 15:27:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772926060; x=1773530860;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0GnJdhG5dPcNKz/714FaQVTOCUr58X47IDgpYtPFows=;
- b=wKJtZZKcuAqiAxF1ghuEYAQ0U1Wk2WbyYrY+auI0cyyOt3B4Gl9UssKHxS0dJiI856
- u3VtF959uc9pbmta+F8II3ISUbWoRKVopmXqqkKUHNwzECZGaAxjYVSQSq4dCz0bDG1n
- P0uErrFRGSBhNFkKNOKr+QwXrxdCGac8BSikw1ZMIaM0EAMdsrMyN/TO9ACl8fuACEN3
- 6RZ9HU8OVJLi7rjGPDU/dI4ZOQzq9fGQQsJA7ZmA0klGMcEpuRe9vtuA9qibs5aiGcao
- 0VuisB8UfRXMKF/v9rc0hvNa5hhbbWjTFTXbLPyP+iXhwWgzXCpfuxAVkHOsC8zORPoL
- E77w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1772926060; x=1773530860;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0GnJdhG5dPcNKz/714FaQVTOCUr58X47IDgpYtPFows=;
- b=rQge7ppWlLkuNl4Rjq7hSE+i1ZUzoDN+KKrYZ6ROdMjgzte2zfUXPF1YF430Sx4VL7
- 1rfZSAEA6lgqQmLriAA+vk9z0gdOyz6jM2ce8oD5US1UMQC4M5Gt0BlXnCQ1bNELxqpz
- Vj2v4+qKOI+fhb7RVcuLrcHMhlc0tNh7SDB8HmLGcSJ48dJLraas8ZtBrsMSj271nC01
- KU2Cx0OdoZnM1RtqeiljUXZkHOtcU+Mhmnb2byX0BBEPtFg6C9yu3RhL9w6Oc46Jdm0v
- qNekKEVW9OBSOoMa5qgaBoN7GWduaq70nkc6aMRDnONrV8wvEIs/uBlfFQy1t7sJqwBh
- eiIg==
-X-Gm-Message-State: AOJu0YwoMhIHqBvVXt0wBnRSTZ/uoIL/viuZsP5ZI+WAI2LXHZUyf8KJ
- ApCNzqqjb15pjZlTFNwWzd/6jHwsCvBb1X4g+jiJXlqh4aWsGDyvyyJnQlQpdHwr+G4=
-X-Gm-Gg: ATEYQzxRgB+vcPrTwipteJdMyGy+yk7CNOct5OC3ikw1kxIVPGQksiAqRFTu3pHhiCx
- IcLohK93bsYlRV0StR28k4iB4CXTtQxqwbx8TvZg/z74IVX3nQvC26FGnV4KL0i9auff+8jjHOV
- Af6H2zyg1SWfobCMJ+3r+yzFG3Qki31Y+G2YQE6MoeQkPCwwTXAvMQKjtcVFEh9qTPMz+xHsXZm
- 2z9mpajP8cMJSsw5TAJ6Ln3l/fSTZsb6MDnZlu1D9nQBzG/txk1TcmX2jXv1VAArkEviX0R1DUb
- 97nIP+y1xjevpadJCsbZ0Hltpu+MB3wlTR25Hvqt15lUK8TAGSBCG2dO5AA9ihX8K76eb140MAN
- pvay6Xwbkl/42ornPA0DW+MOwmqdDPkS0JUW3eruvRTyY4BhV+/Z3pe02bEWgxBv0ySROzdaNm5
- t3NXyP1e18QSa6pUAB1PxeeR/4q7cXYyB+V72b636RW2WpwxuxPFBgBGQdtnGzzUdN542QUotm2
- w==
-X-Received: by 2002:a05:6871:5311:b0:417:1cd9:d382 with SMTP id
- 586e51a60fabf-4171cd9d7acmr567580fac.4.1772926060371; 
- Sat, 07 Mar 2026 15:27:40 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:cccf:5174:fa72:c520?
- ([2600:8803:e7e4:500:cccf:5174:fa72:c520])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-416e67d9c9asm4800051fac.13.2026.03.07.15.27.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Mar 2026 15:27:38 -0800 (PST)
-Message-ID: <ca862f40-1dbd-4056-9f70-8ec3d6789604@baylibre.com>
-Date: Sat, 7 Mar 2026 17:27:36 -0600
+Received: from sendmail.purelymail.com (sendmail.purelymail.com
+ [34.202.193.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890F710E00C
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 00:05:36 +0000 (UTC)
+Authentication-Results: purelymail.com; auth=pass
+DKIM-Signature: a=rsa-sha256;
+ b=Fyl6+6CAtGGGKuJ+BVAHrzaZUCZfO7TgXcjm2dFdflfaCdhzaM1Pe0bs3r5t1owbLfkCG6nizSS88lmwqR0rejl2rdVogx13Tdjw615QFcbFsUNBb0Xis5SCRorfQF8X5XqUDni7l6uNVcmOG2rIuEg5araRHETpcCJ7nK1xd5rgl/HZuEOyvtX/GjPvujQaFV4RjwoBl06qSfXi1lGx/N3T/nrTRfSj/F1/PLIrmZUVQcQ4Sniy37ruyJgD/KJzCoerryUHcG+XOutrDE9MkBjV/HMIgA/hbtlNLY3awyLMOTP9gD4C5hPdRt6lvdqWsAYBwmvmtb3i5gwEP1bEZw==;
+ s=purelymail1; d=rcpassos.me; v=1;
+ bh=R8xSOdzYzJCd5hJX+8z//Gh+40HMLCgVDc2ZQ55Cqnk=;
+ h=Received:From:To:Subject:Date; 
+DKIM-Signature: a=rsa-sha256;
+ b=Dnxht6qae2y0e8Q6It/WKwP+UVTkUyVIfp2SBmllxmU7CwvqMYxA5l9ng6Jkm0IAvMJAA8uN2461zvI5jSwj1K0wu1PRVyGjC5ET/GkwzIpa5lmvJL+dk5E6IGgg+2WkxQIYF9gVfCO0T0Pxpmfs0dBTzJ2DccqHBpQJxC6bA3SXSp5go9w2QnRA5CxKwLAEom4NGlgFi7wP+OYDAaRX54hYj81ia1TQ8uCY1g7n7wdEbkQS0sgOD3lh52wAyFB8puVBxfD3lXd3tNvEYfq+PrUwlInjgbxuysFn2/CYHlbD7vZVN5tXsKuBLxtWvxjSYW8H28QXnL9GwflYIrXFOQ==;
+ s=purelymail1; d=purelymail.com; v=1;
+ bh=R8xSOdzYzJCd5hJX+8z//Gh+40HMLCgVDc2ZQ55Cqnk=;
+ h=Feedback-ID:Received:From:To:Subject:Date; 
+Feedback-ID: 45355:7809:null:purelymail
+X-Pm-Original-To: dri-devel@lists.freedesktop.org
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -240878125; 
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Sun, 08 Mar 2026 00:05:19 +0000 (UTC)
+From: Rafael Passos <rafael@rcpassos.me>
+To: alexdeucher@gmail.com
+Cc: BhuvanaChandra.Pinninti@amd.com, Harry.Wentland@amd.com,
+ Martin.Leung@amd.com, Sunpeng.Li@amd.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, daniel.wheeler@amd.com,
+ davidbtadokoro@ime.usp.br, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rafael@rcpassos.me, ray.wu@amd.com,
+ rcpassos@ime.usp.br, siqueira@igalia.com
+Subject: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir iGPU
+Date: Sat,  7 Mar 2026 21:04:22 -0300
+Message-ID: <20260308000515.890688-1-rafael@rcpassos.me>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <CADnq5_Msmohg3T5KLrqPwvJGbXPOMKeNN-ZcqgTS2pHb+GjuYQ@mail.gmail.com>
+References: <CADnq5_Msmohg3T5KLrqPwvJGbXPOMKeNN-ZcqgTS2pHb+GjuYQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sitronix/st7586: fix bad pixel data due to byte swap
-To: Javier Martinez Canillas <javierm@redhat.com>,
- David Lechner <david@lechnology.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260228-drm-mipi-dbi-fix-st7586-byte-swap-v1-1-e78f6c24cd28@baylibre.com>
- <87cy1iv9zb.fsf@ocarina.mail-host-address-is-not-set>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <87cy1iv9zb.fsf@ocarina.mail-host-address-is-not-set>
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sun, 08 Mar 2026 14:13:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,68 +71,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 3C8AA22DFB7
+X-Rspamd-Queue-Id: 7B423230A48
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [3.39 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[rcpassos.me : SPF not aligned (relaxed),reject];
+	R_DKIM_REJECT(1.00)[rcpassos.me:s=purelymail1,purelymail.com:s=purelymail1];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:javierm@redhat.com,m:david@lechnology.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:noralf@tronnes.org,m:lumag@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[baylibre.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[dlechner@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[redhat.com,lechnology.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,tronnes.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:alexdeucher@gmail.com,m:BhuvanaChandra.Pinninti@amd.com,m:Harry.Wentland@amd.com,m:Martin.Leung@amd.com,m:Sunpeng.Li@amd.com,m:alexander.deucher@amd.com,m:amd-gfx@lists.freedesktop.org,m:daniel.wheeler@amd.com,m:davidbtadokoro@ime.usp.br,m:linux-kernel@vger.kernel.org,m:rafael@rcpassos.me,m:ray.wu@amd.com,m:rcpassos@ime.usp.br,m:siqueira@igalia.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.985];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dlechner@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rafael@rcpassos.me,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[rcpassos.me:-,purelymail.com:-];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_SPAM(0.00)[0.154];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:mid,baylibre.com:email,baylibre-com.20230601.gappssmtp.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,usp.br:email,rcpassos.me:mid,rcpassos.me:email]
 X-Rspamd-Action: no action
 
-On 3/5/26 4:36 AM, Javier Martinez Canillas wrote:
-> David Lechner <dlechner@baylibre.com> writes:
-> 
->> Correctly set dbi->write_memory_bpw for the ST7586 driver. This driver
->> is for a monochrome display that has an unusual data format, so the
->> default value set in mipi_dbi_spi_init() is not correct simply because
->> this controller is non-standard.
->>
->> Previously, we were using dbi->swap_bytes to make the same sort of
->> workaround, but it was removed in the same commit that added
->> dbi->write_memory_bpw, so we need to use the latter now to have the
->> correct behavior.
->>
->> This fixes every 3 columns of pixels being swapped on the display. There
->> are 3 pixels per byte, so the byte swap caused this effect.
->>
->> Fixes: df3fb27a74a4 ("drm/mipi-dbi: Make bits per word configurable for pixel transfers")
->> Signed-off-by: David Lechner <dlechner@baylibre.com>
->> ---
-> 
-> The patch looks good to me.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> 
+[WHAT]
+Set the register offset MICROSECOND_TIME_BASE_DIV in dccg_registers for DCN=
+21.
+Introduce a new dccg21_init function, used in dccg_funcs.dccg_init for DCN2=
+1.
+The new dccg21_init sets 0x00120464 to set the MICROSECOND_TIME_BASE_DIV
+register instead of 0x00120264, set by dccg2_init.
 
-I pushed this out with: dim push-branch drm-misc-fixes 
+[WHY]
+The previous commit introduced a change where the dcn21_s0i3_golden_init_wa
+function used to read the MICROSECOND_TIME_BASE_DIV reg from hwseq, and
+now started reading from dccg using dccg2_is_s0i3_golden_init_wa_done.
+However, this register is not properly initialized in dccg.
+Also, the value was initialized to 0x00120264 by dccg2_init, but
+compared to 0x00120464. For this reason, we created a new dccg21_init
+with the values specific to this card.
 
-(It's been 5 years since I've done that, so hopefully I did it right - I followed
-the docs and it all seemed OK to me).
+Fixes: 4c595e75110e ("drm/amd/display: Migrate DCCG registers access from h=
+wseq to dccg component.")
+Signed-off-by: Rafael Passos <rafael@rcpassos.me>
+Co-developed-by: David Tadokoro <davidbtadokoro@ime.usp.br>
+Signed-off-by: David Tadokoro <davidbtadokoro@ime.usp.br>
+---
+
+It took a lot of debugging to get to this point.
+We are not sure this is the right fix, but it works.
+We found that when reading the MICROSECOND_TIME_BASE_DIV register,
+the offset was 13b in the old path and 0 in the new path.
+
+The dcn21_s0i3_golden_init_wa is called when booting
+and when waking from sleep. It compares the value from
+MICROSECOND_TIME_BASE_DIV to 0x00120464.
+When booting, the value was different (and this function returns true).
+When waking from sleep, the value should be equal; thus,
+this function would return false.
+
+After 4c595e75110e, the value was always different than 0x00120464, so
+this function always returned true, failing to wake the screen.
+This happened because the offset of MICROSECOND_TIME_BASE_DIV was 0,
+and READ_REG always returned 0x1186A0 (value from MILLISECOND_TIME_BASE_DIV=
+?).
+
+Things we are unsure of:
+- We used SR to set MICROSECOND_TIME_BASE_DIV direclty in the
+=09dccg_registers struct. We did not find other examples of this.
+=09Should we set MICROSECOND_TIME_BASE_DIV to the DCCG_COMMON_REG_LIST_DCN_=
+BASE ?
+=09I only added it to DCN21, because it is the hardware I have (and validat=
+ed it works).
+- We changed 0x00120264 to 0x00120464 in the init, but dccg2 has the
+=09same difference in setting and reading. We would like to know if this is=
+sue
+=09also affects dccg2 (and other cards), or if we are missing something.
+=09Maybe we should change this value in dccg2_is_s0i3_golden_init_wa_done.
+
+It applies to the mainline master, amdgpu drm-next and amd-staging-drm-next=
+.
+
+Any feedback is appreciated. It was a fun-frustrating-veryfun journey. :)
+Code written only by humans.
+
+
+ .../drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c  | 17 ++++++++++++++++-
+ .../display/dc/resource/dcn21/dcn21_resource.c  |  3 ++-
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c b/drive=
+rs/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
+index 75c69348027e..6f96e9c189dc 100644
+--- a/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
++++ b/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
+@@ -96,6 +96,21 @@ static void dccg21_update_dpp_dto(struct dccg *dccg, int=
+ dpp_inst, int req_dppcl
+ =09dccg->pipe_dppclk_khz[dpp_inst] =3D req_dppclk;
+ }
+=20
++void dccg21_init(struct dccg *dccg)
++{
++=09struct dcn_dccg *dccg_dcn =3D TO_DCN_DCCG(dccg);
++
++=09/* Hardcoded register values for DCN21
++=09 * These are specific to 100Mhz refclk
++=09 * Different ASICs with different refclk may override this in their own=
+ init
++=09 */
++=09REG_WRITE(MICROSECOND_TIME_BASE_DIV, 0x00120464);
++=09REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x001186a0);
++=09REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x0e01003c);
++
++=09if (REG(REFCLK_CNTL))
++=09=09REG_WRITE(REFCLK_CNTL, 0);
++}
+=20
+ static const struct dccg_funcs dccg21_funcs =3D {
+ =09.update_dpp_dto =3D dccg21_update_dpp_dto,
+@@ -103,7 +118,7 @@ static const struct dccg_funcs dccg21_funcs =3D {
+ =09.set_fifo_errdet_ovr_en =3D dccg2_set_fifo_errdet_ovr_en,
+ =09.otg_add_pixel =3D dccg2_otg_add_pixel,
+ =09.otg_drop_pixel =3D dccg2_otg_drop_pixel,
+-=09.dccg_init =3D dccg2_init,
++=09.dccg_init =3D dccg21_init,
+ =09.refclk_setup =3D dccg2_refclk_setup, /* Deprecated - for backward comp=
+atibility only */
+ =09.allow_clock_gating =3D dccg2_allow_clock_gating,
+ =09.enable_memory_low_power =3D dccg2_enable_memory_low_power,
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c=
+ b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
+index 0f4307f8f3dd..7f8f657eb0f2 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
+@@ -222,7 +222,8 @@ static const struct dce_audio_mask audio_mask =3D {
+ };
+=20
+ static const struct dccg_registers dccg_regs =3D {
+-=09=09DCCG_COMMON_REG_LIST_DCN_BASE()
++=09=09DCCG_COMMON_REG_LIST_DCN_BASE(),
++=09=09SR(MICROSECOND_TIME_BASE_DIV)
+ };
+=20
+ static const struct dccg_shift dccg_shift =3D {
+--=20
+2.53.0
+
