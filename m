@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qKePAo0Jr2lzMQIAu9opvQ
+	id gFWrEI4Jr2lzMQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:25 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B383F23E049
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152B523E050
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3438A10E57A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD99F10E57B;
 	Mon,  9 Mar 2026 17:55:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="uyjmbF5r";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="S5wqSwNC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4376810E579
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:55:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8783110E57A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:55:21 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id F0BB91A2D6B;
- Mon,  9 Mar 2026 17:55:17 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 78E1A1A2D72;
+ Mon,  9 Mar 2026 17:55:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id C482E5FFB8;
- Mon,  9 Mar 2026 17:55:17 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4E5075FFB8;
+ Mon,  9 Mar 2026 17:55:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 6A2E01036977E; Mon,  9 Mar 2026 18:55:11 +0100 (CET)
+ with ESMTPSA id 3EE4B1036990D; Mon,  9 Mar 2026 18:55:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1773078916; h=from:subject:date:message-id:to:mime-version:content-type:
+ t=1773078919; h=from:subject:date:message-id:to:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=KPBowFPBINqReMVBeqwOCMQZeqg7fF021TCg4ND7a3c=;
- b=uyjmbF5rb5lhVuiAB/gGqRJGe13cA+47IjJaxQAt2oMJrT81vlOfZ30o4JppNtRNYHJrj2
- TyAatUamZH2kP9b+ORAtUEv6izwDZ6iuTcUyoNZjnFbmQklSumBugpXvb0QqRW82eko4Vo
- 7Oxq6AUJtOyq1GojflEEqaamMglSIRL8x7ahhlbjwqC4SNXGH0xzHHh1+RVKfoM/FUnY9o
- vLo2xwVY5Rrd96bI2TWiMtPQC2RAiFeDOq8M7DUNuMlZ/9AASngDMtz4PPcKQaYYiYxLDw
- E1hzKPiOcjSogykziIQEnfbA9NKWGK/oaBkqm+vej0WUAzp0IhBl0rhKxpv1EQ==
+ bh=7H0KmHNEb4XPdj55o+tif8lY/IBWEaDGpXd3JK/gbqA=;
+ b=S5wqSwNCTf028AN0DGYr5z6qMOXKLzAGvqBSiWVajcB6qnG8mgTSSHXelDCYLLE3OL47LN
+ a86+FhjiUT+AZfDKvm+3my3PkLduaBvmRsPW/SxlYDsePtTmPtVQpZtYlI70b2kNKzfPkq
+ KbMo+gHg4V3QUik8/8fYmuxt8wHN3w7iQl5ClV572Xz5jdLAmOkp0b6n/wetmhlYJW/UA6
+ PlTxojFUtop8RuJfXKlVpinkU/+37RPSba2ZNJ9XOaHdzODSweWnzzkMfp/2Wcra4isAVW
+ 1KBmB4yS3e2pUJLOOyPRUZFfkYFwOspEbCLFFeOwQP9UD680GT73upT5iRbpeA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 18:55:10 +0100
-Message-Id: <DGYG0MT98LBG.EIFPAU9N993H@bootlin.com>
+Date: Mon, 09 Mar 2026 18:55:15 +0100
+Message-Id: <DGYG0P2MMM52.2GLXWIUN0VC0C@bootlin.com>
 To: "Harikrishna Shenoy" <h-shenoy@ti.com>,
  <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
@@ -54,12 +54,12 @@ To: "Harikrishna Shenoy" <h-shenoy@ti.com>,
  <rfoss@kernel.org>, <s-jain1@ti.com>, <simona@ffwll.ch>,
  <tomi.valkeinen@ideasonboard.com>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v10 2/6] drm/bridge: cadence: cdns-mhdp8546-core: Add
- mode_valid hook to drm_bridge_funcs
+Subject: Re: [PATCH v10 3/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle
+ HDCP state in bridge atomic check
 X-Mailer: aerc 0.20.1
 References: <20251209120332.3559893-1-h-shenoy@ti.com>
- <20251209120332.3559893-3-h-shenoy@ti.com>
-In-Reply-To: <20251209120332.3559893-3-h-shenoy@ti.com>
+ <20251209120332.3559893-4-h-shenoy@ti.com>
+In-Reply-To: <20251209120332.3559893-4-h-shenoy@ti.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,7 +75,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: B383F23E049
+X-Rspamd-Queue-Id: 152B523E050
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -111,28 +111,21 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ti.com:email]
 X-Rspamd-Action: no action
 
 On Tue Dec 9, 2025 at 1:03 PM CET, Harikrishna Shenoy wrote:
-> From: Jayesh Choudhary <j-choudhary@ti.com>
+> Now that we have DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, handle the
+> HDCP state change in bridge atomic check as well to enable correct
+> functioning for HDCP in both DRM_BRIDGE_ATTACH_NO_CONNECTOR and
+> !DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
 >
-> Add cdns_mhdp_bridge_mode_valid() to check if specific mode is valid for
-> this bridge or not. In the legacy usecase with
-> !DRM_BRIDGE_ATTACH_NO_CONNECTOR we were using the hook from
-> drm_connector_helper_funcs but with DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> we need to have mode_valid() in drm_bridge_funcs.
+> Without this patch, when using DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, HDCP
+> state changes would not be properly handled during atomic commits,
+> potentially leading to HDCP authentication failures or incorrect
+> protection status for content requiring HDCP encryption.
 >
-> Without this patch, when using DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> flag, the cdns_mhdp_bandwidth_ok() function would not be called
-> during  mode validation, potentially allowing modes that exceed
-> the bridge's bandwidth capabilities to be incorrectly marked as
-> valid.
->
-> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect mode=
-l")
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Fixes: 6a3608eae6d33 ("drm: bridge: cdns-mhdp8546: Enable HDCP")
 > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
