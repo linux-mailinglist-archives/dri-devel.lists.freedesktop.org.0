@@ -2,132 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNi9BvelrmkFHQIAu9opvQ
+	id 2OziNN+prmknHgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 11:50:31 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:07:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1D82375D2
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 11:50:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B366237913
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:07:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 172F510E108;
-	Mon,  9 Mar 2026 10:50:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="b9s8IUbt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF8E10E4D6;
+	Mon,  9 Mar 2026 11:07:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010055.outbound.protection.outlook.com [52.101.61.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A1010E108
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 10:50:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jMt+0DsphEwC6VfKO5co5BDF4X/s1ttlRa3P+53qKl2R1cs/Pr+NrDtYbhJw8cTtf9BnzZY9+UR4wFcbiQ8nZoMX18u8FD/RiACoa5BrduJaO46LVH2aLR5po98yElhE0WSRcDudk5HupCEAnduMC34QSMBUoysCVy8wCVAnteepk1s8weyFig2ZmY9TccKmJCal0WzTav4Nt9T2jKFY+Glafj9GfFN/h5HYiHKiTYNqzDMVWClacpDTe18W3UpDlgv8wCawsdfK1wWaVCEiYTU+LrAK9LOZ7zewL9xuqDBvrnVwoHgP9obwAtyGgzJzs7mtfnjrJCUDkmRtFJ5YlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gZwATAmbWFScAU3NB5X0ggdqK3qt6bUwn7QC4bFfR5M=;
- b=CBr0V+sv8jmO5qjFx0DS/Cwa+rlQHTRQbIgtxKILuvpmAA58VALBEdqGc7heqovQP+kLJgR4PAqSkPwc+q3YwegODfC/uiwsNn9GKvpXyX1oAFK8Soq4AuH2BhSTeZ8q365ZBKAFJOh51N8WnqQjfcgNxRahvjTlDiTQFPFs1Mg0ZA/GJRb10iNla59AJ+aOVdao/6RrrmwwyArDd5I/7WNmwGJpnRUUWan+Rb0ZGX6uSH9ZXJdfUpQE7hULfdfu+GZeeTfpKIHzFiMdF8eWqrQQwqzhtA68rrK4e0+HC0cET56rhyrekbewoQU+zT7/fZoYVGwsGKV1zwJrGNJCnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gZwATAmbWFScAU3NB5X0ggdqK3qt6bUwn7QC4bFfR5M=;
- b=b9s8IUbt4h55CFkQmjUlbjwTI634NW/wtypxg5VZjsJkJZSIOPob7TVDrQOvu7pdla8IIZ62HD6dXBnRMSSHxjEJk8ydLm1XP4U6ZM41HArTGJ1pMNkG9aEu35W2dYGtVFiC91YBX1id0aYm5xSVrkl7xdE1Kum53uFRzEYSsOw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB6823.namprd12.prod.outlook.com (2603:10b6:806:25e::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Mon, 9 Mar
- 2026 10:50:23 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9700.009; Mon, 9 Mar 2026
- 10:50:23 +0000
-Message-ID: <bd0bcaeb-0a0f-4415-b964-ea1d5219b671@amd.com>
-Date: Mon, 9 Mar 2026 11:50:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix the "done_fence is initialized"
- detection logic
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 68CEA10E4D6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 11:07:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB03F1570
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 04:07:01 -0700 (PDT)
+Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ BDE873F5CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 04:07:07 -0700 (PDT)
+Date: Mon, 9 Mar 2026 11:05:06 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Philipp Stanner <phasta@kernel.org>
+ Philipp Stanner <phasta@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH] drm/panthor: Fix the "done_fence is initialized"
+ detection logic
+Message-ID: <aa6pYsoS6Ahdi8nu@e142607>
 References: <20260309103053.211415-1-boris.brezillon@collabora.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260309103053.211415-1-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9P223CA0029.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:408:10b::34) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6823:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e16cd76-282f-4902-170f-08de7dc9aa14
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: qzJSRs8DKa9NIDKopz1/jJubY0Ud/lr5dTMVbR/ZctGq6GXLBUahzf1PL7xvVjNuWFpoBBKZTn0RpxxfwU30jK6u9hINuSxI1Mbp6ydmVhsXDb/sDAxNUIg+PvDdl+dkcQKWWJ77xBxtVKmqV3ZIAsCKCj83LJzbPb3STMaYkHawmlzy4S7LAMhOBT1N7wbouXyZaAxsYsN1Im9+HFxDKd/rPxFk79QG69vcy12BdltwJJy61XSIHMX/Ls4rObdH6KdO9mkQHWkl37zdAiSvXBh9VKTDqKKO8cME/MIBHQokDO61I1Yx1lfWrtPoxK0TyRLtX14BgsAiN8sx/pVoa3RfYVV6/5/8u3d5rRh2V7PTWq4v520vnTeq/5FW40IZUHUJcfLfH/qLT1q/YHoD2lo5KauRxWvz0m6Hmy1kYZYSK7KI/Fa/2RDAshpQYPaBRLlAhqw1WmwOHH5Cr5wvCV1aDT7mb0E4ckRL6d8wCECqKQ1JIfr8p5Gyanmy8TP+taLbff3lb07LFqrp9WFpwsD7Ti13A8ScOni+SzqNIrSbrumnp2A5sIFDvBKEVHjwio0IkgD6Yg31LGlJhkG8t2zOAKlXVUx0rYIgw92OThKMitoYQFqHtukzVlWz8tHV/nNQQvpDgRlhH/jF4nRSkzCNcCW4PoQfcBgR41J5Frw7b9oIjyV5RA0BgpDyQvsN5aYANdP7lYpfKu4Ykm3sJbgqShrXIrxmZpFjeX0CQhM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bDlkbmJ2Wno0QnA5MDNIaVZIdmZiSnpWUmIzU044VGhlekxSMCt3QlJENnFR?=
- =?utf-8?B?bWhQZC8wUkV0UzhtNzdpRlJEMjk2VXB6UVpCNFJhWE5McGx6U3VHVkJQTDBF?=
- =?utf-8?B?WmMyVmwrZkZrMFlnRmRCM2VIN1R5UmxGTGNKMytkY1Q3bkoxR1FxWTdJclJY?=
- =?utf-8?B?K3pPckpWQ0drdHQzbWVDWUpKalJSaS9obUtIOWpRRmJ6dEtRVFBPclh0b2hL?=
- =?utf-8?B?NEFYYklXekQyWHZ2YXZmSnRnc3lXTlE4NndqK3YxZFFHWi9vbG1CY2VVZ2g4?=
- =?utf-8?B?Z201bFZyTU5JUXo5U3lFaFB1Nnd0RjByd2M3QzM1aWo5SVhWUHZLUUJ2b01O?=
- =?utf-8?B?dlRIeUM3TVlMalEwSkNmeWZwcHBLdHdMU0ZWQUNWVkJNQUFQSlAzZ2dFOUQz?=
- =?utf-8?B?bzVUa2NrZTQzcmw5ai9KL3BseTdSYm1YeEFMOEY5ZGZrUFJMZDNIVE00MzJO?=
- =?utf-8?B?VEh3VW1HMVpweVV1YVYxUVc4R2M0MFdQaUViY2ZnRG0wN1BVMEsrWFpoR01C?=
- =?utf-8?B?OE81TlpIeFN5eTNLU1lnU1JnZ0hNY1ZlWTFNN2FpRmlRSnZYL2dlNFFWQUpZ?=
- =?utf-8?B?UWFVSmd2c0RGQlZzbUJpWXNvWmg1MTFienhjTHc3b2hDUUIyYVR4cFZoQWhl?=
- =?utf-8?B?cWp0RTZLbjQvc0YzeVBqandDaEhHOCtLK3NweU5kSmtmL0FrbGFsb1U3L2Er?=
- =?utf-8?B?RjBYOE1PN0E5L0RlZkp1UDdmVDlkOFFtcDVaTE5SVjU5aFlPbXFmVWtnSkNq?=
- =?utf-8?B?RVJHTjFJbW5PblhJcnk4UUxKU3ZYNHQ4cmdaVjNsVXdhWDJybzVpdytTU2xD?=
- =?utf-8?B?QWE2Q3BEampvekVkdzl2ZlBMUjNmZzFLcHU1ZVNkWktqMGtoRHlnbjVsSDJJ?=
- =?utf-8?B?SzRwbFpqT1VOWEMvaU43TzZiZkFNMmtxVVpOWjlWRnJ6akxpWWV6Y2M1czlF?=
- =?utf-8?B?VWtwbmp1MStSazNRV2R5TnBoM3NaRkVPbEQ3aW9sazlndnVMKzdPR0NtaWQ5?=
- =?utf-8?B?bUt2ODdzWm9yYXBFV0pUMXBzU0p0RmpicnhpQUhHb1BHeUVZTGIyZWZXWHVX?=
- =?utf-8?B?cnZHcUhjZlJjWCtpMDVtMEJIWVpFaU0yZ1NXQ1FIclRTczUvazdBZEJxdHdY?=
- =?utf-8?B?WHZBN1ZtSFMwL1JUb3pwSDNWd3R3aWYxNlVCQWFCREE5YSt4M1hjRnRHS1RK?=
- =?utf-8?B?ZHFUalJQK3dzaXBFYnF3SnM0Wm9vQUIzTDgxU1k4eG5KUUIwaURzNTlTVUZY?=
- =?utf-8?B?TUxqMEFxQ3dJZzRROHF3bk9xZStwWURvV1YzVitCWGpDVGI2cUUrYlNjQXc1?=
- =?utf-8?B?L0F0TG8xb25OWHFvQlRXY0lOeDU3SHVpTVBMNi96cmk4d0ljOUQyVzZvbWxq?=
- =?utf-8?B?Z0dIT21QVTRvKzR5cnNUeC9KSEFRVnZEdUZkcDBzWFljOUNtNS9GcDhSekUw?=
- =?utf-8?B?aytpNUlIeWpXeHVGQnNkYjdIVVJTMC96MFk3THFxeUJwZkRjRStVWnE2Nkwx?=
- =?utf-8?B?WkJNeEY1aGNZdW9TZk83YXo1WjlpZjl0ems4QTJlSDNhY3BLSnR4clBNc1JV?=
- =?utf-8?B?YTRDbERJcDh5b2VtUTE2L0ZZT1M4eDJtS2tuVzdiT2lnTUh1bGtETXhPcDB6?=
- =?utf-8?B?TUZKbGRmaldvMGR3d3FjckN5VWd4NUNpckVKdVphWTFCV3hiOGFoSVlFTUhl?=
- =?utf-8?B?K3V1YVJnNFRoVWtqOFVhNWlxcTNzVUQ3SGdlR0xPajQ4WmJ0ZW9ieU01N2NY?=
- =?utf-8?B?dkJDalptdzVYOElpVHFVeDc4WkVSWXJUQndzRkFWZUU5VUdBWWEzVnFRQ2lI?=
- =?utf-8?B?bEpDMVBkZmZzMTZ2c0kva0ZsTkRlNWw5T2x5d0srbHZlZTQ0TFRtYzhSQkh0?=
- =?utf-8?B?cU02SDZNZitIM0hLSU52WFNXS2RTbUlHTkg1TGRyUGtrVmx2NnBOWFAzMElG?=
- =?utf-8?B?VG9wcXpiaTZMQ0dET1FNL2ZUN09OcnZkSW81ZldoeGNEeXlMOHRVNVBBcjJr?=
- =?utf-8?B?TEFiVkdNdXFYcE5pSSt1R1FKek5sQkhMQ0xPOWN4SjArUDNtL1JENkpTUnlF?=
- =?utf-8?B?aDRlcllEQktRVWJJN0FZbkhCSjlxTjQ0ZjVkQjFINHlGUWZVNGxoMS9MYysr?=
- =?utf-8?B?U3NWMGRNYkZaUXd0a3p3N0wzTnROczROck92NU5OT1Z3VlcvZzRLYzhTSFBS?=
- =?utf-8?B?SFJ2ZEJVb1FwQXhRYXRmdm1pWFBra3BMb1ljNitSR2dQKzhQU1ZqWDF3dms3?=
- =?utf-8?B?MUlVYlgrS2xLQ2JxRUwrUzg2aERwT2xZZHZBdXNkRWVCUnNiaitCeU9YYXBI?=
- =?utf-8?Q?5pycC/ynsRvrcHth+Y?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e16cd76-282f-4902-170f-08de7dc9aa14
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 10:50:23.0244 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lUack8tGAPuktQ2kMEai0FREAkOOvxYilyPIOYj1oCNdod/mLZ8AR60k5sPdPp8L
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6823
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260309103053.211415-1-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,41 +57,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 7C1D82375D2
+X-Rspamd-Queue-Id: 6B366237913
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+X-Spamd-Result: default: False [-0.01 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:kernel@collabora.com,m:nicolas.frattaroli@collabora.com,m:tvrtko.ursulin@igalia.com,m:phasta@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:adrian.larumbe@collabora.com,m:kernel@collabora.com,m:nicolas.frattaroli@collabora.com,m:tvrtko.ursulin@igalia.com,m:phasta@kernel.org,m:christian.koenig@amd.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.989];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.432];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	R_DKIM_NA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:email,amd.com:dkim,amd.com:email,amd.com:mid]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,igalia.com:email,collabora.com:email,arm.com:email]
 X-Rspamd-Action: no action
 
-On 3/9/26 11:30, Boris Brezillon wrote:
+On Mon, Mar 09, 2026 at 11:30:53AM +0100, Boris Brezillon wrote:
 > After commit 541c8f2468b9 ("dma-buf: detach fence ops on signal v3"),
 > dma_fence::ops == NULL can't be used to check if the fence is initialized
 > or not. We could turn this into an "is_signaled() || ops == NULL" test,
@@ -185,12 +101,14 @@ On 3/9/26 11:30, Boris Brezillon wrote:
 > the pointer through the lowest bit which is guaranteed to be unused
 > because of the dma_fence alignment constraint.
 
-We added the dma_fence_was_initialized() function exactly for this use case and fixed all callers.
+I'm confused! There is only one place where we end up being interested if the
+fence has been initialized or not, and that is in job_release(). I don't
+see why checking for "ops != NULL" before calling dma_fence_put() should not
+be enough, or even better, why don't we call dma_fence_put() regardless,
+as the core code should take care of an uninitialized dma_fence AFAICT.
 
-But looks like that occasion here somehow felt through the cracks, no idea why my script for NULL checks of dma_fence->ops didn't triggered here.
-
-Regards,
-Christian.
+Best regards,
+Liviu
 
 > 
 > Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
@@ -382,4 +300,16 @@ Christian.
 >  	}
 >  
 >  	job->profiling.mask = pfile->ptdev->profile_mask;
+> -- 
+> 2.53.0
+> 
 
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
