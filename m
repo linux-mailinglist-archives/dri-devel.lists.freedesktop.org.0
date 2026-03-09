@@ -2,97 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOtHKDSSrmlTGQIAu9opvQ
+	id IDE8HYmSrml0GQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:26:12 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:27:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101F1236212
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051B523624F
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:27:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BECD10E4B0;
-	Mon,  9 Mar 2026 09:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B9110E4B6;
+	Mon,  9 Mar 2026 09:27:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="e7OKZUpF";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="jzeYWDh9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9263F10E4B0
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 09:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1773048366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1H9VgSIcKFIGUqagiyR8hKUnbcZS/b32mUUSRzGFVEs=;
- b=e7OKZUpFPdzz1hqYTP95kY66phhMxozwJSU2bCNNWhHaFBicoAS6+aHIdb/SeKjClgH9TA
- JzqvgvNKocbzhNpYlaatBQVn7+Vj4P/x03+jKGLqvVvSoYy+S0fQxVUwiiLjNDT5XJA04Z
- qIJX5ac6zuSFcIRHGx7Irz3sP7MwH6s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-zEZsp1BkO7KRN15msl-vtQ-1; Mon, 09 Mar 2026 05:26:05 -0400
-X-MC-Unique: zEZsp1BkO7KRN15msl-vtQ-1
-X-Mimecast-MFC-AGG-ID: zEZsp1BkO7KRN15msl-vtQ_1773048364
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-485375aa56eso8075905e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 02:26:05 -0700 (PDT)
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com
+ [209.85.218.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4AA10E4B6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 09:27:33 +0000 (UTC)
+Received: by mail-ej1-f73.google.com with SMTP id
+ a640c23a62f3a-b938cb02038so467881066b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 02:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1773048452; x=1773653252;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GekrONwdW/E2ASq8vDcpU6JmstrAl1AYagM70tLaMWo=;
+ b=jzeYWDh9dzwB7ABu/fkD3cuWvvpO00je7QE7yYfgjGdCrQbrwRNtS7b804VdnBRCVC
+ YL/I21LrGiOZgZd+11z/Wsvn4dt6ciwJFpuvnPEsZAu8ptDUpZPdOBI36ajU8Od8EPMk
+ XCtTE1fbpP/T9vEyD5kLx0LtMxINdDD+DX+pDr+VrViwVx4umXQRs4OsjUJqHoqei/b8
+ OkL1ToiHsHxPAro7TXpTRbhuvT8/6Y4mnjDAMK2SGGqt1UN6J9cQD24BznGrzlFP8LFn
+ Z47YlGSremjzIq88vp8AZjAPhz507nEf3DrDJrKh9OOtCy7k6m9o1KphsKGU8OMvyawD
+ bQBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1773048363; x=1773653163;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1H9VgSIcKFIGUqagiyR8hKUnbcZS/b32mUUSRzGFVEs=;
- b=BNfoTpNbksMUb8OHIfDm0lCFSkcj7pdkujUVn13SgvX7McOWEs3QtTMzfTJ9TUbnxn
- T4N4bcSx8cEc4sQGweOk2rCEaV6StiuZyPQEgjPVsnvDl+sg336dc9rjNWatDQfB42+F
- 8ZkjyPlYoy+OrQS/al5H3dZ6ns8PfO1NgF8NENULZbic0iywz7C9JKteI5dvrD9eNxzb
- lm9/trXf9sc1FFLWRQTtKd/1lEMnAnHBnZGbhI82z+/UBmPE1wCGqUPNJPkDEGrnccTR
- MmdHKmQUHHFY0cj2qALeoDMyDGMXERD4G5LunOGsH+a0xlu+EpC4q4RTEkBrZcYnXXU7
- Qy2Q==
-X-Gm-Message-State: AOJu0YwD2ChSxtOiUzGrYxADqONm9Kl9+GvoO9955Z3I+zAS+M2U584w
- WPNiYgEjhgBbDhI6mGz3dgAQLNcCj/8FLWbnv1Fr6WCZfJyCXBgKWRGekhd8T7qVNT6NLaM+KUg
- bEamG0yBzaHrxGbVk6xEimxX5/D7dHUGD3IrC4ZSrqnTcP6sk0UnMqkomQ5xts1q2axdPEF7AGq
- bXHw==
-X-Gm-Gg: ATEYQzwVHnq4VVO23RdB7JmP5O0dsswXkfhroytaMzIbQCxTgTguxmi1ZR1CTsOyRLD
- QT2QDH0weaj3Eh61m3KP9qwDkIeQJ9udPMNJoqgSrVTR0mK8OJuHEJiRmBxqLaX76Mry4VXMoax
- 2Ifg8+8gTc0N/ErIoL8VtAWvWGYBkNsyExHd3EDowYJFyYep09sRWE/PTcOQ9ib02xCIlDuRK2q
- 495mAU3Msuefh8Zlflbai6Ht3rZ9VV8aDibRvEw0OBUJ+xWIhJvZUL4XHXr4p5darIUItyoKyAU
- DNcJpTn3fuuDGU2Ddsg5nhtt+p43sVP2GidKc4rIAaD807gLgEUoPiZBIZxBRvV7pYoIwcIbKfb
- ToDjmE+eJJdtX45yfVkeRb8zi4e/QBGTHcVQZX09oWFdHelSMGTxVynpp4gEVwM1HiPNZXm9B49
- e/Jxiw
-X-Received: by 2002:a05:600c:3acf:b0:480:1c10:5633 with SMTP id
- 5b1f17b1804b1-48526979e65mr171347065e9.26.1773048363418; 
- Mon, 09 Mar 2026 02:26:03 -0700 (PDT)
-X-Received: by 2002:a05:600c:3acf:b0:480:1c10:5633 with SMTP id
- 5b1f17b1804b1-48526979e65mr171346585e9.26.1773048362962; 
- Mon, 09 Mar 2026 02:26:02 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4853fcb6b92sm14081045e9.3.2026.03.09.02.26.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2026 02:26:02 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: David Lechner <dlechner@baylibre.com>, David Lechner
- <david@lechnology.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Noralf =?utf-8?Q?Tr=C3=B8nnes?=
- <noralf@tronnes.org>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sitronix/st7586: fix bad pixel data due to byte swap
-In-Reply-To: <ca862f40-1dbd-4056-9f70-8ec3d6789604@baylibre.com>
-References: <20260228-drm-mipi-dbi-fix-st7586-byte-swap-v1-1-e78f6c24cd28@baylibre.com>
- <87cy1iv9zb.fsf@ocarina.mail-host-address-is-not-set>
- <ca862f40-1dbd-4056-9f70-8ec3d6789604@baylibre.com>
-Date: Mon, 09 Mar 2026 10:25:59 +0100
-Message-ID: <87ldg1icbc.fsf@ocarina.mail-host-address-is-not-set>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: mqKjo1xhgu00dDuKFYIxQqDPAi0s-dA18cmDo4_464g_1773048364
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+ d=1e100.net; s=20230601; t=1773048452; x=1773653252;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GekrONwdW/E2ASq8vDcpU6JmstrAl1AYagM70tLaMWo=;
+ b=Ejvnysipae6aWF4IQC58NNIvW5WLjfcxmFRBhIRNbN2D81e/d8P0AQkLppbd1iwf+p
+ MW6QrWN/RpGHcQdyGq2ZC9GUSuwYQhatmVmt79AUyWgUcsz2r4XEwMKxkZvSItbe0CqM
+ Wl+1Mj95zMlqKAPDonYeY+T+H3xMT+GxrfNb2xt+VHtDLs0QT2CzEsUK4ccQRbuERE/d
+ 4CRV8L0oMPLXcPp2M7eQ5P3vYOYf040jKvl1qs4dyWjfyGEoZ/d9Jb0t/faQ6viREs0e
+ le/YTidRpENR1mzE6af9SRIal46rP1+mI7mcSqlX8xfrj5XqjlPeREPwb1bxuizEFZr3
+ XAzw==
+X-Gm-Message-State: AOJu0YyZJX406Ev29U+Vn9Pg+soIChucDDqlxQbnADYHlN8HNbcZd3ll
+ HZvyC/KIUeKpKIrvIFMmsV8ghwK+4z90qCpR0tLF54n8+7wCVzsTK06FUIioAueQbkwWkUx0Ns5
+ fc8MnAcwZNJo9sqPsxQ==
+X-Received: from edvi5.prod.google.com ([2002:aa7:dd05:0:b0:661:5234:afa2])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:2d23:b0:b96:dce1:2f52 with SMTP id
+ a640c23a62f3a-b96dce1782fmr288787466b.19.1773048451887; 
+ Mon, 09 Mar 2026 02:27:31 -0700 (PDT)
+Date: Mon, 9 Mar 2026 09:27:30 +0000
+In-Reply-To: <20260302202331.176140-1-deborah.brouwer@collabora.com>
+Mime-Version: 1.0
+References: <20260302202331.176140-1-deborah.brouwer@collabora.com>
+Message-ID: <aa6Sgm-JIS2_pudv@google.com>
+Subject: Re: [PATCH] drm/tyr: Use DRM device type alias across driver
+From: Alice Ryhl <aliceryhl@google.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ daniel.almeida@collabora.com, boris.brezillon@collabora.com
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,67 +80,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 101F1236212
+X-Rspamd-Queue-Id: 051B523624F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dlechner@baylibre.com,m:david@lechnology.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:noralf@tronnes.org,m:lumag@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[baylibre.com,lechnology.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,tronnes.org];
-	FORGED_SENDER(0.00)[javierm@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[javierm@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-0.986];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,baylibre.com:email,ocarina.mail-host-address-is-not-set:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:email]
 X-Rspamd-Action: no action
 
-David Lechner <dlechner@baylibre.com> writes:
+On Mon, Mar 02, 2026 at 12:23:31PM -0800, Deborah Brouwer wrote:
+> Currently Tyr defines a convenience type alias for its DRM device type,
+> `TyrDrmDevice` but it does not use the alias outside of `tyr/driver.rs`.
+> 
+> Replace `drm::Device<TyrDrmDriver>` with the alias `TyrDrmDevice` across
+> the driver.
+> 
+> This change will ease future upstream Tyr development by reducing the
+> diffs when multiple series are touching these files.
+> 
+> No functional changes are intended.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-Hello David,
-
-> On 3/5/26 4:36 AM, Javier Martinez Canillas wrote:
->> David Lechner <dlechner@baylibre.com> writes:
->> 
-
-[...]
-
->
-> I pushed this out with: dim push-branch drm-misc-fixes 
->
-> (It's been 5 years since I've done that, so hopefully I did it right - I followed
-> the docs and it all seemed OK to me).
->
-
-Yes, you did it correctly AFAICT. Thanks!
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Merged into drm-rust-next. Thanks!
