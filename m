@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IDE8HYmSrml0GQIAu9opvQ
+	id EIm+KqmSrml0GQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:27:37 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:28:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051B523624F
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:27:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8F423626D
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:28:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B9110E4B6;
-	Mon,  9 Mar 2026 09:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 588FF10E4C6;
+	Mon,  9 Mar 2026 09:28:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="jzeYWDh9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AylozAGT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com
- [209.85.218.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4AA10E4B6
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 09:27:33 +0000 (UTC)
-Received: by mail-ej1-f73.google.com with SMTP id
- a640c23a62f3a-b938cb02038so467881066b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 02:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1773048452; x=1773653252;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=GekrONwdW/E2ASq8vDcpU6JmstrAl1AYagM70tLaMWo=;
- b=jzeYWDh9dzwB7ABu/fkD3cuWvvpO00je7QE7yYfgjGdCrQbrwRNtS7b804VdnBRCVC
- YL/I21LrGiOZgZd+11z/Wsvn4dt6ciwJFpuvnPEsZAu8ptDUpZPdOBI36ajU8Od8EPMk
- XCtTE1fbpP/T9vEyD5kLx0LtMxINdDD+DX+pDr+VrViwVx4umXQRs4OsjUJqHoqei/b8
- OkL1ToiHsHxPAro7TXpTRbhuvT8/6Y4mnjDAMK2SGGqt1UN6J9cQD24BznGrzlFP8LFn
- Z47YlGSremjzIq88vp8AZjAPhz507nEf3DrDJrKh9OOtCy7k6m9o1KphsKGU8OMvyawD
- bQBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1773048452; x=1773653252;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GekrONwdW/E2ASq8vDcpU6JmstrAl1AYagM70tLaMWo=;
- b=Ejvnysipae6aWF4IQC58NNIvW5WLjfcxmFRBhIRNbN2D81e/d8P0AQkLppbd1iwf+p
- MW6QrWN/RpGHcQdyGq2ZC9GUSuwYQhatmVmt79AUyWgUcsz2r4XEwMKxkZvSItbe0CqM
- Wl+1Mj95zMlqKAPDonYeY+T+H3xMT+GxrfNb2xt+VHtDLs0QT2CzEsUK4ccQRbuERE/d
- 4CRV8L0oMPLXcPp2M7eQ5P3vYOYf040jKvl1qs4dyWjfyGEoZ/d9Jb0t/faQ6viREs0e
- le/YTidRpENR1mzE6af9SRIal46rP1+mI7mcSqlX8xfrj5XqjlPeREPwb1bxuizEFZr3
- XAzw==
-X-Gm-Message-State: AOJu0YyZJX406Ev29U+Vn9Pg+soIChucDDqlxQbnADYHlN8HNbcZd3ll
- HZvyC/KIUeKpKIrvIFMmsV8ghwK+4z90qCpR0tLF54n8+7wCVzsTK06FUIioAueQbkwWkUx0Ns5
- fc8MnAcwZNJo9sqPsxQ==
-X-Received: from edvi5.prod.google.com ([2002:aa7:dd05:0:b0:661:5234:afa2])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:2d23:b0:b96:dce1:2f52 with SMTP id
- a640c23a62f3a-b96dce1782fmr288787466b.19.1773048451887; 
- Mon, 09 Mar 2026 02:27:31 -0700 (PDT)
-Date: Mon, 9 Mar 2026 09:27:30 +0000
-In-Reply-To: <20260302202331.176140-1-deborah.brouwer@collabora.com>
-Mime-Version: 1.0
-References: <20260302202331.176140-1-deborah.brouwer@collabora.com>
-Message-ID: <aa6Sgm-JIS2_pudv@google.com>
-Subject: Re: [PATCH] drm/tyr: Use DRM device type alias across driver
-From: Alice Ryhl <aliceryhl@google.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- daniel.almeida@collabora.com, boris.brezillon@collabora.com
-Content-Type: text/plain; charset="utf-8"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8830710E4C3
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 09:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1773048487; x=1804584487;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tMJ8YyM4FKrrTQW6FdpVZ4xA6D8X7PouVqOFMWYS9lc=;
+ b=AylozAGTyJob9lKyp2f4bVaRxdMXBoH0FqyUh902Jt2DZlWrTrtuarUO
+ AIftfoB6znrvO9+lACN5VWsRZyY8eTmwsSf2SUhHg9usxXBPTb3AiwnYN
+ M91/tRHsp4LhZ4vTzKv7Fs5ZTWU91Q7SDkSkD+l8icat2fWXipHOx3AbJ
+ jxEym3L8kfntelLUEM/+L6ksarusjlB5F47kkip0+9UYvI5FcmvpXyhFL
+ e0eTAZdeIkCRRuUSCwtHD66FSeGWL28NxskEp8U93QDcW4sFqsMk9k4rN
+ q9u6JkAPPqcZZhIJy0iEWMlfXMZr0eD8aL3KoCDoipwdRopXPAJEfa5PU Q==;
+X-CSE-ConnectionGUID: oncOxUCtRha+nAL7UV2vfQ==
+X-CSE-MsgGUID: v5c/3+ZGSam8d6der38jjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="74111883"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; d="scan'208";a="74111883"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2026 02:28:07 -0700
+X-CSE-ConnectionGUID: NCrmYgh0Rn2EzfddZ+7V7A==
+X-CSE-MsgGUID: zkdkyj5ZSBeXgZIBgyQOVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; d="scan'208";a="218837556"
+Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2026 02:28:04 -0700
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ andrzej.kacprowski@linux.intel.com, tzimmermann@suse.de,
+ Karol Wachowski <karol.wachowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Test for imported buffers with
+ drm_gem_is_imported()
+Date: Mon,  9 Mar 2026 10:27:55 +0100
+Message-ID: <20260309092755.3165130-1-karol.wachowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,54 +73,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 051B523624F
+X-Rspamd-Queue-Id: 5A8F423626D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com,amd.com,suse.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-0.986];
+	FROM_NEQ_ENVFROM(0.00)[karol.wachowski@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:dkim,intel.com:email]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 12:23:31PM -0800, Deborah Brouwer wrote:
-> Currently Tyr defines a convenience type alias for its DRM device type,
-> `TyrDrmDevice` but it does not use the alias outside of `tyr/driver.rs`.
-> 
-> Replace `drm::Device<TyrDrmDriver>` with the alias `TyrDrmDevice` across
-> the driver.
-> 
-> This change will ease future upstream Tyr development by reducing the
-> diffs when multiple series are touching these files.
-> 
-> No functional changes are intended.
-> 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+Instead of testing import_attach for imported GEM buffers, invoke
+drm_gem_is_imported() to do the test. The test itself does not change.
 
-Merged into drm-rust-next. Thanks!
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_gem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index 98b9ce26962b..8009965286e0 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -48,7 +48,7 @@ static struct sg_table *ivpu_bo_map_attachment(struct ivpu_device *vdev, struct
+ {
+ 	struct sg_table *sgt;
+ 
+-	drm_WARN_ON(&vdev->drm, !bo->base.base.import_attach);
++	drm_WARN_ON(&vdev->drm, !drm_gem_is_imported(&bo->base.base));
+ 
+ 	ivpu_bo_lock(bo);
+ 
+@@ -157,7 +157,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+ 	}
+ 
+ 	if (bo->base.sgt) {
+-		if (bo->base.base.import_attach) {
++		if (drm_gem_is_imported(&bo->base.base)) {
+ 			dma_buf_unmap_attachment(bo->base.base.import_attach,
+ 						 bo->base.sgt, DMA_BIDIRECTIONAL);
+ 		} else {
+-- 
+2.43.0
+
