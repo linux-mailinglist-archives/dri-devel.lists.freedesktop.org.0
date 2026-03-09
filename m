@@ -2,63 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eDU4BqeqrmntHQIAu9opvQ
+	id sAcbI0+rrmntHQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:10:31 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:13:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BADE237A3E
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD78237AEB
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCED610E4D3;
-	Mon,  9 Mar 2026 11:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48E9B10E4DA;
+	Mon,  9 Mar 2026 11:13:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="eMwZe4J+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UjdhlMsz";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dMuFletN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9138210E4D3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 11:10:26 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id A38231A2D85;
- Mon,  9 Mar 2026 11:10:22 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6C1C55FFB8;
- Mon,  9 Mar 2026 11:10:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 810EE10369AA7; Mon,  9 Mar 2026 12:10:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1773054621; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=TrKQPfGYeqc6HtQCkvA++9/t50hIZTaufjLG8wxU3Ls=;
- b=eMwZe4J+GEN+wKwZQuOh02iwA+TN0CxdA77zWChzsDbo2bsmJ4V01R2/qaX3O7xVT6Tl2p
- hltGyPIjB2eNlZyU1T2Hz9Xc206R/M1JarAN7cM+Rw6xTrXhsE5F91Oc5V5kOSSl8Ryo9M
- EaQ7BY3vz951xfvSflLAcARZBCWsVsy/pbRB8CYexEt9nRRtjzu9guWJ7qoBAd2KuC8UkP
- bouPkDDHErlC9Kr05yboTFFCJiyWnzdtgVin03SqP0QmZTIYJESywlh8DvAo4IX9/r1jAH
- wN/GGMosOfh2UZlSL0IdsT7/2NTYJIYRRpLkLqEC+dr/ic62T7XJmnSzZ7lrRw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9F710E4DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 11:13:14 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6298WHfk3773507
+ for <dri-devel@lists.freedesktop.org>; Mon, 9 Mar 2026 11:13:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ViZa1zocX9dQk4M6JkOKAoaHQXer580SAL6DDAoGSLI=; b=UjdhlMszBBK+MaVC
+ 5l3h5F6zItBiWf5R8oXbQnYEhYKppH6m87+COcbgFLoeRnnzKH7ZSDvVcpfDCare
+ MLK+Qg8IwIqKOlH9iRwNuOYtqe+ZhRZJ0DzAoDtliajGekLvLTPueekw4/TEiQfN
+ Kx9DbpC8E2P8O6tBZKQagJvwBNs73MrLMWWZf6848HoMLJOWkWH5ehVSTAGehxXe
+ xdUgm46lMu2W41kZkLEou8zq0ZLJ1PU6BiqM3C0D46YEMpFafQZEm3cUAOmz+EDE
+ DM76/5lZQ56UZ5NqAh0tQyC4SOB/6S5j7XffeZH/BItcHrZJDX/C/LNG6JS7oWio
+ iewesg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cstsa8jc3-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 11:13:14 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8c70cb31bcdso761633485a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 04:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1773054793; x=1773659593;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ViZa1zocX9dQk4M6JkOKAoaHQXer580SAL6DDAoGSLI=;
+ b=dMuFletNGAlrn4xxhf5I2h0a40zobwkvWhE6R1r5PtgMR4/Tid23wcQhQ8u266hOEC
+ 4tUalHG+2IOWc83ADLSH9jwtNYAN7PKa91rNYlYOsrRWLZ3uF0CpPwMYJoolMCR4VHYF
+ YnHGOOPPjx5tfwsxeUyRbtSEcBUy+thTTu8xhv01dAOVhQK89y+zIhQRwQSQFiIWU2Is
+ u68/LEwDeyb3iyV4X3nHx78hVMEBbXqGbxgMd0AkytPDF0tT4Ql/1BgAO/IQbrZ2ElwM
+ qMpjn8Cv4Wy+iAxxBhJ78YlDC3BAboi7piw1gDF9pFyxXrhrpLQJ4myyk2I3XFKTbVyC
+ 2bMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1773054793; x=1773659593;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ViZa1zocX9dQk4M6JkOKAoaHQXer580SAL6DDAoGSLI=;
+ b=kYORZq5R0mbK00Whp+bnsiE30RJmRBBx++Y97qYAyxhmEz9OWVr7QxjIYQzDeuzrGf
+ KdDkg5NNBf86vzIJuqTTbJiuHWmkhIKPF8arPxbUmAkMV4oQxevgmVn6WWFWvlUTCAMc
+ kWJKJAyqrP2Ba1sWsvqhsqFZi4+ngF13yrAAAM63i8/mFZ//UsJuMY4v12UQ+85/57Tp
+ 7+7NmcET2j7dGnCAi8Cts5T/qKhx1QZ+l0x/kapLs8wAUcaosVsEiwyWfijoDfm7UevZ
+ 5a6e61pxNeIx8ABLwsYY15WdiAe+mct7HnpDMXn98Qm8dKnQtLWf/TIWYrNC0eoHpYte
+ EKqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWkY+h4oKOwXPJLu2AXTSadAmEdOsif8LXB0l2jreh/ZsiYdXKC8cdi05gfiiarAqPyAug9TWWgZis=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxL2mbN8DMe9opq8gXL1ckQh3rhQJ/AB6hOZam1nc07yQK5uhec
+ tNU5KlO53Pf1QgzAIuAgJacVrBklLwSpLaF7pwr2//YdeoAd7LjYjbhGqKsCfgfqImWVVrrpzVe
+ 5jy4N/7Pq4nmED8FU5bGSX+8LFY2Tt/q60thILwcrzA4Lsr81VuyvT8zDJyses2TzYKccKz4=
+X-Gm-Gg: ATEYQzwL28SkErWoKaxhgos3GenGmEv5KIeXoyBrDgRlxwJhYUHSvkdD9fWPeOa12/I
+ 7eoK+TI0aiQ3MK5hidOLO4oXr7bTMZy81NhaoGGMoB8o7TLNLTq/pbug7+eTVk5o1ATKbL+2McE
+ 0rQJcNLWcNYgbvkvEX88msBM0pWs7GP+X/tEolYXyNIBSHKZT0SebWTo3CfXLaMxtyZ7DB5eUVc
+ nSSfoR4/eEE6Qb35wMkWYGVA7FytHLjUDMQj5F/nam7QIRQ8KqBacDkbIiOLvOATA3cUjJ57LZS
+ F96Wg0z3mIvZYTOFVV2Z270yuvfDSIvEEDkB7wrGz0D1YwkAg77d0utGj4SkjodCFLBXxZyrP+W
+ 6lb6XRr0UiTUThqvfljVcDvwYlEU9XF/h0uPNlfCMF+7nnnfJ/ata/7qI536n+Kzhg45HZROVip
+ avFho=
+X-Received: by 2002:a05:620a:45a0:b0:8cd:8d50:16a0 with SMTP id
+ af79cd13be357-8cd8d501f65mr150787885a.3.1773054793404; 
+ Mon, 09 Mar 2026 04:13:13 -0700 (PDT)
+X-Received: by 2002:a05:620a:45a0:b0:8cd:8d50:16a0 with SMTP id
+ af79cd13be357-8cd8d501f65mr150783485a.3.1773054792899; 
+ Mon, 09 Mar 2026 04:13:12 -0700 (PDT)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b942ef8b7dbsm347172866b.24.2026.03.09.04.13.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Mar 2026 04:13:11 -0700 (PDT)
+Message-ID: <a683dbdd-db32-40fe-b6de-95edcd6c6962@oss.qualcomm.com>
+Date: Mon, 9 Mar 2026 12:13:09 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/24] soc: qcom: ubwc: define UBWC 3.1
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260306-ubwc-rework-v1-0-9cfdff12f2bb@oss.qualcomm.com>
+ <20260306-ubwc-rework-v1-2-9cfdff12f2bb@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260306-ubwc-rework-v1-2-9cfdff12f2bb@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 12:10:14 +0100
-Message-Id: <DGY7EL00XS8C.L5V6X9997G67@bootlin.com>
-Subject: Re: [PATCH]  drm/bridge: waveshare-dsi: Fix signedness bug
-Cc: "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Marek
- Vasut" <marek.vasut+renesas@mailbox.org>, "Joseph Guo"
- <qijian.guo@nxp.com>, "kernel test robot" <lkp@intel.com>
-To: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260307033245.71666-1-ethantidmore06@gmail.com>
-In-Reply-To: <20260307033245.71666-1-ethantidmore06@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: aJdS8yTpNFOcxsMcz5RfkrJBcmW2pjz8
+X-Authority-Analysis: v=2.4 cv=I+Vohdgg c=1 sm=1 tr=0 ts=69aeab4a cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=H6PoK_6MoztC_fAPAd4A:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDEwMyBTYWx0ZWRfX1UuI62fNin2S
+ Y0BXFIONbUUwiKqAXNAPS3OUdu5SMJQp/5d8gdTunXOK/gAwf+W897VHsBxPNLWsROuMAoceAPD
+ Z+7l2LYpZQiSyOzVlfT31+feLycAKXenLRXPdZmRLEgwuSAXgIbhi9y4+2sGiGE+L3uS+6vSRyj
+ RDq4aWX7qojq7hR9HuPNQIHPf6Dgh3Vik9g8cRZovieE4Y70E2Mq0z7Pp5rhlbiDUCbTg4mKg/G
+ Hu/sCVxg8buZUq9QK2luzcpW3fYiPbeD3rKoitb3YmJFAlCYydsuFk46EuQZ0ecfH6O0pfW0q8D
+ qyS/5BSdnlVtfviRZc4zrcjx1Zr688qOX4t/NtD6L5FNFFI/+qSZViOeY0hk0GKjw3E9PTAu4Ml
+ nb8vxfT6C4Cqdbul0CM2KRdiPksFvYYFmLJl5cCLIP5HscdVXLLdgfbF/ljFWnKXLvWUOxNgJge
+ MuXUJv5BluiLC108Bmw==
+X-Proofpoint-ORIG-GUID: aJdS8yTpNFOcxsMcz5RfkrJBcmW2pjz8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-09_03,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,68 +154,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 9BADE237A3E
+X-Rspamd-Queue-Id: 3CD78237AEB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:andersson@kernel.org,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_RECIPIENTS(0.00)[m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:marek.vasut+renesas@mailbox.org,m:qijian.guo@nxp.com,m:lkp@intel.com,m:ethantidmore06@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,m:marek.vasut@mailbox.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[gmail.com,intel.com,linaro.org,kernel.org,linux.intel.com,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,mailbox.org,nxp.com,intel.com];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,intel.com:email]
+	NEURAL_HAM(-0.00)[-0.986];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Sat Mar 7, 2026 at 4:32 AM CET, Ethan Tidmore wrote:
-> The function drm_of_get_data_lanes_count_ep() returns negative error
-> codes and dsi->lanes is an unsigned integer, so the check (dsi->lanes <
-> 0) is always impossible.
->
-> Make the return value of drm_of_get_data_lanes_count_ep() be assigned to
-> ret, check for error, and then assign dsi->lanes to ret.
->
-> Detected by Smatch:
-> drivers/gpu/drm/bridge/waveshare-dsi.c:70 ws_bridge_attach_dsi() warn:
-> unsigned 'dsi->lanes' is never less than zero.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202603060341.hNj0pl9L-lkp@i=
-ntel.com/
-> Fixes: fca11428425e9 ("drm/bridge: waveshare-dsi: Add support for 1..4 DS=
-I data lanes")
-> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+On 3/6/26 5:47 PM, Dmitry Baryshkov wrote:
+> Follow the comment for the macrotile_mode and introduce separate
+> revision for UBWC 3.0 + 8-channel macrotiling mode. It is not used by
+> the database (since the drivers are not yet changed to handle it yet).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Konrad
