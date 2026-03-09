@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DHQCM72rmnZKgIAu9opvQ
+	id qFgoBN32rmnZKgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:26 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA6023CC89
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614C823CCCF
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7367F10E558;
-	Mon,  9 Mar 2026 16:35:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nE9CPFES";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A850510E561;
+	Mon,  9 Mar 2026 16:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5102010E558;
- Mon,  9 Mar 2026 16:35:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3180644510;
- Mon,  9 Mar 2026 16:35:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C224BC2BCB7;
- Mon,  9 Mar 2026 16:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1773074118;
- bh=fssZhaE39h8/ifGb5lyKDHlx9SyrHqGfVID8VjmY0ME=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=nE9CPFESeIElYpdFRVFYi/eDY9RoazP12jcTKXLiS3P7dRa9zphKtGh1pPAm0qMUf
- Si1w3fT84m6mtNoKkiABeBnJPXnSSW1pcCw5+SieCJkAQsC0XZRTZbvXQhkysdgEm9
- B56/DvoqOv6oxIeGkLvbO/i/fL6vA8SyOZbjKIf6Ub6oMWmKpiG3trmrmtJGoc+9ut
- oISHSJI+QPG7Oi1wFCM0b/vDyzjppoceO75Z3Y3wZExWRhgsBxLQdEUmL3sEVDuhK9
- Xmb/yGfDEC15+YoOym7ExlwwmTmLi825LE4F0VxIHZet28u3jXNL+ZEPYjOhdEi7rC
- oLdNDkjd3nh2g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id B1174F41812;
- Mon,  9 Mar 2026 16:35:18 +0000 (UTC)
-From: Tim Kovalenko via B4 Relay <devnull+tim.kovalenko.proton.me@kernel.org>
-Date: Mon, 09 Mar 2026 12:34:21 -0400
-Subject: [PATCH v4 4/4] gpu: nova-core: fix stack overflow in GSP memory
- allocation
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF3610E561
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 16:35:36 +0000 (UTC)
+Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
+ by APP-05 (Coremail) with SMTP id zQCowACnOQ3B9q5pY3H5CQ--.47818S2;
+ Tue, 10 Mar 2026 00:35:14 +0800 (CST)
+Message-ID: <301a33fc27bd01bb50d57779c2f9eb51a4fafaa5.camel@iscas.ac.cn>
+Subject: Re: [PATCH v7 3/8] drm: verisilicon: add a driver for Verisilicon
+ display controllers
+From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda	
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman	 <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring	 <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Drew
+ Fustini <fustini@kernel.org>, Guo Ren	 <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Dmitry Baryshkov
+ <lumag@kernel.org>,  Michal Wilczynski <m.wilczynski@samsung.com>, Han Gao
+ <gaohan@iscas.ac.cn>, Yao Zi <ziyao@disroot.org>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-riscv@lists.infradead.org
+Date: Tue, 10 Mar 2026 00:35:13 +0800
+In-Reply-To: <DGY9GWWLXGNX.265MMEXXCG8YA@bootlin.com>
+References: <20260129023922.1527729-1-zhengxingda@iscas.ac.cn>
+ <20260129023922.1527729-4-zhengxingda@iscas.ac.cn>
+ <DGY9GWWLXGNX.265MMEXXCG8YA@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
-References: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
-In-Reply-To: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
-To: Alexandre Courbot <acourbot@nvidia.com>, 
- Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Boqun Feng <boqun@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Robin Murphy <robin.murphy@arm.com>, Boqun Feng <boqun@kernel.org>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, driver-core@lists.linux.dev, 
- Tim Kovalenko <tim.kovalenko@proton.me>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773074117; l=3986;
- i=tim.kovalenko@proton.me; s=20260212; h=from:subject:message-id;
- bh=02lIiBKVUWPZgiHflont6ppBx+2QAZbO4PzXiivsIkE=;
- b=pE0ZKAo+0q+3X2PamEznSFPbbQiSdIw7Xy/EgQG+Zfy/iiwn0Rb6Om2UKZsCeEXyeudQjTtkF
- +jL/j8+uX6ICxdDQJsEfm++qZt+CwLBc7cGDTtVkdNtnXo/EFKH2KKd
-X-Developer-Key: i=tim.kovalenko@proton.me; a=ed25519;
- pk=/+OiulEpgeZifgP4mDE4e5YlV6nMeY+frze/lY/xiHI=
-X-Endpoint-Received: by B4 Relay for tim.kovalenko@proton.me/20260212 with
- auth_id=635
-X-Original-From: Tim Kovalenko <tim.kovalenko@proton.me>
+X-CM-TRANSID: zQCowACnOQ3B9q5pY3H5CQ--.47818S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw45CF17Xr45Xr4UuF4fGrg_yoWxKryfpF
+ s2qay5KFs8XFWfu3yUZr4jyFyYv3yDGFs0grWUZryFvF9agF9rWr4DAr1DuF18CF4UCF1a
+ yr1Utr4S9rn8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvGb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xK
+ xwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+ W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+ 1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+ IIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjxUkl19UUUUU
+X-Originating-IP: [112.94.103.14]
+X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,142 +80,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: tim.kovalenko@proton.me
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: CAA6023CC89
+X-Rspamd-Queue-Id: 614C823CCCF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[tim.kovalenko.proton.me];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:gaohan@iscas.ac.cn,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,redhat.com];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu,collabora.com,arm.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	HAS_REPLYTO(0.00)[tim.kovalenko@proton.me];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.976];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	NEURAL_HAM(-0.00)[-0.909];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,icenowy.me:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,iscas.ac.cn:mid,iscas.ac.cn:email,suse.de:email,bootlin.com:url]
 X-Rspamd-Action: no action
 
-From: Tim Kovalenko <tim.kovalenko@proton.me>
+=E5=9C=A8 2026-03-09=E4=B8=80=E7=9A=84 13:47 +0100=EF=BC=8CLuca Ceresoli=E5=
+=86=99=E9=81=93=EF=BC=9A
+> Hello Icenowy Zheng,
+>=20
+> On Thu Jan 29, 2026 at 3:39 AM CET, Icenowy Zheng wrote:
+> > From: Icenowy Zheng <uwu@icenowy.me>
+> >=20
+> > This is a from-scratch driver targeting Verisilicon DC-series
+> > display
+> > controllers, which feature self-identification functionality like
+> > their
+> > GC-series GPUs.
+> >=20
+> > Only DC8200 is being supported now, and only the main framebuffer
+> > is set
+> > up (as the DRM primary plane). Support for more DC models and more
+> > features is my further targets.
+> >=20
+> > As the display controller is delivered to SoC vendors as a whole
+> > part,
+> > this driver does not use component framework and extra bridges
+> > inside a
+> > SoC is expected to be implemented as dedicated bridges (this driver
+> > properly supports bridge chaining).
+> >=20
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > Tested-by: Han Gao <gaohan@iscas.ac.cn>
+> > Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> I have reviewed the bridge part of this patch and have a few remarks,
+> see
+> below.
+>=20
+> [...]
+>=20
+> > +++ b/drivers/gpu/drm/verisilicon/vs_bridge.c
+> > @@ -0,0 +1,371 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
+> > + */
+> > +
+> > +#include <linux/of.h>
+> > +#include <linux/regmap.h>
+> > +
+> > +#include <uapi/linux/media-bus-format.h>
+> > +
+> > +#include <drm/drm_atomic.h>
+> > +#include <drm/drm_atomic_helper.h>
+> > +#include <drm/drm_bridge.h>
+> > +#include <drm/drm_bridge_connector.h>
+> > +#include <drm/drm_connector.h>
+> > +#include <drm/drm_encoder.h>
+> > +#include <drm/drm_of.h>
+> > +#include <drm/drm_print.h>
+> > +#include <drm/drm_simple_kms_helper.h>
+> > +
+> > +#include "vs_bridge.h"
+> > +#include "vs_bridge_regs.h"
+> > +#include "vs_crtc.h"
+> > +#include "vs_dc.h"
+> > +
+> > +static int vs_bridge_attach(struct drm_bridge *bridge,
+> > +			=C2=A0=C2=A0=C2=A0 struct drm_encoder *encoder,
+> > +			=C2=A0=C2=A0=C2=A0 enum drm_bridge_attach_flags flags)
+> > +{
+> > +	struct vs_bridge *vbridge =3D
+> > drm_bridge_to_vs_bridge(bridge);
+> > +
+> > +	return drm_bridge_attach(encoder, vbridge->next_bridge,
+> > +				 bridge, flags);
+> > +}
+> > +
+> > +struct vsdc_dp_format {
+> > +	u32 linux_fmt;
+> > +	bool is_yuv;
+> > +	u32 vsdc_fmt;
+> > +};
+>=20
+> Moving the bool after the two 'u32's would be better for packing and
+> spatial locality (especially in case more fields are added in the
+> future).
 
-The `Cmdq::new` function was allocating a `PteArray` struct on the stack
-and was causing a stack overflow with 8216 bytes.
+Yes this seems to sound right, but doing such rework sounds quite big
+and unnecessary after it's applied...
 
-Modify the `PteArray` to calculate and write the Page Table Entries
-directly into the coherent DMA buffer one-by-one. This reduces the stack
-usage quite a lot.
+>=20
+> > +
+> > +static struct vsdc_dp_format vsdc_dp_supported_fmts[] =3D {
+> > +	/* default to RGB888 */
+> > +	{ MEDIA_BUS_FMT_FIXED, false,
+> > VSDC_DISP_DP_CONFIG_FMT_RGB888 },
+> > +	{ MEDIA_BUS_FMT_RGB888_1X24, false,
+> > VSDC_DISP_DP_CONFIG_FMT_RGB888 },
+> > +	{ MEDIA_BUS_FMT_RGB565_1X16, false,
+> > VSDC_DISP_DP_CONFIG_FMT_RGB565 },
+> > +	{ MEDIA_BUS_FMT_RGB666_1X18, false,
+> > VSDC_DISP_DP_CONFIG_FMT_RGB666 },
+> > +	{ MEDIA_BUS_FMT_RGB101010_1X30,
+> > +	=C2=A0 false, VSDC_DISP_DP_CONFIG_FMT_RGB101010 },
+>=20
+> You can put up to 100 chars per line and avoid the newline here to
+> make
+> this table more readable. Same below.
 
-Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
----
- drivers/gpu/nova-core/gsp.rs      | 34 +++++++++++++++++++---------------
- drivers/gpu/nova-core/gsp/cmdq.rs | 15 ++++++++++++++-
- 2 files changed, 33 insertions(+), 16 deletions(-)
+Ah I prefer to keep 80 CPL when I can, and the `coding-style.rst`
+document still suggests 80.
 
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 25cd48514c777cb405a2af0acf57196b2e2e7837..20170e483e04c476efce8997b3916b0ad829ed38 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -47,16 +47,11 @@
- unsafe impl<const NUM_ENTRIES: usize> AsBytes for PteArray<NUM_ENTRIES> {}
- 
- impl<const NUM_PAGES: usize> PteArray<NUM_PAGES> {
--    /// Creates a new page table array mapping `NUM_PAGES` GSP pages starting at address `start`.
--    fn new(start: DmaAddress) -> Result<Self> {
--        let mut ptes = [0u64; NUM_PAGES];
--        for (i, pte) in ptes.iter_mut().enumerate() {
--            *pte = start
--                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
--                .ok_or(EOVERFLOW)?;
--        }
--
--        Ok(Self(ptes))
-+    /// Returns the page table entry for `index`, for a mapping starting at `start` DmaAddress.
-+    fn entry(start: DmaAddress, index: usize) -> Result<u64> {
-+        start
-+            .checked_add(num::usize_as_u64(index) << GSP_PAGE_SHIFT)
-+            .ok_or(EOVERFLOW)
-     }
- }
- 
-@@ -86,16 +81,25 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-             NUM_PAGES * GSP_PAGE_SIZE,
-             GFP_KERNEL | __GFP_ZERO,
-         )?);
--        let ptes = PteArray::<NUM_PAGES>::new(obj.0.dma_handle())?;
-+
-+        let start_addr = obj.0.dma_handle();
- 
-         // SAFETY: `obj` has just been created and we are its sole user.
--        unsafe {
--            // Copy the self-mapping PTE at the expected location.
-+        let pte_region = unsafe {
-             obj.0
--                .as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
--                .copy_from_slice(ptes.as_bytes())
-+                .as_slice_mut(size_of::<u64>(), NUM_PAGES * size_of::<u64>())?
-         };
- 
-+        // This is a  one by one GSP Page write to the memory
-+        // to avoid stack overflow when allocating the whole array at once.
-+        for (i, chunk) in pte_region.chunks_exact_mut(size_of::<u64>()).enumerate() {
-+            let pte_value = start_addr
-+                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
-+                .ok_or(EOVERFLOW)?;
-+
-+            chunk.copy_from_slice(&pte_value.to_ne_bytes());
-+        }
-+
-         Ok(obj)
-     }
- }
-diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 0056bfbf0a44cfbc5a0ca08d069f881b877e1edc..c8327d3098f73f9b880eee99038ad10a16e1e32d 100644
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -202,7 +202,20 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
- 
-         let gsp_mem =
-             CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        dma_write!(gsp_mem, [0]?.ptes, PteArray::new(gsp_mem.dma_handle())?);
-+
-+        const NUM_PTES: usize = GSP_PAGE_SIZE / size_of::<u64>();
-+
-+        let start = gsp_mem.dma_handle();
-+        // One by one GSP Page write to the memory to avoid stack overflow when allocating
-+        // the whole array at once.
-+        for i in 0..NUM_PTES {
-+            dma_write!(
-+                gsp_mem,
-+                [0]?.ptes.0[i],
-+                PteArray::<NUM_PTES>::entry(start, i)?
-+            );
-+        }
-+
-         dma_write!(
-             gsp_mem,
-             [0]?.cpuq.tx,
+>=20
+> > +	{ MEDIA_BUS_FMT_UYVY8_1X16, true,
+> > VSDC_DISP_DP_CONFIG_YUV_FMT_UYVY8 },
+> > +	{ MEDIA_BUS_FMT_UYVY10_1X20, true,
+> > VSDC_DISP_DP_CONFIG_YUV_FMT_UYVY10 },
+> > +	{ MEDIA_BUS_FMT_YUV8_1X24, true,
+> > VSDC_DISP_DP_CONFIG_YUV_FMT_YUV8 },
+> > +	{ MEDIA_BUS_FMT_YUV10_1X30, true,
+> > VSDC_DISP_DP_CONFIG_YUV_FMT_YUV10 },
+> > +	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24,
+> > +	=C2=A0 true, VSDC_DISP_DP_CONFIG_YUV_FMT_UYYVYY8 },
+> > +	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30,
+> > +	=C2=A0 true, VSDC_DISP_DP_CONFIG_YUV_FMT_UYYVYY10 },
+> > +};
+> > +
+>=20
+> [...]
+>=20
+> > +struct vs_bridge *vs_bridge_init(struct drm_device *drm_dev,
+> > +				 struct vs_crtc *crtc)
+> > +{
+> > +	unsigned int output =3D crtc->id;
+> > +	struct vs_bridge *bridge;
+>=20
+> In common practice a variable named 'bridge' is used to point to a
+> 'struct
+> drm_bridge', so it feels weird when it is used for another type. Can
+> you
+> rename to 'vbridge' or 'vsbridge' or similar, to clarify it's the
+> "Verisilicon bridge"?
 
--- 
-2.53.0
+This sounds right.
 
+BTW where is such kind of common practice documented?
+
+>=20
+> This is after all what you did in vs_bridge_attach() above, where the
+> ambiguity of the 'bridge' name used for a driver-specific struct is
+> evident.
+>=20
+> > +	struct drm_bridge *next;
+> > +	enum vs_bridge_output_interface intf;
+> > +	const struct drm_bridge_funcs *bridge_funcs;
+> > +	int ret, enctype;
+> > +
+> > +	intf =3D vs_bridge_detect_output_interface(drm_dev->dev-
+> > >of_node,
+> > +						 output);
+> > +	if (intf =3D=3D -ENODEV) {
+> > +		drm_dbg(drm_dev, "Skipping output %u\n", output);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	next =3D devm_drm_of_get_bridge(drm_dev->dev, drm_dev->dev-
+> > >of_node,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 output, intf);
+> > +	if (IS_ERR(next)) {
+> > +		ret =3D PTR_ERR(next);
+> > +		if (ret !=3D -EPROBE_DEFER)
+> > +			drm_err(drm_dev,
+> > +				"Cannot get downstream bridge of
+> > output %u\n",
+> > +				output);
+>=20
+> 100 chars per line are allowed, so this could fit on a single line
+> being
+> nicer to read. This applies to a lot places in this driver, of
+> logging
+> calls in particular. I understand this would be annoying to change on
+> an
+> already reviewed patch and at v7 so up to you, but it would be good
+> to keep
+> it in mind for the future.
+>=20
+> > +		return ERR_PTR(ret);
+> > +	}
+> > +
+> > +	if (intf =3D=3D VSDC_OUTPUT_INTERFACE_DPI)
+> > +		bridge_funcs =3D &vs_dpi_bridge_funcs;
+> > +	else
+> > +		bridge_funcs =3D &vs_dp_bridge_funcs;
+> > +
+> > +	bridge =3D devm_drm_bridge_alloc(drm_dev->dev, struct
+> > vs_bridge, base,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bridge_funcs);
+>=20
+> The 'struct drm_bridge' field embedded in a driver-specific struct is
+> conventionally called 'bridge', so renaming it from 'base' to
+> 'bridge'
+> would make it more consistent with other drivers. That would go in
+> sync
+> with the coding convention I mentioned above: 'bridge' for struct
+> drm_bridge, <XYZ>bridge or just <XYZZ> for a custom driver struct
+> embedding
+> a bridge.
+
+Ah, all subclasses in this driver call the base class `base`, and I
+still wonder how such convention is documented.
+
+>=20
+> > +	if (IS_ERR(bridge))
+> > +		return ERR_PTR(PTR_ERR(bridge));
+> > +
+> > +	bridge->crtc =3D crtc;
+> > +	bridge->intf =3D intf;
+> > +	bridge->next_bridge =3D next;
+>=20
+> There is now a next_bridge field in struct drm_bridge, which handles
+> the
+> bridge lifetime in a safer way and more simply [0], so you could use
+> it:
+
+Glad to hear such a field exists now. Will more code about next_bridge
+lifetime management being shared?
+
+Thanks,
+Icenowy
+
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bridge->base.next_bridge =3D next;
+>=20
+> Or, after the renames I suggested above:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbridge->bridge.next_bridge =3D next=
+;
+>=20
+> [0]
+> https://elixir.bootlin.com/linux/v7.0-rc2/source/include/drm/drm_bridge.h=
+#L1269-L1278
+>=20
+> Luca
+>=20
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
