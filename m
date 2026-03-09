@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6BsNEtP7rmnZKgIAu9opvQ
+	id KBQpBKL8rmkxLQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:56:51 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:00:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D726423D2CF
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B05823D3DA
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:00:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C595F10E56E;
-	Mon,  9 Mar 2026 16:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEB510E569;
+	Mon,  9 Mar 2026 17:00:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WsuyxrF3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l2RNgURe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE1610E569
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 16:56:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7565F10E569;
+ Mon,  9 Mar 2026 17:00:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 77FE3434F6;
- Mon,  9 Mar 2026 16:56:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35EBCC4CEF7;
- Mon,  9 Mar 2026 16:56:46 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4C89344307;
+ Mon,  9 Mar 2026 17:00:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 874CFC4CEF7;
+ Mon,  9 Mar 2026 17:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1773075406;
- bh=sQcxHQ4I4ZLAaDXAbllvvwrUduN3PDwYexQoUDrYufU=;
- h=From:To:Cc:Subject:Date:From;
- b=WsuyxrF3fepv4Rxy+E8SdmdaopavU7qN0J28/P7/9PVrbcUGvBDaIfTvB+thcM01s
- 08wOb7tHBBfA2c9HYwtQujVv2nhn5es0MlcT8Gk4FeMfFFtGiERjVHI6LoKcvCxWkZ
- fQqmD6xfLQmukweMO5s++aRWNXF7OzROlN+d7pQktBMhZaBh+hT0bhUy8ek0/jeq6+
- XQ2eYjoa7ZzP7TBPMBMAaVhxHOJ9HTHSZTQkOX3z8+Z7B14GwunW4eofSMEp66lSRe
- hC1jm8UrBVJVrtpwVdqXFiBiaN9o8MWemeUUTSwxnPQq4KjnHtajOmBEMl0fps/fyf
- YSJrEQ9WRS+Cw==
-Received: by wens.tw (Postfix, from userid 1000)
- id 04B8A5FD80; Tue, 10 Mar 2026 00:56:42 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
- Samuel Holland <samuel@sholland.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/sun4i: layers: Use drm_fb_dma_get_gem_addr() to get
- display memory
-Date: Tue, 10 Mar 2026 00:56:33 +0800
-Message-ID: <20260309165635.1138413-1-wens@kernel.org>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1773075613;
+ bh=CtqSZRrtQ086u71AP2P/+EeQ4W/0e0n5IIi6cp4D3LY=;
+ h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+ b=l2RNgUReeisohSOqQEi1BMesOrHU+atDi+li0Bc300RhI+QPC2Hopn5Wj/HRuh4Pg
+ ItbtBP6b1VQfrr7w9JldiQ1teAdj9+afnY21kw23oSVfQs8DyshNBv9HH+w+8VsNu3
+ WwQUYY2APS0OPRF5rEwOPS3PwvkpijnT5ZbEdnMRuQ6a7JqKeDTZHX0Ww4VDljs/7K
+ hg3JqnKbcCQf/Cz5Qzo9PxxVtc2WuScrKdSjCWh7kQRwg87/N8D1P+gSVyNddQ6Nbm
+ /UpnDyfZpdPRagImRsaaoWg4tYIdkMNMrAhbB8hqoQZ7asbYB7li9ARgGRmC3Lh1qn
+ pFyBh1bwqOJRA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Mar 2026 18:00:06 +0100
+Message-Id: <DGYEUGRWCLZK.2325N9QPODXTP@kernel.org>
+Cc: <tim.kovalenko@proton.me>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "Alice Ryhl" <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Boqun Feng" <boqun@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nsc@kernel.org>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>, <driver-core@lists.linux.dev>
+To: "Tim Kovalenko via B4 Relay" <devnull+tim.kovalenko.proton.me@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v4 0/4] Fixes the stack overflow
+References: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
+In-Reply-To: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,132 +72,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: D726423D2CF
+X-Rspamd-Queue-Id: 8B05823D3DA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:jernej@kernel.org,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:linux-sunxi@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[proton.me,nvidia.com,google.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,protonmail.com,umich.edu,collabora.com,arm.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.980];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[dri-devel,tim.kovalenko.proton.me];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Commit 4636ce93d5b2 ("drm/fb-cma-helper: Add drm_fb_cma_get_gem_addr()")
-adds a new helper, which covers fetching a drm_framebuffer's GEM object
-and calculating the buffer address for a given plane.
+On Mon Mar 9, 2026 at 5:34 PM CET, Tim Kovalenko via B4 Relay wrote:
+>
+> ---
+> Changes in v4:
+> - Rebase on top of projection changes
 
-This patch uses this helper to replace our own open coded version of the
-same function.
+Thanks for the quick follow-up!
 
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 16 ++-------------
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 27 ++------------------------
- 2 files changed, 4 insertions(+), 39 deletions(-)
+There was no need to include the series you rebased onto, i.e. it is usuall=
+y
+enough to just mention that your patch is based on another series and provi=
+de a
+link.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index f08f6da55dd0..72c92203ae63 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -124,25 +124,13 @@ static void sun8i_ui_layer_update_buffer(struct sun8i_layer *layer,
- {
- 	struct drm_plane_state *state = plane->state;
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_dma_object *gem;
- 	dma_addr_t dma_addr;
- 	u32 ch_base;
--	int bpp;
- 
- 	ch_base = sun8i_channel_base(layer);
- 
--	/* Get the physical address of the buffer in memory */
--	gem = drm_fb_dma_get_gem_obj(fb, 0);
--
--	DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
--
--	/* Compute the start of the displayed memory */
--	bpp = fb->format->cpp[0];
--	dma_addr = gem->dma_addr + fb->offsets[0];
--
--	/* Fixup framebuffer address for src coordinates */
--	dma_addr += (state->src.x1 >> 16) * bpp;
--	dma_addr += (state->src.y1 >> 16) * fb->pitches[0];
-+	/* Get the start of the displayed memory */
-+	dma_addr = drm_fb_dma_get_gem_addr(fb, state, 0);
- 
- 	/* Set the line width */
- 	DRM_DEBUG_DRIVER("Layer line width: %d bytes\n", fb->pitches[0]);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index ca3ab59e108d..cd8d6c2da0c7 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -197,38 +197,15 @@ static void sun8i_vi_layer_update_buffer(struct sun8i_layer *layer,
- 	struct drm_plane_state *state = plane->state;
- 	struct drm_framebuffer *fb = state->fb;
- 	const struct drm_format_info *format = fb->format;
--	struct drm_gem_dma_object *gem;
--	u32 dx, dy, src_x, src_y;
- 	dma_addr_t dma_addr;
- 	u32 ch_base;
- 	int i;
- 
- 	ch_base = sun8i_channel_base(layer);
- 
--	/* Adjust x and y to be dividable by subsampling factor */
--	src_x = (state->src.x1 >> 16) & ~(format->hsub - 1);
--	src_y = (state->src.y1 >> 16) & ~(format->vsub - 1);
--
- 	for (i = 0; i < format->num_planes; i++) {
--		/* Get the physical address of the buffer in memory */
--		gem = drm_fb_dma_get_gem_obj(fb, i);
--
--		DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
--
--		/* Compute the start of the displayed memory */
--		dma_addr = gem->dma_addr + fb->offsets[i];
--
--		dx = src_x;
--		dy = src_y;
--
--		if (i > 0) {
--			dx /= format->hsub;
--			dy /= format->vsub;
--		}
--
--		/* Fixup framebuffer address for src coordinates */
--		dma_addr += dx * format->cpp[i];
--		dma_addr += dy * fb->pitches[i];
-+		/* Get the start of the displayed memory */
-+		dma_addr = drm_fb_dma_get_gem_addr(fb, state, i);
- 
- 		/* Set the line width */
- 		DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
--- 
-2.47.3
+But don't worry, I just mention this for the next time, there is nothing th=
+at
+needs to be done on your end.
 
+(One additional thing to note, in case you will actually have to (re-)send
+patches of other people in the future, is that such patches still need to h=
+ave
+your Signed-off-by: in addition, since by sending them you are involved in =
+the
+handling of those patches.)
+
+Thanks,
+Danilo
