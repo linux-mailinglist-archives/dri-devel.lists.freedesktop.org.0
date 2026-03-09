@@ -2,139 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OOfJKrRSrmkMCQIAu9opvQ
+	id 4EQ8JtpSrmkMCQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 05:55:16 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 05:55:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E09233C1F
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 05:55:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CBF233C3F
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 05:55:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B93D10E483;
-	Mon,  9 Mar 2026 04:55:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919E310E485;
+	Mon,  9 Mar 2026 04:55:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="uLweT6Ru";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p92/T74w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010011.outbound.protection.outlook.com
- [52.101.193.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A25F910E483;
- Mon,  9 Mar 2026 04:55:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qoQrPXBQLYmAgkzXtEu6u/716KWVxFYeRPNSXJaQjxM7VJrXzgVDhcDG0FAk45ZQPBiP5ntHAHe7uKcY4ldCtQ05RyoWVnfnqXY/M2EtIgUGAUvp+SeR3fG9itZ3NLlLLc2zJ+mBzqhGZAPXWCR9Qym3JTmnJKsPshFEfnKFan6y3YkewytMeQD0Z5NnS5IaxZ0itX9uaK1fx5GoozeHSMzt/PaxvnSkP3T+gybp8bbKHw2fP+RUiSZjzbl0BQ40tIZXPr7pScGi6RO0fWhAyTK25dbykGVvtQTvpWMkooeKptcHoY9PgWQfqrHQ761SlYSDCInP9WEv3OGV5efvxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NOywUD35uXMDQotERrpQ/4wsUfzgnMLVMXA1yuVNxKs=;
- b=ZsPb6Rveh8JKBQptYBq/BUuMTBLTpbGZpZ2Yk2BiDBI1mZhanRZ83F3eXsXcWWLu5QiiSSpC+Eiot8gAFKq1VOKyjGwIRuQ5GbCd2ZM26avVxpWpHFGDlYrZonFapXvzmKnt46JiOaaxq5Daj8bZNgtEqsYFTlE2Vf0FPqYq/YZtoS5mroaqyTZGTfeYGpcYmmVS7XLnem3iFnarmJJ6GVTK+4h/7LiLHo9Km0WZn+/9QR4URsQCdOpPTHx9U4R1c37237/vtlQQxO4L0ST9p0khUOoQm7bVZTrwN4WpyfYflsqhYjUY1kEL++aafNDUw0qPXKlHQmSqAzxaNbkLUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NOywUD35uXMDQotERrpQ/4wsUfzgnMLVMXA1yuVNxKs=;
- b=uLweT6RuL7zZS0jQ3mNMNVfKnQPhYOlE3zc/NNWNNdUkahWEu9F7zmISgwxyw9TGlr5O5i+0/8hjxlcwaBalpbZ8Dvj1X0afKE7uRPEyRMKiLg679PR5LvDC6zwDFTxtm98//LDttWFPRzDIi85WZYB0IoI+a1LNkelXSMaQDA3avC74v6+klDZcU8uJPD9QnD8cb2JpcLDtHq/Z6Df3i7UevfVKqPbg5ZxNy1EZKR6GLa2DMLZ4FALfaDNZAIlfZ0lwEdSoIkQE1cJSp9LI17Ni7XE0ZAjNVu6xz/99QVoTts5YZ7TfPvWEIAenhRjcGIVLcxDtOYGYLPCuK202cw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by LV2PR12MB999098.namprd12.prod.outlook.com (2603:10b6:408:353::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Mon, 9 Mar
- 2026 04:55:10 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9654.022; Mon, 9 Mar 2026
- 04:55:10 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 13:55:07 +0900
-Message-Id: <DGXZFDLI9O35.3023FHY0RXX5Y@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v11 09/12] gpu: nova-core: firmware: fix and explain v2
- header offsets computations
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
- <20260306-turing_prep-v11-9-8f0042c5d026@nvidia.com>
-In-Reply-To: <20260306-turing_prep-v11-9-8f0042c5d026@nvidia.com>
-X-ClientProxiedBy: TYCP286CA0313.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:38b::8) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F50910E0E6;
+ Mon,  9 Mar 2026 04:55:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BCBA042B88;
+ Mon,  9 Mar 2026 04:55:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74FE2C4CEF7;
+ Mon,  9 Mar 2026 04:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1773032150;
+ bh=NkbTndFHxMaI3aDcM2/8HZHlz7aV3tc1b23x0wCm92M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p92/T74w+P9SQUfRQIyMDxe24WI07YnrDPgBGOaTAyatjkFRUgmgBphAZBCljN9ax
+ JgkWYLKKytFEVTMuVCDXDTZP+1jKhihDmz8CStC5WFtuVt3gjsCXu7K8tSfFGdj5Gx
+ KAaW+Ua2EW/Pbk1mu4Q9Bc5+lpLdIjCwKhTLpiIqPhSkSTpGEnD4oE8FKsSkyvOyXr
+ P4GjMQzpqtrb2NHXkWTiKULMgrDtSUmSCwkmWbCkIalJ52h61F+G7FBC354ZNkhgY5
+ FGGthaCLdEX0aIZS1SSDHbpkaWpNn3Y5IOTBuf/fCHXGxsO7m7/izjvoHP7/Ppin+4
+ Tif1VRDdIeV4A==
+Date: Mon, 9 Mar 2026 10:25:31 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+ linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+ akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+ airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+ dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+ mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+ trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+ pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+ tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+ srinivas.kandagatla@oss.qualcomm.com,
+ amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+ op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+ skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
+Message-ID: <aa5Sw1qcCnD5clth@sumit-xelite>
+References: <20260306105027.290375-1-sumit.garg@kernel.org>
+ <20260306105027.290375-3-sumit.garg@kernel.org>
+ <5dab61a6-d8cc-431d-b59e-744d98195d90@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|LV2PR12MB999098:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7fd485c-54e2-4449-e07a-08de7d980af2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|376014|366016|10070799003;
-X-Microsoft-Antispam-Message-Info: jguJ6YiGEXAcfASXr64oOxUjA9kTxxgPV96SZQWYf1ACHkpkoT623Bq3ngmAtnNaZtIKjPl1y1ySzGwYsUDWNwWY3A4jFdmxDVroeg5VnQ5jFeZphO2VZljw3pU/2d5oE/wtdRkfh4gaTppTezGFaNCiait5EPfOELSKR7awKPtS2zt/7CrkekEeqn9R9HpHcJCceBKWeYgNo6GzzS+o+OUBphCpgWzfn56fc/UsA/tBrBokp0I7ojYz4/B1rA/1bTiVq1Pl2S9SChACXKVF5a4giQ+pRDj2W5csP2z9ZwS4dxfR/YKFeb5KFoTlYShdmzAfWYBn4YD8IMnapt9a2rH3Y+SG+JIYFn4Bl8sMZMZ2IrI1NZ3gnGdVhyz1ubq+qPd5qwWx8J8zo8vBiGGPk0jILUQUpOGnAoVtbviprWrqbi7+yknxVC8aOJ4nFttE/YmjW/1Z6JWz8FFxd3OKu3ePaQdjP9ozaeQIZJ3ofPsRp1mkAUyhWG+xZL9lGnXF9mEr7ts8njCVgEt8GXd8UdgqX57K0KqrmnybpW7ZXg8Wl2kanVz6DeqNVQ41/+8VeZap7Y5sk9TBndq+Ox52RoMjwXx+1lIVDlBzzANnahWOBGw1cwL0NEw/tEZIGZRD2cyvgjDKqyNrW7CiS3VgUM7azakDanVf9WsM9jZronj0Tj4hj3+7lQtrE1UcbUwPw4Buy3zEWkLR+aPfRwyLeTH/dfMOj3uxbO/Lbpto/Ks=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(10070799003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0o2aGNYWHUzMVVmRXNETXhQdlg3S3VBYWpzVFd5TFY1b1FlU0tEak1FZVlK?=
- =?utf-8?B?NHFCRmRERWJ4Rlk0N1BKMHlnc2pvTFMxd3pnU2RoSnFUTGlTbGx6SDY5U0th?=
- =?utf-8?B?ZnNwbHc5UU5ZSnBLaXJoUHFYL0VnT3NKZk5zcFFra2ZsMHpTaTZSSHBncWhk?=
- =?utf-8?B?VlQzYkFwZ0dSdStEZlNkMnVGcG5rczV0NXM2TTJMUjdqOWdoSml5dFRPcEov?=
- =?utf-8?B?UzVDbW41S2NOZStWcEZRc3o1amFCRG5yRHZ2VGVLS2IwQ3FHSVJZQy9ST1Vh?=
- =?utf-8?B?MlNXcWhHd2IraHlBYXBhWHJxVWJPRWo5Mm1PODByTjZpWnVSUGRDeGZWd0dT?=
- =?utf-8?B?TVBVYVBURURRQ0lRcGp4QlBYMGlZN2JYOXU5ZHdBRFEzYUNWdzZ3L0JCeDVX?=
- =?utf-8?B?WUdEODFETzhsWDE3NVdxTDFST2EySjh4ZFRVZFAxS294UUNEdWlOYWxndUc5?=
- =?utf-8?B?T2VYT3k3dnllUU9WS1dWUjFkcGk4NjZXTElVNWtQYVZJSTFaWUFZd050TzJK?=
- =?utf-8?B?LzhPRTd5QXdMVTJlR2RXaVh3T2RLWEo4K1RVNFZaT25CRnowU2RIaUZlVGxT?=
- =?utf-8?B?cis5dnV3SDF2bUorRXJGNUlHQ3FPUmIrc2ZtOTd2VE8vdHh3d3VlTnpTeXd1?=
- =?utf-8?B?NHJueUhEUFJkSC8vZDl4S0gvKzBtNTN4U0JMeDlPTDNiOWZ4aThLWUJLcFN4?=
- =?utf-8?B?eWh0WXkyb2pCdm5aKzRQZWEvZDJzczRaVjkvdVNXemVNK01uS0tXejFNUmdZ?=
- =?utf-8?B?UWhYdW5vbkpvQjNxbFU0UlMxQ2RUMWdPNDBGMGwySmtyMWlYWGpGZ1VIUGI3?=
- =?utf-8?B?MkFwY1lqSnR3dVN0eTRHRWlWaGkwYjJNZUg1U1RMcE1uOU00ZzNqRi8zVWIx?=
- =?utf-8?B?UmhNbEJYZFJhcHNYWjhDMWNiakN5MC9lcERSZ2EzNXlQZ3ZVSy9SbFoyTzg0?=
- =?utf-8?B?TUE4Y1JYL1JQMFdYQmtTYWdHUTlTeGtDREd6TU85dyt2REp1dWRzK3pTL3N5?=
- =?utf-8?B?ZUcrTGNWYVRldW5meTlTL3pXaTZkQWpaMTBmdWtmcUZPazNKSkkxQ1NkMzJ1?=
- =?utf-8?B?a0JQY1JKcjh4MjN4aGlhMHdLUDRJY3FrSEFGdGdDUllzcnh0TEtqcVNUZzFv?=
- =?utf-8?B?c1czTTdJbitxZWxoQlJ2d0tyMmtpakRuS0Y2M2FBQTVLdTNLSllJNkxPMk9U?=
- =?utf-8?B?Mlg1WUxlL0o1Z0R5MWlvNTE5Ymg4eUpOMmttalVtSkdaTzhScDl6SENzcU0w?=
- =?utf-8?B?WElaYTVIMFFKWmJ5VDkxdXc2ajVPci9peUZvK1FoVDN5ZFN5VGlnMFBzMEc4?=
- =?utf-8?B?Q0xPMUMrQ2ZVNjdzS1RuZ1h3dERwZkV6MVNOdk9FVHVUZlB4VTBRNGkrRjFS?=
- =?utf-8?B?eUtiM2wzdlQ3RVk3R1RWWGoyN3FveEc2QVZmTmp1bzlDSjgrdmVmTzFNV0hY?=
- =?utf-8?B?aXQycVpQWXRGUVJIRGNBQkI2NkFUaWEvZXdKd1QrRlo0WC82NWhVSEU1MmZT?=
- =?utf-8?B?ZU9Hbm96THQ3MkFsNUxzVWdFdnZFR0ZYRHYvNy92ZHdGUEFzRk1xVlN1dVBR?=
- =?utf-8?B?R28rQW5Hc2UxR2lRaUNkeXBIRlRKci9TY3l0ckZlZTQ3aUNKZVJ2d1ArUW9W?=
- =?utf-8?B?VFpqN0hEQitQTHhOODdZdnNPMVE2ZFladkhSeXRNaytJSHN0UGd2TlpYQ2d3?=
- =?utf-8?B?THJ5ZW1raGM4RUFvWnVPNml1MjU1MnFjdWJVZFBxeU1uekVmK3BnSmNFbzJ3?=
- =?utf-8?B?U1B1d3FONWZoTWdYbHJtTEtueThEOERtRHRvdk80cEhaTjZSalNzRndYbnZO?=
- =?utf-8?B?L2xOK08xa2NkU2N4OThYdFI5ZXFYWmdSaEhKS1NJOGdWL0ZSb2xMajhRMmw0?=
- =?utf-8?B?bkRTMTZvdCtDclFsRzhsckpYYTBsMDVIU2VrUnFNamxGSkJBTzd4VlgzSTEy?=
- =?utf-8?B?eHArWFV6azFPWktCMHZ2TGpvdVR2YnE0NUNvU3ZvUDdWdDJqRUd5MG9WemdT?=
- =?utf-8?B?UVJpbndNbmpmd3hDaGZzWDdJVUtVaG0yVWU3c0FMTkNuQndNQkJQT2hzb253?=
- =?utf-8?B?a0h1bFB0WmJNcSsvNU1Ib0xUcW9hUzZCR3lPQ3c0eVZGZFZrc255TjBEeFRz?=
- =?utf-8?B?V3p4TGNTanNXdklMSjBDVmdRT3pac2RkcG9EREczQkZ0MXgzM09VSEJ3Y1Uw?=
- =?utf-8?B?SXNCMUk5QllidkhVU1JhV0NjeFZJTVZTYTVIVzg3c1k3aWNHK2dQTEhCSVlU?=
- =?utf-8?B?WTBUS0ZNNnVOdWhlU3F0OUVlNnFNSjVPaUtDNFh6bnI3eTZXNWlod1V0UGlH?=
- =?utf-8?B?enUrallLN0hKN1h2VXR0N1ZrOVJ6SzVXZVVUZUNEVzQ3Z2c5bFRHeVBvS1kv?=
- =?utf-8?Q?aSRVi5wKWurQvhCGr/WNG6tXQeAZhBvVgWwGqYqU73KME?=
-X-MS-Exchange-AntiSpam-MessageData-1: IKbV9BL/7/0npA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7fd485c-54e2-4449-e07a-08de7d980af2
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 04:55:10.6695 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GiGb64z5S8ekCYuyttSASwQ3bK+2/x+oiSTUB9JbjLr68IcI29tLxgryE24SxbR6rqO0BiXtSEssHEZNFb3LYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB999098
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5dab61a6-d8cc-431d-b59e-744d98195d90@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,50 +82,272 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 45E09233C1F
+X-Rspamd-Queue-Id: 48CBF233C3F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.983];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.929];
-	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt,netdev];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-On Fri Mar 6, 2026 at 1:52 PM JST, Alexandre Courbot wrote:
-> There are no offsets in `FalconUCodeDescV2` to give the non-secure and
-> secure IMEM sections start offsets relative to the beginning of the
-> firmware object.
->
-> The start offsets for both sections were set to `0`, but that is
-> obviously incorrect since two different sections cannot start at the
-> same offset. Since these offsets were not used by the bootloader, this
-> doesn't prevent proper function but is incorrect nonetheless.
->
-> Fix this by computing the start of the secure IMEM section relatively to
-> the start of the firmware object and setting it properly. Also add and
-> improve comments to explain how the values are obtained.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
+On Fri, Mar 06, 2026 at 12:15:01PM +0100, Krzysztof Kozlowski wrote:
+> On 06/03/2026 11:50, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Qcom platforms has the legacy of using non-standard SCM calls
+> > splintered over the various kernel drivers. These SCM calls aren't
+> > compliant with the standard SMC calling conventions which is a
+> > prerequisite to enable migration to the FF-A specifications from
+> > Arm.
+> > 
+> > OP-TEE as an alternative trusted OS to QTEE can't support these non-
+> > standard SCM calls. And even for newer architectures QTEE won't be able
+> > to support SCM calls either with FF-A requirements coming in. And with
+> > both OP-TEE and QTEE drivers well integrated in the TEE subsystem, it
+> > makes further sense to reuse the TEE bus client drivers infrastructure.
+> > 
+> > The added benefit of TEE bus infrastructure is that there is support
+> > for discoverable/enumerable services. With that client drivers don't
+> > have to manually invoke a special SCM call to know the service status.
+> > 
+> > So enable the generic Peripheral Authentication Service (PAS) provided
+> > by the firmware. It acts as the common layer with different TZ
+> > backends plugged in whether it's an SCM implementation or a proper
+> > TEE bus based PAS service implementation.
+> > 
+> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > ---
+> >  drivers/firmware/qcom/Kconfig          |   8 +
+> >  drivers/firmware/qcom/Makefile         |   1 +
+> >  drivers/firmware/qcom/qcom_pas.c       | 295 +++++++++++++++++++++++++
+> >  drivers/firmware/qcom/qcom_pas.h       |  53 +++++
+> >  include/linux/firmware/qcom/qcom_pas.h |  41 ++++
+> >  5 files changed, 398 insertions(+)
+> >  create mode 100644 drivers/firmware/qcom/qcom_pas.c
+> >  create mode 100644 drivers/firmware/qcom/qcom_pas.h
+> >  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
+> > 
+> > diff --git a/drivers/firmware/qcom/Kconfig b/drivers/firmware/qcom/Kconfig
+> > index b477d54b495a..8653639d06db 100644
+> > --- a/drivers/firmware/qcom/Kconfig
+> > +++ b/drivers/firmware/qcom/Kconfig
+> > @@ -6,6 +6,14 @@
+> >  
+> >  menu "Qualcomm firmware drivers"
+> >  
+> > +config QCOM_PAS
+> > +	tristate
+> > +	help
+> > +	  Enable the generic Peripheral Authentication Service (PAS) provided
+> > +	  by the firmware. It acts as the common layer with different TZ
+> > +	  backends plugged in whether it's an SCM implementation or a proper
+> > +	  TEE bus based PAS service implementation.
+> > +
+> >  config QCOM_SCM
+> >  	select QCOM_TZMEM
+> >  	tristate
+> > diff --git a/drivers/firmware/qcom/Makefile b/drivers/firmware/qcom/Makefile
+> > index 0be40a1abc13..dc5ab45f906a 100644
+> > --- a/drivers/firmware/qcom/Makefile
+> > +++ b/drivers/firmware/qcom/Makefile
+> > @@ -8,3 +8,4 @@ qcom-scm-objs += qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
+> >  obj-$(CONFIG_QCOM_TZMEM)	+= qcom_tzmem.o
+> >  obj-$(CONFIG_QCOM_QSEECOM)	+= qcom_qseecom.o
+> >  obj-$(CONFIG_QCOM_QSEECOM_UEFISECAPP) += qcom_qseecom_uefisecapp.o
+> > +obj-$(CONFIG_QCOM_PAS)		+= qcom_pas.o
+> > diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
+> > new file mode 100644
+> > index 000000000000..dc04ff1b6be0
+> > --- /dev/null
+> > +++ b/drivers/firmware/qcom/qcom_pas.c
+> > @@ -0,0 +1,295 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> > + */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/device/devres.h>
+> > +#include <linux/firmware/qcom/qcom_pas.h>
+> > +#include <linux/of.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#include "qcom_pas.h"
+> > +#include "qcom_scm.h"
+> > +
+> > +static struct qcom_pas_ops *ops_ptr;
+> 
+> I really dislike this singleton design. And it is not even needed! If
+> you were storing here some allocated instance of SCM/PAS I could
+> understand, but singleton for only ops? Just implement one driver (so
+> SCM + whatever you have here) which will decide which ops to use,
+> through the probe. Really, this is neither needed nor beneficial.
 
-Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
+The motivation here is rather quite opposite to the single monolithic
+SCM driver design. The TZ services like PAS, ICE and so on are going to
+be implemented as independent discoverable devices on TEE bus which
+rather needs independent kernel client drivers.
+
+Also, the single driver probe can't work here since the SCM driver is
+bound to the platform bus whereas the TEE PAS driver is bound to the TEE
+bus. So there is a reason for the current design.
+
+> 
+> It actually leads to more problems with this barrier handling, see
+> further comments.
+
+The barrier handling is something that I carried over from existing
+implmentation but I can't see a reason why it can't be replaced with a
+simple mutex. See diff below for mutex.
+
+> ...
+> 
+> > +
+> > +/**
+> > + * qcom_pas_shutdown() - Shut down the remote processor
+> > + * @pas_id:	peripheral authentication service id
+> > + *
+> > + * Returns 0 on success.
+> > + */
+> > +int qcom_pas_shutdown(u32 pas_id)
+> > +{
+> > +	if (ops_ptr)
+> > +		return ops_ptr->shutdown(ops_ptr->dev, pas_id);
+> > +
+> > +	return -ENODEV;
+> > +}
+> > +EXPORT_SYMBOL_GPL(qcom_pas_shutdown);
+> > +
+> > +/**
+> > + * qcom_pas_supported() - Check if the peripheral authentication service is
+> > + *			  available for the given peripheral
+> > + * @pas_id:	peripheral authentication service id
+> > + *
+> > + * Returns true if PAS is supported for this peripheral, otherwise false.
+> > + */
+> > +bool qcom_pas_supported(u32 pas_id)
+> > +{
+> > +	if (ops_ptr)
+> 
+> Lack of barriers here is not looking right. Existing/old code is not a
+> good example, I fixed only the obvious issue, but new code should be
+> correct from the beginning.
+> 
+> Barriers should normally be always paired, unless you have some clear
+> path no concurrent execution can happen here, but such explanation is
+> missing, look:
+
+Actually concurrent execution is rather required here since TZ can
+support parallel bring-up of co-processors. The synchonization is only
+needed when PAS client drivers are performing a deferred probe waiting
+for the service to be available. However, you are right explanation is
+missing here which I will add in the next version.
+
+> 
+> > +		return ops_ptr->supported(ops_ptr->dev, pas_id);
+> > +
+> > +	return false;
+> > +}
+> > +EXPORT_SYMBOL_GPL(qcom_pas_supported);
+> > +
+> > +/**
+> > + * qcom_pas_is_available() - Check for PAS service
+> > + *
+> > + * Returns true on success.
+> > + */
+> > +bool qcom_pas_is_available(void)
+> > +{
+> > +	/* The barrier is needed to synchronize with client drivers. */
+> 
+> 
+> Here. This is pretty pointless/redundant comment. Obviously barriers are
+> to synchronize with whoever is calling this and only clients are calling.
+> 
+> You must say something useful, not just barrier is a barrier... It's
+> like documenting mutex "to synchronize".
+
+Sure, I can expand the comments.
+
+> 
+> > +	return !!smp_load_acquire(&ops_ptr);
+> 
+
+
+diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
+index dc04ff1b6be0..82312ff5a1d0 100644
+--- a/drivers/firmware/qcom/qcom_pas.c
++++ b/drivers/firmware/qcom/qcom_pas.c
+@@ -14,6 +14,7 @@
+ #include "qcom_pas.h"
+ #include "qcom_scm.h"
+
++static DEFINE_MUTEX(ops_mutex);
+ static struct qcom_pas_ops *ops_ptr;
+
+ /**
+@@ -261,8 +262,8 @@ EXPORT_SYMBOL_GPL(qcom_pas_supported);
+  */
+ bool qcom_pas_is_available(void)
+ {
+-       /* The barrier is needed to synchronize with client drivers. */
+-       return !!smp_load_acquire(&ops_ptr);
++       guard(mutex)(&ops_mutex);
++       return !!ops_ptr;
+ }
+ EXPORT_SYMBOL_GPL(qcom_pas_is_available);
+
+@@ -272,11 +273,12 @@ EXPORT_SYMBOL_GPL(qcom_pas_is_available);
+  */
+ void qcom_pas_ops_register(struct qcom_pas_ops *ops)
+ {
+-       if (!qcom_pas_is_available())
+-               /* The barrier is needed to synchronize with client drivers. */
+-               smp_store_release(&ops_ptr, ops);
+-       else
++       if (!qcom_pas_is_available()) {
++               guard(mutex)(&ops_mutex);
++               ops_ptr = ops;
++       } else {
+                pr_err("qcom_pas: ops already registered\n");
++       }
+ }
+ EXPORT_SYMBOL_GPL(qcom_pas_ops_register);
+
+@@ -285,8 +287,8 @@ EXPORT_SYMBOL_GPL(qcom_pas_ops_register);
+  */
+ void qcom_pas_ops_unregister(void)
+ {
+-       /* The barrier is needed to synchronize with client drivers. */
+-       smp_store_release(&ops_ptr, NULL);
++       guard(mutex)(&ops_mutex);
++       ops_ptr = NULL;
+ }
+ EXPORT_SYMBOL_GPL(qcom_pas_ops_unregister);
+
+-Sumit
