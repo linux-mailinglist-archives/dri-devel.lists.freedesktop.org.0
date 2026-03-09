@@ -2,104 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qGBsMBcJrmkN/AEAu9opvQ
+	id lqvAKeonrml9AAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 00:41:11 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 02:52:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7804E232C3A
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 00:41:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB806233197
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 02:52:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80BEF10E087;
-	Sun,  8 Mar 2026 23:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3DE410E09A;
+	Mon,  9 Mar 2026 01:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HmIT16LF";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jsppbBM9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B142110E0CF
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Mar 2026 23:41:06 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-79800183233so149006797b3.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Mar 2026 16:41:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773013265; cv=none;
- d=google.com; s=arc-20240605;
- b=Ra/R4xhSt1Tnk6Oyp2LOnej9Dm2GnJYwGOKzl/jiUJ49xO5dtv2fgcm2yYoulJ83YY
- SlrY8qWTUUQnf5omt/fSv/UITlpaTKuaY7pL+gsdQ+a2sNtT4C2//4DcuxnHL+CD+8vn
- vMEeJW5mHTAjh/j9DU+M5W1Ot+RU7nTZBlVeEV4Yo1BHBmKzEoeNaD3a5nsari5H0w2s
- VfFHKgxuT7eYLAFSH3maPPBacI164E2HIOiR9OabkvDN/lnFHeKuwsZ0udfxRrHW+UbC
- AS5ZODOEEZ2Z7U9w/VEp6MzxGSy7YHuS/W1h3Zc63caaOCD+7bJmYToUP84zwuOOkDCK
- yrSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=NQXx8uu4M0KLxzrAzxI+jDa08vrKCalXPwY/Drji+ig=;
- fh=j2+j5mRxh2CMejeij4JPpV4RoxSEXJqBtX+5wonBgvk=;
- b=EVl7DUSdWJ7uFvXj0sOWTbOPIWmTIr46gJLNVcdfvSOCLxi1z9cgt4hoxBb0rj0vKr
- F6wFJIHvFXPTymjWZ04k6PmM7O2A2ORpkJVobp/Ei+9RKH8pn4n4LvVgqXdUKMPH8rL+
- Z1U72FiSdyPD7B4SazObBbJ5aU4f/Wk/LdqGG6rIZH0otQwmUzky5Xc5V6f45cdiwprp
- R5XgZLz6oN7QuhUdDlY7ct/V9GKTcfs47w0r0C3jTFPSEzuCDa9k68Ma2SrkO7AYQ1jU
- AIZ9GWvjd1gbc4hSeMBMtiRBVatEnKOOsYA4CS5ecamce6ayV4b4jq97GDJfPeC7GytB
- EceA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1773013265; x=1773618065; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NQXx8uu4M0KLxzrAzxI+jDa08vrKCalXPwY/Drji+ig=;
- b=HmIT16LFy3Qc/SOnEcRnxP4IrWF+j9Aa+zL/2QLaSO65+fjW3+i/5v1r4bg0PwL20O
- SCRaABU72ttJx+zdeptUMhqX6nKt6yr43x4Bh+aYcjOsz1CL8+NVAN37WrpaP0C8Xlto
- y0kpD7g2k1FWbd/9G/bneubiJ07nJnfRRoWClWLlHc2UHKXUzpQopVat2icoAZ9nnb6d
- 1IC0cU1jqViTsmFZq9WdLdWkGRWV71ov+EeppvnoV5XB8RW9/JtFPvG+4Oh4Jm/Tfsqc
- dKG4O7yGVR6H6IQFuyc53HjEVqf7WmWZhim45WgjJY5o1PS2fAzuVZpQ6zOckwBn1EO1
- GUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1773013265; x=1773618065;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=NQXx8uu4M0KLxzrAzxI+jDa08vrKCalXPwY/Drji+ig=;
- b=G4a7cP5oZdVXgjq5kOSfXEytboi3KgnCvoxVkPs1XvK39rUMzE8D/kBye3PcCG+Bde
- 990MnmIHZV1tCHLFm4l7Bkbqb9jycx7mImq+k1Hd0FEFe7vxwRKoq3aCNlpZNV5YCpXd
- 06UkxBvvYdrABoopBfeDK9Ip+RtqvEzwPS14uWgDVau5oR7iymX3brHvM4G0PxAQZR0n
- 8/3Gju5id+/4zJZZNfNym6gR0IH4CVmzV+iJLOopYMhnHg2G9lu5eFBTaH5YuB3Z2HQ9
- K4xTb0RwkNKfaXsRYspjyRF2E0sKgrFsVIOVxeZrf85KKxfITpaIBL2gmhrVPYUrCqKG
- xkOQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU35wHWqcKni5cDqmDWGpxE8CdP3+oGa1lBosUE8KUY5r9R1MZ4MVO3S7N/qEGo625h1Gq1dynECxA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+WEZAdrRZf1HP7815LDtAW/ZlgH+vJmH9Xtql+Rq1WHCKdU2A
- MCqqIWlZxWCJY8D9zarJK5Z5R2wRtKr9zZLX5ULTKhfbfAEI/l0q8NqGIDhFONil4DfpFPpi3SF
- kqXzh2N1Mp1QrzgzAraHQqKIk1/LL9E8=
-X-Gm-Gg: ATEYQzyld8eKrvQQIxVg9sIWcZfhow+7RIor709ITQwR8XVf72gGPAKRcamgWLKz81M
- 3n+/QAe7yBHlcO1v260JiApgEYrL3wxeDRooprUtX1SeK3H/PO7wgEcy2lwAuY3n6IZ1LBW+8V6
- L/LkIBa82XTBLEOwH0/OuFwX3WA8Cfiga4rwl+3rEhgStTDk3sJgl3pbaeVxOW9ggiw7MLrQ8cH
- AVgUOGcXU4PK7YAxZ8DBFvS6iJMbK7t2G994V1ib9dYombIF0X0DMqNsW+867cTppuwvzRsf97T
- vrfJ
-X-Received: by 2002:a05:690c:c50f:b0:796:4486:b7d0 with SMTP id
- 00721157ae682-798dd6a9c02mr86884167b3.4.1773013265400; Sun, 08 Mar 2026
- 16:41:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250125064619.8305-1-jim.cromie@gmail.com>
- <2025022012-viscous-cringing-bf88@gregkh>
-In-Reply-To: <2025022012-viscous-cringing-bf88@gregkh>
-From: jim.cromie@gmail.com
-Date: Sun, 8 Mar 2026 17:40:39 -0600
-X-Gm-Features: AaiRm53r_scJ1hz_hrqKtTTL_x76n0lj7hLnJSP7FySmjXt2VLjJSlLhS6vTW4o
-Message-ID: <CAJfuBxyqemd2FipDjt0TNo0KOG1XcnX1X9MJYnt80Zy2-6rPXw@mail.gmail.com>
-Subject: Re: [PATCH 00/63] Fix CONFIG_DRM_USE_DYNAMIC_DEBUG=y
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, jbaron@akamai.com, ukaszb@chromium.org, 
- intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch, 
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
- ville.syrjala@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010057.outbound.protection.outlook.com [52.101.56.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8AC10E09A;
+ Mon,  9 Mar 2026 01:52:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PubcqGXjkCPpmSRNBnD/1+VZdaendh2oaQ+8NfrUjCcshSu7dSnX4GxTNhvjMWAP2GOw91/ene+gZ9PyER59MQHYvlw46xRc1RbjjP5pxvSkfmPxdlcOzp2JV8VTlIOrAvX6vS3AoSXnCiWIpi5ZGX7OHWT+XiMapZtLXLaKm1oSFjmoJnguLsmP1BuSkvR+novxFnzDmQGUOJShhToADBWjL++2BrWPZFjN2A67hKLxC67CAAJf1RChm67yAbr2MH6TmTGezYjYlCa0HgFip3mlB9Nw3R5G4l3d43Vo0Rx7M9jBaGTbH+zPRRZKraWEESrdUCTpNcSQ+ewrpW2K5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oua2HHWRxbEZHaidLjPXwAIh8g+wNQD/LB4MDeb+tns=;
+ b=nczSJtqiQw2vq7WuXlXz4zCQxCHSeyx1+vpmQgrpDiG/3CrbEI12j0OZ9Vk4qehcvLPS8TpgZrW1Kk5yJLTXvzSprTkfIOuNbq/SdIizf98t4Gjs1K+DZALMkyGuBGpDiQZsb2HT8l4oGIUGBoUER/gCaj02nqTAtamTtsH8s+NmfXxyx15IauGEfJEa97/nqRdxaDEVCRFYoaFeIjAIEqLNjsEuHGpyiCo+XBK8axGxPg2LGv0CIb3AEid2Ci+3ANNfM96Psl5B5FdF37tLSNJehxbdS4Ex6GLtmtAU7zTKWZg5brKsWXCZEcPbMWbjSnijqVFpxQt5++thNNU4mQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oua2HHWRxbEZHaidLjPXwAIh8g+wNQD/LB4MDeb+tns=;
+ b=jsppbBM9nLuF5PegiX8UHbj20CezaOfyA7o9/OLovnTNlEF6c6Mm+UGemgrD/sOq6/NxLlXadulRw13J7//GJNmY8pqUFjC+0cRhvLenQu3pjBqMsl/fDDfyvoaU8Le9W0D8N3fyRmbTCc4UhVB4L/nSMZCEJjnm8suOjTq05nFDyvg9jP1vZdIExOojb2xp50IXmgRKM0rHCQeNlKyDnxHrgzhfhw8PLsqfR+oAO0uoqehT12PPewqiNR0kmbLztsGMwHy6bbvD6MB1AkdWssv2DCQnFRF81mO8NxkekptjcEmUU2b/4C7nVjIMeCCurZHPjSJC38LtH8vLlpqdNg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS7PR12MB5838.namprd12.prod.outlook.com (2603:10b6:8:79::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Mon, 9 Mar
+ 2026 01:52:29 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9700.009; Mon, 9 Mar 2026
+ 01:52:29 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Mar 2026 10:52:25 +0900
+Message-Id: <DGXVJHQQN0N5.QF485SVNLCNJ@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, <nouveau@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v11 00/12] gpu: nova-core: add Turing support
+From: "Alexandre Courbot" <acourbot@nvidia.com>
 Content-Transfer-Encoding: quoted-printable
+References: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
+In-Reply-To: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
+X-ClientProxiedBy: TY4PR01CA0076.jpnprd01.prod.outlook.com
+ (2603:1096:405:36c::12) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB5838:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf867943-ec36-4e2f-ffb1-08de7d7e855b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|366016|10070799003|376014;
+X-Microsoft-Antispam-Message-Info: k4afw3rEJixryLnyn8L3/VeEcbHkyMeMxsDEyVIEn4dg4iQzYsdIF06lpCa4AdCJZv19PDEAyzyltap0madgEDk4wczL8mL+qAqCjAPd4kU6hpdVPYTiW+eVmZSfNqbi1ufX8jzozRFoDaZve7SD2iE5qlwl1Qxm1fuHFJo+OwRuQczMIknd5w0SVjqAuzyHUMzk4VRHQfFXhfMRmLGfOQnU9QQjpzt+OJSDMjnxE3j4a8Exy9GlZOhvNCl3kRe7B7HWLHAjlhkKRtAeP/q7cSN+WHg1JLElDMDuYRdaw4HisUcEbA/AW64OY38GuoJRXYV8sFjUO30eLtCzn7Xup1XrezTymE6hioP7N+W6y7pfsBA/fsRDyB43HBHTTqB5Z6jg4cSoxJiGs3cHIohPtqJBNlgDiK64BX19VQDzINUCUs4VeVbhykNSr3IhbJmr/DmM8tSlqeFTKRGdMmC1rbWATwmtyhGBN7pXx/MWYXPzpuMfksuVkT3aum6Q+ExXLdp1YRICUS6JqCvzO1Sa7mcbnOC9/H/tHLjFpZbx+dH027Z0yP+VbznPeDZdjwirYPEBXpkyzSjPv+cSciSysWwtBUOlMdtqcI14rLNS1nKMU1BQopUy9duZrTpC6MNbXkh7J5AidTmwBj7+m1f0BkBJTJxACyE282L6OTYYe9MPDd7NTvnQr7PTBPCf404wcKPsOKeZrZWORUvFwVt0wG/NbIBLXi4uQ/LJ05X2OHk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(10070799003)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVdLeWVFTHlsK2E3T3NrbjBvSUo3SDRQcUs5YWRKL0FiUCtXRDNnV1FXNDIz?=
+ =?utf-8?B?RS9Dc3JtM0NtbEhVdE01bWpZWEE2c2JLRmdMUkQ2VTAyelpLWkhmcURiTW1m?=
+ =?utf-8?B?cnFlVXJYWnZDKzExRTRLUDl2T3VwYkxZWFpVSzBlVzhMcXU2d1JrK0YyUUF3?=
+ =?utf-8?B?UU5icEtyeXRPZUppdzMrU25ZVXBrSDRKbnRGcVRpeFRqdDYxNGdtY3hYa0Uv?=
+ =?utf-8?B?RjluNjFndkJxdG5vQTdicGFBS1VwOGlpUDNCamtxUXFPbjlNemlCSGFsazVO?=
+ =?utf-8?B?am5GUWdwZXF2Vjh6Q1F4SUZWUDd1Zkp3VEx2cjhBaUduQzZlb0x2dHVEUDU3?=
+ =?utf-8?B?aUlqUG83WlpQNVhVVGhOMmZONE50T0MzZmNIK3hwYjZxUHhWelZ5Tnh5K2Q3?=
+ =?utf-8?B?YWRSMEZHQ01wb3RIWTQ5K3dQcVdYZTVHTWFUbW9xN0I1R3NvZmlZM0x6cWYy?=
+ =?utf-8?B?QjhhWkR2S1gwM2tQeVViRW9rT2xqc3AvR25ES3FrRkVEUWtVZkdObXgxUkFM?=
+ =?utf-8?B?MDJ2WUxGVWNPSGw1SzR6cVM2dVg3SVlEbDkybVl0OElLUUpRaDBVTTR0UU5U?=
+ =?utf-8?B?dldwTUhldG44ZWlIRG9SMEs4SWtWMHc5Z3VlVTUyQU5PbEdtdEE3bCtmMi9l?=
+ =?utf-8?B?eFY4L2c0ZzJHWHp5N21oamVJQ3dockhINWxYa09ZenhqRStZKzlFbjZHSjEr?=
+ =?utf-8?B?R0FRdXN1RFdRQVVlZWozR00wVDFNZkYxbllkUlVhUkcvV043aVBVRUpUY2Jw?=
+ =?utf-8?B?QTdtWm1yYy9SdTl2UXZWcURVd25GN0FBRmIyZzd5N1V0N3FjT2JOS2UwZ084?=
+ =?utf-8?B?WkdYMnEwNXJaYU4rNFhMRGNWYlExekkrdlRjTnVWZFEvYmNiZisweE0yM1dk?=
+ =?utf-8?B?NlJzSHZvdi9wQmR6dnl6ZjlOcWZuUjVNOUNDQ01XVTMwZmNISDU0ekJlQzdk?=
+ =?utf-8?B?QzFUQW5QVGcvN0E3SndpVEdzVmRNSi9CNkhmOTYxMGkxVVpCY3N3TW02emJJ?=
+ =?utf-8?B?NzJaVDBOSGo3VlU5YmNOeTZTSjR3RkUrKzVPVFR6allyOGhLK213NDEyRnZy?=
+ =?utf-8?B?WlNSREtQVjhHcHdqMmszZEpYcGxBdmVoZE5aK3dZTnlVa3pGNThrOVpEMlBY?=
+ =?utf-8?B?aVBLYVlySytoaUdNRjNER1c1WmhJeWRUdUhvSEZhY3VtVDA0RG9UK2VaSk5k?=
+ =?utf-8?B?UDl0VHo4OGk1bXV3anJDRGNrR0JQOUFIL2lVQzBlNGdiMmhQNUJuSjFXMjd4?=
+ =?utf-8?B?Q3ZBQVBHck5mT3dxMm92and4VitaK2VGblFCQ2J3aHl3SytTNVBOYzlFQW5W?=
+ =?utf-8?B?b3UxTitrazNtWGFOSHhyOEJrNUJqNitUSTRMVG1pcXNOUjN4MmFsVHdDbG9r?=
+ =?utf-8?B?emNuS1BhSWhpdGRJaUVYNEZDamQ4YkZLckh2aGxYazVnM1RCa3RRZHMyOHZi?=
+ =?utf-8?B?TXJ1aTVNbHRReWwrd2tIOVo3a0lMdi84TUdUNlVDV1dRVC9ZRjgzYko0QnhT?=
+ =?utf-8?B?dHg3UElwRlgycWtScDJ1TURQcENRTDFUdkhxYXprd0t1ZTF5cW1oWCtLRGdE?=
+ =?utf-8?B?ZEF1MytoZ0o1MjFRdVpHa0dVaDlRc2tRS1NIQXpFRzNRSnVKR0creG14TmpX?=
+ =?utf-8?B?MFpDaUppUjNEZlNEN1gvRzJDbkpySGV2clArLzc5OXYzQkd3UmYrbUZtUnhG?=
+ =?utf-8?B?clgxMGhZc3R3dnQ0Y1p2U2UzaEpybWxMMHJ1TDZaL0NnNDhFeFVKYW5hYy9i?=
+ =?utf-8?B?RHFkOGh2UGlSZ3UrYjFwYXBNUmQ4Vmwwc0M5eEsyMFltQkJjSERhVFU5MnpG?=
+ =?utf-8?B?b1crL3IxSlJlc29XVit1UkZndTFRRlorQ2V4L21yQ2RIZEt4VG8vZDdLZUtC?=
+ =?utf-8?B?Rkd3bjBxOEc3dFNsbWRLVzQvZU5hVDF5QXMyWU9RZDd2N0Ezb2NTVGttbFdX?=
+ =?utf-8?B?Y1dZeGtMWFRMM3FLczZUQ0lYS2I5clNXWFFtS3c4L3BHTFZvU2M1Y1hxWmdR?=
+ =?utf-8?B?VERKWEpJeExMTUNWSThCWWg4RW5QbldJZkhEZGpSWnJZNTJwL21LSTRKV1Jh?=
+ =?utf-8?B?TDlBS1M5R2hSdHMrMnRuQklHZnRhV2ZjdXNNaFZoaWZ0Zk9UT1d0NGxYWjND?=
+ =?utf-8?B?ZmZ6UUdzRUpGYmJ4T3hYSm1xYStIajliUVN0U2luaHFYeEJvQ2JrV2lXYlFU?=
+ =?utf-8?B?RHVZNzRMTkFoT1pMV05SY1YrTUFzbEEveXIvK2dLb2RJd0hjVzl3RXZIWkk0?=
+ =?utf-8?B?ZjA2VkJPQ29SaExKQ09Hc0VZaWZjRldod1Q0bmJQcm5RNldDdm40bEhtRDlU?=
+ =?utf-8?B?MjhrTnNHeTEyYzdIVUlQR2JYbnZtZzBwSUcvdkIxN0YreFl0YmdaRVpHejk4?=
+ =?utf-8?Q?MvE/KG+kqj0E7Tj+imn3xt7qYBLKuqhRYXxmtclhjsVDx?=
+X-MS-Exchange-AntiSpam-MessageData-1: 14v/5MYzHpegYQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf867943-ec36-4e2f-ffb1-08de7d7e855b
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 01:52:29.2496 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PMgoMkxbw3EF0i8YJYSKLhLKbuZAWtrfm+Z5GvCXaiqJJ1ycprZZPUHn4zQSj8tvPk8o2N8x0IHbEpSh4ODotA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5838
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,177 +144,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 7804E232C3A
+X-Rspamd-Queue-Id: BB806233197
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:linux-kernel@vger.kernel.org,m:jbaron@akamai.com,m:ukaszb@chromium.org,m:intel-gfx-trybot@lists.freedesktop.org,m:amd-gfx@lists.freedesktop.org,m:intel-gvt-dev@lists.freedesktop.org,m:intel-gfx@lists.freedesktop.org,m:daniel.vetter@ffwll.ch,m:tvrtko.ursulin@linux.intel.com,m:jani.nikula@intel.com,m:ville.syrjala@linux.intel.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jimcromie@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[jimcromie@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,google.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.969];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.929];
+	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,patchwork.freedesktop.org:url,linuxfoundation.org:email,mail.gmail.com:mid,gitlab.freedesktop.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:mid,nvidia.com:email]
 X-Rspamd-Action: no action
 
-On Thu, Feb 20, 2025 at 1:31=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Fri, Jan 24, 2025 at 11:45:14PM -0700, Jim Cromie wrote:
-> > This series fixes dynamic-debug's support for DRM debug-categories.
-> > Classmaps-v1 evaded full review, and got committed in 2 chunks:
-> >
-> >   b7b4eebdba7b..6ea3bf466ac6  # core dyndbg changes
-> >   0406faf25fb1..ee7d633f2dfb  # drm adoption
-> >
-> > DRM-CI found a regression during init with drm.debug=3D<initval>; the
-> > static-keys under the drm-dbgs in drm.ko got enabled, but those in
-> > drivers & helpers did not.
-> >
-> > Root Problem:
-> >
-> > DECLARE_DYNDBG_CLASSMAP violated a K&R rule "define once, refer
-> > afterwards".  Replace it with DYNDBG_CLASSMAP_DEFINE (invoked once in
-> > drm-core) and DYNDBG_CLASSMAP_USE (invoked repeatedly, in drivers &
-> > helpers).
-> >
-> > _DEFINE exports the classmap it creates (in drm.ko), other modules
-> > _USE the classmap.  The _USE adds a record ref'g the _DEFINEd (&
-> > exported) classmap, in a 2nd __dyndbg_class_users section.
-> >
-> > So now at modprobe, dyndbg scans the new section after the 1st
-> > __dyndbg_class_maps section, follows the linkage to the _DEFINEr
-> > module, finds the (optional) kernel-param controlling the classmap,
-> > examines its drm.debug=3D<initval>, and applies it to the module being
-> > initialized.
-> >
-> > To recapitulate the multi-module problem wo DRM involvement, Add:
-> >
-> > A. tools/testing/selftests/dynamic_debug/*
-> >
-> > This alters pr_debugs in the test-modules, counts the results and
-> > checks them against expectations.  It uses this formula to test most
-> > of the control grammar, including the new class keyword.
-> >
-> > B. test_dynamic_debug_submod.ko
-> >
-> > This alters the test-module to build both parent & _submod ko's, with
-> > _DEFINE and _USE inside #if/#else blocks.  This recap's DRM's 2 module
-> > failure scenario, allowing A to exersize several cases.
-> >
-> > The #if/#else puts the 2 macro uses together for clarity, and gives
-> > the 2 modules identical sets of debugs.
-> >
-> > Recent DRM-CI tests are here:
-> >   https://patchwork.freedesktop.org/series/139147/
-> >
-> > Previous rev:
-> >   https://lore.kernel.org/lkml/20240716185806.1572048-1-jim.cromie@gmai=
-l.com/
-> >
-> > Noteworthy Additions:
-> >
-> > 1- drop class "protection" special case, per JBaron's preference.
-> >    only current use is marked BROKEN so nobody to affect.
-> >    now framed as policy-choice:
-> >    #define ddebug_client_module_protects_classes() false
-> >    subsystems wanting protection can change this.
-> >
-> > 2- compile-time arg-tests in DYNDBG_CLASSMAP_DEFINE
-> >    implement several required constraints, and fail obviously.
-> >
-> > 3- modprobe time check of conflicting class-id reservations
-> >    only affects 2+classmaps users.
-> >    compile-time solution not apparent.
-> >
-> > 4- dyndbg can now cause modprobe to fail.
-> >    needed to catch 3.
-> >    maybe some loose ends here on failure.
-> >
-> > 5- refactor & rename ddebug_attach_*module_classes
-> >    reduce repetetive boilerplate on 2 types: maps, users.
-> >    rework mostly brought forward in patchset to reduce churn
-> >    TBD: maybe squash more.
-> >
-> > Several recent trybot submissions (against drm-tip) have been passing
-> > CI.BAT, and failing one or few CI.IGT tests randomly; re-tests do not
-> > reliably repeat the failures.
-> >
-> > its also at github.com:jimc/linux.git
-> >   dd-fix-9[st]-ontip  &  dd-fix-9-13
-> >
-> > Ive been running it on my desktop w/o issues.
-> >
-> > The drivers/gpu/drm patches are RFC, I think there might be a single
-> > place to call DRM_CLASSMAP_USE(drm_dedbug_classes) to replace the
-> > sprinkling of _USEs in drivers and helpers.  IIRC, I tried adding a
-> > _DEFINE into drm_drv.c, that didn't do it, so I punted for now.
-> >
-> > I think the dyndbg core additions are ready for review and merging
-> > into a (next-next) test/integration tree.
->
-> So whose tree should this go through?
->
+On Fri Mar 6, 2026 at 1:52 PM JST, Alexandre Courbot wrote:
+>       gpu: nova-core: create falcon firmware DMA objects lazily
+[acourbot@nvidia.com: add TODO item to switch back to a coherent
+allocation when it becomes convenient to do so.]
+>       gpu: nova-core: falcon: add constant for memory block alignment
+>       gpu: nova-core: falcon: rename load parameters to reflect DMA depen=
+dency
+[acourbot@nvidia.com: fixup order of import items.]
+>       gpu: nova-core: falcon: remove FalconFirmware's dependency on Falco=
+nDmaLoadable
+>       gpu: nova-core: move brom_params and boot_addr to FalconFirmware
+>       gpu: nova-core: falcon: remove unwarranted safety check in dma_load
+>       gpu: nova-core: make Chipset::arch() const
+>       gpu: nova-core: add gen_bootloader firmware to ModInfoBuilder
+>       gpu: nova-core: add PIO support for loading firmware images
+>       gpu: nova-core: use the Generic Bootloader to boot FWSEC on Turing
 
-If you'll have it, I'll send you the non-drm parts now.
-Or the whole thing, and you can take the front half.
-perhaps its too late for this cycle, but you can send it to linux-next IIUC=
-.
+All the above pushed to drm-rust-next, thanks!
 
-This would free Lukas Bartosik to rework his dyndbg-to-tracefs patchset on =
-top.
-It has the nice feature of private tracefs buffers, allowing to
-isolate drm.debug
-messages there.  It also enables strong verification in selftests, by ensur=
-ing
-that no unrelated log-msgs get into the private tracebuf.
+>       gpu: nova-core: firmware: add comments to justify v3 header values
+>       gpu: nova-core: firmware: fix and explain v2 header offsets computa=
+tions
 
-
-Ive been banging on DRM-CI, with some success.
-Hopefully enough demonstrated soon to overcome the inertia.
-https://gitlab.freedesktop.org/jim.cromie/kernel-drm-next-dd.git
-
-Some tests on i915 timed out and failed, cuz toggling up to 1800
-drm-dbg callsites with dyndbg took 800 ms when 150 ms was expected.
-I have a fork of IGT adding time-dilation when drm-dbgs with classes
-are found in dynamic_debug/control.  An alternate approach batches
-256 static-key toggles in 1 IPI (by sorting rather than flushing on
-out-of-order addys).
-This cuts IPIs to 1/170, but is RFC, and only sorted on x86.
-
-
-
-> And I think the last patch in this series isn't correct, it looks like a
-> 000 email somehow.
->
-
-IIRC, that was me trying to get a merge-message or something like it.
-
-
-> thanks,
->
-> greg k-h
+These two not pushed yet as they were introduced late and are still
+pending proper review.
