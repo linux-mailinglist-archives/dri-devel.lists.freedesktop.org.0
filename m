@@ -2,70 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wGd6HLUNr2lVNAIAu9opvQ
+	id IMMGG7wTr2nJNQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 19:13:09 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 19:38:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2435023E5F7
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 19:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FB123EB45
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 19:38:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C140510E586;
-	Mon,  9 Mar 2026 18:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD9310E588;
+	Mon,  9 Mar 2026 18:38:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j+YWF+L6";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ilAdcrfN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06D410E585;
- Mon,  9 Mar 2026 18:13:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1773079983; x=1804615983;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4c26JMPBHTpphaYScUbyTq77R/6e3TYzFrDzQS+ekwU=;
- b=j+YWF+L6LYB6/gULMbtWgP8MPlM9cIBUSeZdbjHuwEVxc3F489uEnN8N
- CVnqqWLGu4HRcrKJdMdhwsYp4GDMGmYKmMNSreMxy2HRUEJCYvI6mUNNI
- 77I9thEFKbJ1BTzty2batmCK30gv0o54eMoJdcjnUdV+ChkXjZzmIYTIZ
- pUcuxkVCrNCXCJ+FNjTRldb9Miy9TYnfRoNqlu9nPOedyDXIA3W3AVIrq
- nm91wd7jXumwgHRl4zh7U2x4rXc9M9aXtMdG78JXfCUAr719l/zRpaSvc
- mKkkZmq9J3+h98GVMRjswB1MJHRmRJrSAvOJnacQSaA/v5PbPJIcGoscl Q==;
-X-CSE-ConnectionGUID: y6/sM7R1T+6kglVlCQ6Czw==
-X-CSE-MsgGUID: Str+1lLIS+yIPzJ+Pp+51w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="74192157"
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; d="scan'208";a="74192157"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2026 11:13:03 -0700
-X-CSE-ConnectionGUID: kONAl0Z1T7S2FmGlyWTSxA==
-X-CSE-MsgGUID: kSkZmuXNRyGqo+KBrp7YyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; d="scan'208";a="217424114"
-Received: from lkp-server01.sh.intel.com (HELO 434e41ea3c86) ([10.239.97.150])
- by fmviesa007.fm.intel.com with ESMTP; 09 Mar 2026 11:12:59 -0700
-Received: from kbuild by 434e41ea3c86 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vzf68-000000000gG-3Coy;
- Mon, 09 Mar 2026 18:12:56 +0000
-Date: Tue, 10 Mar 2026 02:12:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rafael Passos <rafael@rcpassos.me>, alexdeucher@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- BhuvanaChandra.Pinninti@amd.com, Harry.Wentland@amd.com,
- Martin.Leung@amd.com, Sunpeng.Li@amd.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, daniel.wheeler@amd.com,
- davidbtadokoro@ime.usp.br, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rafael@rcpassos.me, ray.wu@amd.com,
- rcpassos@ime.usp.br, siqueira@igalia.com
-Subject: Re: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir
- iGPU
-Message-ID: <202603100246.Tkzia4Ba-lkp@intel.com>
-References: <20260308000515.890688-1-rafael@rcpassos.me>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB7E810E588
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 18:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=8rARmmdtLJiNnMHMOCN8rdpSNN+5Ej6CyMEQ26Tul/Q=; b=ilAdcrfNxHc09FJ5DZiDcFR9bE
+ MnwTiAj8VdQ55FXlPDLbe4WP8Ri81sqKmfW9LX7jU0GRPupZbe4YptApp+yiuSTPZgMJpx7DS+cfH
+ wq/Bz7pRG7oyU6a4Flx4AKTEF9LJQncJIoKNaIjqLHESX419OKZ1tP9gII2Pwf8avyyedSyduXKwH
+ yr5o7hDsUNw/ppXrJxz0OKjGZLfdWs4RpD+BQY+5C+kjboSpW4Kekz02YAJKt9eoD2odmImXEcyXQ
+ IB6Ija5fcT3fNx9VQNAhVQ8DV1eK/c81z0Lg2b9TIQM/1MbbngeMpRnk8UH3byQRt44n5wP7EG9IN
+ 4GZZd2gA==;
+Received: from 179-125-91-67-dinamico.pombonet.net.br ([179.125.91.67]
+ helo=quatroqueijos.cascardo.eti.br)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vzfV5-00CBWT-Kl; Mon, 09 Mar 2026 19:38:44 +0100
+Date: Mon, 9 Mar 2026 15:38:36 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, kernel-dev@igalia.com,
+ Karolina Stolarek <karolina.stolarek@intel.com>
+Subject: Re: [PATCH] drm/ttm/tests: add a test to exercise ttm_bo_swapout
+Message-ID: <aa8TrN-ltLh-39oZ@quatroqueijos.cascardo.eti.br>
+References: <20260306-ttm_bo_swapout_test-v1-1-aaab11091ee0@igalia.com>
+ <ff55737e-d05c-4937-8a27-72ab6fc5c477@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260308000515.890688-1-rafael@rcpassos.me>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff55737e-d05c-4937-8a27-72ab6fc5c477@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,92 +69,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 2435023E5F7
+X-Rspamd-Queue-Id: C9FB123EB45
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[rcpassos.me,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:christian.koenig@amd.com,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:kernel-dev@igalia.com,m:karolina.stolarek@intel.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[cascardo@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:mid,gitlab.freedesktop.org:url,01.org:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.896];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cascardo@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email,amd.com:email]
 X-Rspamd-Action: no action
 
-Hi Rafael,
+On Mon, Mar 09, 2026 at 10:46:03AM +0000, Tvrtko Ursulin wrote:
+> 
+> On 06/03/2026 18:00, Thadeu Lima de Souza Cascardo wrote:
+> > Currently, ttm_bo_swapout is not exercised by the TTM KUnit tests.
+> > 
+> > It used to be exercised until commit 76689eb52667 ("drm/ttm: remove
+> > ttm_bo_validate_swapout test"), but that test was removed as it was
+> > unreliable due to requiring to allocate half of the system memory.
+> > 
+> > Calling ttm_bo_swapout directly with a single allocated BO, however, does
+> > not suffer from that problem, and was able to detect a UAF introduced by
+> > commit c06da4b3573a ("drm/ttm: Tidy usage of local variables a little
+> > bit"), when built with KASAN.
+> > 
+> > When applying a fix to that UAF, the test passed without any issues.
+> 
+> Thank you for closing this gap and again for fixing up after me. I have some
+> minor comments below, but the test looks good to me and either way:
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> > 
+> > Cc: Karolina Stolarek <karolina.stolarek@intel.com>
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> > ---
+> >   drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c | 42 ++++++++++++++++++++++++
+> >   1 file changed, 42 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> > index 6d95447a989d20d60227025be874265b2b491f59..9848c008a443d70ad16c6e018381878f0898e487 100644
+> > --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> > +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> > @@ -759,6 +759,47 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+> >   	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+> >   }
+> > +static void ttm_bo_validate_swapout(struct kunit *test)
+> > +{
+> > +	u32 mem_type = TTM_PL_TT;
+> > +	struct ttm_test_devices *priv = test->priv;
+> > +	struct ttm_operation_ctx ctx_init = { };
+> > +	enum ttm_bo_type bo_type = ttm_bo_type_device;
+> > +	struct ttm_resource_manager *man;
+> > +	struct ttm_placement *placement;
+> > +	struct ttm_buffer_object *bo;
+> > +	struct ttm_place *place;
+> > +	int err;
+> > +	s64 swapped;
+> > +
+> > +	ttm_mock_manager_init(priv->ttm_dev, mem_type, MANAGER_SIZE);
+> > +	man = ttm_manager_type(priv->ttm_dev, mem_type);
+> > +	KUNIT_ASSERT_NOT_NULL(test, man);
+> > +
+> > +	place = ttm_place_kunit_init(test, mem_type, 0);
+> > +	KUNIT_ASSERT_NOT_NULL(test, place);
+> > +	placement = ttm_placement_kunit_init(test, place, 1);
+> > +	KUNIT_ASSERT_NOT_NULL(test, placement);
+> 
+> Above two seem to have internal asserts so you could drop them from the
+> test.
+> 
 
-kernel test robot noticed the following build warnings:
+Thanks for pointing that out. I have fixed that and also the need to export
+ttm_bo_swapout for tests in case the tests are built as modules.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.0-rc3 next-20260306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > +
+> > +	bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+> > +	KUNIT_ASSERT_NOT_NULL(test, bo);
+> > +
+> > +	drm_gem_private_object_init(priv->drm, &bo->base, MANAGER_SIZE);
+> > +	err = ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type, placement,
+> > +				   PAGE_SIZE, &ctx_init, NULL, NULL,
+> > +				   &dummy_ttm_bo_destroy);
+> > +	KUNIT_EXPECT_EQ(test, err, 0);
+> > +	dma_resv_unlock(bo->base.resv);
+> > +
+> > +	swapped = ttm_bo_swapout(priv->ttm_dev, &ctx_init, man, GFP_KERNEL, 1);
+> 
+> Is there a particular reason to ask for 1 page to swap out instead of
+> matching the bo size? Might be more obvious (I dare not to say future proof)
+> to match it with the expectation from the below assert.
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-Passos/drm-amd-display-fix-resuming-from-S3-sleep-for-Renoir-iGPU/20260308-080715
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260308000515.890688-1-rafael%40rcpassos.me
-patch subject: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir iGPU
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260310/202603100246.Tkzia4Ba-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260310/202603100246.Tkzia4Ba-lkp@intel.com/reproduce)
+Just that I found that all callers for ttm_lru_walk_for_evict use 1 as the
+target except for ttm_bo_swapout, which uses its parameter as the argument
+but its only callers uses 1 as the target too.  :-D
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603100246.Tkzia4Ba-lkp@intel.com/
+> > +	KUNIT_EXPECT_EQ(test, swapped, MANAGER_SIZE / PAGE_SIZE);
 
-All warnings (new ones prefixed by >>):
+Another future proof way to do it would be to test for swapped >= 1. Let me
+try using MANAGER_SIZE / PAGE_SIZE and keep the expectation here.
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c:99:6: warning: no previous prototype for function 'dccg21_init' [-Wmissing-prototypes]
-      99 | void dccg21_init(struct dccg *dccg)
-         |      ^
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c:99:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      99 | void dccg21_init(struct dccg *dccg)
-         | ^
-         | static 
-   1 warning generated.
+> 
+> Side note, it looks like ttm_bo_swapout() kerneldoc should be fixed to
+> correctly say return is number of pages, not bytes.
 
+Nice catch. target too should be number of pages. Let me send the fix for
+that too.
 
-vim +/dccg21_init +99 drivers/gpu/drm/amd/amdgpu/../display/dc/dccg/dcn21/dcn21_dccg.c
+Thanks.
+Cascardo.
 
-    98	
-  > 99	void dccg21_init(struct dccg *dccg)
-   100	{
-   101		struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
-   102	
-   103		/* Hardcoded register values for DCN21
-   104		 * These are specific to 100Mhz refclk
-   105		 * Different ASICs with different refclk may override this in their own init
-   106		 */
-   107		REG_WRITE(MICROSECOND_TIME_BASE_DIV, 0x00120464);
-   108		REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x001186a0);
-   109		REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x0e01003c);
-   110	
-   111		if (REG(REFCLK_CNTL))
-   112			REG_WRITE(REFCLK_CNTL, 0);
-   113	}
-   114	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > +	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, TTM_PL_SYSTEM);
+> > +	KUNIT_EXPECT_TRUE(test, bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED);
+> > +
+> > +	ttm_bo_fini(bo);
+> > +	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+> > +}
+> > +
+> >   static void ttm_bo_validate_happy_evict(struct kunit *test)
+> >   {
+> >   	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT,
+> > @@ -1153,6 +1194,7 @@ static struct kunit_case ttm_bo_validate_test_cases[] = {
+> >   	KUNIT_CASE(ttm_bo_validate_move_fence_signaled),
+> >   	KUNIT_CASE_PARAM(ttm_bo_validate_move_fence_not_signaled,
+> >   			 ttm_bo_validate_wait_gen_params),
+> > +	KUNIT_CASE(ttm_bo_validate_swapout),
+> >   	KUNIT_CASE(ttm_bo_validate_happy_evict),
+> >   	KUNIT_CASE(ttm_bo_validate_all_pinned_evict),
+> >   	KUNIT_CASE(ttm_bo_validate_allowed_only_evict),
+> > 
+> > ---
+> > base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+> > change-id: 20260306-ttm_bo_swapout_test-ad130eac0bcf
+> > 
+> > Best regards,
+> 
