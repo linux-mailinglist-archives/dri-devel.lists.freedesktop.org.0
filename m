@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gFWrEI4Jr2lzMQIAu9opvQ
+	id sH7tFZQJr2lzMQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:26 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152B523E050
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D5C23E05E
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD99F10E57B;
-	Mon,  9 Mar 2026 17:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2FC10E57D;
+	Mon,  9 Mar 2026 17:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="S5wqSwNC";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="n3JJ1rCY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8783110E57A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:55:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC0010E57D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:55:29 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 78E1A1A2D72;
- Mon,  9 Mar 2026 17:55:20 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 5BB691A2D7A;
+ Mon,  9 Mar 2026 17:55:28 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 4E5075FFB8;
- Mon,  9 Mar 2026 17:55:20 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 300DB5FFB8;
+ Mon,  9 Mar 2026 17:55:28 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 3EE4B1036990D; Mon,  9 Mar 2026 18:55:16 +0100 (CET)
+ with ESMTPSA id 3BDF11036977E; Mon,  9 Mar 2026 18:55:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1773078919; h=from:subject:date:message-id:to:mime-version:content-type:
+ t=1773078926; h=from:subject:date:message-id:to:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=7H0KmHNEb4XPdj55o+tif8lY/IBWEaDGpXd3JK/gbqA=;
- b=S5wqSwNCTf028AN0DGYr5z6qMOXKLzAGvqBSiWVajcB6qnG8mgTSSHXelDCYLLE3OL47LN
- a86+FhjiUT+AZfDKvm+3my3PkLduaBvmRsPW/SxlYDsePtTmPtVQpZtYlI70b2kNKzfPkq
- KbMo+gHg4V3QUik8/8fYmuxt8wHN3w7iQl5ClV572Xz5jdLAmOkp0b6n/wetmhlYJW/UA6
- PlTxojFUtop8RuJfXKlVpinkU/+37RPSba2ZNJ9XOaHdzODSweWnzzkMfp/2Wcra4isAVW
- 1KBmB4yS3e2pUJLOOyPRUZFfkYFwOspEbCLFFeOwQP9UD680GT73upT5iRbpeA==
+ bh=Dgq5/itcX1nYHBg2UasGR9uIo/q5+A5IufPuqPKX6hQ=;
+ b=n3JJ1rCYiSOOnXTo1r0a+argy/OqCN1VfpTplgJN0pNL7Scm++t90TfuJq8bOS7DNVbEGb
+ 0eoTdPc1rFh4pcmqGk2Vvj6Wh4nBWGCTP05Q7Aef5s4E57GH+9K6boQfkgmaF+da+Zyylf
+ H8sVMFqjjFFuzkPBplLLhJc6xxanHNy/7D/bhxF+bY7chBVd2HfFtik9/AyPhCKvElfboC
+ aA9diqFWTw+yb6yseK7TzDCIKTz+fyGJ+pEZ+Xxx1Wgk8sMPOFcCMMw3y8NwP5k7bcnC3g
+ 6s2oH49jdHRK6ae1rabc6oEtnGBW90luJQx4USWLqiHZrDJL81UbOJd9/6vtTg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 18:55:15 +0100
-Message-Id: <DGYG0P2MMM52.2GLXWIUN0VC0C@bootlin.com>
+Date: Mon, 09 Mar 2026 18:55:21 +0100
+Message-Id: <DGYG0RRULTPX.2GUH5XT0F99JO@bootlin.com>
+Subject: Re: [PATCH v10 4/6] drm/bridge: cadence: cdns-mhdp8546-core: Remove
+ legacy support for connector initialisation in bridge
 To: "Harikrishna Shenoy" <h-shenoy@ti.com>,
  <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
@@ -54,12 +56,10 @@ To: "Harikrishna Shenoy" <h-shenoy@ti.com>,
  <rfoss@kernel.org>, <s-jain1@ti.com>, <simona@ffwll.ch>,
  <tomi.valkeinen@ideasonboard.com>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v10 3/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle
- HDCP state in bridge atomic check
 X-Mailer: aerc 0.20.1
 References: <20251209120332.3559893-1-h-shenoy@ti.com>
- <20251209120332.3559893-4-h-shenoy@ti.com>
-In-Reply-To: <20251209120332.3559893-4-h-shenoy@ti.com>
+ <20251209120332.3559893-5-h-shenoy@ti.com>
+In-Reply-To: <20251209120332.3559893-5-h-shenoy@ti.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,7 +75,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 152B523E050
+X-Rspamd-Queue-Id: E9D5C23E05E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -111,21 +111,20 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ti.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
 On Tue Dec 9, 2025 at 1:03 PM CET, Harikrishna Shenoy wrote:
-> Now that we have DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, handle the
-> HDCP state change in bridge atomic check as well to enable correct
-> functioning for HDCP in both DRM_BRIDGE_ATTACH_NO_CONNECTOR and
-> !DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
+> From: Jayesh Choudhary <j-choudhary@ti.com>
 >
-> Without this patch, when using DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, HDCP
-> state changes would not be properly handled during atomic commits,
-> potentially leading to HDCP authentication failures or incorrect
-> protection status for content requiring HDCP encryption.
+> Now that this bridge supports DRM_BRIDGE_ATTACH_NO_CONNECTOR,
+> and only TI K3 platforms consume this driver and
+> tidss (their display controller) has DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> flag set,we can remove the legacy code for the
+> non-DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
 >
-> Fixes: 6a3608eae6d33 ("drm: bridge: cdns-mhdp8546: Enable HDCP")
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
