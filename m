@@ -2,135 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4K+HGtEnr2mzOgIAu9opvQ
+	id 4IhtFWgpr2mzOgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 21:04:33 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 21:11:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC44324097D
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 21:04:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E65240AE0
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 21:11:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B124610E5B3;
-	Mon,  9 Mar 2026 20:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA7E910E1A5;
+	Mon,  9 Mar 2026 20:11:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="l6UY21Mp";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="AMPyvjp0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011063.outbound.protection.outlook.com [52.101.62.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B3C10E5BF;
- Mon,  9 Mar 2026 20:04:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JkFdhuoq63xVbj3YNPyCyWimUq4JVYlyd7yl50tOMRSuygM0I4I4s0TVqRPycNWHGWAc1B/FC/1kWC0JyCtSDbvxWE3mx8m1wbveG9LWT0c42eiefeP3AzV28v4+ExPNXYFDKMFiP2poVsjG/YpjRtR1LeqlCa0veeFemFNN5GMEjZkiQ8kZ43mtsFmLp3zqjhJ+QdV/W70amocmcgNIlw2tcUrcfarqMBeG5VkgDTYy/neoqT+iQNa0Y2pRlyZWXi0rzyvFhflOnhhYs8eqLV+ZWq0PyGPy5qSmJBaKUgnQClVyxH677l3CFgun86bAJ/GqWOtU8Cf/l8hyoFVg6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i3rxjeXiyGLrCNpgZ7OsPNnTfV/wcfc+lWYrkQYqAx4=;
- b=bQKqvlteq9n6U0uyQTJi8E8xq29NwlXgyjmGlHdF7ZYIYRbRSHKKdlC66b1um2nJN6gJoPnX5brgaAlX3f3NyXBrkbwGbPl8s5kQ7eYVnXzln4Zjkp96SAmczuT4ipXhZRksIWYQWAA4+/343ba18VU+FvirIk+TI5C1sa+rGp9WSNulzi8ChemHFFOY8PUI8k3IsIKksc9kkdwHWMDDNVFLoNI+9BHRd8XsEy+OQo4PehCQsRTH1bU9i68eUv3SRr0yyieNJ58la9zHEN+YPwGNo8AIWVf8sllZ4zXN8dzL5Wq9JP0MgjB5BZeSCGBhFeDi4HtSRZmqJm8i0VTIxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i3rxjeXiyGLrCNpgZ7OsPNnTfV/wcfc+lWYrkQYqAx4=;
- b=l6UY21MpF9pfiAwLjsbv5TvANBzZim7SvIXFLhkpscwmWRVKI9pj2hm6G9VqnhIFwvLCxqHji2HKT0IxtrvkJDH/XEqnkvZhR9jdi7ggbRkLh3/dO6GiFTjEK5OrmenF91N4w0Ypb5diJlIC79ijFAwPqj/U9SmrLqBZP2OQrqcD9skc6foW+on0hqInEcLj7DgHMLvs9LVij3Mamv1w/9QhVYggmoHTDOgP4e7kEI4AN5qDTuZmBFapHrNkoWNNUsCX8V7nEz+eIQrDO/pScKgFXtAAUq3TQa0DbTyXjqZ2Tw0kSVU85KeBolj9FZgAow5ojq586/jJ2zB4rdFDAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- MN2PR12MB4376.namprd12.prod.outlook.com (2603:10b6:208:26c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Mon, 9 Mar
- 2026 20:04:24 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9700.010; Mon, 9 Mar 2026
- 20:04:24 +0000
-Message-ID: <282984b6-a0e1-4e3a-bb57-db817b7e9249@nvidia.com>
-Date: Mon, 9 Mar 2026 13:04:20 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/12] gpu: nova-core: add Turing support
-To: Ewan Chorynski <ewan.chorynski@ik.me>,
- Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Alistair Popple <apopple@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
- <DGYIFHP99CQ3.2XWVRPO9O1E1D@ik.me>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DGYIFHP99CQ3.2XWVRPO9O1E1D@ik.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR02CA0028.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::41) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6FF10E1A5;
+ Mon,  9 Mar 2026 20:11:15 +0000 (UTC)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 629FwFY71433673; Mon, 9 Mar 2026 20:11:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=pp1; bh=J+MReH
+ kdFCzDINevGmN7BYrD5h16dkVpWOVjmnX1Q/k=; b=AMPyvjp0jQUNgXn6Hk1tmf
+ EG4FCBlJk8vU0dzchEkhTCFJFLesmCchgPistcAgAs639vnP9pptng8kXMAbzOia
+ q5NshJyvTNfof8gdYp1GzwxZulybshI3PqRKjOb/SaI0UPEJrIt4jyexAIN48Wm0
+ w/Mw3wPT6W3BQmrKZWXHn6/DFARVTupqS/iLqqNyLrME9wToruViZdwdbBsu3Qtl
+ 0zEFIHGN04u6+OjrW21Tgfm9LJbMSCz1cBRZneiIQ0NfJfCZ4Y4F3a9ghOwfDLyJ
+ r+N+wncn0OldU7zZnFVO0t6vNaRxLqtcCgLdbScpUcJtgriSZx0KQ9bsYjERgKcw
+ ==
+Received: from ppma13.dal12v.mail.ibm.com
+ (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4crcuy86s0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Mar 2026 20:11:07 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 629JvVsj024649;
+ Mon, 9 Mar 2026 20:11:06 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+ by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cs0jjx73p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Mar 2026 20:11:06 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com
+ [10.241.53.101])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 629KB6ZU9699942
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 9 Mar 2026 20:11:06 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 276F258051;
+ Mon,  9 Mar 2026 20:11:06 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4A42F5805E;
+ Mon,  9 Mar 2026 20:11:03 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown
+ [9.61.72.80]) by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  9 Mar 2026 20:11:03 +0000 (GMT)
+Message-ID: <0bd92b4fce00a6111a0fc7764904f7e6ae0ece3a.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 00/12] vfs: change inode->i_ino from unsigned long
+ to u64
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+ autofs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+ linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+ ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+ devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+ apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+ linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-hams@vger.kernel.org, linux-x25@vger.kernel.org,
+ audit@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-sctp@vger.kernel.org, bpf@vger.kernel.org
+In-Reply-To: <dd3f9873c7939fba0ca2366effd24e4b6326f17b.camel@kernel.org>
+References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+ <05b5d55c49b5a1bbc43a5315e3c84872e7e634b3.camel@linux.ibm.com>
+ <f22758116dabd3c135a833bcb5cfcd2ea4f6ecf4.camel@kernel.org>
+ <c9500adc562665d44feaca9206f23a5ba07432c1.camel@linux.ibm.com>
+ <dd3f9873c7939fba0ca2366effd24e4b6326f17b.camel@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Mar 2026 16:11:02 -0400
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|MN2PR12MB4376:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f29e692-5065-4219-59d5-08de7e170f34
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: TLUV/3r6ZtQ0bIrIKaz+CSjXgqKU/Q4wubJNUqNTHcbsOv6o3WuD+J304ULlYuMtoKH97rBAOq+wrCDjf9PusuaT65qz89Sh9xVHYgOvc29cY2vMHnDp/DNsJ4Ex9CSFEa7McSvRf8HS5ZZrGVNYuL5j8GH7dFf8hJtcPXn4/RV0Sv2HuMy+jHdbOfR3gEmDh4i0WfzPhSVH/VoRWV2/bjODGKxb1SdHrIQRI5r8u9k82UrZGWb7nEBLv3LQQiBPqkc+Qefr1OFKA1zo070I4Whf+AYRwIKbsjHSnipKFJ5XulHbuyctTQCEx/AqSugLGxSPxOZWltmFu6dKyP+dcyfRYxsVgEufWIDF3iWgz1ATG4uaIQ8zwW+4XsntyGadHXFYKfr1mEta/NRgwN74t2/U26/lzIFn57t2zXhT/7Lz4aB0Pf9u12cPYj89U8Dl93w9QzEBgvxUMecNA6oK2T5CLvRQBR2tKo6yX+NZ+uGDXxgqF9WAbv5CO68UxrTjVDFHIXt55Aubcwy1G9/W7Gi4Giq5ndCcs3GGKyjRG+A2wAHxZHqa5PtXI/sq8RjjwBBVijGQL6yEKbQXo9BiiEp+Jayji/mMHVycdgspY6CuJ7xJNazc7d8GqDTdlG2kPg4P7lbkiB2fyhmqvYC7c3WJ6Flwt7hH1KyN+xNxc3yvgMl15gAgURjGJ3MBxvhE/hy1+ddD36ALBFcSSAPx0zXkPfeHHdqMwKhUMPCS2pA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PR12MB9416.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ODJIREdFazhMb2JrdHdrMC8zNGJ0dHYzS3ozRGpORmtYcm53ZWgxK3BEVmR6?=
- =?utf-8?B?TndhVXVGc2U1N2o3N2xyOG1xRGtSNksrSnpJWERDMUNHbzIwMXY4Y1ZWSWtk?=
- =?utf-8?B?bmN2Q3FDbm9hTGZ2K3RNT2xYZllmM3pyKyt6UmtjL3lqc3pnNy92cFl2SFY3?=
- =?utf-8?B?aUZvakFGTFVwU2tmLzR2cHk0QzR6Z3Vwdi9paFZsU3c4ZmRhYnF5REJmemFa?=
- =?utf-8?B?Y214S1lEa3E5YW1NT3FEWDhyOHcxUGJFUmFFWmQrdktMRi9VUURySFY5bWFD?=
- =?utf-8?B?SlRCRzdUem1QMGVNelljUFcrWldRbVh1ZFEycHhoRDkyQ2t4ZEFvTkVRWUwz?=
- =?utf-8?B?SXBFcTFJQ3hpWC90R1ZOME1wa0Z3bG9qTG5Eb0t1RHRTMmZOSC9RM2VxcW9x?=
- =?utf-8?B?b0orOEtBYVJPNExhMFc2NjkwdS8zTDduNGZuRktFM0ZpREl0aVBPeVJ4Qzl5?=
- =?utf-8?B?bEN5QmdKNXhtUEIxNm1IZnl3dXhBcldVMkNqSWF1T0RZdzJHTnB2bm82Nno1?=
- =?utf-8?B?emdtS0FNZmxEekxEbXNSSVV1VVk2aU9XSWxUc3lQN3QzdHh4bWNxSzQrVGpu?=
- =?utf-8?B?RHVVR0x5dlJDakNESStXRlFJeEl0TUJzKzRqb3cvUytYVlJOL01qRnZ1ckI1?=
- =?utf-8?B?b3o3RkxqUm1hbU1WclB5YVNnWkNaQ1FaQjVsbVNVNmp6YmdPbTZvSkp2QUw1?=
- =?utf-8?B?cmRpWG9SODJxSy9IMmZSODBXVFR4ME1oemI4bVlJTkpYamFrY2pVdkdhY0pW?=
- =?utf-8?B?QlRKczNKS2NJZGFBSGdUR3FYdlh6dVJTY0FjdDBhTEl6K2U5TWxOZG5adStk?=
- =?utf-8?B?VmRJeXl2UVZLbmdEd0llVUVzRjJnejVxVE1zenhRNlMvSlFpMXpBdE8zYmlu?=
- =?utf-8?B?dURLUnZSbVl2SzN6RHEvZUZ5RGlyUUVTck1MVUhyZWxqbHJhejNBSWg0SThK?=
- =?utf-8?B?dERncTZnMW54YVI4SUhnRVNOdXovblB1UVFYTDI1WlFLMjgrR3RoRVp2VDBN?=
- =?utf-8?B?eE05dUw0c1l6MTU3MktzQ0xWZzhydFBDaHZEUUhzZ09xWDdKMjhJaENrNC90?=
- =?utf-8?B?c2dBZjkyOEJhRnA3akJ1Z3pFQXB0OHpFU0F2VllUV0dpcmpsRGhyTnhaY2gv?=
- =?utf-8?B?MTJ6a1hXcS9DOVpvNCtubGIyRDhqN0tZN1RubzdEN0R3amx6T1Y1eVduZmJz?=
- =?utf-8?B?VTFqRUJGLzdrOXlRQjZhSDU3UlgrZkRkOS94aXFVWXNlaWJPOEpTYVpLaEFK?=
- =?utf-8?B?Z0JwNkFjdVhUNEhHVGgvYjdqcDdWdm5TbnlJTnpOREM5bGhlSVNFM3dCcUFN?=
- =?utf-8?B?dndsZ24zRnRNUi9FaE8xL0dYTlNxT3pqYTlZYk1ZODZFSGdRN3FPOWxuaFlL?=
- =?utf-8?B?YUJweTc5MFN1VGlMYjh2eXB2cCtuYSsyOGN5UC9vNFVETTdwdyt1RkFGaW5j?=
- =?utf-8?B?NGVOOGJaVzlPbm5TTlphaEk0Yko5R1FQUVN4MkJQMGxabmxRK09jK0ZpTjJy?=
- =?utf-8?B?N0xQVnRXRDhsZnZlbisrelFUZzFrc2lSOUFNKzRuK0xIaHd6Rk9nNUFhSXNx?=
- =?utf-8?B?VWpqZ1R4T0VhWGUveUJlT0lncVdnUUFaRkV4M09TSXNNemUrSVdtOHNORUUy?=
- =?utf-8?B?dU1BOGVGK1EySXAxb2ZhUnc3U3JNQmtFd1JSclF2YVQ0RlRYTWswTlR0TFVY?=
- =?utf-8?B?SzhKNmxuVkRjSjF0OVBzMFkwRVlQNEVoMWRzOFc5TDU5Q3NSYjlMWWozcCsz?=
- =?utf-8?B?WFlvUVdiK1hUMGsybzUzU0FWQmNyay9naE4weUhKa0JhUDRNdk9zRjRUS2ZI?=
- =?utf-8?B?V201MGdYeHhSMm9PUktDdTN6Tk5XeVdUcmVTODJjRUdnb2VMMkRHVGFaTUdJ?=
- =?utf-8?B?RGQ0cnA1UDc3cmhlRUdMOW5JZVdac3VqVmZFQ3Jqd3pxVEtDbXZYL3Qva0dS?=
- =?utf-8?B?RW5KWE5zVldaSUFKZ3BjTlEzSCtlT2xRNklWb2Ftall0OW5vTDJpdmgyUHBO?=
- =?utf-8?B?cGFMdHBGYXpSZFYzMXZDeDFWR0MrRXMrdUVKK3l6RVUwUktiMzlrUi9rdm5y?=
- =?utf-8?B?V1QxYlNKN29GZ3Q3L2RCOE4vUkRDWTNHeU9nRmJuU1BRSWsrb2FtRnc4VHlN?=
- =?utf-8?B?RXF1aW1JSDkwWDJodmduMkhMdVdkaHZlVGE1KzRwbmxtMWFRUmxXOG9NNjli?=
- =?utf-8?B?b0hjeU4wcUlIUDNXMTBONWw2bXJFaDdYREZiTkU5Mi81OHUyVUFlWXpVT2dX?=
- =?utf-8?B?ejhEOW8vRFpmSnJuUVo4WEZVUXo4RkdUTkY3bE1iUVVjbW1NaVZ5YjdiQlM5?=
- =?utf-8?B?RTVoZFc0UkZYeU9rQU5hUjFaaFdNYklUV2UvZDRZbzNBMStxbzlHQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f29e692-5065-4219-59d5-08de7e170f34
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 20:04:23.9316 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WmFVLztN4qbwVOyC2fYffycK41Hsyt5RbA4QGWyVra27UNmkuYUTNeKyLeq759bI55VyydFMWCbXlNs+zxlmWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4376
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=EK4LElZC c=1 sm=1 tr=0 ts=69af295b cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=Ohuc5M0UGw20_VvRb6sA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE3OCBTYWx0ZWRfX48NInAXNxJ9I
+ cqZ2w42oLBKp6f6ShdJYkvtWo35W1xBR9wJ3/AMrAgqtjjRmHF+LNmGqeG928jRHEGfhi5Dc3Ir
+ wmrxB6T58L1jgUeut/UN4ASDb+YKdYMu+ThxKOBJOKt26YDnsAlMtjSvmCcaxE+TT5Ibe0zYC0f
+ zBgbUGDl6m62+LPcwjv67C82HPGKVuU4mQ7dUKg2Sv0H9xprcqNV55N1hEVQyFV4pb7QXKtAhGE
+ YVUSx215hmiPcMqQdaRgfBi/PErZi+WGgzrtD+EeiIqh5iBJfaUE0yW08tvcIRwoQr42lAufyzB
+ vYZKyixwfkjfLVLXUjHMdBtRGJrXaAm82jJw9wIV+5PYqMOONm6AlqMVRpwFh8k3h3nwk8wQiR2
+ zhIg8VMnQ/RF3WK3QDU7+acPMfehsyHGr854HkqAG/4Nm9pp74q0YkbWa+CcmHp5NJJ/sMPIvY9
+ s27fVbRyzlJIijxgTKg==
+X-Proofpoint-GUID: xB1hrjZmRj2bIZxp5d4ApU8QU-_XE2VB
+X-Proofpoint-ORIG-GUID: xB1hrjZmRj2bIZxp5d4ApU8QU-_XE2VB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-09_05,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090178
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,57 +136,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: CC44324097D
+X-Rspamd-Queue-Id: B5E65240AE0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[ik.me,nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	FROM_NEQ_ENVFROM(0.00)[jhubbard@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[ibm.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[45];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zohar@linux.ibm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nvidia.com:mid,Nvidia.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
+	NEURAL_HAM(-0.00)[-0.995];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[10]
 X-Rspamd-Action: no action
 
-On 3/9/26 12:48 PM, Ewan Chorynski wrote:
-> On Fri Mar 6, 2026 at 5:52 AM CET, Alexandre Courbot wrote:
-...
-> I am not able to probe on my GeForce GTX 1650 Mobile :
-> 
-> [    2.246095] NovaCore 0000:01:00.0: NVIDIA (Chipset: TU117, Architecture: Turing, Revision: a.1)
-> [    2.722681] NovaCore 0000:01:00.0: Booter-load failed with error 0x31
+On Mon, 2026-03-09 at 15:33 -0400, Jeff Layton wrote:
+> On Mon, 2026-03-09 at 15:00 -0400, Mimi Zohar wrote:
+> > On Mon, 2026-03-09 at 13:59 -0400, Jeff Layton wrote:
+> > > On Mon, 2026-03-09 at 13:47 -0400, Mimi Zohar wrote:
+> > > > [ I/O socket time out.  Trimming the To list.]
+> > > >=20
+> > > > On Wed, 2026-03-04 at 10:32 -0500, Jeff Layton wrote:
+> > > > > This version squashes all of the format-string changes and the i_=
+ino
+> > > > > type change into the same patch. This results in a giant 600+ lin=
+e patch
+> > > > > at the end of the series, but it does remain bisectable.  Because=
+ the
+> > > > > patchset was reorganized (again) some of the R-b's and A-b's have=
+ been
+> > > > > dropped.
+> > > > >=20
+> > > > > The entire pile is in the "iino-u64" branch of my tree, if anyone=
+ is
+> > > > > interested in testing this.
+> > > > >=20
+> > > > >     https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux=
+.git/
+> > > > >=20
+> > > > > Original cover letter follows:
+> > > > >=20
+> > > > > ----------------------8<-----------------------
+> > > > >=20
+> > > > > Christian said [1] to "just do it" when I proposed this, so here =
+we are!
+> > > > >=20
+> > > > > For historical reasons, the inode->i_ino field is an unsigned lon=
+g,
+> > > > > which means that it's 32 bits on 32 bit architectures. This has c=
+aused a
+> > > > > number of filesystems to implement hacks to hash a 64-bit identif=
+ier
+> > > > > into a 32-bit field, and deprives us of a universal identifier fi=
+eld for
+> > > > > an inode.
+> > > > >=20
+> > > > > This patchset changes the inode->i_ino field from an unsigned lon=
+g to a
+> > > > > u64. This shouldn't make any material difference on 64-bit hosts,=
+ but
+> > > > > 32-bit hosts will see struct inode grow by at least 4 bytes. This=
+ could
+> > > > > have effects on slabcache sizes and field alignment.
+> > > > >=20
+> > > > > The bulk of the changes are to format strings and tracepoints, si=
+nce the
+> > > > > kernel itself doesn't care that much about the i_ino field. The f=
+irst
+> > > > > patch changes some vfs function arguments, so check that one out
+> > > > > carefully.
+> > > > >=20
+> > > > > With this change, we may be able to shrink some inode structures.=
+ For
+> > > > > instance, struct nfs_inode has a fileid field that holds the 64-b=
+it
+> > > > > inode number. With this set of changes, that field could be elimi=
+nated.
+> > > > > I'd rather leave that sort of cleanups for later just to keep thi=
+s
+> > > > > simple.
+> > > > >=20
+> > > > > Much of this set was generated by LLM, but I attributed it to mys=
+elf
+> > > > > since I consider this to be in the "menial tasks" category of LLM=
+ usage.
+> > > > >=20
+> > > > > [1]: https://lore.kernel.org/linux-fsdevel/20260219-portrait-wink=
+t-959070cee42f@brauner/
+> > > > >=20
+> > > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > >=20
+> > > > Jeff, missing from this patch set is EVM.  In hmac_add_misc() EVM c=
+opies the
+> > > > i_ino and calculates either an HMAC or file meta-data hash, which i=
+s then
+> > > > signed.=20
+> > > >=20
+> > > >=20
+> > >=20
+> > > Thanks Mimi, good catch.
+> > >=20
+> > > It looks like we should just be able to change the ino field to a u64
+> > > alongside everything else. Something like this:
+> > >=20
+> > > diff --git a/security/integrity/evm/evm_crypto.c b/security/integrity=
+/evm/evm_crypto.c
+> > > index c0ca4eedb0fe..77b6c2fa345e 100644
+> > > --- a/security/integrity/evm/evm_crypto.c
+> > > +++ b/security/integrity/evm/evm_crypto.c
+> > > @@ -144,7 +144,7 @@ static void hmac_add_misc(struct shash_desc *desc=
+, struct inode *inode,
+> > >                           char type, char *digest)
+> > >  {
+> > >         struct h_misc {
+> > > -               unsigned long ino;
+> > > +               u64 ino;
+> > >                 __u32 generation;
+> > >                 uid_t uid;
+> > >                 gid_t gid;
+> > >=20
+> >=20
+> > Agreed.
+> >=20
+> > >=20
+> > > That should make no material difference on 64-bit hosts. What's the
+> > > effect on 32-bit? Will they just need to remeasure everything or woul=
+d
+> > > the consequences be more dire? Do we have any clue whether anyone is
+> > > using EVM in 32-bit environments?
+> >=20
+> > All good questions. Unfortunately I don't know the answer to most of th=
+em. What
+> > we do know: changing the size of the i_ino field would affect EVM file =
+metadata
+> > verification and would require relabeling the filesystem.  Even package=
+s
+> > containing EVM portable signatures, which don't include or verify the i=
+_ino
+> > number, would be affected.
+> >=20
+>=20
+> Ouch. Technically, I guess this is ABI...
+>=20
+> While converting to u64 seems like the ideal thing to do, the other
+> option might be to just keep this as an unsigned long for now.
+>=20
+> No effect on 64-bit, but that could keep things working 32-bit when the
+> i_ino casts properly to a u32. ext4 would be fine since they don't
+> issue inode numbers larger than UINT_MAX. xfs and btrfs are a bit more
+> iffy, but worst case they'd just need to be relabeled (which is what
+> they'll need to do anyway).
+>=20
+> If we do that, then we should probably add a comment to this function
+> explaining why it's an unsigned long.
 
-I have that exact card available, so I'll give this a quick test and see
-what's missing or wrong, now that Alex has pushed the entire Turing support
-set up to drm-rust-next.
+Agreed.
 
-> 
-> However nouveau does not probe either with this firmware so that's not
-> really this patchset fault.
-> 
-> Are there any plans to check this to enable support on all Turing cards ?
+>=20
+> Thoughts?
 
-Yes, the plan is that Nova will support all Turing and later GPUs.
+My concern would be embedded/IoT devices, but I don't have any insight into=
+ who
+might be using it on 32 bit.
 
-
-thanks,
--- 
-John Hubbard
-
+Mimi
