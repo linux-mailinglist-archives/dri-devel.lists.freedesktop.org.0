@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPFWDvbbrmm/JQIAu9opvQ
+	id yNhtBf3brmm/JQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:40:54 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:41:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2B723AB3D
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA5723AB62
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:41:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE7910E18B;
-	Mon,  9 Mar 2026 14:40:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E48710E50A;
+	Mon,  9 Mar 2026 14:40:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="H62rarWV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="zxOtfTll";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF6510E18B
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 14:40:49 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D8810E50A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 14:40:57 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 534C7C42878;
- Mon,  9 Mar 2026 14:41:07 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 3359D4E425DE;
+ Mon,  9 Mar 2026 14:40:56 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id B54A35FFB8;
- Mon,  9 Mar 2026 14:40:46 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 060995FFB8;
+ Mon,  9 Mar 2026 14:40:56 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 94C0E10369A23; Mon,  9 Mar 2026 15:40:32 +0100 (CET)
+ with ESMTPSA id A83C610369A24; Mon,  9 Mar 2026 15:40:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1773067244; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1773067254; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=FqR2Vf73E1rrlwJbWu2sN21UEE0uaLooT5FPq/LZAkA=;
- b=H62rarWVpi5qkt3UAOU3ilclviHgZF2tV/mlvwf/9+uyesxlKargmR/aGxAF39xDzuAj4H
- jiluDZc5k4ymXKeR0/oH+RZTQ7so+gxEOMhWqCjepbG2VrbCaeFQa5bf2uznCHuNiD+2ri
- jD8UiRSBKNNnHwSBgy22tfUYAmKsR3nxwjle89U/NZvJNwYIGdcVZDYf9aagy+vNDlNRnI
- Xa4a0shtfLRrfr2MIqpFWwcvY75QdJRWHqSTNTavcPrbhbbNsnekFcYIO3AG2qpoU9dzf5
- axTnbnXvlvPHBvb8qtob5jZmwATa/l2xbwvyllRzUnNCu4557vqY0Z44Mxnfqg==
+ bh=8c5cCi3l8yBsiYPBDm8Cpm+DltieQW/xE+9zjyXIubA=;
+ b=zxOtfTllx00QExK6GWcIAfXPgsP+oGpwVR8qHyDLebusihjBrQ5ngep1qSpnpIwd4Hw+Yn
+ Ere+zoXPNUag1wqm5MSWWCTL4feSvZoi/G5pqSSEIkgvnT6WOJhfP5BCxtx/6g5IkypeJ+
+ Z9j8sw/i2dBz8eaT860GiYVJdONFNtMPd+CYxA+utQ2Y09DjwnQDUx+JUrWxh1ibSfdtGk
+ Jf74nprK/p0lND/ajA8NKTw9dsorqWOGT+zjtPywAiyMxUl/Cki7NBPsyU6dRs8rveJNz8
+ 0u3BLmr5hBApPg6ytaWHoII7bFo6hlI0wK4eZ9bonwTpsZ3rywASJMxlPTxxwA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 15:40:31 +0100
-Message-Id: <DGYBVL751W64.WJ1HHFYH74M6@bootlin.com>
+Date: Mon, 09 Mar 2026 15:40:46 +0100
+Message-Id: <DGYBVS9FQJ4Y.14E54QJM9SRAZ@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v7 7/8] riscv: dts: thead: lichee-pi-4a: enable HDMI
 Cc: "Philipp Zabel" <p.zabel@pengutronix.de>, "Dmitry Baryshkov"
  <lumag@kernel.org>, "Michal Wilczynski" <m.wilczynski@samsung.com>, "Han
  Gao" <gaohan@iscas.ac.cn>, "Yao Zi" <ziyao@disroot.org>,
@@ -59,13 +61,10 @@ To: "Icenowy Zheng" <zhengxingda@iscas.ac.cn>, "Andrzej Hajda"
  <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
  Dooley" <conor+dt@kernel.org>, "Drew Fustini" <fustini@kernel.org>, "Guo
  Ren" <guoren@kernel.org>, "Fu Wei" <wefu@redhat.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v7 6/8] riscv: dts: thead: add DPU and HDMI device tree
- nodes
 X-Mailer: aerc 0.20.1
 References: <20260129023922.1527729-1-zhengxingda@iscas.ac.cn>
- <20260129023922.1527729-7-zhengxingda@iscas.ac.cn>
-In-Reply-To: <20260129023922.1527729-7-zhengxingda@iscas.ac.cn>
+ <20260129023922.1527729-8-zhengxingda@iscas.ac.cn>
+In-Reply-To: <20260129023922.1527729-8-zhengxingda@iscas.ac.cn>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,7 +80,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: BD2B723AB3D
+X-Rspamd-Queue-Id: DDA5723AB62
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -117,16 +116,15 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,iscas.ac.cn:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,iscas.ac.cn:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid]
 X-Rspamd-Action: no action
 
 On Thu Jan 29, 2026 at 3:39 AM CET, Icenowy Zheng wrote:
-> From: Icenowy Zheng <uwu@icenowy.me>
+> Lichee Pi 4A board features a HDMI Type-A connector connected to the
+> HDMI TX controller of TH1520 SoC.
 >
-> T-Head TH1520 SoC contains a Verisilicon DC8200 display controller
-> (called DPU in manual) and a Synopsys DesignWare HDMI TX controller.
->
-> Add device tree nodes to them.
+> Add a device tree node describing the connector, connect it to the HDMI
+> controller, and enable everything on this display pipeline.
 >
 > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
