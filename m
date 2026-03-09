@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oBBhFj3srmkWKQIAu9opvQ
+	id UNZfAUbsrmkWKQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:50:21 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:50:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77A223C0E9
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C743C23C142
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9946E10E54B;
-	Mon,  9 Mar 2026 15:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C450510E562;
+	Mon,  9 Mar 2026 15:50:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="WIPK784+";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="JJEv5nsB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC9710E22A;
- Mon,  9 Mar 2026 02:35:32 +0000 (UTC)
+X-Greylist: delayed 627 seconds by postgrey-1.36 at gabe;
+ Mon, 09 Mar 2026 02:35:30 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEC610E22A;
+ Mon,  9 Mar 2026 02:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=5v
- sqXiU7O2Yi0ZaDaTEqsKFf1lQiln2PtajqeQs2Nyc=; b=WIPK784+ChbfpAdr+A
- eQqyQsF+qh4fQjU3PzQZcy5YxlLugkrMrmVXiR3i45iDYOGCsqY8Dg94fvilvW0e
- hGuTNjPB0hHGq9dWcHQs7xeDJEgAo3m2tVkMJkcSi1+GZi8xBymPq0Ltw8sa475q
- pVR+VvRydzR2W0fHb/58FHGRE=
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Ti
+ SMxkVGdwISC2XAVkS89dpe+kuedJ/12+uHTMAKZHI=; b=JJEv5nsBjIeg9aIDXP
+ SqLOeMQoiFVvGsO+2GliiLj8t13zWQdIkaeuagI0zvaE6HfrrRhiy6CYZVeSRcha
+ 6x6VkCxHnNTTsNXPiuXLtqdw5mXSDeNag+lbH2hY+Zx37wzmK+z3DsRPu4nPw5BX
+ ncHK/z1VCBlMPJCi0AQV5zqFQ=
 Received: from localhost.localdomain (unknown [])
  by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
- _____wDXV5TmLq5pRMZoPg--.11725S3; 
- Mon, 09 Mar 2026 10:22:33 +0800 (CST)
+ _____wDXV5TmLq5pRMZoPg--.11725S4; 
+ Mon, 09 Mar 2026 10:22:37 +0800 (CST)
 From: Chenyuan Mi <chenyuan_mi@163.com>
 To: alexander.deucher@amd.com,
 	christian.koenig@amd.com
 Cc: Arunpravin.PaneerSelvam@amd.com, airlied@gmail.com, simona@ffwll.ch,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH 1/2] drm/amdgpu: protect waitq access with userq_mutex in wait
- IOCTL
-Date: Mon,  9 Mar 2026 10:22:28 +0800
-Message-ID: <20260309022229.63071-2-chenyuan_mi@163.com>
+Subject: [PATCH 2/2] drm/amdgpu: protect queue access in signal IOCTL
+Date: Mon,  9 Mar 2026 10:22:29 +0800
+Message-ID: <20260309022229.63071-3-chenyuan_mi@163.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260309022229.63071-1-chenyuan_mi@163.com>
 References: <20260309022229.63071-1-chenyuan_mi@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXV5TmLq5pRMZoPg--.11725S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWF17Ww13Xw45AF45XF18Krg_yoW5XryDpr
- WrKr12kr4DXr429w1UJwnFgFWvgw4xWFWfKFn7Cry3uws8Aas09ryYkFWDXr18CrsrAFW2
- qrn7A3y8tF1qkw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jqD73UUUUU=
+X-CM-TRANSID: _____wDXV5TmLq5pRMZoPg--.11725S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AFWrWFW5Jw1UWF1kXr1kZrb_yoW5JFW3pr
+ 4rGry3Kr18ur4I9a47J3W7WFs7Ka1xXFWrKr4xA34aqw45A3s0vry7KrWDXF4xCrsFkFZF
+ qry8ZrWFyFn0qw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jg-B_UUUUU=
 X-Originating-IP: [124.70.231.40]
-X-CM-SenderInfo: xfkh055xdqszrl6rljoofrz/xtbC1ArL3mmuLuqxEwAA3q
+X-CM-SenderInfo: xfkh055xdqszrl6rljoofrz/xtbC9Q3M32muLu0hAQAA3P
 X-Mailman-Approved-At: Mon, 09 Mar 2026 15:50:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,7 +68,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C77A223C0E9
+X-Rspamd-Queue-Id: C743C23C142
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -100,74 +101,69 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-amdgpu_userq_wait_ioctl() accesses the wait queue object obtained
-from xa_load() without holding userq_mutex or taking a reference on
-the queue. A concurrent AMDGPU_USERQ_OP_FREE call can destroy and
-free the queue between the xa_load() and the subsequent
-xa_alloc(&waitq->fence_drv_xa, ...), resulting in a use-after-free.
+amdgpu_userq_signal_ioctl() retrieves the user queue via xa_load()
+and then dereferences it in amdgpu_userq_fence_read_wptr(),
+amdgpu_userq_fence_create(), and direct queue->last_fence accesses,
+all before userq_mutex is acquired by amdgpu_userq_ensure_ev_fence().
 
-This is a regression introduced by commit 4b27406380b0
-("drm/amdgpu: Add queue id support to the user queue wait IOCTL"),
-which removed the indirect fence_drv_xa_ptr model and its NULL
-check safety net from commit ed5fdc1fc282 ("drm/amdgpu: Fix the
-use-after-free issue in wait IOCTL") and replaced it with a direct
-waitq->fence_drv_xa access, but did not add any lifetime protection
-around the new waitq pointer.
+A concurrent AMDGPU_USERQ_OP_FREE can destroy and free the queue
+in this window, leading to a use-after-free.
 
-Fix this by holding userq_mutex across the xa_load() and the
-subsequent fence_drv_xa operations, matching the locking used by
-the destroy path.
+This bug predates the queue-id wait ioctl changes and has been
+present since the original signal/wait ioctl implementation.
 
-Fixes: 4b27406380b0 ("drm/amdgpu: Add queue id support to the user queue wait IOCTL")
+Fix this by moving amdgpu_userq_ensure_ev_fence() before xa_load()
+so that the queue lookup and all subsequent accesses are performed
+under the userq_mutex that ensure_ev_fence acquires. Add the
+necessary mutex_unlock() calls to the error paths between the moved
+ensure_ev_fence and the existing unlock.
+
+Fixes: a292fdecd728 ("drm/amdgpu: Implement userqueue signal/wait IOCTL")
 Cc: stable@vger.kernel.org
 Signed-off-by: Chenyuan Mi <chenyuan_mi@163.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-index 8013260e29dc..1785ea7c18fe 100644
+index 1785ea7c18fe..7866f583eea4 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-@@ -912,8 +912,10 @@ int amdgpu_userq_wait_ioctl(struct drm_device *dev, void *data,
- 		 */
- 		num_fences = dma_fence_dedup_array(fences, num_fences);
- 
-+		mutex_lock(&userq_mgr->userq_mutex);
- 		waitq = xa_load(&userq_mgr->userq_xa, wait_info->waitq_id);
- 		if (!waitq) {
-+			mutex_unlock(&userq_mgr->userq_mutex);
- 			r = -EINVAL;
- 			goto free_fences;
+@@ -545,23 +545,28 @@ int amdgpu_userq_signal_ioctl(struct drm_device *dev, void *data,
  		}
-@@ -932,6 +934,7 @@ int amdgpu_userq_wait_ioctl(struct drm_device *dev, void *data,
- 				r = dma_fence_wait(fences[i], true);
- 				if (r) {
- 					dma_fence_put(fences[i]);
-+					mutex_unlock(&userq_mgr->userq_mutex);
- 					goto free_fences;
- 				}
+ 	}
  
-@@ -948,8 +951,10 @@ int amdgpu_userq_wait_ioctl(struct drm_device *dev, void *data,
- 			 */
- 			r = xa_alloc(&waitq->fence_drv_xa, &index, fence_drv,
- 				     xa_limit_32b, GFP_KERNEL);
--			if (r)
-+			if (r) {
-+				mutex_unlock(&userq_mgr->userq_mutex);
- 				goto free_fences;
-+			}
- 
- 			amdgpu_userq_fence_driver_get(fence_drv);
- 
-@@ -961,6 +966,7 @@ int amdgpu_userq_wait_ioctl(struct drm_device *dev, void *data,
- 			/* Increment the actual userq fence count */
- 			cnt++;
- 		}
+-	/* Retrieve the user queue */
++	/* We are here means UQ is active, make sure the eviction fence is valid */
++	amdgpu_userq_ensure_ev_fence(&fpriv->userq_mgr, &fpriv->evf_mgr);
++
++	/* Retrieve the user queue under userq_mutex (held by ensure_ev_fence) */
+ 	queue = xa_load(&userq_mgr->userq_xa, args->queue_id);
+ 	if (!queue) {
 +		mutex_unlock(&userq_mgr->userq_mutex);
+ 		r = -ENOENT;
+ 		goto put_gobj_write;
+ 	}
  
- 		wait_info->num_fences = cnt;
- 		/* Copy userq fence info to user space */
+ 	r = amdgpu_userq_fence_read_wptr(adev, queue, &wptr);
+-	if (r)
++	if (r) {
++		mutex_unlock(&userq_mgr->userq_mutex);
+ 		goto put_gobj_write;
++	}
+ 
+ 	r = amdgpu_userq_fence_alloc(&userq_fence);
+-	if (r)
++	if (r) {
++		mutex_unlock(&userq_mgr->userq_mutex);
+ 		goto put_gobj_write;
+-
+-	/* We are here means UQ is active, make sure the eviction fence is valid */
+-	amdgpu_userq_ensure_ev_fence(&fpriv->userq_mgr, &fpriv->evf_mgr);
++	}
+ 
+ 	/* Create a new fence */
+ 	r = amdgpu_userq_fence_create(queue, userq_fence, wptr, &fence);
 -- 
 2.53.0
 
