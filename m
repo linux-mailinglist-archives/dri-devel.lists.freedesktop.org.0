@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJ53NtH2rmnZKgIAu9opvQ
+	id yIOCMdP2rmnZKgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:29 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E8623CCA6
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D12223CCC4
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:35:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 897BD10E568;
-	Mon,  9 Mar 2026 16:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9A510E576;
+	Mon,  9 Mar 2026 16:35:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mDwXvrAR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r6Em/fif";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE7A10E558;
- Mon,  9 Mar 2026 16:35:19 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49CBE10E558;
+ Mon,  9 Mar 2026 16:35:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 28B0944509;
+ by tor.source.kernel.org (Postfix) with ESMTP id 5553B60130;
  Mon,  9 Mar 2026 16:35:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A38D9C2BCB2;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B880CC4AF0F;
  Mon,  9 Mar 2026 16:35:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1773074118;
- bh=M2wvf00S2/NepjcwOTg0nKGdQToaxfiaijo9qaj8rYw=;
+ bh=fotoDCgC7OeaYG7UTBkWK10x0k8SydZQX9tf3l+mJfs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=mDwXvrARmG0Rt9IVtcr+6GfxEHOP+AG2Dcvw1DlyWu+9Nf90YTVknJtFd7YJVY4gQ
- HM7NyomUO5SdjBno//mRbEXLqXwgUYB5I3SIHW3CQp0kcXYG828Qwm34fkZnUvkzfL
- 4XjS9j0Jc36Ykuo5j3X7wE9nTQMkifqQmXGdLuczsgaM1ga/ghfY4C2XYGrLJ+ESs3
- M1KVNKsgUZEcTcWkTQkvjHEEwgluUhL9lpvEEXE3x+2OytCLGXXU+1enYfguwS2R2j
- QJebrYRANlMVxHb+ZAwhspAtlJT3PR/s4ix8To4fQIW5dN5EK2Ull8vnugvwnneKg2
- 3/qaXz2Q/tqMA==
+ b=r6Em/fifFf+JL09ITOtlAAdEYPnmRbGzs14wcOublz99WdP5nPGm/ONCxAnr5AZMK
+ M7x7hCxyfaN2Yeal05eKiRHFNZvKqzOD+moycVYeGsVJwfeXXf61q9Leo9Q6tyrTEg
+ 2efYDUvqHvW6fSoL5G6AKajWU6Q/Sp9QhB4qJHQfelRMIHz38XKOqq9As96KWUug4l
+ xLfFnf7TGv2feP/JkRMcuGnF/SQGshKGlpLFRDeLlLcZo2gD48+6lPdfNUMC1DyNfm
+ W6uskOpcMjOBLDpWk62LDjS3Tm1t5wCmJjsneo1fxXnjZdyGo9EXtobLT4A7eaa66P
+ 8C7MfiBmUL9KQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFE7F4180E;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A1AFAF41811;
  Mon,  9 Mar 2026 16:35:18 +0000 (UTC)
 From: Tim Kovalenko via B4 Relay <devnull+tim.kovalenko.proton.me@kernel.org>
-Date: Mon, 09 Mar 2026 12:34:19 -0400
-Subject: [PATCH v4 2/4] rust: ptr: add projection infrastructure
+Date: Mon, 09 Mar 2026 12:34:20 -0400
+Subject: [PATCH v4 3/4] rust: dma: use pointer projection infra for
+ `dma_{read,write}` macro
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-drm-rust-next-v4-2-4ef485b19a4c@proton.me>
+Message-Id: <20260309-drm-rust-next-v4-3-4ef485b19a4c@proton.me>
 References: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
 In-Reply-To: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
 To: Alexandre Courbot <acourbot@nvidia.com>, 
@@ -63,11 +64,11 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  linux-kbuild@vger.kernel.org, driver-core@lists.linux.dev
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773074117; l=15953;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773074117; l=15716;
  i=tim.kovalenko@proton.me; s=20260212; h=from:subject:message-id;
- bh=miLP0yl3FjGCpj96QFx68fa6u7hqlgNIww43hMgjNq8=;
- b=eA0m7RkR/mSGXK0WMRmnkmdjAaQ+cSBVISnJrKWvXCW5yra/kqFDo2rbTPpWQrbv/rw/l7HK0
- 3DN0iiv4XALCtKc8uHMdcxNRIIWlTKx758rQtfIlPT7rczFVgSv3NWM
+ bh=Upnq6G3yp4f/mbP79I/+fne9vntggLcTIt7uIQ8neSk=;
+ b=sqTDthGSfjKed8A4BAAZQvoZUy1p5qKwmQT0xo73JLs8JyW6Hd/J2qHL7Xtc3Rx6qUw2ZkrsA
+ Sn+jSi1eNKNCpyLy+Pl9evdmfHN3bTKaEDhtCjOHp02MZ9X+3VqvF56
 X-Developer-Key: i=tim.kovalenko@proton.me; a=ed25519;
  pk=/+OiulEpgeZifgP4mDE4e5YlV6nMeY+frze/lY/xiHI=
 X-Endpoint-Received: by B4 Relay for tim.kovalenko@proton.me/20260212 with
@@ -88,7 +89,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Reply-To: tim.kovalenko@proton.me
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 88E8623CCA6
+X-Rspamd-Queue-Id: 6D12223CCC4
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -107,406 +108,354 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TO_DN_SOME(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	HAS_REPLYTO(0.00)[tim.kovalenko@proton.me];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.973];
+	NEURAL_HAM(-0.00)[-0.972];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
 From: Gary Guo <gary@garyguo.net>
 
-Add a generic infrastructure for performing field and index projections on
-raw pointers. This will form the basis of performing I/O projections.
+Current `dma_read!`, `dma_write!` macros also use a custom
+`addr_of!()`-based implementation for projecting pointers, which has
+soundness issue as it relies on absence of `Deref` implementation on types.
+It also has a soundness issue where it does not protect against unaligned
+fields (when `#[repr(packed)]` is used) so it can generate misaligned
+accesses.
 
-Pointers manipulations are intentionally using the safe wrapping variants
-instead of the unsafe variants, as the latter requires pointers to be
-inside an allocation which is not necessarily true for I/O pointers.
+This commit migrates them to use the general pointer projection
+infrastructure, which handles these cases correctly.
 
-This projection macro protects against rogue `Deref` implementation, which
-can causes the projected pointer to be outside the bounds of starting
-pointer. This is extremely unlikely and Rust has a lint to catch this, but
-is unsoundness regardless. The protection works by inducing type inference
-ambiguity when `Deref` is implemented.
+As part of migration, the macro is updated to have an improved surface
+syntax. The current macro have
 
-This projection macro also stops projecting into unaligned fields (i.e.
-fields of `#[repr(packed)]` structs), as misaligned pointers require
-special handling. This is implemented by attempting to create reference to
-projected field inside a `if false` block. Despite being unreachable, Rust
-still checks that they're not unaligned fields.
+    dma_read!(a.b.c[d].e.f)
 
-The projection macro supports both fallible and infallible index
-projections. These are described in detail inside the documentation.
+to mean `a.b.c` is a DMA coherent allocation and it should project into it
+with `[d].e.f` and do a read, which is confusing as it makes the indexing
+operator integral to the macro (so it will break if you have an array of
+`CoherentAllocation`, for example).
 
-Signed-off-by: Gary Guo <gary@garyguo.net>
+This also is problematic as we would like to generalize
+`CoherentAllocation` from just slices to arbitrary types.
+
+Make the macro expects `dma_read!(path.to.dma, .path.inside.dma)` as the
+canonical syntax. The index operator is no longer special and is just one
+type of projection (in additional to field projection). Similarly, make
+`dma_write!(path.to.dma, .path.inside.dma, value)` become the canonical
+syntax for writing.
+
+Another issue of the current macro is that it is always fallible. This
+makes sense with existing design of `CoherentAllocation`, but once we
+support fixed size arrays with `CoherentAllocation`, it is desirable to
+have the ability to perform infallible indexing as well, e.g. doing a `[0]`
+index of `[Foo; 2]` is okay and can be checked at build-time, so forcing
+falliblity is non-ideal. To capture this, the macro is changed to use
+`[idx]` as infallible projection and `[idx]?` as fallible index projection
+(those syntax are part of the general projection infra). A benefit of this
+is that while individual indexing operation may fail, the overall
+read/write operation is not fallible.
+
+Fixes: ad2907b4e308 ("rust: add dma coherent allocator abstraction")
 Reviewed-by: Benno Lossin <lossin@kernel.org>
+Signed-off-by: Gary Guo <gary@garyguo.net>
 Acked-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/kernel/lib.rs            |   3 +
- rust/kernel/ptr.rs            |   3 +
- rust/kernel/ptr/projection.rs | 294 ++++++++++++++++++++++++++++++++++++++++++
- scripts/Makefile.build        |   4 +-
- 4 files changed, 303 insertions(+), 1 deletion(-)
+ drivers/gpu/nova-core/gsp.rs      |  14 ++---
+ drivers/gpu/nova-core/gsp/boot.rs |   2 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs |  10 +++-
+ rust/kernel/dma.rs                | 114 +++++++++++++++++---------------------
+ samples/rust/rust_dma.rs          |  30 +++++-----
+ 5 files changed, 81 insertions(+), 89 deletions(-)
 
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 510cc7fe496113f85c34f420b1c4be95596297ad..d93292d47420f1f298a452ade5feefedce5ade86 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -38,6 +38,9 @@
- #![feature(const_ptr_write)]
- #![feature(const_refs_to_cell)]
- //
-+// Stable since Rust 1.84.0.
-+#![feature(strict_provenance)]
-+//
- // Expected to become stable.
- #![feature(arbitrary_self_types)]
- //
-diff --git a/rust/kernel/ptr.rs b/rust/kernel/ptr.rs
-index cf980a103acf19ee3bd17bb1dfdbcadfe30467ae..930f523a4659b2cd5974e681ebf4c15c892a5e5a 100644
---- a/rust/kernel/ptr.rs
-+++ b/rust/kernel/ptr.rs
-@@ -2,6 +2,9 @@
+diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+index 174feaca0a6b9269cf35286dec3acc4d60918904..25cd48514c777cb405a2af0acf57196b2e2e7837 100644
+--- a/drivers/gpu/nova-core/gsp.rs
++++ b/drivers/gpu/nova-core/gsp.rs
+@@ -143,14 +143,14 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> impl PinInit<Self, Error
+                     // _kgspInitLibosLoggingStructures (allocates memory for buffers)
+                     // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
+                     dma_write!(
+-                        libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
+-                    )?;
++                        libos, [0]?, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
++                    );
+                     dma_write!(
+-                        libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
+-                    )?;
+-                    dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
+-                    dma_write!(rmargs[0].inner = fw::GspArgumentsCached::new(cmdq))?;
+-                    dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", rmargs))?;
++                        libos, [1]?, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
++                    );
++                    dma_write!(libos, [2]?, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0));
++                    dma_write!(rmargs, [0]?.inner, fw::GspArgumentsCached::new(cmdq));
++                    dma_write!(libos, [3]?, LibosMemoryRegionInitArgument::new("RMARGS", rmargs));
+                 },
+             }))
+         })
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index 9a00ddb922ac9d37db67e0abfacfcaa39f9a163d..f033c489d69c9fd8dffe3df0433020da18ff2297 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -166,7 +166,7 @@ pub(crate) fn boot(
  
- //! Types and functions to work with pointers and addresses.
+         let wpr_meta =
+             CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
+-        dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
++        dma_write!(wpr_meta, [0]?, GspFwWprMeta::new(&gsp_fw, &fb_layout));
  
-+pub mod projection;
-+pub use crate::project_pointer as project;
-+
- use core::mem::{
-     align_of,
-     size_of, //
-diff --git a/rust/kernel/ptr/projection.rs b/rust/kernel/ptr/projection.rs
-new file mode 100644
-index 0000000000000000000000000000000000000000..7686d8502095108b90e863e90cbc3a626c65031e
---- /dev/null
-+++ b/rust/kernel/ptr/projection.rs
-@@ -0,0 +1,294 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Infrastructure for handling projections.
-+
-+use core::{
-+    mem::MaybeUninit,
-+    ops::Deref, //
-+};
-+
-+use crate::prelude::*;
-+
-+/// Error raised when a projection is attempted on array or slices out of bounds.
-+pub struct OutOfBound;
-+
-+impl From<OutOfBound> for Error {
-+    #[inline(always)]
-+    fn from(_: OutOfBound) -> Self {
-+        ERANGE
-+    }
-+}
-+
-+/// A helper trait to perform index projection.
-+///
-+/// This is similar to `core::slice::SliceIndex`, but operate on raw pointers safely and fallibly.
-+///
-+/// # Safety
-+///
-+/// The implementation of `index` and `get` (if `Some` is returned) must ensure that, if provided
-+/// input pointer `slice` and returned pointer `output`, then:
-+/// - `output` has the same provenance as `slice`;
-+/// - `output.byte_offset_from(slice)` is between 0 to
-+///   `KnownSize::size(slice) - KnownSize::size(output)`.
-+///
-+/// This means that if the input pointer is valid, then pointer returned by `get` or `index` is
-+/// also valid.
-+#[diagnostic::on_unimplemented(message = "`{Self}` cannot be used to index `{T}`")]
-+#[doc(hidden)]
-+pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
-+    type Output: ?Sized;
-+
-+    /// Returns an index-projected pointer, if in bounds.
-+    fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
-+
-+    /// Returns an index-projected pointer; fail the build if it cannot be proved to be in bounds.
-+    #[inline(always)]
-+    fn index(self, slice: *mut T) -> *mut Self::Output {
-+        Self::get(self, slice).unwrap_or_else(|| build_error!())
-+    }
-+}
-+
-+// Forward array impl to slice impl.
-+// SAFETY: safety requirement guaranteed by the forwarded impl.
-+unsafe impl<T, I, const N: usize> ProjectIndex<[T; N]> for I
-+where
-+    I: ProjectIndex<[T]>,
-+{
-+    type Output = <I as ProjectIndex<[T]>>::Output;
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T; N]) -> Option<*mut Self::Output> {
-+        <I as ProjectIndex<[T]>>::get(self, slice)
+         self.cmdq
+             .send_command(bar, commands::SetSystemInfo::new(pdev))?;
+diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+index 87dbbd6d1be9d86e7fb45a84f9647265bd63f84e..0056bfbf0a44cfbc5a0ca08d069f881b877e1edc 100644
+--- a/drivers/gpu/nova-core/gsp/cmdq.rs
++++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+@@ -202,9 +202,13 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+ 
+         let gsp_mem =
+             CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
+-        dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
+-        dma_write!(gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES))?;
+-        dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
++        dma_write!(gsp_mem, [0]?.ptes, PteArray::new(gsp_mem.dma_handle())?);
++        dma_write!(
++            gsp_mem,
++            [0]?.cpuq.tx,
++            MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES)
++        );
++        dma_write!(gsp_mem, [0]?.cpuq.rx, MsgqRxHeader::new());
+ 
+         Ok(Self(gsp_mem))
+     }
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 909d56fd5118ee1db3585a8c10a99fe1d091dd00..cd2957b5f260b04c89e0762edba0820f11b064a4 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -461,6 +461,19 @@ pub fn size(&self) -> usize {
+         self.count * core::mem::size_of::<T>()
+     }
+ 
++    /// Returns the raw pointer to the allocated region in the CPU's virtual address space.
++    #[inline]
++    pub fn as_ptr(&self) -> *const [T] {
++        core::ptr::slice_from_raw_parts(self.cpu_addr.as_ptr(), self.count)
 +    }
 +
-+    #[inline(always)]
-+    fn index(self, slice: *mut [T; N]) -> *mut Self::Output {
-+        <I as ProjectIndex<[T]>>::index(self, slice)
++    /// Returns the raw pointer to the allocated region in the CPU's virtual address space as
++    /// a mutable pointer.
++    #[inline]
++    pub fn as_mut_ptr(&self) -> *mut [T] {
++        core::ptr::slice_from_raw_parts_mut(self.cpu_addr.as_ptr(), self.count)
 +    }
-+}
 +
-+// SAFETY: `get` returned pointers has same provenance as `slice` and the offset is checked to not
-+// exceed the required bound.
-+unsafe impl<T> ProjectIndex<[T]> for usize {
-+    type Output = T;
+     /// Returns the base address to the allocated region in the CPU's virtual address space.
+     pub fn start_ptr(&self) -> *const T {
+         self.cpu_addr.as_ptr()
+@@ -581,23 +594,6 @@ pub unsafe fn write(&mut self, src: &[T], offset: usize) -> Result {
+         Ok(())
+     }
+ 
+-    /// Returns a pointer to an element from the region with bounds checking. `offset` is in
+-    /// units of `T`, not the number of bytes.
+-    ///
+-    /// Public but hidden since it should only be used from [`dma_read`] and [`dma_write`] macros.
+-    #[doc(hidden)]
+-    pub fn item_from_index(&self, offset: usize) -> Result<*mut T> {
+-        if offset >= self.count {
+-            return Err(EINVAL);
+-        }
+-        // SAFETY:
+-        // - The pointer is valid due to type invariant on `CoherentAllocation`
+-        // and we've just checked that the range and index is within bounds.
+-        // - `offset` can't overflow since it is smaller than `self.count` and we've checked
+-        // that `self.count` won't overflow early in the constructor.
+-        Ok(unsafe { self.cpu_addr.as_ptr().add(offset) })
+-    }
+-
+     /// Reads the value of `field` and ensures that its type is [`FromBytes`].
+     ///
+     /// # Safety
+@@ -670,6 +666,9 @@ unsafe impl<T: AsBytes + FromBytes + Send> Send for CoherentAllocation<T> {}
+ 
+ /// Reads a field of an item from an allocated region of structs.
+ ///
++/// The syntax is of form `kernel::dma_read!(dma, proj)` where `dma` is an expression to an
++/// [`CoherentAllocation`] and `proj` is a [projection specification](kernel::ptr::project!).
++///
+ /// # Examples
+ ///
+ /// ```
+@@ -684,36 +683,29 @@ unsafe impl<T: AsBytes + FromBytes + Send> Send for CoherentAllocation<T> {}
+ /// unsafe impl kernel::transmute::AsBytes for MyStruct{};
+ ///
+ /// # fn test(alloc: &kernel::dma::CoherentAllocation<MyStruct>) -> Result {
+-/// let whole = kernel::dma_read!(alloc[2]);
+-/// let field = kernel::dma_read!(alloc[1].field);
++/// let whole = kernel::dma_read!(alloc, [2]?);
++/// let field = kernel::dma_read!(alloc, [1]?.field);
+ /// # Ok::<(), Error>(()) }
+ /// ```
+ #[macro_export]
+ macro_rules! dma_read {
+-    ($dma:expr, $idx: expr, $($field:tt)*) => {{
+-        (|| -> ::core::result::Result<_, $crate::error::Error> {
+-            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
+-            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
+-            // dereferenced. The compiler also further validates the expression on whether `field`
+-            // is a member of `item` when expanded by the macro.
+-            unsafe {
+-                let ptr_field = ::core::ptr::addr_of!((*item) $($field)*);
+-                ::core::result::Result::Ok(
+-                    $crate::dma::CoherentAllocation::field_read(&$dma, ptr_field)
+-                )
+-            }
+-        })()
++    ($dma:expr, $($proj:tt)*) => {{
++        let dma = &$dma;
++        let ptr = $crate::ptr::project!(
++            $crate::dma::CoherentAllocation::as_ptr(dma), $($proj)*
++        );
++        // SAFETY: pointer created by projection is within DMA region.
++        unsafe { $crate::dma::CoherentAllocation::field_read(dma, ptr) }
+     }};
+-    ($dma:ident [ $idx:expr ] $($field:tt)* ) => {
+-        $crate::dma_read!($dma, $idx, $($field)*)
+-    };
+-    ($($dma:ident).* [ $idx:expr ] $($field:tt)* ) => {
+-        $crate::dma_read!($($dma).*, $idx, $($field)*)
+-    };
+ }
+ 
+ /// Writes to a field of an item from an allocated region of structs.
+ ///
++/// The syntax is of form `kernel::dma_write!(dma, proj, val)` where `dma` is an expression to an
++/// [`CoherentAllocation`] and `proj` is a [projection specification](kernel::ptr::project!),
++/// and `val` is the value to be written to the projected location.
++///
++///
+ /// # Examples
+ ///
+ /// ```
+@@ -728,37 +720,31 @@ macro_rules! dma_read {
+ /// unsafe impl kernel::transmute::AsBytes for MyStruct{};
+ ///
+ /// # fn test(alloc: &kernel::dma::CoherentAllocation<MyStruct>) -> Result {
+-/// kernel::dma_write!(alloc[2].member = 0xf);
+-/// kernel::dma_write!(alloc[1] = MyStruct { member: 0xf });
++/// kernel::dma_write!(alloc, [2]?.member, 0xf);
++/// kernel::dma_write!(alloc, [1]?, MyStruct { member: 0xf });
+ /// # Ok::<(), Error>(()) }
+ /// ```
+ #[macro_export]
+ macro_rules! dma_write {
+-    ($dma:ident [ $idx:expr ] $($field:tt)*) => {{
+-        $crate::dma_write!($dma, $idx, $($field)*)
+-    }};
+-    ($($dma:ident).* [ $idx:expr ] $($field:tt)* ) => {{
+-        $crate::dma_write!($($dma).*, $idx, $($field)*)
++    (@parse [$dma:expr] [$($proj:tt)*] [, $val:expr]) => {{
++        let dma = &$dma;
++        let ptr = $crate::ptr::project!(
++            mut $crate::dma::CoherentAllocation::as_mut_ptr(dma), $($proj)*
++        );
++        let val = $val;
++        // SAFETY: pointer created by projection is within DMA region.
++        unsafe { $crate::dma::CoherentAllocation::field_write(dma, ptr, val) }
+     }};
+-    ($dma:expr, $idx: expr, = $val:expr) => {
+-        (|| -> ::core::result::Result<_, $crate::error::Error> {
+-            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
+-            // SAFETY: `item_from_index` ensures that `item` is always a valid item.
+-            unsafe { $crate::dma::CoherentAllocation::field_write(&$dma, item, $val) }
+-            ::core::result::Result::Ok(())
+-        })()
++    (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) => {
++        $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest)*])
++    };
++    (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr]? $($rest:tt)*]) => {
++        $crate::dma_write!(@parse [$dma] [$($proj)* [$index]?] [$($rest)*])
++    };
++    (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr] $($rest:tt)*]) => {
++        $crate::dma_write!(@parse [$dma] [$($proj)* [$index]] [$($rest)*])
+     };
+-    ($dma:expr, $idx: expr, $(.$field:ident)* = $val:expr) => {
+-        (|| -> ::core::result::Result<_, $crate::error::Error> {
+-            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
+-            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
+-            // dereferenced. The compiler also further validates the expression on whether `field`
+-            // is a member of `item` when expanded by the macro.
+-            unsafe {
+-                let ptr_field = ::core::ptr::addr_of_mut!((*item) $(.$field)*);
+-                $crate::dma::CoherentAllocation::field_write(&$dma, ptr_field, $val)
+-            }
+-            ::core::result::Result::Ok(())
+-        })()
++    ($dma:expr, $($rest:tt)*) => {
++        $crate::dma_write!(@parse [$dma] [] [$($rest)*])
+     };
+ }
+diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+index 9c45851c876ef33414eb0071c42a2fb4ac3f1e78..ce39b55450978e69f40b20bb2a0479973f2843ad 100644
+--- a/samples/rust/rust_dma.rs
++++ b/samples/rust/rust_dma.rs
+@@ -68,7 +68,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
+                 CoherentAllocation::alloc_coherent(pdev.as_ref(), TEST_VALUES.len(), GFP_KERNEL)?;
+ 
+             for (i, value) in TEST_VALUES.into_iter().enumerate() {
+-                kernel::dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
++                kernel::dma_write!(ca, [i]?, MyStruct::new(value.0, value.1));
+             }
+ 
+             let size = 4 * page::PAGE_SIZE;
+@@ -85,24 +85,26 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
+     }
+ }
+ 
++impl DmaSampleDriver {
++    fn check_dma(&self) -> Result {
++        for (i, value) in TEST_VALUES.into_iter().enumerate() {
++            let val0 = kernel::dma_read!(self.ca, [i]?.h);
++            let val1 = kernel::dma_read!(self.ca, [i]?.b);
 +
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut T> {
-+        if self >= slice.len() {
-+            None
-+        } else {
-+            Some(slice.cast::<T>().wrapping_add(self))
++            assert_eq!(val0, value.0);
++            assert_eq!(val1, value.1);
 +        }
++
++        Ok(())
 +    }
 +}
 +
-+// SAFETY: `get` returned pointers has same provenance as `slice` and the offset is checked to not
-+// exceed the required bound.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::Range<usize> {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        let new_len = self.end.checked_sub(self.start)?;
-+        if self.end > slice.len() {
-+            return None;
-+        }
-+        Some(core::ptr::slice_from_raw_parts_mut(
-+            slice.cast::<T>().wrapping_add(self.start),
-+            new_len,
-+        ))
-+    }
-+}
-+
-+// SAFETY: safety requirement guaranteed by the forwarded impl.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeTo<usize> {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        (0..self.end).get(slice)
-+    }
-+}
-+
-+// SAFETY: safety requirement guaranteed by the forwarded impl.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeFrom<usize> {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        (self.start..slice.len()).get(slice)
-+    }
-+}
-+
-+// SAFETY: `get` returned the pointer as is, so it always have the same provenance and offset of 0.
-+unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeFull {
-+    type Output = [T];
-+
-+    #[inline(always)]
-+    fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
-+        Some(slice)
-+    }
-+}
-+
-+/// A helper trait to perform field projection.
-+///
-+/// This trait has a `DEREF` generic parameter so it can be implemented twice for types that
-+/// implement `Deref`. This will cause an ambiguity error and thus block `Deref` types being used
-+/// as base of projection, as they can inject unsoundness. Users therefore must not specify `DEREF`
-+/// and should always leave it to be inferred.
-+///
-+/// # Safety
-+///
-+/// `proj` may only invoke `f` with a valid allocation, as documentation described.
-+#[doc(hidden)]
-+pub unsafe trait ProjectField<const DEREF: bool> {
-+    /// Project a pointer to a type to a pointer of a field.
-+    ///
-+    /// `f` may only be invoked with a valid allocation so it can safely obtain raw pointers to
-+    /// fields using `&raw mut`.
-+    ///
-+    /// This is needed because `base` might not point to a valid allocation, while `&raw mut`
-+    /// requires pointers to be in bounds of a valid allocation.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `f` must return a pointer in bounds of the provided pointer.
-+    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut F) -> *mut F;
-+}
-+
-+// NOTE: in theory, this API should work for `T: ?Sized` and `F: ?Sized`, too. However we cannot
-+// currently support that as we need to obtain a valid allocation that `&raw const` can operate on.
-+// SAFETY: `proj` invokes `f` with valid allocation.
-+unsafe impl<T> ProjectField<false> for T {
-+    #[inline(always)]
-+    unsafe fn proj<F>(base: *mut Self, f: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
-+        // Create a valid allocation to start projection, as `base` is not necessarily so. The
-+        // memory is never actually used so it will be optimized out, so it should work even for
-+        // very large `T` (`memoffset` crate also relies on this). To be extra certain, we also
-+        // annotate `f` closure with `#[inline(always)]` in the macro.
-+        let mut place = MaybeUninit::uninit();
-+        let place_base = place.as_mut_ptr();
-+        let field = f(place_base);
-+        // SAFETY: `field` is in bounds from `base` per safety requirement.
-+        let offset = unsafe { field.byte_offset_from(place_base) };
-+        // Use `wrapping_byte_offset` as `base` does not need to be of valid allocation.
-+        base.wrapping_byte_offset(offset).cast()
-+    }
-+}
-+
-+// SAFETY: vacuously satisfied.
-+unsafe impl<T: Deref> ProjectField<true> for T {
-+    #[inline(always)]
-+    unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
-+        build_error!("this function is a guard against `Deref` impl and is never invoked");
-+    }
-+}
-+
-+/// Create a projection from a raw pointer.
-+///
-+/// The projected pointer is within the memory region marked by the input pointer. There is no
-+/// requirement that the input raw pointer needs to be valid, so this macro may be used for
-+/// projecting pointers outside normal address space, e.g. I/O pointers. However, if the input
-+/// pointer is valid, the projected pointer is also valid.
-+///
-+/// Supported projections include field projections and index projections.
-+/// It is not allowed to project into types that implement custom `Deref` or `Index`.
-+///
-+/// The macro has basic syntax of `kernel::ptr::project!(ptr, projection)`, where `ptr` is an
-+/// expression that evaluates to a raw pointer which serves as the base of projection. `projection`
-+/// can be a projection expression of form `.field` (normally identifer, or numeral in case of
-+/// tuple structs) or of form `[index]`.
-+///
-+/// If mutable pointer is needed, the macro input can be prefixed with `mut` keyword, i.e.
-+/// `kernel::ptr::project!(mut ptr, projection)`. By default, a const pointer is created.
-+///
-+/// `ptr::project!` macro can perform both fallible indexing and build-time checked indexing.
-+/// `[index]` form performs build-time bounds checking; if compiler fails to prove `[index]` is in
-+/// bounds, compilation will fail. `[index]?` can be used to perform runtime bounds checking;
-+/// `OutOfBound` error is raised via `?` if the index is out of bounds.
-+///
-+/// # Examples
-+///
-+/// Field projections are performed with `.field_name`:
-+/// ```
-+/// struct MyStruct { field: u32, }
-+/// let ptr: *const MyStruct = core::ptr::dangling();
-+/// let field_ptr: *const u32 = kernel::ptr::project!(ptr, .field);
-+///
-+/// struct MyTupleStruct(u32, u32);
-+///
-+/// fn proj(ptr: *const MyTupleStruct) {
-+///     let field_ptr: *const u32 = kernel::ptr::project!(ptr, .1);
-+/// }
-+/// ```
-+///
-+/// Index projections are performed with `[index]`:
-+/// ```
-+/// fn proj(ptr: *const [u8; 32]) -> Result {
-+///     let field_ptr: *const u8 = kernel::ptr::project!(ptr, [1]);
-+///     // This will fail the build.
-+///     // kernel::ptr::project!(ptr, [128]);
-+///     // This will raise an `OutOfBound` error (which is convertable to `ERANGE`).
-+///     kernel::ptr::project!(ptr, [128]?);
-+///     Ok(())
-+/// }
-+/// ```
-+///
-+/// If you need to match on the error instead of propagate, put the invocation inside a closure:
-+/// ```
-+/// let ptr: *const [u8; 32] = core::ptr::dangling();
-+/// let field_ptr: Result<*const u8> = (|| -> Result<_> {
-+///     Ok(kernel::ptr::project!(ptr, [128]?))
-+/// })();
-+/// assert!(field_ptr.is_err());
-+/// ```
-+///
-+/// For mutable pointers, put `mut` as the first token in macro invocation.
-+/// ```
-+/// let ptr: *mut [(u8, u16); 32] = core::ptr::dangling_mut();
-+/// let field_ptr: *mut u16 = kernel::ptr::project!(mut ptr, [1].1);
-+/// ```
-+#[macro_export]
-+macro_rules! project_pointer {
-+    (@gen $ptr:ident, ) => {};
-+    // Field projection. `$field` needs to be `tt` to support tuple index like `.0`.
-+    (@gen $ptr:ident, .$field:tt $($rest:tt)*) => {
-+        // SAFETY: the provided closure always return in bounds pointer.
-+        let $ptr = unsafe {
-+            $crate::ptr::projection::ProjectField::proj($ptr, #[inline(always)] |ptr| {
-+                // Check unaligned field. Not all users (e.g. DMA) can handle unaligned
-+                // projections.
-+                if false {
-+                    let _ = &(*ptr).$field;
-+                }
-+                // SAFETY: `$field` is in bounds, and no implicit `Deref` is possible (if the
-+                // type implements `Deref`, Rust cannot infer the generic parameter `DEREF`).
-+                &raw mut (*ptr).$field
-+            })
-+        };
-+        $crate::ptr::project!(@gen $ptr, $($rest)*)
-+    };
-+    // Fallible index projection.
-+    (@gen $ptr:ident, [$index:expr]? $($rest:tt)*) => {
-+        let $ptr = $crate::ptr::projection::ProjectIndex::get($index, $ptr)
-+            .ok_or($crate::ptr::projection::OutOfBound)?;
-+        $crate::ptr::project!(@gen $ptr, $($rest)*)
-+    };
-+    // Build-time checked index projection.
-+    (@gen $ptr:ident, [$index:expr] $($rest:tt)*) => {
-+        let $ptr = $crate::ptr::projection::ProjectIndex::index($index, $ptr);
-+        $crate::ptr::project!(@gen $ptr, $($rest)*)
-+    };
-+    (mut $ptr:expr, $($proj:tt)*) => {{
-+        let ptr: *mut _ = $ptr;
-+        $crate::ptr::project!(@gen ptr, $($proj)*);
-+        ptr
-+    }};
-+    ($ptr:expr, $($proj:tt)*) => {{
-+        let ptr = <*const _>::cast_mut($ptr);
-+        // We currently always project using mutable pointer, as it is not decided whether `&raw
-+        // const` allows the resulting pointer to be mutated (see documentation of `addr_of!`).
-+        $crate::ptr::project!(@gen ptr, $($proj)*);
-+        ptr.cast_const()
-+    }};
-+}
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 32e209bc7985cbf26ad8af2b986fbd1920aa3bd4..3652b85be54594e3616be5a92c1967035e9d919d 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -310,16 +310,18 @@ $(obj)/%.lst: $(obj)/%.c FORCE
+ #[pinned_drop]
+ impl PinnedDrop for DmaSampleDriver {
+     fn drop(self: Pin<&mut Self>) {
+         dev_info!(self.pdev, "Unload DMA test driver.\n");
  
- # The features in this list are the ones allowed for non-`rust/` code.
- #
-+#   - Stable since Rust 1.79.0: `feature(slice_ptr_len)`.
- #   - Stable since Rust 1.81.0: `feature(lint_reasons)`.
- #   - Stable since Rust 1.82.0: `feature(asm_const)`,
- #     `feature(offset_of_nested)`, `feature(raw_ref_op)`.
-+#   - Stable since Rust 1.84.0: `feature(strict_provenance)`.
- #   - Stable since Rust 1.87.0: `feature(asm_goto)`.
- #   - Expected to become stable: `feature(arbitrary_self_types)`.
- #   - To be determined: `feature(used_with_arg)`.
- #
- # Please see https://github.com/Rust-for-Linux/linux/issues/2 for details on
- # the unstable features in use.
--rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,offset_of_nested,raw_ref_op,used_with_arg
-+rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,offset_of_nested,raw_ref_op,slice_ptr_len,strict_provenance,used_with_arg
+-        for (i, value) in TEST_VALUES.into_iter().enumerate() {
+-            let val0 = kernel::dma_read!(self.ca[i].h);
+-            let val1 = kernel::dma_read!(self.ca[i].b);
+-            assert!(val0.is_ok());
+-            assert!(val1.is_ok());
+-
+-            if let Ok(val0) = val0 {
+-                assert_eq!(val0, value.0);
+-            }
+-            if let Ok(val1) = val1 {
+-                assert_eq!(val1, value.1);
+-            }
+-        }
++        assert!(self.check_dma().is_ok());
  
- # `--out-dir` is required to avoid temporaries being created by `rustc` in the
- # current working directory, which may be not accessible in the out-of-tree
+         for (i, entry) in self.sgt.iter().enumerate() {
+             dev_info!(
 
 -- 
 2.53.0
