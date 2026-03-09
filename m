@@ -2,67 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eFLnKke0rmkSHwIAu9opvQ
+	id yKL/A8e4rmlIIQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:51:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 13:10:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E054238350
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 12:51:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA70238831
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 13:10:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 603C910E10A;
-	Mon,  9 Mar 2026 11:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C466910E035;
+	Mon,  9 Mar 2026 12:10:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="C4os9YqN";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="wWBNT/w0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3270.qiye.163.com (mail-m3270.qiye.163.com
- [220.197.32.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5197510E10A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 11:51:30 +0000 (UTC)
-Received: from [172.16.12.43] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 36434b970;
- Mon, 9 Mar 2026 19:51:23 +0800 (GMT+08:00)
-Message-ID: <01983e92-dabb-47f7-ba01-988ea41641db@rock-chips.com>
-Date: Mon, 9 Mar 2026 19:51:24 +0800
+Received: from CWXP265CU010.outbound.protection.outlook.com
+ (mail-ukwestazon11022137.outbound.protection.outlook.com [52.101.101.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BBEF10E035;
+ Mon,  9 Mar 2026 12:10:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v8BGNRuZte+MUU4e8AJRrZ0vb9z3LId62mhgh+2xMcSUri2dNL7QPx3iCOj1YLaPeLYTlgIIZO+vEudPouz/2ftyylqKq4OkIb+rCMQj3s9SLDwwoYkbzyTWpEJvD9i9nfo4Ymq4a/8KFy0+tugICP7g4FI0O2yvV+JNKb2TEKeYDIZ6yaFtGIv0Faa1/q3uhHy+SnrnNu4n/ylTaSiC+MfhRyu2OTi8SPZoSvCWNLfwUw00ZUNXRzXF4PSoXBJDFjzo0+eDXXZLiGv7USA1jjjhBSAneI8aD1EXrGaCR9EXHwB3/qnpfojkqtLkgPR5NyEFo6UbSW/ZxAxoCN2anQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aykGupV8B0tXDpoZp+HKChd9qRRLdRpnGt+Dg82SPlI=;
+ b=APjmKB4Yv4Z4XY7r7KW62Dgr3D7yp/pNP/A+ACo16KVpWBhlxaQubUSh/VX8FqzKXF1mcW5Ttq6pXvfFUGyB6niEtvPwZ77GekgOzBuBNuWCTWLWUzPinhfKZH9G36d7U13QOsAzoFMkI6pBC2y+ZbYrVH+EMgxazX1oip3PidqO9Ap/QCQ5/VVdDOoXhNwfZQtd+TuU2/CvvpCkK7nMJomSfNwK4JkMurZ2PURVHVUDxgXSqua5sl0tHIk/pTmTZtw5f/vAGc5sZk7EH/DSHZi8B69xBKa1Zcume9iIeAONAZG2rxUJJYZVVzt+Mo8BxayMPyK2WEFdzjih3Q9rzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aykGupV8B0tXDpoZp+HKChd9qRRLdRpnGt+Dg82SPlI=;
+ b=wWBNT/w0iqmPS48FP+0XyOQNxUF3QdHjZh738XVJpoVL6GHIMklucLvYTVAIh44a+gkgrXErjexAduiL6pOdIyLsVLVOhgSVf+98LjfkNcDrgPOqgKSfz5AbuzqEcCxtxe14T+s3r0p4vDvvM8z8Gqw01kddq0R+kfm3QO3fcUE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWLP265MB6910.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1fa::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Mon, 9 Mar
+ 2026 12:10:37 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9678.024; Mon, 9 Mar 2026
+ 12:10:36 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Mar 2026 12:10:36 +0000
+Message-Id: <DGY8OSWDD5XN.2S6NSBDDDJX4@garyguo.net>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, <nouveau@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v11 09/12] gpu: nova-core: firmware: fix and explain v2
+ header offsets computations
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
+X-Mailer: aerc 0.21.0
+References: <20260306-turing_prep-v11-0-8f0042c5d026@nvidia.com>
+ <20260306-turing_prep-v11-9-8f0042c5d026@nvidia.com>
+In-Reply-To: <20260306-turing_prep-v11-9-8f0042c5d026@nvidia.com>
+X-ClientProxiedBy: LO4P265CA0144.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c4::17) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/15] drm/bridge: analogix_dp: Add new API
- analogix_dp_finish_probe()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- jingoohan1@gmail.com, p.zabel@pengutronix.de, hjc@rock-chips.com,
- heiko@sntech.de, andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
- dianders@chromium.org, m.szyprowski@samsung.com, jani.nikula@intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20260210071225.2566099-1-damon.ding@rock-chips.com>
- <20260210071225.2566099-11-damon.ding@rock-chips.com>
- <DGT20ZJ3Q4WP.3OTQJYWGSYGUD@bootlin.com>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <DGT20ZJ3Q4WP.3OTQJYWGSYGUD@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9cd270098c03a3kunm26e3dc7b2d81c9
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ05OS1YeHkxLSkgYQkNDTE9WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
- 1VSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
- b=C4os9YqNIUC3dEyjyzM/hCxvk1F4fWa1S7B31zMJjMRFJW7ZEsZL+m85ptIf9IWCeuLLhar9IN001x4s5PBLTMGuQlDb+GzAX3aXtbXJrDmPNAb2GPzyOvS/jIXmdi0MK0cJdB+IiAiLNeWa/7D2wdMUSjFWtZYZZb4qvAyF1AM=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=hduUfmGwgnKMskaDKeGcgwJWohiGVW+qVStYTESGB2U=;
- h=date:mime-version:subject:message-id:from;
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB6910:EE_
+X-MS-Office365-Filtering-Correlation-Id: f931b2c8-4df1-4642-391c-08de7dd4df5e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|10070799003|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: RLUWmsjDu15MnWVHpvP/j/Otut5U4X5L4u5w2IFWRQ8VZINcU2uNUGlOOYa2cCfiUFC3Vwrk/vttya2avmh1aOBv399kap99o9Z697UPzGaLUvsyB7TJGwyud4mIdOeWOUMeUreDkZ8lXPzGpUs9hS6kUjmq7ohbbbtV9htAVUpcqKJdr5le/HMJakUmRbWcu7kQJkYpecmoWKmQ9U4cHu7fzrsAUY/6Gel+FXriKJ4DAOJf9PWlPK0tT0+51cyH5+wbeRQ9dMUmVYEHNQDcuZhEWMdGSLctAQQTuB0TvUZcqx4DzxjBIFATCgO+kwKqQSM8AFIjKzGcAORfx84b8kmZ33IkwA8i0IuBTVOkJKoTldLL+0j0acsKiMaLOgP4qkhorTDqb2Nbhzz0N30xEGSo2El7KVQzoF94r7jELzhVgFs7TxP1t649BxHQcr+sPmfnMoaTO7H0pckJ2xxwI4ZhuulH0d9Ti9xMkpqtGiAzbIJKSDvvM5pu/ATydunwUOY3KcD9k7Q7NH3r2n0uR17bOPYFOkwo+lDIQAPrsoQca6N9Xknkxl/APgtGasGMeclgrC8Dm9g3R/7yH95ALs72/sz+HHOiqm7ceWy8KAjdriWhW0iEWYfHnKLaJ9sHusPVZzZ0e/ZJlyYFNCfirG0s3I+XsMfc/3d0NB0aEmugZwdQRK/QaSCtB+PI+dc+QeTufsCQFQ13PcPNvC59YRb8141UDRibgI7vIINe0Xs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(10070799003)(7416014)(376014)(7053199007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1NFRG5oZGI5VlZ5RVZZMU1SbWlieDdwaVU2a0ZmYjg1bmxWWmFrVldlL3B1?=
+ =?utf-8?B?YnRpdVlRNHgrU0pNVkY3TkQ1UUx2bFJIWll3dDg4eEpVK3ZBVk91VkZ3d044?=
+ =?utf-8?B?ckpFdGt0WTBuK3JiK2xVUGdaT2I5UXMwNUJWSTB2TnAxUWlRS2czUXZqMGFR?=
+ =?utf-8?B?YWwwY1plM082RnRIL0RIVUp1TmlnMGN6M2U0QTROdTJlWjFuZlZPSHFBcjJ4?=
+ =?utf-8?B?a1NEamlPYlZDekpOUkxpa3NnNjlMVUFLM2NQc3VZQ0hKVHJ2SEd0RlFNSWU4?=
+ =?utf-8?B?OCtOb3ZUNDMzMGhzb2x2QmRlVTN3UHV1aWpZSkZlSXFBYlBTd01QbUN3bSs5?=
+ =?utf-8?B?YXpPckN5NWo5eVVLQ2pFS3ZDMExFL1RZRTV1eklIKzZ1VllnelVmNmo1K0pw?=
+ =?utf-8?B?SEhpYWJlYnY4VDRpM3VJdHVoMzBUcTdhUDBjTGU5eDBIWWI1dW45TDkyUDhT?=
+ =?utf-8?B?cW0zcnA1a0hVSXRUdjNHV0ViTm1jRW1vdHpGUStMUkxBcXM4UnZkby93aFMx?=
+ =?utf-8?B?ekY2QTlxYzNUUzRITmpmN3NoZXgzb2o5TXpnS3EwUTNCVnpwV2NhRjg4VENQ?=
+ =?utf-8?B?Mk5wakRoNW1UYUY0dTdxWDNjRkRGaTAyMTZ2NzExSEp3NDlKMXc1ajdaaUty?=
+ =?utf-8?B?azRUanZJUDlnTHdySmNKQndpS3pNMXZCbW9RK1laWnJIcVM3bDRjSFArdktD?=
+ =?utf-8?B?RHNuYWdMVzU2emZIV2lVTGdhcUl1Uk10VGxYMXlwVmg1dDM1YVBMYWl2cWNk?=
+ =?utf-8?B?VFBwNEljZW9zSWowZ0J5Snk5WmI2V21OMWtMelJsbnRRZVBHOXVLWVpleVE3?=
+ =?utf-8?B?OXdkT3ZnT05EUk1DYWQyclJoR1JvVDI0UEVGSGs4cGExMEJaS2R5R1J2bUxv?=
+ =?utf-8?B?OWJSUEloTGVOQnNMdUVtMEp6OTZVODVydE9CSUFTYWt2amkxaFF4YUo3YW9S?=
+ =?utf-8?B?NXhPSWl2Y1J6cnBUTHFaM3hBTVJSekZHTC9Mbi83R1FLZkhCRGgwQXJnY1ds?=
+ =?utf-8?B?YWdTQTliL1o1UlEzeHNvV2EzT0VZWXdhUktobTF0c1hkZllVQ3NReVEzRi9t?=
+ =?utf-8?B?dkZxMUZNZi8yazR0azQvbjl1bTQ3V2RQZTBJSnRkUlBlUWNPZWh4QnNJU1NH?=
+ =?utf-8?B?endOb055WVNFRUM5TysyUXAxbXJXbmJRVVhCY3dXTTc2THp2V0Vqa0F4MElF?=
+ =?utf-8?B?TTFkN2VmMmIrTFZZWWZMVzJGQkZUbXo3WWw4Mmc2djIxbFZ4dEZONXU3b0hP?=
+ =?utf-8?B?a0dKTzNlUi9WU21ORDlRZkVld0JkK3dDL0t6emtSVVVDUmFMeWtraXl2eUhs?=
+ =?utf-8?B?bWt0WTVSZzYwSnJRZnZPNUpjaSs3ano0RjRBR1FxRTJPSUk0cUN3aENkSTFw?=
+ =?utf-8?B?NWVXbllFQ2lqak1CK2ZWZURMS0FJNXl4ZWM5SmlaR0YyVktWMFpSQ2VEMnBB?=
+ =?utf-8?B?TTNGWC90cVltRnBTVWNrMlQwQ0dueU1uSzFzMUUyVE5JdmxENEc5MXlVNjIv?=
+ =?utf-8?B?a2N1c2JIdFhHazN3TkVKcEdNZFdqWGhWSWJKdkZLVHdqZFlWSjk3OXl4Z1lu?=
+ =?utf-8?B?cXV2dHhuUUJQbWNBbFRMZ1l2U0pNSHhia2h1ODdTUTJLRXJ1ZG5JMjl1UWRr?=
+ =?utf-8?B?bkNUVGhUNVpRQ0JUQ1pIUFB1alVhRUdRRmE2UGN2QU9valFYZ0ZSVHdTRFdF?=
+ =?utf-8?B?RFFXOEpvQlk2eWJKYVFubURGU3dlekVFdEFmRnVPdHhBczVlRGlXR1Z2aXRs?=
+ =?utf-8?B?a1RjeGF1MzFGbGhnVEdpZzdNYVY3d0dOUzJsUzhGOW5PMzk4c3F3RURack5j?=
+ =?utf-8?B?bFRKRWlPZVpXTU91T0swWXpOTUJLa1Z2S3NZMS9PNnVMdER1WTJtNFFKWDZp?=
+ =?utf-8?B?ZGhEMzVJVEt2aTJKUWgyalR6azdRQ2R1aTd6RXcvUTdWNVFORUJ1a21BdEpm?=
+ =?utf-8?B?bG5UVjAzYjArY2VHdHkzNXZpYmptclE1RUQ5ZzRNY096MjViV2FMbzNGNWNp?=
+ =?utf-8?B?VTN3Uk1JYXdYMXFyRTRwNnRBRlIwbHVJdFdZNS9IV0JvVVN5UWpFYjlmNTJ6?=
+ =?utf-8?B?TkQwbENSczF2T3VySFEydlZJZ1RXUW1HN1dHRTYrd3VseEd6TDE1K2oydFF1?=
+ =?utf-8?B?SHdvakhhUXlBRTRNVUdORWEwMlN4YzRFL1N5SFB1WFMxVFplL0ZjcDV5blpp?=
+ =?utf-8?B?aEhYTEM2K1N1dnJodGRQWkFuSjFsdEVsSm1IUGlha29wbVN3V3FtamYrcTZY?=
+ =?utf-8?B?cGl5dzJjUmFCYTlnWWpsVDNvREFtbzdTWG41U0xoaFo5dzlnSC9EWUhsR1Ir?=
+ =?utf-8?B?eVlEaWpKT2tEK1ZSVE1SRHFKNHZyajBTa0gzd3UxcHdzK096cGhlQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: f931b2c8-4df1-4642-391c-08de7dd4df5e
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 12:10:36.8565 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +Yha6JaPlvLig7G7cBZRaUn7jSQtp4jJOY8K0OrZ3FLi34IHxr7nLfm5msXLE/DvK88dejzX0ObgR10lM/aDog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6910
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,155 +147,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6E054238350
+X-Rspamd-Queue-Id: 5CA70238831
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[damon.ding@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:jingoohan1@gmail.com,m:p.zabel@pengutronix.de,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:dmitry.baryshkov@oss.qualcomm.com,m:dianders@chromium.org,m:m.szyprowski@samsung.com,m:jani.nikula@intel.com,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,samsung.com,rock-chips.com,sntech.de,oss.qualcomm.com,chromium.org,intel.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org];
-	DKIM_TRACE(0.00)[rock-chips.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[damon.ding@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.940];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[garyguo.net:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sntech.de:email,rock-chips.com:dkim,rock-chips.com:email,rock-chips.com:mid,samsung.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
-Hi Luca,
+On Fri Mar 6, 2026 at 4:52 AM GMT, Alexandre Courbot wrote:
+> There are no offsets in `FalconUCodeDescV2` to give the non-secure and
+> secure IMEM sections start offsets relative to the beginning of the
+> firmware object.
+>
+> The start offsets for both sections were set to `0`, but that is
+> obviously incorrect since two different sections cannot start at the
+> same offset. Since these offsets were not used by the bootloader, this
+> doesn't prevent proper function but is incorrect nonetheless.
+>
+> Fix this by computing the start of the secure IMEM section relatively to
+> the start of the firmware object and setting it properly. Also add and
+> improve comments to explain how the values are obtained.
+>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/firmware.rs | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/fi=
+rmware.rs
+> index c2b24906fb7e..5e56c09cc2df 100644
+> --- a/drivers/gpu/nova-core/firmware.rs
+> +++ b/drivers/gpu/nova-core/firmware.rs
+> @@ -63,7 +63,8 @@ pub(crate) struct FalconUCodeDescV2 {
+>      pub(crate) interface_offset: u32,
+>      /// Base address at which to load the code segment into 'IMEM'.
+>      pub(crate) imem_phys_base: u32,
+> -    /// Size in bytes of the code to copy into 'IMEM'.
+> +    /// Size in bytes of the code to copy into 'IMEM' (includes both sec=
+ure and non-secure
+> +    /// segments).
+>      pub(crate) imem_load_size: u32,
+>      /// Virtual 'IMEM' address (i.e. 'tag') at which the code should sta=
+rt.
+>      pub(crate) imem_virt_base: u32,
+> @@ -205,18 +206,25 @@ fn signature_versions(&self) -> u16 {
+>      }
+> =20
+>      fn imem_sec_load_params(&self) -> FalconDmaLoadTarget {
+> +        // `imem_sec_base` is the *virtual* start address of the secure =
+IMEM segment, so subtract
+> +        // `imem_virt_base` to get its physical offset.
+> +        let imem_sec_start =3D self.imem_sec_base.saturating_sub(self.im=
+em_virt_base);
 
-On 3/3/2026 5:54 PM, Luca Ceresoli wrote:
-> Hello Damon,
-> 
-> On Tue Feb 10, 2026 at 8:12 AM CET, Damon Ding wrote:
->> Since the panel/bridge should logically be positioned behind the
->> Analogix bridge in the display pipeline, it makes sense to handle
->> the panel/bridge parsing on the Analogix side. Therefore, we add
->> a new API analogix_dp_finish_probe(), which combines the panel/bridge
->> parsing with component addition, to do it.
->>
->> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> Tested-by: Heiko Stuebner <heiko@sntech.de> (on rk3588)
-> 
-> ...
-> 
->> @@ -1581,6 +1583,52 @@ struct drm_dp_aux *analogix_dp_get_aux(struct analogix_dp_device *dp)
->>   }
->>   EXPORT_SYMBOL_GPL(analogix_dp_get_aux);
->>
->> +static int analogix_dp_aux_done_probing(struct drm_dp_aux *aux)
->> +{
->> +	struct analogix_dp_device *dp = to_dp(aux);
->> +	struct analogix_dp_plat_data *plat_data = dp->plat_data;
->> +	int port = plat_data->dev_type == EXYNOS_DP ? 0 : 1;
->> +	int ret;
->> +
->> +	/*
->> +	 * If drm_of_find_panel_or_bridge() returns -ENODEV, there may be no valid panel
->> +	 * or bridge nodes. The driver should go on for the driver-free bridge or the DP
->> +	 * mode applications.
->> +	 */
->> +	ret = drm_of_find_panel_or_bridge(dp->dev->of_node, port, 0,
->> +					  &plat_data->panel, &plat_data->next_bridge);
->> +	if (ret && ret != -ENODEV)
->> +		return ret;
->> +
->> +	return component_add(dp->dev, plat_data->ops);
->> +}
->> +
->> +int analogix_dp_finish_probe(struct analogix_dp_device *dp)
->> +{
->> +	int ret;
->> +
->> +	ret = devm_of_dp_aux_populate_bus(&dp->aux, analogix_dp_aux_done_probing);
->> +	if (ret) {
->> +		/*
->> +		 * If devm_of_dp_aux_populate_bus() returns -ENODEV, the done_probing() will
->> +		 * not be called because there are no EP devices. Then the callback function
->> +		 * analogix_dp_aux_done_probing() will be called directly in order to support
->> +		 * the other valid DT configurations.
->> +		 *
->> +		 * NOTE: The devm_of_dp_aux_populate_bus() is allowed to return -EPROBE_DEFER.
-> 
-> Uhm, if it is allowed to return -EPROBE_DEFER...
-> 
->> +		 */
->> +		if (ret != -ENODEV) {
->> +			dev_err(dp->dev, "failed to populate aux bus\n");
->> +			return ret;
->> +		}
-> 
-> ...then you shouldn't dev_err() when -EPROBE_DEFER is returned.
-> 
-> Either use dev_err_probe() (which would also simplify your code) or check
-> for if (ret != -ENODEV && ret != -EPROBE_DEFER).
+Why is saturating sub used here? I didn't see any explaination on why the
+saturating semantics is preferred over checked ones.
 
-Will fix in v10.
+Best,
+Gary
 
-> 
->> +
->> +		return analogix_dp_aux_done_probing(&dp->aux);
->> +	}
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(analogix_dp_finish_probe);
->> +
->>   MODULE_AUTHOR("Jingoo Han <jg1.han@samsung.com>");
->>   MODULE_DESCRIPTION("Analogix DP Core Driver");
->>   MODULE_LICENSE("GPL v2");
->> diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
->> index 3428ffff24c5..bae969dec63a 100644
->> --- a/include/drm/bridge/analogix_dp.h
->> +++ b/include/drm/bridge/analogix_dp.h
->> @@ -30,6 +30,7 @@ struct analogix_dp_plat_data {
->>   	struct drm_bridge *next_bridge;
->>   	struct drm_encoder *encoder;
->>   	struct drm_connector *connector;
->> +	const struct component_ops *ops;
-> 
-> Is adding a new stored field a good idea? Can it be instead passed as an
-> argument to analogix_dp_finish_probe()?
-> 
-> Note I don't have a strong opinion here, just the added struct field seems
-> overkill for being used just once.
-> 
-
-I agree this is a better approach, since the &component_ops is only used 
-during probing.
-
->> @@ -49,5 +50,6 @@ int analogix_dp_stop_crc(struct drm_connector *connector);
->>
->>   struct analogix_dp_plat_data *analogix_dp_aux_to_plat_data(struct drm_dp_aux *aux);
->>   struct drm_dp_aux *analogix_dp_get_aux(struct analogix_dp_device *dp);
->> +int analogix_dp_finish_probe(struct analogix_dp_device *dp);
->>
->>   #endif /* _ANALOGIX_DP_H_ */
-> 
-
-Best regards,
-Damon
+> +
+>          FalconDmaLoadTarget {
+> -            src_start: 0,
+> -            dst_start: self.imem_sec_base,
+> +            src_start: imem_sec_start,
+> +            dst_start: self.imem_phys_base.saturating_add(imem_sec_start=
+),
+>              len: self.imem_sec_size,
+>          }
+>      }
+> =20
+>      fn imem_ns_load_params(&self) -> Option<FalconDmaLoadTarget> {
+>          Some(FalconDmaLoadTarget {
+> +            // Non-secure code always starts at offset 0.
+>              src_start: 0,
+>              dst_start: self.imem_phys_base,
+> -            len: self.imem_load_size.checked_sub(self.imem_sec_size)?,
+> +            // `imem_load_size` includes the size of the secure segment,=
+ so subtract it to
+> +            // get the correct amount of data to copy.
+> +            len: self.imem_load_size.saturating_sub(self.imem_sec_size),
+>          })
+>      }
+> =20
 
