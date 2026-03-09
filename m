@@ -2,87 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IBESF6yUrmnRGQIAu9opvQ
+	id eGm2NVCVrmnRGQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:36:44 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:39:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47CE2363F2
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D592364A6
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 10:39:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 294FE10E4B8;
-	Mon,  9 Mar 2026 09:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C47B110E4BC;
+	Mon,  9 Mar 2026 09:39:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="IdBAm2bZ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ziTmB+ht";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3JFREZC1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ziTmB+ht";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3JFREZC1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE36210E4BC
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 09:36:40 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4852a9c6309so20053185e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 02:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1773048999; x=1773653799; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=a51Sey8VDQkf7osB3Kx2bymhC7fw4rtQCaVaDXNwQII=;
- b=IdBAm2bZV4OW4h0OoRxToq9vidLD3Jd8wzF9RgdsafVr+HhyKZBlcz/KLaZY80mvlm
- NSHmG8n3isn4Rm+XHJXELlrUM7M3Z3dUz7DW1kUGMyJeyfxWH8OJKiDFZNOV+ukds9EL
- ATZOD/Ck+ibDYmf5W1hnuRHH9NKTWpTxZO/G4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1773048999; x=1773653799;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a51Sey8VDQkf7osB3Kx2bymhC7fw4rtQCaVaDXNwQII=;
- b=aSwHZHASdmoJce/CINx2gnoG3ynPE9CCfBoL3Za/g7C87bfFYYYSgYYsCL7hglEEKF
- XEnzMpqXwALMB0d/yyBY5GBP3pIfUgu3q7RDql1P1H1mbiKxMXFdYDJPHfoR1EROZfCT
- hq49wFjkn+zn0/GrroTfJlJuENoZyK6DUd6lvG2uN/3pBSzivjRDH9O0mG0uX2ZF4Vyv
- Px34J2hUEcQl9gDmrHqr53oGOkpnWYcwV9jvhotxIAbN3JLZUXTOrN0tz3zEEp2c91VU
- adJhMYS1yy2T9bUI61ma+Cfax5krN+anfuHHVRBy15FSf7/zdPWGFiVC5JDKhuxVQGpw
- mOVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVIPsFTi9py80UW1Da/KJm0zm8fx80q07COcNgbcLXoLGgKeg5l440R9j7SHbwhBNkL1wch3FAW5SU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgenM8pOZySuRezCZTYtH7GbXTzKIc51unR7ZfvKziOKZVHdVj
- Qf6RD1/Ft93bQZ5UcRazBc4hdG++zWrCxP3CGIggRba5yJMqbakuvuQu9/M1rZuDOVs=
-X-Gm-Gg: ATEYQzxlB03dvxvyW1V2118YIybo+wc+BQYGxOCrEZVPexeFwakK1qOo5mba/HvoOaS
- zCsmWWhSTTau3YQRA8upYKeLO681H3szQmn8hHSkHCj67jGjk7IOA0aHWh9u+0N38ARCJe2Fzhy
- osj6yCI9qQ043S8xAx+r3SqQdneiNSz4xuunYnriX21ZAx24tpTQCg9N80rCo+m8t8aHgFcGEef
- i97OHFs1SS5R2iN4EUyBx3CAfPHvOsn9v8pAVGWbjS6Go5GWrLVejC8i4UXNc7OxBlxSsfzGDVj
- r5YpKp1n1u0HsC+lsv4sL4vPxj9jXtuGvBRkeiKyptpCdbkB+GW3vWC1IaO86CzQ2qOEXFc/z4X
- ts2xF++COzs8EyBx51shHXeavtXw8UzoNU7dVm9xOmLwtqHY3IF9nc0f+Nqw/kEw284qMLm2LdT
- Wk213f7d4RQWiniAs4btmifZfAE56bCH0thYk=
-X-Received: by 2002:a05:600c:4752:b0:483:7783:537b with SMTP id
- 5b1f17b1804b1-4852697a593mr181033875e9.24.1773048998726; 
- Mon, 09 Mar 2026 02:36:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-439dae2b9ccsm24331163f8f.19.2026.03.09.02.36.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2026 02:36:38 -0700 (PDT)
-Date: Mon, 9 Mar 2026 10:36:36 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- intel-xe@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] drm/ttm: Don't spam the log on buffer object backing
- store allocation failure
-Message-ID: <aa6UpF-PlTLlb8Qv@phenom.ffwll.local>
-References: <20260227160012.82309-1-thomas.hellstrom@linux.intel.com>
- <20260227160012.82309-2-thomas.hellstrom@linux.intel.com>
- <fe4d93d8-5c9c-460b-93e1-5d0d49a316ab@amd.com>
- <4e9ac4fe88f4b8aec161d4edb4b4f66e70554ec8.camel@linux.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 676A910E4BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 09:39:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3034A4D20A;
+ Mon,  9 Mar 2026 09:39:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1773049163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l7iollYApa8vG/M/IpUE89F2hkUoq+1kZoDkuSnMvEY=;
+ b=ziTmB+ht5P3JwFvr4+Ghs7C3xQE/4qzsq9JSOqEPuT2p+WyISXTLKNg0VS6IRP/pNTJPhh
+ TMqC9YxQ7T26P4iCbAnarkXelNqhXDvJyK2YE/vyJXtRGkFy+Vbo5wl3vx/NF9o8CdGMh/
+ 1MGsxwlT1M6LA2fPRf35OR3HXdsTpuU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1773049163;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l7iollYApa8vG/M/IpUE89F2hkUoq+1kZoDkuSnMvEY=;
+ b=3JFREZC1nKIOEj1wHGgdCSJnvi8GpdVXJrtrauoSDULHgOyGwU71YBqJQNn5vMAQ1xnHay
+ jI7yEgJYk5myoGAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1773049163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l7iollYApa8vG/M/IpUE89F2hkUoq+1kZoDkuSnMvEY=;
+ b=ziTmB+ht5P3JwFvr4+Ghs7C3xQE/4qzsq9JSOqEPuT2p+WyISXTLKNg0VS6IRP/pNTJPhh
+ TMqC9YxQ7T26P4iCbAnarkXelNqhXDvJyK2YE/vyJXtRGkFy+Vbo5wl3vx/NF9o8CdGMh/
+ 1MGsxwlT1M6LA2fPRf35OR3HXdsTpuU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1773049163;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=l7iollYApa8vG/M/IpUE89F2hkUoq+1kZoDkuSnMvEY=;
+ b=3JFREZC1nKIOEj1wHGgdCSJnvi8GpdVXJrtrauoSDULHgOyGwU71YBqJQNn5vMAQ1xnHay
+ jI7yEgJYk5myoGAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB2FD3EE23;
+ Mon,  9 Mar 2026 09:39:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id iR+7N0qVrmlldQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 09 Mar 2026 09:39:22 +0000
+Message-ID: <4111369f-f090-4061-91d6-69b6462af86f@suse.de>
+Date: Mon, 9 Mar 2026 10:39:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/ivpu: Test for imported buffers with
+ drm_gem_is_imported()
+To: Karol Wachowski <karol.wachowski@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ andrzej.kacprowski@linux.intel.com
+References: <20260309092755.3165130-1-karol.wachowski@linux.intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260309092755.3165130-1-karol.wachowski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e9ac4fe88f4b8aec161d4edb4b4f66e70554ec8.camel@linux.intel.com>
-X-Operating-System: Linux phenom 6.18.5+deb14-amd64 
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,127 +134,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: C47CE2363F2
+X-Rspamd-Queue-Id: 53D592364A6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ffwll.ch:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:thomas.hellstrom@linux.intel.com,m:christian.koenig@amd.com,m:intel-xe@lists.freedesktop.org,m:matthew.brost@intel.com,m:matthew.auld@intel.com,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ffwll.ch];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,oss.qualcomm.com,linux.intel.com,amd.com];
 	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[simona.vetter@ffwll.ch,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:karol.wachowski@linux.intel.com,m:oded.gabbay@gmail.com,m:jeff.hugo@oss.qualcomm.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:andrzej.kacprowski@linux.intel.com,m:odedgabbay@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.989];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[simona.vetter@ffwll.ch,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ffwll.ch:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email,ffwll.ch:dkim,ffwll.ch:email,ffwll.ch:url,phenom.ffwll.local:mid]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 10:39:10AM +0100, Thomas Hellström wrote:
-> On Mon, 2026-03-02 at 10:02 +0100, Christian König wrote:
-> > On 2/27/26 17:00, Thomas Hellström wrote:
-> > > If the struct ttm_operation_ctx::gfp_retry_mayfail is true,
-> > > buffer object backing store allocation failures are expected to
-> > > silently fail with an error code to the caller. But currently an
-> > > elaborate warning is printed to the system log.
-> > > 
-> > > Don't spam the log in this way.
-> > 
-> > That was intentionally removed or never added because Simona
-> > absolutely didn't liked the gfp_retry_mayfail flag at that time.
-> > 
-> > In general I'm fine with this change since I think we have proved by
-> > now that the flag is useful, but that probably need more wider
-> > discussion.
-> 
-> Well for system memory it is a bit questionable to be honest, I think
-> mostly because even if we return an error, the OOM killer might be
-> invoked on an unrelated allocation immediately afterwards.
-> 
-> Still, even if the use of gfp_retry_mayfail can be discussed, I'm not
-> sure why an error here needs to be printed when there are a number of
-> other errors that are not printed or printed only on debug.
+Hi
 
-Yeah adding the NOWARN makes sense irrespective of the bigger question, so
-on that:
+Am 09.03.26 um 10:27 schrieb Karol Wachowski:
+> Instead of testing import_attach for imported GEM buffers, invoke
+> drm_gem_is_imported() to do the test. The test itself does not change.
 
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+Thanks a lot!
 
-For the mayfail I have honestly no recollection anymore of that, but
-making a guess I wasn't a fan because way back it was used to hack around
-locking inversions between alloc and reclaim paths. Much more with
-dev->struct_mutex drivers before moving to dma_resv for non-ttm drivers
-too. And that's not great.
+>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 
-Plus GL userspace did not cope with alloc failures, so punting to the OOM
-killer like for everything else made sense. And hence there was really no
-use for this. But with vk and other low-level gpu apis that changed, we do
-want to just pass ENOMEM to userspace now in many conditions.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-I think best would be to add a patch to this series to document when
-gfp_retry_mayfail can be used (userspace expects the kernel to pass alloc
-failures up the stack) and must not be used (hacking around locking
-inversions with reclaim) and then ship this. Might also be a good excuse
-to switch the kerneldoc for struct ttm_operation_ctx over to the inline
-style so we can be appropriately verbose.
-
-But yeah, going through current users (on a Monday morning without coffee)
-I think the flag has solid users by now and there's no fundamental
-objections from me.
-
-Cheers, Sima
-
-> 
-> Thanks,
-> Thomas
-> 
-> 
-> > 
-> > Regards,
-> > Christian.
-> > 
-> > > 
-> > > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > ---
-> > >  drivers/gpu/drm/ttm/ttm_pool.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
-> > > b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > index c0d95559197c..8fa9e09f6ee5 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > @@ -726,7 +726,7 @@ static int __ttm_pool_alloc(struct ttm_pool
-> > > *pool, struct ttm_tt *tt,
-> > >  		gfp_flags |= __GFP_ZERO;
-> > >  
-> > >  	if (ctx->gfp_retry_mayfail)
-> > > -		gfp_flags |= __GFP_RETRY_MAYFAIL;
-> > > +		gfp_flags |= __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
-> > >  
-> > >  	if (ttm_pool_uses_dma32(pool))
-> > >  		gfp_flags |= GFP_DMA32;
+> ---
+>   drivers/accel/ivpu/ivpu_gem.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+> index 98b9ce26962b..8009965286e0 100644
+> --- a/drivers/accel/ivpu/ivpu_gem.c
+> +++ b/drivers/accel/ivpu/ivpu_gem.c
+> @@ -48,7 +48,7 @@ static struct sg_table *ivpu_bo_map_attachment(struct ivpu_device *vdev, struct
+>   {
+>   	struct sg_table *sgt;
+>   
+> -	drm_WARN_ON(&vdev->drm, !bo->base.base.import_attach);
+> +	drm_WARN_ON(&vdev->drm, !drm_gem_is_imported(&bo->base.base));
+>   
+>   	ivpu_bo_lock(bo);
+>   
+> @@ -157,7 +157,7 @@ static void ivpu_bo_unbind_locked(struct ivpu_bo *bo)
+>   	}
+>   
+>   	if (bo->base.sgt) {
+> -		if (bo->base.base.import_attach) {
+> +		if (drm_gem_is_imported(&bo->base.base)) {
+>   			dma_buf_unmap_attachment(bo->base.base.import_attach,
+>   						 bo->base.sgt, DMA_BIDIRECTIONAL);
+>   		} else {
 
 -- 
-Simona Vetter
-Software Engineer
-http://blog.ffwll.ch
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 NÃ¼rnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG NÃ¼rnberg)
+
+
