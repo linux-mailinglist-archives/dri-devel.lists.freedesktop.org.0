@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OuZVMcP7rmkLLQIAu9opvQ
+	id 6BsNEtP7rmnZKgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:56:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:56:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6316F23D2B7
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D726423D2CF
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:56:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4768D10E56D;
-	Mon,  9 Mar 2026 16:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C595F10E56E;
+	Mon,  9 Mar 2026 16:56:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="mLGfxlMU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WsuyxrF3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7BA10E569;
- Mon,  9 Mar 2026 16:56:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=4Gn3+7XVeWXGRga1VcTQEzwAIzElGxUlFy3iOjkC2wA=; b=mLGfxlMUOTb9p0Nca8zPA/ygZU
- b3sSJZxWT+tS2Q4WFJkS4OouZXwqYRH8Bu0x5cXYX7S05LSCd8jKKtR9OJdZImgmgCf2ofjCTo/Si
- KdKI3j5Zspk6bUibd1Bdqu9r9nhw7tcxqWpi8Y8YUQri5dLx3LT0oH35kBEzwEeeGLBl2bVsragvY
- OWqmD6qsVfvWj7ZXylReMG/IhAmfCY39G34bz7iOqQOGx16tZa3P9DiaDuGHtggMk3rO4sITjHZe6
- 5jK7a/UyL6FAL+Z1ufHcuwsxP1hDxtYJFb3EQewI1izmTMMzHZHif54VP0V7umJvciUe75QQNm2Zj
- g9cpRN9w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vzduA-00000007lxr-0D0J; Mon, 09 Mar 2026 16:56:30 +0000
-Message-ID: <f57f964c-d4c2-41d7-86ce-6db11b0601e4@infradead.org>
-Date: Mon, 9 Mar 2026 09:56:28 -0700
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFE1610E569
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 16:56:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 77FE3434F6;
+ Mon,  9 Mar 2026 16:56:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35EBCC4CEF7;
+ Mon,  9 Mar 2026 16:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1773075406;
+ bh=sQcxHQ4I4ZLAaDXAbllvvwrUduN3PDwYexQoUDrYufU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WsuyxrF3fepv4Rxy+E8SdmdaopavU7qN0J28/P7/9PVrbcUGvBDaIfTvB+thcM01s
+ 08wOb7tHBBfA2c9HYwtQujVv2nhn5es0MlcT8Gk4FeMfFFtGiERjVHI6LoKcvCxWkZ
+ fQqmD6xfLQmukweMO5s++aRWNXF7OzROlN+d7pQktBMhZaBh+hT0bhUy8ek0/jeq6+
+ XQ2eYjoa7ZzP7TBPMBMAaVhxHOJ9HTHSZTQkOX3z8+Z7B14GwunW4eofSMEp66lSRe
+ hC1jm8UrBVJVrtpwVdqXFiBiaN9o8MWemeUUTSwxnPQq4KjnHtajOmBEMl0fps/fyf
+ YSJrEQ9WRS+Cw==
+Received: by wens.tw (Postfix, from userid 1000)
+ id 04B8A5FD80; Tue, 10 Mar 2026 00:56:42 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/sun4i: layers: Use drm_fb_dma_get_gem_addr() to get
+ display memory
+Date: Tue, 10 Mar 2026 00:56:33 +0800
+Message-ID: <20260309165635.1138413-1-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] iopoll: fix function parameter names in
- read_poll_timeout_atomic()
-To: Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20260306221033.2357305-1-rdunlap@infradead.org>
- <d1ea41327832c2e4447429d6fc0030b71491ca44@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <d1ea41327832c2e4447429d6fc0030b71491ca44@intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,99 +66,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 6316F23D2B7
+X-Rspamd-Queue-Id: D726423D2CF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[infradead.org:s=bombadil.20210309];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:jernej@kernel.org,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:linux-sunxi@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rdunlap@infradead.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[infradead.org:-];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_SPAM(0.00)[0.709];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:mid,infradead.org:email,intel.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	NEURAL_HAM(-0.00)[-0.997];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
 X-Rspamd-Action: no action
 
+Commit 4636ce93d5b2 ("drm/fb-cma-helper: Add drm_fb_cma_get_gem_addr()")
+adds a new helper, which covers fetching a drm_framebuffer's GEM object
+and calculating the buffer address for a given plane.
 
+This patch uses this helper to replace our own open coded version of the
+same function.
 
-On 3/9/26 3:35 AM, Jani Nikula wrote:
-> On Fri, 06 Mar 2026, Randy Dunlap <rdunlap@infradead.org> wrote:
->> Correct the function parameter names to avoid kernel-doc warnings
->> and to emphasize this function is atomic (non-sleeping).
->>
->> Warning: include/linux/iopoll.h:169 function parameter 'sleep_us' not
->>  described in 'read_poll_timeout_atomic'
->> Warning: ../include/linux/iopoll.h:169 function parameter
->>  'sleep_before_read' not described in 'read_poll_timeout_atomic'
->>
->> Fixes: 9df8043a546d ("iopoll: Generalize read_poll_timeout() into poll_timeout_us()")
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> Please let me know how you want this merged. I don't think iopoll.h has
-> an active maintainer.
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 16 ++-------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 27 ++------------------------
+ 2 files changed, 4 insertions(+), 39 deletions(-)
 
-Right, that's why I Cc-ed you :)
-And since Fixes: points to you and others.
-Please take it, Jani.
-
->> ---
->> v2: change the function parameter names, not the kernel-doc comments (Jani)
->>
->>  include/linux/iopoll.h |    8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> --- linux-next-20260304.orig/include/linux/iopoll.h
->> +++ linux-next-20260304/include/linux/iopoll.h
->> @@ -159,7 +159,7 @@
->>   *
->>   * This macro does not rely on timekeeping.  Hence it is safe to call even when
->>   * timekeeping is suspended, at the expense of an underestimation of wall clock
->> - * time, which is rather minimal with a non-zero delay_us.
->> + * time, which is rather minimal with a non-zero @delay_us.
->>   *
->>   * When available, you'll probably want to use one of the specialized
->>   * macros defined below rather than this macro directly.
->> @@ -167,9 +167,9 @@
->>   * Returns: 0 on success and -ETIMEDOUT upon a timeout. In either
->>   * case, the last read value at @args is stored in @val.
->>   */
->> -#define read_poll_timeout_atomic(op, val, cond, sleep_us, timeout_us, \
->> -				 sleep_before_read, args...) \
->> -	poll_timeout_us_atomic((val) = op(args), cond, sleep_us, timeout_us, sleep_before_read)
->> +#define read_poll_timeout_atomic(op, val, cond, delay_us, timeout_us, \
->> +				 delay_before_read, args...) \
->> +	poll_timeout_us_atomic((val) = op(args), cond, delay_us, timeout_us, delay_before_read)
->>  
->>  /**
->>   * readx_poll_timeout - Periodically poll an address until a condition is met or a timeout occurs
->>
->>
->> ---
->> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->> Cc: Jani Nikula <jani.nikula@intel.com>
->> Cc: intel-gfx@lists.freedesktop.org
->> Cc: intel-xe@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org
-> 
-
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index f08f6da55dd0..72c92203ae63 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -124,25 +124,13 @@ static void sun8i_ui_layer_update_buffer(struct sun8i_layer *layer,
+ {
+ 	struct drm_plane_state *state = plane->state;
+ 	struct drm_framebuffer *fb = state->fb;
+-	struct drm_gem_dma_object *gem;
+ 	dma_addr_t dma_addr;
+ 	u32 ch_base;
+-	int bpp;
+ 
+ 	ch_base = sun8i_channel_base(layer);
+ 
+-	/* Get the physical address of the buffer in memory */
+-	gem = drm_fb_dma_get_gem_obj(fb, 0);
+-
+-	DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
+-
+-	/* Compute the start of the displayed memory */
+-	bpp = fb->format->cpp[0];
+-	dma_addr = gem->dma_addr + fb->offsets[0];
+-
+-	/* Fixup framebuffer address for src coordinates */
+-	dma_addr += (state->src.x1 >> 16) * bpp;
+-	dma_addr += (state->src.y1 >> 16) * fb->pitches[0];
++	/* Get the start of the displayed memory */
++	dma_addr = drm_fb_dma_get_gem_addr(fb, state, 0);
+ 
+ 	/* Set the line width */
+ 	DRM_DEBUG_DRIVER("Layer line width: %d bytes\n", fb->pitches[0]);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index ca3ab59e108d..cd8d6c2da0c7 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -197,38 +197,15 @@ static void sun8i_vi_layer_update_buffer(struct sun8i_layer *layer,
+ 	struct drm_plane_state *state = plane->state;
+ 	struct drm_framebuffer *fb = state->fb;
+ 	const struct drm_format_info *format = fb->format;
+-	struct drm_gem_dma_object *gem;
+-	u32 dx, dy, src_x, src_y;
+ 	dma_addr_t dma_addr;
+ 	u32 ch_base;
+ 	int i;
+ 
+ 	ch_base = sun8i_channel_base(layer);
+ 
+-	/* Adjust x and y to be dividable by subsampling factor */
+-	src_x = (state->src.x1 >> 16) & ~(format->hsub - 1);
+-	src_y = (state->src.y1 >> 16) & ~(format->vsub - 1);
+-
+ 	for (i = 0; i < format->num_planes; i++) {
+-		/* Get the physical address of the buffer in memory */
+-		gem = drm_fb_dma_get_gem_obj(fb, i);
+-
+-		DRM_DEBUG_DRIVER("Using GEM @ %pad\n", &gem->dma_addr);
+-
+-		/* Compute the start of the displayed memory */
+-		dma_addr = gem->dma_addr + fb->offsets[i];
+-
+-		dx = src_x;
+-		dy = src_y;
+-
+-		if (i > 0) {
+-			dx /= format->hsub;
+-			dy /= format->vsub;
+-		}
+-
+-		/* Fixup framebuffer address for src coordinates */
+-		dma_addr += dx * format->cpp[i];
+-		dma_addr += dy * fb->pitches[i];
++		/* Get the start of the displayed memory */
++		dma_addr = drm_fb_dma_get_gem_addr(fb, state, i);
+ 
+ 		/* Set the line width */
+ 		DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
 -- 
-~Randy
+2.47.3
 
