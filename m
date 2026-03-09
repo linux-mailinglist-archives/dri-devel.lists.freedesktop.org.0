@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MAlMIJgJr2lzMQIAu9opvQ
+	id 0KyNGJ0Jr2nXMQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:36 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7C823E066
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCD423E085
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F6D10E57E;
-	Mon,  9 Mar 2026 17:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D54910E57F;
+	Mon,  9 Mar 2026 17:55:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mIjH8KFq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="tD+PtCb9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 128D510E57E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:55:33 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B60F10E57F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:55:38 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 045BE1A2D7D;
- Mon,  9 Mar 2026 17:55:32 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 244A34E425E5;
+ Mon,  9 Mar 2026 17:55:37 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id CD3B85FFB8;
- Mon,  9 Mar 2026 17:55:31 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id ECA105FFB8;
+ Mon,  9 Mar 2026 17:55:36 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id A3EC5103698F7; Mon,  9 Mar 2026 18:55:27 +0100 (CET)
+ with ESMTPSA id D20A61036990D; Mon,  9 Mar 2026 18:55:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1773078930; h=from:subject:date:message-id:to:mime-version:content-type:
+ t=1773078935; h=from:subject:date:message-id:to:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=k773d9FceRIM619GILcDFU5QIQt2WBBQdDcjscUDI6U=;
- b=mIjH8KFqeNgha+/3rbWA1/vEsMh0oO6YqvO8ZdvXwe+jAhkHcLkZLq38R2BisQW3CV7IGE
- lcpXToBf3kM1oXKuERIgphUTuwkNrFXtob727CjCYarcZZ5B0/4Far5dQPD2CmfhcaX12M
- dPwlIeO3capiTM3EMndU+3eBIhaQUmwOa8gU/OC0CTl9Y3GIT4TnauZiyRB4+HH68Iz0ix
- FKUTCJx3qaQ58cgjPrIr0BqCfoadIHpqMwQpNsDoCt2e049uKRuFPN1APhURMU8ywvJfz2
- khylHa0a9Abr5rxnCmrosVfQNjUzxKaIbcTj1UsFyfTnK8r3Nl8fn8OnCfGFuw==
+ bh=DYcjSDY6G6lj10rxZb1yYOFTlcUZcgdxrdTAvwBZWc0=;
+ b=tD+PtCb9NMSpSt6323VVPAEYrfUigXlOQQq7WhzV0fceqkZEFPA2cYJ1y4hpqfBTRuXZqp
+ B9xomwFogkcLu7FlJqR6Z2BcG58os4pOXbcaKCIBy6PTZyWLw/VhuM7C7nmOnuGp0S2GX7
+ W0PWxPEtjpMS/0aQd2H8xrXDnjJm7Ci88x65mJPnBuXN2SgGY3y+18FfPTwFBJikboi3vU
+ jDVDYtJkU/astUeW+q0YqibaioQq8HsR4MZjlSLfqCeXg+FyBxfum8ME4Co3xnFLkVV47y
+ r9RfXe7JPjg98fvtkp1UKD8apzkuE9g5rJ+iIeVjgMQxzIJevkwWtCkmTyYKeA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Mar 2026 18:55:27 +0100
-Message-Id: <DGYG0UBEFW5W.29YB9R2AM8GZM@bootlin.com>
-Subject: Re: [PATCH v10 5/6] cadence: cdns-mhdp8546*: Change drm_connector
- from structure to pointer
+Date: Mon, 09 Mar 2026 18:55:32 +0100
+Message-Id: <DGYG0WP5L8S2.2ZBMD4644AEEE@bootlin.com>
 To: "Harikrishna Shenoy" <h-shenoy@ti.com>,
  <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
@@ -56,10 +54,12 @@ To: "Harikrishna Shenoy" <h-shenoy@ti.com>,
  <rfoss@kernel.org>, <s-jain1@ti.com>, <simona@ffwll.ch>,
  <tomi.valkeinen@ideasonboard.com>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v10 6/6] drm/bridge: cadence: cdns-mhdp8546-core: Reduce
+ log level for DPCD read/write
 X-Mailer: aerc 0.20.1
 References: <20251209120332.3559893-1-h-shenoy@ti.com>
- <20251209120332.3559893-6-h-shenoy@ti.com>
-In-Reply-To: <20251209120332.3559893-6-h-shenoy@ti.com>
+ <20251209120332.3559893-7-h-shenoy@ti.com>
+In-Reply-To: <20251209120332.3559893-7-h-shenoy@ti.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,7 +75,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 1C7C823E066
+X-Rspamd-Queue-Id: 1DCD423E085
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -94,8 +94,8 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FREEMAIL_TO(0.00)[ti.com,ideasonboard.com,gmail.com,intel.com,rock-chips.com,linux.dev,chromium.org,lists.freedesktop.org,redhat.com,kwiboo.se,vger.kernel.org,treblig.org,kernel.org,linux.intel.com,ispras.ru,linaro.org,ffwll.ch,suse.de];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -111,29 +111,22 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,qualcomm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ideasonboard.com:email]
 X-Rspamd-Action: no action
 
 On Tue Dec 9, 2025 at 1:03 PM CET, Harikrishna Shenoy wrote:
 > From: Jayesh Choudhary <j-choudhary@ti.com>
 >
-> Now that we have dropped the legacy code which became redundant with
-> introduction of DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> usecase in driver,we can cleanly switch to drm_connector pointer
-> instead of structure.
+> Reduce the log level for cdns_mhdp_dpcd_read and cdns_mhdp_dpcd_write
+> errors in cdns_mhdp_transfer function as in case of failure, there is
+> flooding of these prints along with other indicators like EDID failure
+> logs which are fairly intuitive in themselves rendering these error logs
+> useless.
+> Also, the caller functions for the cdns_mhdp_transfer in drm_dp_helper.c
+> (which calls it 32 times), has debug log level in case transfer fails.
+> So having a superseding log level in cdns_mhdp_transfer seems bad.
 >
-> Rename the connector_ptr member variable to connector for clarity and
-> consistency. The driver was using both connector and connector_ptr member=
-s,
-> but connector_ptr was the only one actually used throughout the code.
-> This change removes the unused connector struct member and renames
-> connector_ptr to connector for better readability.
->
-> This is purely a code cleanup change with no functional impact. All
-> references to connector_ptr are updated to use the renamed connector
-> variable throughout the driver.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 
