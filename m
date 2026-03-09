@@ -2,73 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kOe5I5b6rmnZKgIAu9opvQ
+	id kCTEMWj7rmnZKgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:51:34 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:55:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE60C23D19F
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FBD23D278
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 17:55:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4416110E566;
-	Mon,  9 Mar 2026 16:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4AB10E56C;
+	Mon,  9 Mar 2026 16:55:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0twqCehZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93B3010E566
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 16:51:29 +0000 (UTC)
-Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.14])
- by APP-05 (Coremail) with SMTP id zQCowAAnvA98+q5pb6z5CQ--.23212S2;
- Tue, 10 Mar 2026 00:51:09 +0800 (CST)
-Message-ID: <57436150684e72049b62657caec544a2f18aab1c.camel@iscas.ac.cn>
-Subject: Re: [PATCH v7 3/8] drm: verisilicon: add a driver for Verisilicon
- display controllers
-From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Andrzej Hajda	
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman	 <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst	
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring	 <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>, Drew
- Fustini <fustini@kernel.org>, Guo Ren	 <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Dmitry Baryshkov
- <lumag@kernel.org>,  Michal Wilczynski <m.wilczynski@samsung.com>, Han Gao
- <gaohan@iscas.ac.cn>, Yao Zi <ziyao@disroot.org>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-riscv@lists.infradead.org
-Date: Tue, 10 Mar 2026 00:51:08 +0800
-In-Reply-To: <301a33fc27bd01bb50d57779c2f9eb51a4fafaa5.camel@iscas.ac.cn>
-References: <20260129023922.1527729-1-zhengxingda@iscas.ac.cn>
- <20260129023922.1527729-4-zhengxingda@iscas.ac.cn>
- <DGY9GWWLXGNX.265MMEXXCG8YA@bootlin.com>
- <301a33fc27bd01bb50d57779c2f9eb51a4fafaa5.camel@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010068.outbound.protection.outlook.com [52.101.201.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B66B10E569;
+ Mon,  9 Mar 2026 16:54:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Hb3E1ZVR+SFs+bqX1JrJHfWHmzoJi2OhNA/vbP2kTsba1XDTEcg605jeNQMshhEm86bepthyYykRm29FkC4myxNxaNzfTcHtuG79/r3NwLDQp5PIDJw2atXvu9ydLNkqrZmihiXYw9rjB++j01L8dY5GJcoxnBwRQvPpM8KZzTI9cCC+5wvGWMWeepZKeMH6b4EYU8KthtwAHhuT21AEkv30Q1Oft+DVgnCVJk6KvyJkksfZ8RaqZTcrpDWFE40ilm9ev7EpfIsgQQzAS46LexSDv1QnbPeby2f4t4QBUEeCw8ikH9mUbg6Z7gAzZlFmlJVNfGB4MXw2NM2TrI/1Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V0qL+ni7vndwq3Hfuo2Vx5hZLx1bcz6z7fvxQSjwNuY=;
+ b=vqWOzfHTMbM/Gb1XYTQArvNbrj0c1dT/lq0BYCCIMd6pAkoyh5vBBmjliDXF1zQcGA26W/yKY0u6YbxHx+01KgXkTMMWfZe9ihcwUmP+KpaGJ73/hbDoNIjwdY2QFCQYIF2xPP+KS7L4IFnopoeEKzbjg7OD9wSVknhsR/zqUIdI/Lj8MnJV8sNkAeyLH4BZ28ZxHzu2ZRPOfcDJUTsKKUy40vp9wGMHbkiZrPnkH6NhBGvbh1KgKYQ3CWefBnfioMN/OJDGLHLs1QuBatoCwQRaKujfpqFap4tJaSFFGoiiSfea5mM0JZPz0jUZypbe8spuQZdPXHarkXRc8iHDeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V0qL+ni7vndwq3Hfuo2Vx5hZLx1bcz6z7fvxQSjwNuY=;
+ b=0twqCehZN4IegPMQUWG4iBKRAZE47Q1wugm2hVMuY+d4r6ogiAAOLmlT3jyHrwMeMEaOBDlM56yJpKpD4XVbpWQtHBJ4qMUZsoT+Z87BjBXTbadheCd3LyNrhe9jXyHKusPuJ+evKqhNHyzVksw54DOPZJO4zlx/KC74llU1LZI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB8129.namprd12.prod.outlook.com (2603:10b6:806:323::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.10; Mon, 9 Mar
+ 2026 16:54:55 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9700.009; Mon, 9 Mar 2026
+ 16:54:55 +0000
+Message-ID: <01de9910-3fe6-4683-b005-f41103a9bf89@amd.com>
+Date: Mon, 9 Mar 2026 17:54:50 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: fix PASID task_info lookup race
+To: Fan Wu <fanwu01@zju.edu.cn>, Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260309160403.599472-1-fanwu01@zju.edu.cn>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260309160403.599472-1-fanwu01@zju.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0894.namprd03.prod.outlook.com
+ (2603:10b6:408:13c::29) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-CM-TRANSID: zQCowAAnvA98+q5pb6z5CQ--.23212S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur1fGw4fZFyxKrWfZFykGrg_yoW8Wr4fpF
- Z2qa4SyFn8XrWxGF4jvr1DAr1aq3ykJF4rAryrtr1Fva4IgF1UWr1kCr98uw1jka1kCr15
- AF1DJrnYvFn5ZFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvmb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7
- MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
- 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
- 67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
- x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
- z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
- UI43ZEXa7IU0iSdDUUUUU==
-X-Originating-IP: [112.94.103.14]
-X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8129:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f62797c-70c4-42b3-aaba-08de7dfc96d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: oZmHXWfgHzvHISqjBlH80qwNz5m0m8zeomGfsZB5EDZEko+YTDBTmnC7DwmUMlkew6OMuUMQxyDnbn2VhGjOJki08xKVwgOJK6z829Kielgl77ADTaqRcn+nX9UhE/V54uxmYdStaMpkVOcyyng43wFu14h77nPHsRiXSGrmQo7cASifYx5y3OJqUz5gu60xhNDvoaz/epPXi0TsRTOh7ZvHg55b+SxGnc6EUTAi++oRDjDkCcAs7Qd+5y7gKCbhAf+06r+y1H8iUDp+jPQ5dAVtuZeQaiF+3ZtmLkU4G6VO8Ia5d+io1Gmwrdt9JiKS7eXudWlhQBikrFLWOdKjn6a15yLDeUkMjMKAaNWOkIWgQPGe3HYYZwirxTs+rYPfK5ZeZuAnWdvFuDUTSkHkGQqGkFa5kfUE//NROqVooJ9a6w2tvw3RSWpg4YLAAj5lwQq7FnOMy9iuCR9iadi0Epje4Rf8YJokpWufAo/T+rt/0rEDyJuyLFFkZTZDQrdj+FBNleUuhEI6WVZSFJ/9MGIGykgR7BgnVxongp7TF2CqamHv7JP0/nwTty1U3lcNmjvyyyFp5A+H9SuPhNJsyH7GYaEf2Bw6xKQbCYQUsJolz+Xj1DtBUulS71GzUcBk0Tw02Emf3qwETzgTczKImoZ3Bncb8c67GtFtE2+qJM7VgQv2+YSa771n2figlSBNK+l3acbhOJMFPwAs6RlCui9h4lc+WcLolCZytN039iM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dUx5cXpaSDJpUEo5dDNaZ09rblJmWG5mek10U3BFTXh2YlYzQVVZc0V3ZlRB?=
+ =?utf-8?B?dzlIOVFXSmJqbnlUUjdKNlVRQUc0TndFM21lR3BOb2VpcG9TMk9JeXFvNTRK?=
+ =?utf-8?B?a0FXTW1EWVZwaURuZk9jNFkySk1rTGlia1RyeHBrcWFkMXBCdVY4VTlYakJy?=
+ =?utf-8?B?M1RvRUhPZy9mZ3FROUlielkwdzdtU3ZXS0J5b2tzTVNIMTlVZndBd2pZTGYy?=
+ =?utf-8?B?M2pxZU55NEk2SzE4MVlmdXFERjNQdzFsS0hNN2xoVVlxdjJLRXhJdTJBaVkz?=
+ =?utf-8?B?cGIwWldGNzVVSlN0RHpUOTg2dmtYWXFGakVIS1poTTd4dThEeU4xdWFMRXlT?=
+ =?utf-8?B?OGVCMEh0aUE0WXZTb2ZWVmxLRkd5TXhPVkIwRzVqN3hFeFNjUEJHTDYxRVNN?=
+ =?utf-8?B?UHpYZy96WkU0emd4UURqZ05scGpxNThzWHlRbUJVSGYvUklQSXRwdUdUSHNF?=
+ =?utf-8?B?WHIvbTdnR2QxZXNLaGI2VzEwakJxdzlQSDBaeUdzZ0FOQU02UkF3amk0S1R2?=
+ =?utf-8?B?V2VEMEo1SVdOYWFGSTQ4TkszZlNiQkRyci9NR0kxQXk5V2xDcHJ4dFlVTU4y?=
+ =?utf-8?B?bzE5anQwdytSdEdIUEpKZFdBV295Um5tMG9DOFNVU1pnZyt3UGVmSjBJY2Fl?=
+ =?utf-8?B?ZHB6RnR1a01mVDdCS2pNNGxYWGR3WjNPYmM2RmhQQWRqQjZDdmovUWZnd2pP?=
+ =?utf-8?B?K3NjZS8zcEZnNjROTnZtR0hSODN5R1VUSFhhQU9lOFVkdnU3UkNGeU9mT21h?=
+ =?utf-8?B?WDZ0MmZNbnFHdzBRcVdBckl1Q25wS1gxZHNTcnEzQW1hWUJLV2xBTklLTmc0?=
+ =?utf-8?B?WlZwdjhRMUVCV0dLKy80eVhwOEZqbmxVa09LNFRJNmxTNnpQNDhrVDg3L0FT?=
+ =?utf-8?B?U2FERzJ1SWp5QUlkRmRMZmdkL3BKVzB3dTUzeTZHTzJudTVwMENrNi9GYVVu?=
+ =?utf-8?B?Z0lsSDRJWGhIV1BnOXQ0aWFlMEYxSnhXUXpXdDNNTFZuNkN2aEVmVCtadDlV?=
+ =?utf-8?B?VXFrbk1DbTRNelZlNE9URGNpRnVxUlVkMzg4bE9QWDl5QmFORUFUdnNWMHpQ?=
+ =?utf-8?B?S04wQUd4WktNZHR5QnVhVlFlVEp0TmIwRnBjbHliTGFDV3BKMVBnMnBoazNq?=
+ =?utf-8?B?a2p4Z3YwYUtTMENqMFprbWhRN2tOK1RLNXdRbjBmNitjQU5KSmhELzFvM1g5?=
+ =?utf-8?B?U05CY2Jpa1pHV011MThQZmlKSE1JbVFST093TExLanZUeC9xSktsUWF6RFNk?=
+ =?utf-8?B?ckovTkp5SWs5VHJCdEh3bEIyOHg5cVp1bHRGcGpaR1lzNmgxWlo3enFGdng5?=
+ =?utf-8?B?cUVLRXNORWY3Q3Nyd2U2amloUm52MHZ1NzVHOXY0TVladCt3TGZrZkxBNTVW?=
+ =?utf-8?B?aW81ajY2NW9nWnJ0TGQ3K3FERTRsVXlWRjNHTkRUZzhSSHJwRVVpRDR3dGpu?=
+ =?utf-8?B?KzUvYjJpMHVVTEtlS0J2TkdzaWVRNGh6UlZIbFJvMms5dWFQNkFiSTJDMmhO?=
+ =?utf-8?B?L2tkeG9oRG0rdm5qbHVjRDBMYTRWRzB3TXQ5ZjRNc3VVczNyZWt2TEpjdklO?=
+ =?utf-8?B?dGpKbWxKNXFWalVJdW1rQ1JRYXhUamRVSktoRThYK2xJS0I2WnQrYnlmU3Iz?=
+ =?utf-8?B?bEZxbUM5Ry9kaUVZOTNUZTNvbTNaWHNQWXV1YS9ZSEwwZ3JQMXpWYUl0aTho?=
+ =?utf-8?B?NHJlVW5kMmZPWGVpYlEveUtFd3F3MnVyVEpLdlhCblpMYitUa29JK2NwUnRq?=
+ =?utf-8?B?OWtIRGlWU0t4bHFQbUl4ZDVuV1gxT05UN2dvY0l1aWRTSk5IMjBTWU9tMjV5?=
+ =?utf-8?B?bGYxSlAvMDU0bVRrdTUzY2RLNnU3UG9uUGdQVWs3V1VIUTkwRVJmTjUrWTdW?=
+ =?utf-8?B?aG5WOE1vMDhORkcxdmVvMVJzdFgyK0dpUm5pRU5UWGlCRktyT2JyWllYbjRl?=
+ =?utf-8?B?WWpocmtudk8zZjB4U2hoZkpnai8yNThmb3dDOVVCVEJDOEhqbDl6ZTlZNUxE?=
+ =?utf-8?B?bGR3dC9rM0xoUGh6aWd4emI1NUd6Y3NEZ3B2UTljc0FnbWNsU0ZZWFVNOURK?=
+ =?utf-8?B?UEJSQXZSbStjRy9qRDRpVVBXSWhsOVVDYXViWEs4NTRjRlp4eUJEUWJ1Yi9J?=
+ =?utf-8?B?ZlFUUk5rLyt5alhacnZjOURmblVEMTlZWldqenFTTC9mcC9INWh0TzBpa0Vx?=
+ =?utf-8?B?U3cweitnZ3RaeCtSR0RhbG9pbWRIUmdremlvYjJwTG9oalFGdWNXTE44TjRR?=
+ =?utf-8?B?TmpxdDh4RDkzblJtbnFoTEFhR2dWbTdpMXhYVWNwRVBMem53NVkvTTdHc0Vy?=
+ =?utf-8?Q?AKKv99DonQTCBWk6ws?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f62797c-70c4-42b3-aaba-08de7dfc96d4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 16:54:55.0803 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X3+ezQNJkw32FN3CiABgFc1oQATONN6799pCR8VYgmYFCL78PzYuQ2n25X6naMWY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,107 +137,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: EE60C23D19F
+X-Rspamd-Queue-Id: 73FBD23D278
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:gaohan@iscas.ac.cn,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,redhat.com];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[zhengxingda@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_XOIP(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-0.905];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,iscas.ac.cn:mid,bootlin.com:url]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
+	NEURAL_HAM(-0.00)[-0.960];
+	DKIM_TRACE(0.00)[amd.com:+]
 X-Rspamd-Action: no action
 
-=E5=9C=A8 2026-03-10=E4=BA=8C=E7=9A=84 00:35 +0800=EF=BC=8CIcenowy Zheng=E5=
-=86=99=E9=81=93=EF=BC=9A
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D 8< =3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > +	if (IS_ERR(bridge))
-> > > +		return ERR_PTR(PTR_ERR(bridge));
-> > > +
-> > > +	bridge->crtc =3D crtc;
-> > > +	bridge->intf =3D intf;
-> > > +	bridge->next_bridge =3D next;
-> >=20
-> > There is now a next_bridge field in struct drm_bridge, which
-> > handles
-> > the
-> > bridge lifetime in a safer way and more simply [0], so you could
-> > use
-> > it:
->=20
-> Glad to hear such a field exists now. Will more code about
-> next_bridge
-> lifetime management being shared?
+On 3/9/26 17:04, Fan Wu wrote:
+> The amdgpu_vm_get_task_info_pasid() function previously called
+> amdgpu_vm_get_vm_from_pasid() which returns a raw VM pointer after
+> releasing the pasids xarray lock. The caller then dereferences
+> vm->task_info without any lifetime protection.
+> 
+> Race condition:
+> 
+>     CPU 0 (lookup)                      CPU 1 (release)
+>     ------------------                  ------------------
+>     amdgpu_vm_get_task_info_pasid()
+>       xa_lock()
+>       vm = xa_load(pasids)
+>       xa_unlock()
+>                                         amdgpu_vm_fini()
+>                                           xa_erase_irq(pasids)
+>                                           // teardown continues
+>                                         kfree(fpriv)
+>                                         // VM freed (embedded in fpriv)
+>       vm->task_info  // potential UAF
+> 
+> This can leave the VM pointer dangling because struct amdgpu_vm is
+> embedded in struct amdgpu_fpriv which is freed via kfree(fpriv) in
+> amdgpu_file_release_kms() after amdgpu_vm_fini() returns.
+> 
+> Fix this by acquiring the task_info reference while holding the
+> xarray lock. This avoids the window where the VM could be freed
+> between the lookup and the dereference.
+> 
+> Cache vm->task_info in a local variable before attempting to take a
+> reference, which keeps the lookup straightforward inside the locked
+> section. Use kref_get_unless_zero() to safely handle the case where
+> task_info's refcount is already being decremented to zero by another
+> thread in the teardown path.
+> 
+> Note: An RCU-based approach was considered but is not currently
+> feasible because: (1) the pasids xarray is initialized without
+> XA_FLAGS_RCU, and (2) struct amdgpu_fpriv is freed with kfree()
+> rather than kfree_rcu(). A future refactoring could enable RCU
+> if needed for performance.
+> 
+> Also remove the unsafe helper function amdgpu_vm_get_vm_from_pasid()
+> to prevent future misuse.
+> 
+> Fixes: b8f67b9ddf4f ("drm/amdgpu: change vm->task_info handling")
+> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 40 ++++++++++++++++----------
+>  1 file changed, 25 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index f2beb980e3c3..7e8621c9b661 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -2468,19 +2468,6 @@ static void amdgpu_vm_destroy_task_info(struct kref *kref)
+>         kfree(ti);
+>  }
+> 
+> -static inline struct amdgpu_vm *
+> -amdgpu_vm_get_vm_from_pasid(struct amdgpu_device *adev, u32 pasid)
+> -{
+> -       struct amdgpu_vm *vm;
+> -       unsigned long flags;
+> -
+> -       xa_lock_irqsave(&adev->vm_manager.pasids, flags);
+> -       vm = xa_load(&adev->vm_manager.pasids, pasid);
+> -       xa_unlock_irqrestore(&adev->vm_manager.pasids, flags);
+> -
+> -       return vm;
+> -}
+> -
+>  /**
+>   * amdgpu_vm_put_task_info - reference down the vm task_info ptr
+>   *
+> @@ -2527,8 +2514,31 @@ amdgpu_vm_get_task_info_vm(struct amdgpu_vm *vm)
+>  struct amdgpu_task_info *
+>  amdgpu_vm_get_task_info_pasid(struct amdgpu_device *adev, u32 pasid)
+>  {
+> -       return amdgpu_vm_get_task_info_vm(
+> -                       amdgpu_vm_get_vm_from_pasid(adev, pasid));
+> +       struct amdgpu_vm *vm;
+> +       unsigned long flags;
+> +       struct amdgpu_task_info *ti = NULL;
+> +
+> +       /*
+> +        * Acquire the task_info reference while holding the pasids xarray
+> +        * lock to prevent a race with amdgpu_vm_fini() which removes the
+> +        * PASID mapping before freeing the VM (embedded in struct amdgpu_fpriv).
+> +        * Without this, the VM could be freed between xa_load() return and
+> +        * the task_info dereference.
 
-Looks like now many drivers can just share the .attach function,
-because they're all doing the same thing:
+That the VM is freed is irrelevant, the point is that we need to grab the reference to the task info before we drop that one.
 
-```
-int drm_bridge_attach_next(struct drm_bridge *bridge,
-			   struct drm_encoder *encoder,
-			   enum drm_bridge_attach_flags flags)
-{
-	return drm_bridge_attach(encoder, bridge->next_bridge,
-				 bridge, flags);
-}
-```
+> +        */
+> +       xa_lock_irqsave(&adev->vm_manager.pasids, flags);
+> +       vm = xa_load(&adev->vm_manager.pasids, pasid);
+> +       if (vm) {
+> +               /*
+> +                * Cache vm->task_info in a local variable before
+> +                * attempting to take a reference.
+> +                */
 
-At least vs_bridge_attach here and meson_encoder_*_attach (named
-encoder but they're bridge drivers now) match this pattern (the latter
-does a cast from `struct drm_bridge *` to their subclasses, but then
-only accessing the `bridge` field of the subclasses and doing the same
-things here).
+Please drop that comment, taking the task info into a local variable is actually superflous.
 
-Thanks,
-Icenowy
+> +               ti = vm->task_info;
+> +               if (ti && !kref_get_unless_zero(&ti->refcount))
 
->=20
-> Thanks,
-> Icenowy
->=20
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bridge->base.next_bridge =3D next;
-> >=20
-> > Or, after the renames I suggested above:
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vbridge->bridge.next_bridge =3D ne=
-xt;
-> >=20
-> > [0]
-> > https://elixir.bootlin.com/linux/v7.0-rc2/source/include/drm/drm_bridge=
-.h#L1269-L1278
-> >=20
-> > Luca
-> >=20
-> > --
-> > Luca Ceresoli, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
+That is unecessary as wel, the task info is dropped after the VM is removed from pasid mapping.
+
+So just using kref_get() is sufficient.
+
+Regards,
+Christian.
+
+> +                       ti = NULL;
+> +       }
+> +       xa_unlock_irqrestore(&adev->vm_manager.pasids, flags);
+> +
+> +       return ti;
+>  }
+> 
+>  static int amdgpu_vm_create_task_info(struct amdgpu_vm *vm)
+> --
+> 2.34.1
+> 
 
