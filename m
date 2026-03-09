@@ -2,75 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFRYFBT9rmkxLQIAu9opvQ
+	id gDW8FRz9rmkxLQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:02:12 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:02:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A637B23D472
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0446323D480
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 18:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943AB10E56F;
-	Mon,  9 Mar 2026 17:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21B510E575;
+	Mon,  9 Mar 2026 17:02:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vGQaIc0l";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Xzj9+uTK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE5310E56F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 17:02:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1A6C443200;
- Mon,  9 Mar 2026 17:02:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C31E7C4CEF7;
- Mon,  9 Mar 2026 17:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1773075728;
- bh=3uq35Ktmul8lpGjhELuw35FYfyLMGaLFJUwwLb4+sqk=;
- h=From:Date:Subject:To:Cc:From;
- b=vGQaIc0lzv94/DjCNdOx3HxYGXxjHc6qx9q1d91GLq5/o3T03wVt2wH+pdUTpPYv7
- rb90DuZ1Aydd0zJPwPbsMTU/wrE/Mx4wn5rnPUe1ALUpeairiFaK9G22SYA65+LH1V
- 16AH+15ktsUg5Y/rb7noPGX+CyHqOP0Dgkg0RMP3wiNCoOcyBHoO0uctz44N7nWcxw
- /1Whozd6GsDVxtLBsA09v0f0twG//xThJw4k0Aqqk4U1BwG0K+2y29DtUp6G19IZgE
- 3jh1YW42LdYFJlKCH0KwiKiYmwv+CCtrs5pFnbpV2XSwVT6kZgZgOfOOwUOITcQt5A
- RNT3eotrqExaQ==
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Mon, 09 Mar 2026 13:01:57 -0400
-Subject: [PATCH v2] rust: update `kernel::c_str!` documentation
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010058.outbound.protection.outlook.com
+ [52.101.193.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE9810E573;
+ Mon,  9 Mar 2026 17:02:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sueoD5Sz4tCZW6wA23cm4KVsv4ttPSQMj9riBhm4BfBRnWac5a1muZVm7O938Ge61VrgbygJHkQsv0Hn9hBKDKJNnD2AuM20ZMBK/y78ct8HvNoKZ3nNVrCIJH5IJvOLf53DjgUIy8OG5nd0lBP6VAzjtftQVe/ofyJbJiG70zV2zUxu/EyjYYHEk8JncIdcwm3k3OIqCQNe2d739TuDBejHnxcatAcSUNq2uUJp+k+zwGLxvi9mw8XKtPlIRw9K2XafWCFgUFpn55lu3uh4fS+2zq2H9Z7xTFBPDJerG2w11e9sDImptDcstA6WF8n28HGvsZXqrgWQ/hicThpnyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W5Clsc8Xx8fywL06UyZ9ogksWuSLHSIGMRxPd6BPpaM=;
+ b=ZlTFm9OAY2wTszC0v52kWF9/bgZYYyy2Tt2Lij3wkzW06sHV2yt4K1jbhSPzrCThrmkNp2sKj1rCdyZAP/agtBht5e1mSpJUDY3v/Wcpql4nDqJRgHJq6mIlQ/vlVQR/+7bBdBYWYAHi+V+masasQLM+53RHowsGHfsQ0mbB64Am0Ks/ZQnDoQKaRTxVGJISgI9W/ZhwhhSq8PNMlgodfR9fT4l6bNbVIXvgjMHUwHLGrJjdj7UL6TgMeyeIWFeVcRHkJCmwsZFcc7wbRWOVct4XvF1vHVSr690F3ytu7sL4yxhAB6aw1k/0AV66kZJ5c+QpcY+iGZRq0g15cwc30A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=rcpassos.me smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W5Clsc8Xx8fywL06UyZ9ogksWuSLHSIGMRxPd6BPpaM=;
+ b=Xzj9+uTKjIEOir11Br7xADC58l1ZmzdyW8YgWd2OL6vpBWQ0EYHqtkJIbb8/uwvpfSzh1+6CckafNFtvF+juarDiAUQr6h99whHfNbkbI3PcbkbeL7H1OIoW4jds5b9NnwtRC32Q39fIdhq+H6ta/Hj1EgkDBlHwcD6MTRR/CKA=
+Received: from BL1PR13CA0330.namprd13.prod.outlook.com (2603:10b6:208:2c1::35)
+ by DM4PR12MB7696.namprd12.prod.outlook.com (2603:10b6:8:100::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.9; Mon, 9 Mar
+ 2026 17:02:10 +0000
+Received: from BL6PEPF0001AB4D.namprd04.prod.outlook.com
+ (2603:10b6:208:2c1:cafe::a8) by BL1PR13CA0330.outlook.office365.com
+ (2603:10b6:208:2c1::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.24 via Frontend Transport; Mon,
+ 9 Mar 2026 17:02:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BL6PEPF0001AB4D.mail.protection.outlook.com (10.167.242.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Mon, 9 Mar 2026 17:02:10 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 9 Mar
+ 2026 12:02:10 -0500
+Received: from [10.254.95.155] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Mon, 9 Mar 2026 12:02:09 -0500
+Message-ID: <ad3244e8-96a0-4d60-9047-cc20720c6dd2@amd.com>
+Date: Mon, 9 Mar 2026 13:02:09 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: fix resuming from S3 sleep for Renoir
+ iGPU
+To: Rafael Passos <rafael@rcpassos.me>, <alexdeucher@gmail.com>
+CC: <BhuvanaChandra.Pinninti@amd.com>, <Harry.Wentland@amd.com>,
+ <Martin.Leung@amd.com>, <alexander.deucher@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <daniel.wheeler@amd.com>,
+ <davidbtadokoro@ime.usp.br>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <ray.wu@amd.com>, <rcpassos@ime.usp.br>,
+ <siqueira@igalia.com>, Ivan Lipski <IVAN.LIPSKI@amd.com>
+References: <CADnq5_Msmohg3T5KLrqPwvJGbXPOMKeNN-ZcqgTS2pHb+GjuYQ@mail.gmail.com>
+ <20260308000515.890688-1-rafael@rcpassos.me>
+Content-Language: en-US
+From: Leo Li <sunpeng.li@amd.com>
+In-Reply-To: <20260308000515.890688-1-rafael@rcpassos.me>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-cstr-rename-macro-v2-1-25f7de75944e@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NQQ6CMBBFr0Jm7Zi2kCa48h6GRSkDVKUlUyQaw
- t1tce/yJe+/v0EkdhThUmzAtLrogk+gTgXY0fiB0HWJQQmlRSkU2rgwMnkzEU7GckBdKSFb0rb
- WNaTdzNS799G8NT+Or/ZOdsmhbIwuLoE/x+kqs/evv0qUaJSue6o6W/bi+iD29DwHHqDZ9/0Ln
- xlhYsUAAAA=
-X-Change-ID: 20260302-cstr-rename-macro-64201be6c969
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, Breno Leitao <leitao@debian.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <raemoar63@gmail.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>
-Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tamir Duberstein <tamird@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2588; i=tamird@kernel.org;
- h=from:subject:message-id; bh=3uq35Ktmul8lpGjhELuw35FYfyLMGaLFJUwwLb4+sqk=;
- b=owGbwMvMwCV2wYdPVfy60HTG02pJDJnr/rJ/Tal7XLv2ZHIAx++NsRPfc24IZ3B7lGztnlRuV
- JeY+jS6o5SFQYyLQVZMkSVR9NDe9NTbe2Qz3x2HmcPKBDKEgYtTACZy7SHDbzbpKayz/LZbF89M
- uRfLbJy/0uS7XH6N89s/e72TpsRPF2T4Z52eW/VSNnZ59JYzP7q/aPr6rd424aVut/WP3ad8c4O
- OsQEA
-X-Developer-Key: i=tamird@kernel.org; a=openpgp;
- fpr=5A6714204D41EC844C50273C19D6FF6092365380
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4D:EE_|DM4PR12MB7696:EE_
+X-MS-Office365-Filtering-Correlation-Id: ddd45c7c-0eed-4280-7e61-08de7dfd9a68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|42112799006|82310400026|36860700016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: tUBu9CB0rRw0t+2FKU5l6q3EOXR/xBoFEJfzwS9cf0kp/mzkSaAMSQTUPHahP9KRPcR7Gm2j9ZRMsKADDBxzG9vZi76upH3a3Vi7wgp5ME/3PQcNuzeU6QGlqobrt+SRJWoinzljJl15SjrcoHn7b7WSzHt4HFe39OFW7gdXhC3lnKEJoEVRWsVxMfrwqyEESs7Gv2Syub0HFBy7gmApb+gv/YJnj+Pjd5/INY9qqfe15+gQEJ5LwY04IbbCZUJxjBRUn3LNNIFLGhO4MXPWIeP+m2B2lQ2rfkyTDlQK4tYjFIYYAdNIJSfkySIe5Z06Dm8cCQou+TQdwNQa8DyuLcl4V+NOPXcebtC2xDbmj+7vWuJ7stvCUygJSmdaFqYpT7lZP2rowoTXYIWwpkNU6MufmgzU3IuOacISbvMBXuaxPbk0TxhmDkkQO5YCJ25ac43zfz0PvqRlsogn9zj0jhyrfwFwXZoPMyD+f9WSs/4vnKRBACui7ECU0AJ49WsSW9aVt5ppPGnvglZBMxSvJ02UTR69HbhTlOPuX+qgErN5tHD11qSUf0bOtSxExrRc13bSEBgYdcTB7y7o6F6o8pDKtyKHItWI1vuuUIWIfY7bnR9BWooJbAxcVUKjhVmFdarj2DgPNk9Py6L8NuXnu/2m6gvU8NOrtVzAsaaxElenuoc8AC+K4x43YLj00CcoC0q+IPKqcKgDYRtZoepVHUsl2mDOflxIoxn0ST/3Uaun7GNKLOufwPhX6z5sn8KvF8GWUhCZUIZGSwU+RHF6XLWoeA0qsezLDT0iAKfVTqw=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(42112799006)(82310400026)(36860700016)(1800799024)(376014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 4vg+pFGoPWOSVEnRuiycbGsdcczZZzkNoXdJvGl6Feq4sUz+pdR7YC8xMTSTcEvbgcL86lbk23mDLUjdsAd71to+LbyFkAKB7gXlteISreZ++RFuyGDBTvL+T7QNoQkiPb2D/sWmhzpuDyLkVHybBrVNN1roV43/uELTq7KEhk9NJ7o7R75psbGCibvGqHnwdlchmKDowfWsrxR17P4bRkzpIZ91XmCmCT0ceQIh/smN/DmNrC9FQs789YWuZSx2PE32sKtAWOTjEhf0IYovx9bk6N2kUXFxuUJJRMavw+PxdN5HKcLeVy8YbHyTMdld75ppAMmG6r9jgiAuPVVQv0v1vR2ECfoXC6hNs0xIgDz5/WISFG4lYLg3/hIRNqCuI9j82UVhqfiJMPYvEqiHYqT2LKZZ/zcP6A8pNfZEpPomIvOU35r1kjaHQ56DismZ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 17:02:10.3549 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddd45c7c-0eed-4280-7e61-08de7dfd9a68
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB4D.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7696
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,108 +123,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: A637B23D472
+X-Rspamd-Queue-Id: 0446323D480
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:leitao@debian.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:brendan.higgins@linux.dev,m:davidgow@google.com,m:raemoar63@gmail.com,m:peterz@infradead.org,m:mingo@redhat.com,m:will@kernel.org,m:longman@redhat.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:kunit-dev@googlegroups.com,m:gregkh@linuxfoundation.org,m:tamird@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tamird@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,debian.org,gmail.com,ffwll.ch,linux.dev,infradead.org,redhat.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aka.ms:url,usp.br:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,amd.com:dkim,amd.com:mid,rcpassos.me:email];
+	FREEMAIL_TO(0.00)[rcpassos.me,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tamird@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.985];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[amd.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sunpeng.li@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.979];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,msgid.link:url]
+	MID_RHS_MATCH_FROM(0.00)[];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Now that all literals are C-Strings, update the documentation to explain
-that use of this macro should be limited to non-literal strings.
 
-Link: https://github.com/Rust-for-Linux/linux/issues/1075
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Signed-off-by: Tamir Duberstein <tamird@kernel.org>
----
-This patch completes the work of replacing our custom `CStr` with
-upstream's.
----
-Changes in v2:
-- Drop rename, keep only documentation update. (Gary Guo)
-- Add example of misuse to documentation. (Gary Guo)
-- Link to v1: https://patch.msgid.link/20260302-cstr-rename-macro-v1-1-a269fe4dc3f0@kernel.org
----
- rust/kernel/str.rs | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-index fa87779d2253..6dae82e7d875 100644
---- a/rust/kernel/str.rs
-+++ b/rust/kernel/str.rs
-@@ -376,19 +376,32 @@ fn as_ref(&self) -> &BStr {
-     }
- }
- 
--/// Creates a new [`CStr`] from a string literal.
-+/// Creates a new [`CStr`] at compile time.
- ///
--/// The string literal should not contain any `NUL` bytes.
-+/// Rust supports C string literals since Rust 1.77, and they should be used instead of this macro
-+/// where possible. This macro exists to allow static *non-literal* C strings to be created at
-+/// compile time. This is most often used in other macros.
-+///
-+/// # Panics
-+///
-+/// This macro panics if the operand contains an interior `NUL` byte.
- ///
- /// # Examples
- ///
- /// ```
- /// # use kernel::c_str;
- /// # use kernel::str::CStr;
--/// const MY_CSTR: &CStr = c_str!("My awesome CStr!");
-+/// // This is allowed, but `c"literal"` should be preferred for literals.
-+/// const BAD: &CStr = c_str!("literal");
-+///
-+/// // `c_str!` is still needed for static non-literal C strings.
-+/// const GOOD: &CStr = c_str!(concat!(file!(), ":", line!(), ": My CStr!"));
- /// ```
- #[macro_export]
- macro_rules! c_str {
-+    // NB: we could write `($str:lit) => compile_error!("use a C string literal instead");` here but
-+    // that would trigger when the literal is at the top of several macro expansions. That would be
-+    // too limiting to macro authors.
-     ($str:expr) => {{
-         const S: &str = concat!($str, "\0");
-         const C: &$crate::str::CStr = match $crate::str::CStr::from_bytes_with_nul(S.as_bytes()) {
+On 2026-03-07 19:04, Rafael Passos wrote:
+> [You don't often get email from rafael@rcpassos.me. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> [WHAT]
+> Set the register offset MICROSECOND_TIME_BASE_DIV in dccg_registers for DCN21.
+> Introduce a new dccg21_init function, used in dccg_funcs.dccg_init for DCN21.
+> The new dccg21_init sets 0x00120464 to set the MICROSECOND_TIME_BASE_DIV
+> register instead of 0x00120264, set by dccg2_init.
+> 
+> [WHY]
+> The previous commit introduced a change where the dcn21_s0i3_golden_init_wa
+> function used to read the MICROSECOND_TIME_BASE_DIV reg from hwseq, and
+> now started reading from dccg using dccg2_is_s0i3_golden_init_wa_done.
+> However, this register is not properly initialized in dccg.
+> Also, the value was initialized to 0x00120264 by dccg2_init, but
+> compared to 0x00120464. For this reason, we created a new dccg21_init
+> with the values specific to this card.
+> 
+> Fixes: 4c595e75110e ("drm/amd/display: Migrate DCCG registers access from hwseq to dccg component.")
+> Signed-off-by: Rafael Passos <rafael@rcpassos.me>
+> Co-developed-by: David Tadokoro <davidbtadokoro@ime.usp.br>
+> Signed-off-by: David Tadokoro <davidbtadokoro@ime.usp.br>
+> ---
+> 
+> It took a lot of debugging to get to this point.
+> We are not sure this is the right fix, but it works.
+> We found that when reading the MICROSECOND_TIME_BASE_DIV register,
+> the offset was 13b in the old path and 0 in the new path.
+> 
+> The dcn21_s0i3_golden_init_wa is called when booting
+> and when waking from sleep. It compares the value from
+> MICROSECOND_TIME_BASE_DIV to 0x00120464.
+> When booting, the value was different (and this function returns true).
+> When waking from sleep, the value should be equal; thus,
+> this function would return false.
+> 
+> After 4c595e75110e, the value was always different than 0x00120464, so
+> this function always returned true, failing to wake the screen.
+> This happened because the offset of MICROSECOND_TIME_BASE_DIV was 0,
+> and READ_REG always returned 0x1186A0 (value from MILLISECOND_TIME_BASE_DIV?).
+> 
+> Things we are unsure of:
+> - We used SR to set MICROSECOND_TIME_BASE_DIV direclty in the
+>         dccg_registers struct. We did not find other examples of this.
+>         Should we set MICROSECOND_TIME_BASE_DIV to the DCCG_COMMON_REG_LIST_DCN_BASE ?
+>         I only added it to DCN21, because it is the hardware I have (and validated it works).
+> - We changed 0x00120264 to 0x00120464 in the init, but dccg2 has the
+>         same difference in setting and reading. We would like to know if this issue
+>         also affects dccg2 (and other cards), or if we are missing something.
+>         Maybe we should change this value in dccg2_is_s0i3_golden_init_wa_done.
+> 
+> It applies to the mainline master, amdgpu drm-next and amd-staging-drm-next.
+> 
+> Any feedback is appreciated. It was a fun-frustrating-veryfun journey. :)
+> Code written only by humans.
 
----
-base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
-change-id: 20260302-cstr-rename-macro-64201be6c969
+Hi Rafael,
 
-Best regards,
---  
-Tamir Duberstein <tamird@kernel.org>
+Thanks for bisecting and identifying the root cause. A fix has been submitted here:
+https://lore.kernel.org/all/20260306031932.136179-14-alex.hung@amd.com/
+
+Additionally, the offending change missed updating register definitions, which was
+fixed here:
+https://lore.kernel.org/all/20260306031932.136179-10-alex.hung@amd.com/
+
+- Leo
+
+> 
+> 
+>  .../drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c  | 17 ++++++++++++++++-
+>  .../display/dc/resource/dcn21/dcn21_resource.c  |  3 ++-
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c b/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
+> index 75c69348027e..6f96e9c189dc 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dccg/dcn21/dcn21_dccg.c
+> @@ -96,6 +96,21 @@ static void dccg21_update_dpp_dto(struct dccg *dccg, int dpp_inst, int req_dppcl
+>         dccg->pipe_dppclk_khz[dpp_inst] = req_dppclk;
+>  }
+> 
+> +void dccg21_init(struct dccg *dccg)
+> +{
+> +       struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
+> +
+> +       /* Hardcoded register values for DCN21
+> +        * These are specific to 100Mhz refclk
+> +        * Different ASICs with different refclk may override this in their own init
+> +        */
+> +       REG_WRITE(MICROSECOND_TIME_BASE_DIV, 0x00120464);
+> +       REG_WRITE(MILLISECOND_TIME_BASE_DIV, 0x001186a0);
+> +       REG_WRITE(DISPCLK_FREQ_CHANGE_CNTL, 0x0e01003c);
+> +
+> +       if (REG(REFCLK_CNTL))
+> +               REG_WRITE(REFCLK_CNTL, 0);
+> +}
+> 
+>  static const struct dccg_funcs dccg21_funcs = {
+>         .update_dpp_dto = dccg21_update_dpp_dto,
+> @@ -103,7 +118,7 @@ static const struct dccg_funcs dccg21_funcs = {
+>         .set_fifo_errdet_ovr_en = dccg2_set_fifo_errdet_ovr_en,
+>         .otg_add_pixel = dccg2_otg_add_pixel,
+>         .otg_drop_pixel = dccg2_otg_drop_pixel,
+> -       .dccg_init = dccg2_init,
+> +       .dccg_init = dccg21_init,
+>         .refclk_setup = dccg2_refclk_setup, /* Deprecated - for backward compatibility only */
+>         .allow_clock_gating = dccg2_allow_clock_gating,
+>         .enable_memory_low_power = dccg2_enable_memory_low_power,
+> diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
+> index 0f4307f8f3dd..7f8f657eb0f2 100644
+> --- a/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/resource/dcn21/dcn21_resource.c
+> @@ -222,7 +222,8 @@ static const struct dce_audio_mask audio_mask = {
+>  };
+> 
+>  static const struct dccg_registers dccg_regs = {
+> -               DCCG_COMMON_REG_LIST_DCN_BASE()
+> +               DCCG_COMMON_REG_LIST_DCN_BASE(),
+> +               SR(MICROSECOND_TIME_BASE_DIV)
+>  };
+> 
+>  static const struct dccg_shift dccg_shift = {
+> --
+> 2.53.0
+> 
 
