@@ -2,100 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2IH4G5bWrmlhJAIAu9opvQ
+	id AJQEF2rZrmmKJQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:17:58 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:30:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095A523A61A
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B8D23A8A3
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 15:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 661C910E504;
-	Mon,  9 Mar 2026 14:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A641110E0FA;
+	Mon,  9 Mar 2026 14:29:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1pRIythK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UdWw7tGy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uNDjDGrq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zPDSsS6T";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="G0ROslbc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC2F310E504
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 14:17:53 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0326B5BE4D;
- Mon,  9 Mar 2026 14:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1773065854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4w5uwEVSlmlGBAJYoqlWi7ELW6wprbGKGlE9Ql1y72I=;
- b=1pRIythKvWFSVdxDakfWRVJbDSncEOdW6GvZ40m1WjgcirPJi1sJgrKbv8VWEHmw7+Aq+h
- 7bJ+VC0TXwQH6jN66F172bWA24sbyd5owpkgK6pInKmBpr0jD3GI3LK8DVzSEpKYmenyOV
- X9zA/tNH3w2GG3kyp9UAF8xaA2dBjRA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1773065854;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4w5uwEVSlmlGBAJYoqlWi7ELW6wprbGKGlE9Ql1y72I=;
- b=UdWw7tGy6vpBhkwlgpeP6kFw2yezd+2fOU0vX1axaAubsxzRiSPFnhwDa4qxkFcVIRUw+X
- OR760zUqFCKJzQCw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uNDjDGrq;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zPDSsS6T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1773065853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4w5uwEVSlmlGBAJYoqlWi7ELW6wprbGKGlE9Ql1y72I=;
- b=uNDjDGrqcilQXlIHYd7M53hm9ykSd4xnx3IBXp7QbKDkpjic24/PnPFP0AvkeUyM8TtSBv
- NCZCVbmrMP4fiNiMQq5tQCFPMYC7JqKLLTzp3Xf6qxxRp3cuFjAYu4+5QOmfTOHW4iR3fO
- mQiTlEpwyXf9IeN7fQjlLdpO8/j+cZ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1773065853;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4w5uwEVSlmlGBAJYoqlWi7ELW6wprbGKGlE9Ql1y72I=;
- b=zPDSsS6TVo9qPWp8RMGERynwsSKbeemn71kuHayeAuIoTS91bFDEKQEkH23kEvyvqOMHSR
- qMsNzE5MLaB4G+DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB1763EF3C;
- Mon,  9 Mar 2026 14:17:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aPc8LHzWrmldPAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 09 Mar 2026 14:17:32 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: gregkh@linuxfoundation.org,
-	deller@gmx.de,
-	sam@ravnborg.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 13/13] lib/fonts: Remove internal symbols and macros from
- public header file
-Date: Mon,  9 Mar 2026 15:14:55 +0100
-Message-ID: <20260309141723.137364-14-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260309141723.137364-1-tzimmermann@suse.de>
-References: <20260309141723.137364-1-tzimmermann@suse.de>
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1CE10E0FA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 14:29:57 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-8c6f21c2d81so1109809085a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 07:29:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1773066596; x=1773671396; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0bCgFz4UpYVbBeKSYmRS1UHS00xtZH8a/t+DzU0dS+U=;
+ b=G0ROslbckD4RHdDwye1A0dLjbKP7iYOorXajmjt9bWdPmwIZykiNJONbZ7eHxY1faK
+ 0jNJQgYjmQrUcqOPd1PcuCGFUgvyqRbBaLv41ZLkTKIuaeuX84EFRERdzKEOlJqOUCuu
+ n5kycOroN2zMf+CvdCz74jBB2D6KS0YNdG/Xh2C3MCbN0uuMpPcDVLSpmho1vHXle2BF
+ jzqGgycxLiOekXmmugZ8Xi2rK9i0ynuKq4WJWoF9j3VGX6SPU33uw/OWmN6GHLg5z6Ne
+ cyJC2OrlmlyJxVV0HipvWBGUJKXHJHCFmfOeOv64Uoypc/MOi6XJurcCSrFjz9Eui2+E
+ ieEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1773066596; x=1773671396;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0bCgFz4UpYVbBeKSYmRS1UHS00xtZH8a/t+DzU0dS+U=;
+ b=gfDjWwO1V1SBBQbodZ718oLwdWNTK2Yc4T3H5RJY3QVwIJenD3GC3bryZadm2Oh3+e
+ bT34sRY/v5ZYmkU2NONNjvLJJ3N61fx61A1c61FE1xMkOUXxw/g03jIl+OtN/6W7834h
+ kCbnrbUFOy+KasM/9TEKrEmMOPEWxVFTM+RSwwXmhQzE0E2BoErZ2Fr+Gi5CTvJtpt7D
+ 5sKcwnCTbXifEEJha+UJFt9CRVnH15H5g5WTikDianOD2kvMhaRU4Guq6pUVeBf4W/wq
+ 6376YqoMsj8spYGmYTItbOvaaO0awYY1mObwlcFvdlk/KyRiYqw1Zg+fSNhzYrzqk2VH
+ pvbQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV3Kkq5HeQPvyf7Qnpu0wVdqvIVMzUxzrWo7Mw8TbQk5mAC5csyPJpNR/klpeMJI7kVYVyHQBvP5yg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHOuJMUFYJMvDfgUoFWTq8FVpYwGpYR199slBi3u03N2/VGnfp
+ BTcmpvkSZVJUFQAfPkgLWgutysMcaTJIhKZV19KX+Gn0JPSQhW3M5tgphbdAIE9UQx8=
+X-Gm-Gg: ATEYQzxPupff9vYjQBsOBlvKqDLvKLZF77nRvOeXwIHpLYCRiEUiwBOBuYAjF8vdqHY
+ wkTen83BdVD8dN+IB1c3R+Oy84nohyRfc4dBkRtaa2ShRyP/Sle6OLKUQI7Iu12bCY1TBbSfM/w
+ VIWNJeGw1x+7qErHIliWfaUO3hBg1/QDNAK4LO4PWotcqEYaIhOWCguQ3FSNdkMs4w1hL2QSHtC
+ KwpxymBMRoTEzDkQqwmlWQ3OqNPx00cMjeYAldOzuUZiVMQihderRr1y1XtbXmJdM2WoFF0/0ms
+ KwglmmxSRu1IPRyOZ5MLnmJsj17v5DwCHye9jIezs9R7w5F74hVK8snKp9j+wGNrB7kGVHyi/I/
+ /2reHpo33TXtO+P0GQdrFIYy6DRHEfqU1OcrBB+KW2+SiI04R0mkfoSq/Y07aRX7U6ZWO/ucz4q
+ smhvP9Zd7xmulr0Q9eqSdM3hZ+KbVHbhhGb3Icny5ne1yjkcmWvw1Gg5EThWnPhDNOEve4Q1yJR
+ zdpPrRK
+X-Received: by 2002:a05:620a:4809:b0:8ca:305b:749b with SMTP id
+ af79cd13be357-8cd6d4d5456mr1426307785a.60.1773066595964; 
+ Mon, 09 Mar 2026 07:29:55 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8cd8d4cad48sm148711185a.33.2026.03.09.07.29.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Mar 2026 07:29:55 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vzbcI-0000000GTxY-2R0b;
+ Mon, 09 Mar 2026 11:29:54 -0300
+Date: Mon, 9 Mar 2026 11:29:54 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+ "linux-mm @ kvack . org" <linux-mm@kvack.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, David Rientjes <rientjes@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Leon Romanovsky <leon@kernel.org>,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Neal Cardwell <ncardwell@google.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ netdev@vger.kernel.org, rust-for-linux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v1 16/16] mm/memory: support VM_MIXEDMAP in
+ zap_special_vma_range()
+Message-ID: <20260309142954.GM1687929@ziepe.ca>
+References: <20260227200848.114019-1-david@kernel.org>
+ <20260227200848.114019-17-david@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227200848.114019-17-david@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,415 +148,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 095A523A61A
+X-Rspamd-Queue-Id: A8B8D23A8A3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:david@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vbabka@kernel.org,m:rppt@kernel.org,m:surenb@google.com,m:mhocko@suse.com,m:jannh@google.com,m:pfalcato@suse.de,m:rientjes@google.com,m:shakeel.butt@linux.dev,m:willy@infradead.org,m:aliceryhl@google.com,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:borntraeger@linux.ibm.com,m:frankja@linux.ibm.com,m:imbrenda@linux.ibm.com,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:hca@linux.ibm.com,m:gor@linux.ibm.com,m:jarkko@kernel.org,m:tglx@kernel.org,m:mingo@redhat.com,m:bp@alien8.de,m:gregkh@linuxfoundation.org,m:arve@android.com,m:tkjos@android.com,m:brauner@kernel.org,m:cmllamas@google.com,m:abbotti@mev.co.uk,m:hsweeten@visionengravers.com,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:rodrigo.vivi@intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:leon@kerne
+ l.org,m:dimitri.sivanich@hpe.com,m:arnd@arndb.de,m:ast@kernel.org,m:daniel@iogearbox.net,m:andrii@kernel.org,m:peterz@infradead.org,m:acme@kernel.org,m:namhyung@kernel.org,m:luto@kernel.org,m:vincenzo.frascino@arm.com,m:edumazet@google.com,m:ncardwell@google.com,m:davem@davemloft.net,m:dsahern@kernel.org,m:kuba@kernel.org,m:pabeni@redhat.com,m:ojeda@kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:kvm@vger.kernel.org,m:linux-s390@vger.kernel.org,m:linux-sgx@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:bpf@vger.kernel.org,m:linux-perf-users@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:netdev@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:x86@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kvack.org,linux-foundation.org,oracle.com,kernel.org,google.com,suse.com,suse.de,linux.dev,infradead.org,linux.ibm.com,ellerman.id.au,redhat.com,alien8.de,linuxfoundation.org,android.com,mev.co.uk,visionengravers.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,hpe.com,arndb.de,iogearbox.net,arm.com,davemloft.net,lists.ozlabs.org,lists.freedesktop.org];
+	DMARC_NA(0.00)[ziepe.ca];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:deller@gmx.de,m:sam@ravnborg.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tzimmermann@suse.de,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linuxfoundation.org,gmx.de,ravnborg.org];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[73];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.995];
+	NEURAL_HAM(-0.00)[-0.996];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ziepe.ca:dkim,ziepe.ca:mid]
 X-Rspamd-Action: no action
 
-Define access macros for font_data_t in fonts.c. Define struct font_data
-and declare most of the font symbols in the internal header font.h, where
-they can only be seen by the font code.
+On Fri, Feb 27, 2026 at 09:08:47PM +0100, David Hildenbrand (Arm) wrote:
+> There is demand for also zapping page table entries by drivers in
+> VM_MIXEDMAP VMAs[1].
+> 
+> Nothing really speaks against supporting VM_MIXEDMAP for driver use. We
+> just don't want arbitrary drivers to zap in ordinary (non-special) VMAs.
+> 
+> [1] https://lore.kernel.org/r/aYSKyr7StGpGKNqW@google.com
 
-Also move font indices into internal font.h. They appear to be unused
-though. There is m86k assembly code that operates on the idx field, so
-leave them in place for now.
+Are we sure about this?
 
-List all built-in fonts in a separate section in the public header file.
+This whole function seems like a hack to support drivers that are not
+using an address_space.
 
-v2:
-- do not add config guards around font symbols (Helge)
-- keep declaration of built-in fonts in public header
+I say that as one of the five driver authors who have made this
+mistake.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/font.h       | 57 ++++++++++++--------------------------
- lib/fonts/font.h           | 38 +++++++++++++++++++++++++
- lib/fonts/font_10x18.c     |  2 +-
- lib/fonts/font_6x10.c      |  3 +-
- lib/fonts/font_6x11.c      |  2 +-
- lib/fonts/font_6x8.c       |  3 +-
- lib/fonts/font_7x14.c      |  2 +-
- lib/fonts/font_8x16.c      |  3 +-
- lib/fonts/font_8x8.c       |  2 +-
- lib/fonts/font_acorn_8x8.c |  2 +-
- lib/fonts/font_mini_4x6.c  |  2 +-
- lib/fonts/font_pearl_8x8.c |  2 +-
- lib/fonts/font_sun12x22.c  |  3 +-
- lib/fonts/font_sun8x16.c   |  3 +-
- lib/fonts/font_ter10x18.c  |  4 ++-
- lib/fonts/font_ter16x32.c  |  4 ++-
- lib/fonts/fonts.c          |  8 +++++-
- 17 files changed, 85 insertions(+), 55 deletions(-)
- create mode 100644 lib/fonts/font.h
+The locking to safely use this function is really hard to do properly,
+IDK if binder can shift to use address_space ??
 
-diff --git a/include/linux/font.h b/include/linux/font.h
-index d80db66a5c17..5401f07dd6ce 100644
---- a/include/linux/font.h
-+++ b/include/linux/font.h
-@@ -77,36 +77,6 @@ struct font_desc {
-     int pref;
- };
- 
--#define VGA8x8_IDX	0
--#define VGA8x16_IDX	1
--#define PEARL8x8_IDX	2
--#define VGA6x11_IDX	3
--#define FONT7x14_IDX	4
--#define	FONT10x18_IDX	5
--#define SUN8x16_IDX	6
--#define SUN12x22_IDX	7
--#define ACORN8x8_IDX	8
--#define	MINI4x6_IDX	9
--#define FONT6x10_IDX	10
--#define TER16x32_IDX	11
--#define FONT6x8_IDX	12
--#define TER10x18_IDX	13
--
--extern const struct font_desc	font_vga_8x8,
--			font_vga_8x16,
--			font_pearl_8x8,
--			font_vga_6x11,
--			font_7x14,
--			font_10x18,
--			font_sun_8x16,
--			font_sun_12x22,
--			font_acorn_8x8,
--			font_mini_4x6,
--			font_6x10,
--			font_ter_16x32,
--			font_6x8,
--			font_ter_10x18;
--
- /* Find a font with a specific name */
- 
- extern const struct font_desc *find_font(const char *name);
-@@ -120,16 +90,23 @@ extern const struct font_desc *get_default_font(int xres, int yres,
- /* Max. length for the name of a predefined font */
- #define MAX_FONT_NAME	32
- 
--/* Extra word getters */
--#define REFCOUNT(fd)	(((int *)(fd))[-1])
--#define FNTSIZE(fd)	(((int *)(fd))[-2])
--#define FNTSUM(fd)	(((int *)(fd))[-4])
--
--#define FONT_EXTRA_WORDS 4
-+/*
-+ * Built-in fonts
-+ */
- 
--struct font_data {
--	unsigned int extra[FONT_EXTRA_WORDS];
--	unsigned char data[];
--} __packed;
-+extern const struct font_desc font_10x18;
-+extern const struct font_desc font_6x10;
-+extern const struct font_desc font_6x8;
-+extern const struct font_desc font_7x14;
-+extern const struct font_desc font_acorn_8x8;
-+extern const struct font_desc font_mini_4x6;
-+extern const struct font_desc font_pearl_8x8;
-+extern const struct font_desc font_sun_12x22;
-+extern const struct font_desc font_sun_8x16;
-+extern const struct font_desc font_ter_10x18;
-+extern const struct font_desc font_ter_16x32;
-+extern const struct font_desc font_vga_6x11;
-+extern const struct font_desc font_vga_8x16;
-+extern const struct font_desc font_vga_8x8;
- 
- #endif /* _VIDEO_FONT_H */
-diff --git a/lib/fonts/font.h b/lib/fonts/font.h
-new file mode 100644
-index 000000000000..4f1adf0b6b54
---- /dev/null
-+++ b/lib/fonts/font.h
-@@ -0,0 +1,38 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _LIB_FONTS_FONT_H
-+#define _LIB_FONTS_FONT_H
-+
-+#include <linux/font.h>
-+
-+/*
-+ * Font data
-+ */
-+
-+#define FONT_EXTRA_WORDS 4
-+
-+struct font_data {
-+	unsigned int extra[FONT_EXTRA_WORDS];
-+	unsigned char data[];
-+} __packed;
-+
-+/*
-+ * Built-in fonts
-+ */
-+
-+#define VGA8x8_IDX	0
-+#define VGA8x16_IDX	1
-+#define PEARL8x8_IDX	2
-+#define VGA6x11_IDX	3
-+#define FONT7x14_IDX	4
-+#define	FONT10x18_IDX	5
-+#define SUN8x16_IDX	6
-+#define SUN12x22_IDX	7
-+#define ACORN8x8_IDX	8
-+#define	MINI4x6_IDX	9
-+#define FONT6x10_IDX	10
-+#define TER16x32_IDX	11
-+#define FONT6x8_IDX	12
-+#define TER10x18_IDX	13
-+
-+#endif
-diff --git a/lib/fonts/font_10x18.c b/lib/fonts/font_10x18.c
-index 5d940db626e7..10edebc4bb74 100644
---- a/lib/fonts/font_10x18.c
-+++ b/lib/fonts/font_10x18.c
-@@ -4,7 +4,7 @@
-  * by Jurriaan Kalkman 06-2005  *
-  ********************************/
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX 9216
- 
-diff --git a/lib/fonts/font_6x10.c b/lib/fonts/font_6x10.c
-index e65df019e0d2..660d3a371b30 100644
---- a/lib/fonts/font_6x10.c
-+++ b/lib/fonts/font_6x10.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
--#include <linux/font.h>
-+
-+#include "font.h"
- 
- #define FONTDATAMAX 2560
- 
-diff --git a/lib/fonts/font_6x11.c b/lib/fonts/font_6x11.c
-index bd76b3f6b635..671487ccc172 100644
---- a/lib/fonts/font_6x11.c
-+++ b/lib/fonts/font_6x11.c
-@@ -5,7 +5,7 @@
- /*                                            */
- /**********************************************/
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX (11*256)
- 
-diff --git a/lib/fonts/font_6x8.c b/lib/fonts/font_6x8.c
-index 06ace7792521..5811ee07f4d8 100644
---- a/lib/fonts/font_6x8.c
-+++ b/lib/fonts/font_6x8.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
--#include <linux/font.h>
-+
-+#include "font.h"
- 
- #define FONTDATAMAX 2048
- 
-diff --git a/lib/fonts/font_7x14.c b/lib/fonts/font_7x14.c
-index a2f561c9fa04..0c7475d643c8 100644
---- a/lib/fonts/font_7x14.c
-+++ b/lib/fonts/font_7x14.c
-@@ -4,7 +4,7 @@
- /* by Jurriaan Kalkman 05-2005        */
- /**************************************/
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX 3584
- 
-diff --git a/lib/fonts/font_8x16.c b/lib/fonts/font_8x16.c
-index 06ae14088514..523e95c75569 100644
---- a/lib/fonts/font_8x16.c
-+++ b/lib/fonts/font_8x16.c
-@@ -5,9 +5,10 @@
- /*                                            */
- /**********************************************/
- 
--#include <linux/font.h>
- #include <linux/module.h>
- 
-+#include "font.h"
-+
- #define FONTDATAMAX 4096
- 
- static const struct font_data fontdata_8x16 = {
-diff --git a/lib/fonts/font_8x8.c b/lib/fonts/font_8x8.c
-index 69570b8c31af..e5b697fc9675 100644
---- a/lib/fonts/font_8x8.c
-+++ b/lib/fonts/font_8x8.c
-@@ -5,7 +5,7 @@
- /*                                            */
- /**********************************************/
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX 2048
- 
-diff --git a/lib/fonts/font_acorn_8x8.c b/lib/fonts/font_acorn_8x8.c
-index af5fa72aa8b7..36c51016769d 100644
---- a/lib/fonts/font_acorn_8x8.c
-+++ b/lib/fonts/font_acorn_8x8.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Acorn-like font definition, with PC graphics characters */
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX 2048
- 
-diff --git a/lib/fonts/font_mini_4x6.c b/lib/fonts/font_mini_4x6.c
-index cc21dc70cfd1..dc919c160dde 100644
---- a/lib/fonts/font_mini_4x6.c
-+++ b/lib/fonts/font_mini_4x6.c
-@@ -39,7 +39,7 @@ __END__;
-    MSBit to LSBit = left to right.
-  */
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX 1536
- 
-diff --git a/lib/fonts/font_pearl_8x8.c b/lib/fonts/font_pearl_8x8.c
-index ae98ca17982e..2438b374acea 100644
---- a/lib/fonts/font_pearl_8x8.c
-+++ b/lib/fonts/font_pearl_8x8.c
-@@ -10,7 +10,7 @@
- /*                                            */
- /**********************************************/
- 
--#include <linux/font.h>
-+#include "font.h"
- 
- #define FONTDATAMAX 2048
- 
-diff --git a/lib/fonts/font_sun12x22.c b/lib/fonts/font_sun12x22.c
-index 91daf5ab8b6b..2afbc144bea8 100644
---- a/lib/fonts/font_sun12x22.c
-+++ b/lib/fonts/font_sun12x22.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
--#include <linux/font.h>
-+
-+#include "font.h"
- 
- #define FONTDATAMAX 11264
- 
-diff --git a/lib/fonts/font_sun8x16.c b/lib/fonts/font_sun8x16.c
-index 81bb4eeae04e..2b7b2d8e548a 100644
---- a/lib/fonts/font_sun8x16.c
-+++ b/lib/fonts/font_sun8x16.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
--#include <linux/font.h>
-+
-+#include "font.h"
- 
- #define FONTDATAMAX 4096
- 
-diff --git a/lib/fonts/font_ter10x18.c b/lib/fonts/font_ter10x18.c
-index 80356e9d56c7..3f30b4a211ab 100644
---- a/lib/fonts/font_ter10x18.c
-+++ b/lib/fonts/font_ter10x18.c
-@@ -1,7 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0
--#include <linux/font.h>
-+
- #include <linux/module.h>
- 
-+#include "font.h"
-+
- #define FONTDATAMAX 9216
- 
- static const struct font_data fontdata_ter10x18 = {
-diff --git a/lib/fonts/font_ter16x32.c b/lib/fonts/font_ter16x32.c
-index 5baedc573dd6..93616cffe642 100644
---- a/lib/fonts/font_ter16x32.c
-+++ b/lib/fonts/font_ter16x32.c
-@@ -1,7 +1,9 @@
- // SPDX-License-Identifier: GPL-2.0
--#include <linux/font.h>
-+
- #include <linux/module.h>
- 
-+#include "font.h"
-+
- #define FONTDATAMAX 16384
- 
- static const struct font_data fontdata_ter16x32 = {
-diff --git a/lib/fonts/fonts.c b/lib/fonts/fonts.c
-index a861b375e35d..5938f542906b 100644
---- a/lib/fonts/fonts.c
-+++ b/lib/fonts/fonts.c
-@@ -13,7 +13,6 @@
-  */
- 
- #include <linux/container_of.h>
--#include <linux/font.h>
- #include <linux/kd.h>
- #include <linux/module.h>
- #include <linux/overflow.h>
-@@ -25,12 +24,19 @@
- #include <asm/setup.h>
- #endif
- 
-+#include "font.h"
-+
- #define console_font_pitch(font) DIV_ROUND_UP((font)->width, 8)
- 
- /*
-  * Helpers for font_data_t
-  */
- 
-+/* Extra word getters */
-+#define REFCOUNT(fd)	(((int *)(fd))[-1])
-+#define FNTSIZE(fd)	(((int *)(fd))[-2])
-+#define FNTSUM(fd)	(((int *)(fd))[-4])
-+
- static struct font_data *to_font_data_struct(font_data_t *fd)
- {
- 	return container_of(fd, struct font_data, data[0]);
--- 
-2.53.0
-
+Jason
