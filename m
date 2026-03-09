@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2BJKByvjrmmeJwIAu9opvQ
+	id eL65BS/jrmmeJwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:11:39 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:11:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCB523B637
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:11:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC6723B65F
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 16:11:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A090410E530;
-	Mon,  9 Mar 2026 15:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA7B910E532;
+	Mon,  9 Mar 2026 15:11:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NropRlAA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="cBe78mkO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D99F510E52F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 15:11:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6B410E52F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 15:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1773069092;
- bh=JLr8O8ryFdx6GHjW5PlIf6vrDX3dAe54ISSiuIZW/FI=;
+ s=mail; t=1773069093;
+ bh=6R3w7iJ3lA4p/Ynrukm80NGnb/Wrzxtw99LEYUnlV4s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NropRlAAd/TydQw/eJCI0qL2yHpe6w/yLLeXmh/zSTo+cfdCT/bvaBmssTjrY4yqd
- WOQuH1DciAiig7dUGODgUnNnEFXbBn8yvBu7ST2SJT8SwNVguzC0cmF+BiKvKxDZUG
- FGfbuqj41jBlHuuyLbnOhY7dtlxI0Z35u1x0KAWH3OkqxcEbhCBSMIUX9A/iYME8B6
- SnXjf77i1enSKTFfKuq9yt5JWl7iFUiUJHiTU8JA9/ici72z5qKk4hG4vB+b8JqqAw
- QW4+dKG+l8fO2HsRIX0hgs7sA8LmC/dcKZid73C67Wjd3gNRZAtjEPC+9ZY6liPNWQ
- uJ93j0Ir+UG6g==
+ b=cBe78mkOGHSm6XBsjtrqdSPW4a7+gLvjUCgY5XgDfKeEal0u5cEcUSrpzTwzytAlW
+ XMqMtqxfgv4JMxRA1luqFBEnCGdWNvwITE0P8C6yyVcHMWQtLWb+if15tU4lJG8fIW
+ dk/EHc/dkYjyuOQMWbhgJAauZgAAVifyX7jbeZ4Fio6GnYpuX2zenNnuSMxRc/i0Bf
+ uyMsvPwoKK+OA2FayGLmkD05DBw90qrndNyQHtwqBszc1icVnYXLuCkH2b71q13tYJ
+ +q/spZ5xk7cb5m7YuNjRcz5zNmiDeHoJlwanjZNftgrz6mCylBBKT4psqE4N6mrerZ
+ xyki9oLigJw3w==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BA97F17E13B5;
- Mon,  9 Mar 2026 16:11:31 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A264A17E13C1;
+ Mon,  9 Mar 2026 16:11:32 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -55,9 +55,10 @@ Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, Chia-I Wu <olvaffe@gmail.com>,
  kernel@collabora.com
-Subject: [PATCH v5 3/9] drm/panthor: Group panthor_kernel_bo_xxx() helpers
-Date: Mon,  9 Mar 2026 16:11:13 +0100
-Message-ID: <20260309151119.290217-4-boris.brezillon@collabora.com>
+Subject: [PATCH v5 4/9] drm/panthor: Don't call drm_gpuvm_bo_extobj_add() if
+ the object is private
+Date: Mon,  9 Mar 2026 16:11:14 +0100
+Message-ID: <20260309151119.290217-5-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260309151119.290217-1-boris.brezillon@collabora.com>
 References: <20260309151119.290217-1-boris.brezillon@collabora.com>
@@ -77,7 +78,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: BFCB523B637
+X-Rspamd-Queue-Id: DEC6723B65F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
@@ -108,265 +109,51 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.997];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid]
 X-Rspamd-Action: no action
 
-Move all panthor_kernel_bo_xxx() helpers at the end of the file, just
-before the debugfs init logic. This will make further panthor_gem.c
-refactoring more readable.
-
-v2:
-- Collect R-bs
+drm_gpuvm_bo_extobj_add() is a NOP if the object is private, but it
+forces us to take/release the VM resv lock, so let's do that only when
+we know the object can be shared.
 
 v3:
-- No changes
+- New commit
 
 v4:
-- No changes
+- Collect R-bs
 
 v5:
 - No changes
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_gem.c | 212 +++++++++++++-------------
- 1 file changed, 106 insertions(+), 106 deletions(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index c7b8b84a8f8b..5065f99c9bc4 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -132,112 +132,6 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
- 	drm_gem_object_put(vm_root_gem);
- }
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index f8c41e36afa4..f490e0bf6cac 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1283,9 +1283,11 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 	}
  
--/**
-- * panthor_kernel_bo_destroy() - Destroy a kernel buffer object
-- * @bo: Kernel buffer object to destroy. If NULL or an ERR_PTR(), the destruction
-- * is skipped.
-- */
--void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
--{
--	struct panthor_vm *vm;
--
--	if (IS_ERR_OR_NULL(bo))
--		return;
--
--	vm = bo->vm;
--	panthor_kernel_bo_vunmap(bo);
--
--	drm_WARN_ON(bo->obj->dev,
--		    to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm));
--	panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
--	panthor_vm_free_va(vm, &bo->va_node);
--	drm_gem_object_put(bo->obj);
--	panthor_vm_put(vm);
--	kfree(bo);
--}
--
--/**
-- * panthor_kernel_bo_create() - Create and map a GEM object to a VM
-- * @ptdev: Device.
-- * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
-- * @size: Size of the buffer object.
-- * @bo_flags: Combination of drm_panthor_bo_flags flags.
-- * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
-- * that are related to map operations).
-- * @gpu_va: GPU address assigned when mapping to the VM.
-- * If gpu_va == PANTHOR_VM_KERNEL_AUTO_VA, the virtual address will be
-- * automatically allocated.
-- * @name: Descriptive label of the BO's contents
-- *
-- * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-- */
--struct panthor_kernel_bo *
--panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
--			 size_t size, u32 bo_flags, u32 vm_map_flags,
--			 u64 gpu_va, const char *name)
--{
--	struct drm_gem_shmem_object *obj;
--	struct panthor_kernel_bo *kbo;
--	struct panthor_gem_object *bo;
--	u32 debug_flags = PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
--	int ret;
--
--	if (drm_WARN_ON(&ptdev->base, !vm))
--		return ERR_PTR(-EINVAL);
--
--	kbo = kzalloc_obj(*kbo);
--	if (!kbo)
--		return ERR_PTR(-ENOMEM);
--
--	obj = drm_gem_shmem_create(&ptdev->base, size);
--	if (IS_ERR(obj)) {
--		ret = PTR_ERR(obj);
--		goto err_free_bo;
--	}
--
--	bo = to_panthor_bo(&obj->base);
--	kbo->obj = &obj->base;
--	bo->flags = bo_flags;
--	bo->base.map_wc = should_map_wc(bo, vm);
--	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
--	drm_gem_object_get(bo->exclusive_vm_root_gem);
--	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
--
--	if (vm == panthor_fw_vm(ptdev))
--		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
--
--	panthor_gem_kernel_bo_set_label(kbo, name);
--	panthor_gem_debugfs_set_usage_flags(to_panthor_bo(kbo->obj), debug_flags);
--
--	/* The system and GPU MMU page size might differ, which becomes a
--	 * problem for FW sections that need to be mapped at explicit address
--	 * since our PAGE_SIZE alignment might cover a VA range that's
--	 * expected to be used for another section.
--	 * Make sure we never map more than we need.
--	 */
--	size = ALIGN(size, panthor_vm_page_size(vm));
--	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
--	if (ret)
--		goto err_put_obj;
--
--	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
--	if (ret)
--		goto err_free_va;
--
--	kbo->vm = panthor_vm_get(vm);
--	return kbo;
--
--err_free_va:
--	panthor_vm_free_va(vm, &kbo->va_node);
--
--err_put_obj:
--	drm_gem_object_put(&obj->base);
--
--err_free_bo:
--	kfree(kbo);
--	return ERR_PTR(ret);
--}
--
- static struct sg_table *
- panthor_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
- 			      enum dma_data_direction dir)
-@@ -603,6 +497,112 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 type,
- 	return 0;
- }
- 
-+/**
-+ * panthor_kernel_bo_destroy() - Destroy a kernel buffer object
-+ * @bo: Kernel buffer object to destroy. If NULL or an ERR_PTR(), the destruction
-+ * is skipped.
-+ */
-+void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
-+{
-+	struct panthor_vm *vm;
-+
-+	if (IS_ERR_OR_NULL(bo))
-+		return;
-+
-+	vm = bo->vm;
-+	panthor_kernel_bo_vunmap(bo);
-+
-+	drm_WARN_ON(bo->obj->dev,
-+		    to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm));
-+	panthor_vm_unmap_range(vm, bo->va_node.start, bo->va_node.size);
-+	panthor_vm_free_va(vm, &bo->va_node);
-+	drm_gem_object_put(bo->obj);
-+	panthor_vm_put(vm);
-+	kfree(bo);
-+}
-+
-+/**
-+ * panthor_kernel_bo_create() - Create and map a GEM object to a VM
-+ * @ptdev: Device.
-+ * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
-+ * @size: Size of the buffer object.
-+ * @bo_flags: Combination of drm_panthor_bo_flags flags.
-+ * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
-+ * that are related to map operations).
-+ * @gpu_va: GPU address assigned when mapping to the VM.
-+ * If gpu_va == PANTHOR_VM_KERNEL_AUTO_VA, the virtual address will be
-+ * automatically allocated.
-+ * @name: Descriptive label of the BO's contents
-+ *
-+ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-+ */
-+struct panthor_kernel_bo *
-+panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-+			 size_t size, u32 bo_flags, u32 vm_map_flags,
-+			 u64 gpu_va, const char *name)
-+{
-+	struct drm_gem_shmem_object *obj;
-+	struct panthor_kernel_bo *kbo;
-+	struct panthor_gem_object *bo;
-+	u32 debug_flags = PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
-+	int ret;
-+
-+	if (drm_WARN_ON(&ptdev->base, !vm))
-+		return ERR_PTR(-EINVAL);
-+
-+	kbo = kzalloc_obj(*kbo);
-+	if (!kbo)
-+		return ERR_PTR(-ENOMEM);
-+
-+	obj = drm_gem_shmem_create(&ptdev->base, size);
-+	if (IS_ERR(obj)) {
-+		ret = PTR_ERR(obj);
-+		goto err_free_bo;
+ 	/* Insert BO into the extobj list last, when we know nothing can fail. */
+-	dma_resv_lock(panthor_vm_resv(vm), NULL);
+-	drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
+-	dma_resv_unlock(panthor_vm_resv(vm));
++	if (bo->base.base.resv != panthor_vm_resv(vm)) {
++		dma_resv_lock(panthor_vm_resv(vm), NULL);
++		drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
++		dma_resv_unlock(panthor_vm_resv(vm));
 +	}
-+
-+	bo = to_panthor_bo(&obj->base);
-+	kbo->obj = &obj->base;
-+	bo->flags = bo_flags;
-+	bo->base.map_wc = should_map_wc(bo, vm);
-+	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
-+	drm_gem_object_get(bo->exclusive_vm_root_gem);
-+	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-+
-+	if (vm == panthor_fw_vm(ptdev))
-+		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
-+
-+	panthor_gem_kernel_bo_set_label(kbo, name);
-+	panthor_gem_debugfs_set_usage_flags(to_panthor_bo(kbo->obj), debug_flags);
-+
-+	/* The system and GPU MMU page size might differ, which becomes a
-+	 * problem for FW sections that need to be mapped at explicit address
-+	 * since our PAGE_SIZE alignment might cover a VA range that's
-+	 * expected to be used for another section.
-+	 * Make sure we never map more than we need.
-+	 */
-+	size = ALIGN(size, panthor_vm_page_size(vm));
-+	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
-+	if (ret)
-+		goto err_put_obj;
-+
-+	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
-+	if (ret)
-+		goto err_free_va;
-+
-+	kbo->vm = panthor_vm_get(vm);
-+	return kbo;
-+
-+err_free_va:
-+	panthor_vm_free_va(vm, &kbo->va_node);
-+
-+err_put_obj:
-+	drm_gem_object_put(&obj->base);
-+
-+err_free_bo:
-+	kfree(kbo);
-+	return ERR_PTR(ret);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- struct gem_size_totals {
- 	size_t size;
+ 
+ 	return 0;
+ 
 -- 
 2.53.0
 
