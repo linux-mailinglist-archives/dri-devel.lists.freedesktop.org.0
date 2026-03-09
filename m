@@ -2,105 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KMj/BdJyrmkCEgIAu9opvQ
+	id 8InNDfRzrmmlEgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 08:12:18 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 08:17:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E59234ADA
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 08:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DDF234B2A
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Mar 2026 08:17:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E00710E48C;
-	Mon,  9 Mar 2026 07:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CFA210E494;
+	Mon,  9 Mar 2026 07:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GzHKDI6V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e5r0iMa9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E92110E48C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Mar 2026 07:12:12 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4853e1ce427so3175725e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Mar 2026 00:12:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773040331; cv=none;
- d=google.com; s=arc-20240605;
- b=BMbryPWOG5fj1VI26Utt0bKpRCut4BEoqEyVnZ5e5GQO+1wTmxgIv8u8pnfwK1pNCI
- HolfFvx3/tYWBo5UXGZZ0wwufdnTr/vKe7OSHdfV4HXBhku9tZvjYKe0Xk5juRfmXvPo
- mcS4d5c3SHVcfYhtK/GPHilgB+p2+PLrXRNVk9oEyHFAJ7PcLzkcXocujSzgDjxd16ex
- ydBgX+K2rZzjgFUKwn34WJSb4v/ZZv4hvnxRuzHH5JPzLaEr2jF7IExBRfxrwaTgYqER
- HwZmCNH3RkUkS0iksqz3/1TlchNbqzRVdbQ4cxpB64ryY98SBPASxGrUkg+DffT/ZrY5
- UZFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=03443dTqeAHAAj77YpAeSyMA97ePpWH1nHHn5egmzGs=;
- fh=hIUwCwF7WTxGrXM38QLb4bcU5L8dLRk0LmbO7cS0zLY=;
- b=f+yJxnWTBoV6thBC1zSBvMTx8lVv6NJLyImkl2p3JAzBqxLjo+ywoSZEaHUEaYWgZV
- yvq9+3HKh24Nf5uJ98MCS7/E9Zps1hYiZtAJVawD0GvvFfzxGnrqUJwCIkhm8UFcKfwR
- lg8MnxuUntcgtwWT9sO8Av84ObxcQfwv63Yu+dL8anjhFszN1qPYna4DsF3RCLcQvl1O
- pycgpyQTpxmuSv0ZI7dUTF4lgQ9xy22iRjlaLZantRfSKXO9RDztnZXXoGBfHusqhO9M
- UkWTwTKAV6pLlyvmVN8n0VlnFfiJ4edxP+lozOLTBZHhWsVqwJKC9+mEaSA5ZzL22UkI
- ZH5g==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1773040331; x=1773645131; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=03443dTqeAHAAj77YpAeSyMA97ePpWH1nHHn5egmzGs=;
- b=GzHKDI6V7M25+jURfpPcsov01bbFms2UhYO43R+w3h2VErIcD5d03F+dKyxJ6+fNiQ
- 4C5TJI56dopgbDNihATmakRRGerATj0nl91y5x1REGmaUPRkx3zkYM2ACtLfclPXrc7k
- bwamHkKxg6tcBC/2O5JvkQaRISvR7+4gLIGRFSppMM4+9tshjRn0mKsBkCZ2GcB/Xf+O
- th1bWAsPrLOvhVpJWWMyw617mCBI7GtoDMeGtySSUbKrcwvoeeupGGnG1TYNOTnVX8hL
- 7oUYhR0myapbLYHPmK+IdqYAOstiD/fQU1y/qS3RAE9YAWfra3AYtx3lpK5tABI4LwHW
- v1JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1773040331; x=1773645131;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=03443dTqeAHAAj77YpAeSyMA97ePpWH1nHHn5egmzGs=;
- b=Qjry/BORRuIJMOFB2epqVZWNCKLfj9iqRu9RCJugjBCx2FTj8OF4x4ZTp8QXj5ir6V
- uoS56eIYAa5NfE6gPZW7KCuskaYy27iXkTifwEN1zJLoLo0YYDz166448l8nxz1KZzgm
- wkRauPayBEiRDiBAPeB6cdk8IEM5NoTf7DDr8Zv+iRJVmYldDNhqoNNzzHneeDlYCifT
- kMWUpPfBJC2DhyMIKboCtdPzx5UIT62tuPqjmpnTSDNuhg5Lej6oGvTb3nKuS4s3Q98X
- AwxxTQEavRSKz+H7+ognXTIQ0uA4z0BoHJ126Pc3ekGR8pddat1VnvZCL/RhAm+ThzMY
- OIfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrkobXuN5Ax4Y6GhA+QxxRwRX6VBUzkRY7OZaIrbJoKIbxs3VUFIu5u8X6XtdpXpz1wExMR58XCtA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwyYWv0sLAfLOH2Hn254A1EKKDWZpkA9YWiuZnya5Nzq0YzjmHI
- UwWUb+YBbAQ5T/1R7uR9s6xByepNvOmqcJzwsYcgXSgk2HoewV+w20DVPxNMZ9TIScP8uSczg9U
- UgNCB667wQCB9k55H+8zO1SmH0T1qo1o=
-X-Gm-Gg: ATEYQzyLpCMd48E32aU+frRhNTOwo1Xx89VcL5i1hvw7wWqEVmAfFdfadb+heZ8BH1i
- I+BkJC9+nA+UBlFTbRAUjWSJ7zCQZdVlZHFZgzXVnITxoay+56AKya865ZlyBYua4TaKvmvLaLm
- vhlwPdaLc1Be8BJqi+Q3g92KHGR3gVsPa/vYf5RjcZKUyPk7Sm/CAc/3jEFvlL/OXa30FLnMZFh
- rrlRvBmOr43DMCD04xfd5Hjdkeqi9PhyMP6HwjPHWXyeZsNcShTrp3GYxHk6hQKDmUI+CPkYZT1
- jl7XbZhW
-X-Received: by 2002:a05:600c:1c0d:b0:485:39d4:2dd9 with SMTP id
- 5b1f17b1804b1-48539d42ea2mr56493295e9.33.1773040330593; Mon, 09 Mar 2026
- 00:12:10 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E104110E492;
+ Mon,  9 Mar 2026 07:17:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C9290600AD;
+ Mon,  9 Mar 2026 07:17:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9DFC4CEF7;
+ Mon,  9 Mar 2026 07:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1773040622;
+ bh=zoDUerCQkoftGJrLBCxRZwVjBmVhgC2av1MW21s5gzE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e5r0iMa9cgwjghWvBYFF93FIKX7h4ScjcnkEnAFiQFz9ulsevMwQciP5lVOSQKgT+
+ XBI5o4cQVMv+vX9mluWZjiRS+TQqDt58Pyq5luZhP7E25NRhuGbHvjK+EzC5Ch8kDR
+ X6fvGdROQU4ywHdI+2pjqZxdL9dMhvEAueRWTvnMmkFTtDA6WB1vwBOnbjamG9fYEJ
+ hRyhe14m9HB3R8m1qeDlYKPA++JVGqVnKoiOzWlVnlxS0n4OpdlGtUHxBz33VKesYA
+ zuY/I47KJTXsQZeR7tI4G3CevRtCMab4fIY+xF7nqWbZOI6iTZ6i0vn+iENp4MuGPW
+ OQNTW+xRRI4RQ==
+Date: Mon, 9 Mar 2026 12:46:43 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+ linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+ akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+ airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+ dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+ mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+ trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+ pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+ tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+ srinivas.kandagatla@oss.qualcomm.com,
+ amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+ op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+ skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
+Message-ID: <aa5z23EtUF9k1MTy@sumit-xelite>
+References: <20260306105027.290375-1-sumit.garg@kernel.org>
+ <20260306105027.290375-3-sumit.garg@kernel.org>
+ <5dab61a6-d8cc-431d-b59e-744d98195d90@kernel.org>
+ <aa5Sw1qcCnD5clth@sumit-xelite>
+ <52cd78c2-95e2-4f56-9adc-242b6cf3baab@kernel.org>
 MIME-Version: 1.0
-References: <20260125131323.45108-1-clamor95@gmail.com>
- <CAPVz0n3FXMZOEhJCw_ajQudWfHMcg9-y32pFiejgphH5_Q7nug@mail.gmail.com>
- <CAPVz0n1Jf=rNyNu-M9Zp0aUTWm61yo_VLXJ9QHTvAV77ZGn+9g@mail.gmail.com>
- <11698628.CDJkKcVGEf@senjougahara>
-In-Reply-To: <11698628.CDJkKcVGEf@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 9 Mar 2026 09:11:59 +0200
-X-Gm-Features: AaiRm53tEh8OilsdhhGNDpH24piM2g1MTdF72EIyftzunYlWOMmLwKFbvW4PYuM
-Message-ID: <CAPVz0n05UaLVDFCiNqTo6TWU0RrNVe5eQhMm3duTCisXJC0_KQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] gpu/drm: tegra: dsi: add support for
- Tegra20/Tegra30
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>, 
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <52cd78c2-95e2-4f56-9adc-242b6cf3baab@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,411 +84,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 61E59234ADA
+X-Rspamd-Queue-Id: D3DDF234B2A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mperttunen@nvidia.com,m:thierry.reding@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:diogo.ivo@tecnico.ulisboa.pt,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,nvidia.com,tecnico.ulisboa.pt,lists.freedesktop.org,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.996];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.982];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt,netdev];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,mail.gmail.com:mid,nvidia.com:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-=D0=BF=D0=BD, 9 =D0=B1=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 07:21 Mikko=
- Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Friday, March 6, 2026 12:50=E2=80=AFAM Svyatoslav Ryhel wrote:
-> > =D1=87=D1=82, 5 =D0=B1=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 17:21 S=
-vyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > =D0=BD=D0=B4, 25 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 15:1=
-3 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > Tegra20 and Tegra30 are fully compatible with existing Tegra DSI dr=
-iver
-> > > > apart from clock configuration and pad calibration which are addres=
-sed
-> > > > by
-> > > > this patch.
-> > > >
-> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > ---
-> > > >
-> > > >  drivers/gpu/drm/tegra/drm.c |   2 +
-> > > >  drivers/gpu/drm/tegra/dsi.c | 107 +++++++++++++++++++++++++-------=
-----
-> > > >  drivers/gpu/drm/tegra/dsi.h |  10 ++++
-> > > >  3 files changed, 88 insertions(+), 31 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/dr=
-m.c
-> > > > index 4596073fe28f..5d64cd57e764 100644
-> > > > --- a/drivers/gpu/drm/tegra/drm.c
-> > > > +++ b/drivers/gpu/drm/tegra/drm.c
-> > > > @@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops,
-> > > > host1x_drm_suspend,> >
-> > > >  static const struct of_device_id host1x_drm_subdevs[] =3D {
-> > > >
-> > > >         { .compatible =3D "nvidia,tegra20-dc", },
-> > > >
-> > > > +       { .compatible =3D "nvidia,tegra20-dsi", },
-> > > >
-> > > >         { .compatible =3D "nvidia,tegra20-hdmi", },
-> > > >         { .compatible =3D "nvidia,tegra20-gr2d", },
-> > > >         { .compatible =3D "nvidia,tegra20-gr3d", },
-> > > >         { .compatible =3D "nvidia,tegra30-dc", },
-> > > >
-> > > > +       { .compatible =3D "nvidia,tegra30-dsi", },
-> > > >
-> > > >         { .compatible =3D "nvidia,tegra30-hdmi", },
-> > > >         { .compatible =3D "nvidia,tegra30-gr2d", },
-> > > >         { .compatible =3D "nvidia,tegra30-gr3d", },
-> > > >
-> > > > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/ds=
-i.c
-> > > > index 02a661d86751..ebc78dceaee6 100644
-> > > > --- a/drivers/gpu/drm/tegra/dsi.c
-> > > > +++ b/drivers/gpu/drm/tegra/dsi.c
-> > > > @@ -53,6 +53,11 @@ to_dsi_state(struct drm_connector_state *state)
-> > > >
-> > > >         return container_of(state, struct tegra_dsi_state, base);
-> > > >
-> > > >  }
-> > > >
-> > > > +struct tegra_dsi_config {
-> > > > +       bool has_multiple_pad_controls;
-> > > > +       bool has_mux_parent_clk;
-> > > > +};
-> > > > +
-> > > >
-> > > >  struct tegra_dsi {
-> > > >
-> > > >         struct host1x_client client;
-> > > >         struct tegra_output output;
-> > > >
-> > > > @@ -82,6 +87,8 @@ struct tegra_dsi {
-> > > >
-> > > >         /* for ganged-mode support */
-> > > >         struct tegra_dsi *master;
-> > > >         struct tegra_dsi *slave;
-> > > >
-> > > > +
-> > > > +       const struct tegra_dsi_config *config;
-> > > >
-> > > >  };
-> > > >
-> > > >  static inline struct tegra_dsi *
-> > > >
-> > > > @@ -663,39 +670,46 @@ static int tegra_dsi_pad_enable(struct tegra_=
-dsi
-> > > > *dsi)> >
-> > > >  {
-> > > >
-> > > >         u32 value;
-> > > >
-> > > > -       value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) |
-> > > > DSI_PAD_CONTROL_VS1_PDIO(0); -       tegra_dsi_writel(dsi, value,
-> > > > DSI_PAD_CONTROL_0);
-> > > > +       if (dsi->config->has_multiple_pad_controls) {
-> > > > +               /*
-> > > > +                * XXX Is this still needed? The module reset is
-> > > > deasserted right +                * before this function is called.
-> > > > +                */
-> > > > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
-> > > > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
-> > > > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
-> > > > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
-> > > > +               tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
-> > > > +
-> > > > +               value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) |
-> > > > DSI_PAD_CONTROL_VS1_PDIO(0); +               tegra_dsi_writel(dsi,
-> > > > value, DSI_PAD_CONTROL_0);
-> > > > +
-> > > > +               value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x=
-7) |
-> > > > +                       DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
-> > > > +                       DSI_PAD_OUT_CLK(0x0);
-> > > > +               tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
-> > > > +
-> > > > +               value =3D DSI_PAD_PREEMP_PD_CLK(0x3) |
-> > > > DSI_PAD_PREEMP_PU_CLK(0x3) | +
-> > > > DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3); +
-> > > > tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
-> > > > +       } else {
-> > > > +               value =3D DSI_PAD_CONTROL_LPUPADJ(0x1) |
-> > > > DSI_PAD_CONTROL_LPDNADJ(0x1) | +
-> > > > DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTROL_SLEWDNADJ(0x6) | +
-> > > >                   DSI_PAD_CONTROL_SLEWUPADJ(0x6) |
-> > > > DSI_PAD_CONTROL_PDIO(0) | +
-> > > > DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_PULLDN_ENAB(0); +
-> > > >       tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
-> > > > +       }
-> > > >
-> > > >         return 0;
-> > > >
-> > > >  }
-> > > >
-> > > >  static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
-> > > >  {
-> > > >
-> > > > -       u32 value;
-> > > >
-> > > >         int err;
-> > > >
-> > > > -       /*
-> > > > -        * XXX Is this still needed? The module reset is deasserted
-> > > > right
-> > > > -        * before this function is called.
-> > > > -        */
-> > > > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
-> > > > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
-> > > > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
-> > > > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
-> > > > -       tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
-> > > > -
-> > > >
-> > > >         /* start calibration */
-> > > >         tegra_dsi_pad_enable(dsi);
-> > > >
-> > > > -       value =3D DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
-> > > > -               DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
-> > > > -               DSI_PAD_OUT_CLK(0x0);
-> > > > -       tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
-> > > > -
-> > > > -       value =3D DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CL=
-K(0x3)
-> > > > |
-> > > > -               DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
-> > > > -       tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
-> > > > -
-> > > >
-> > > >         err =3D tegra_mipi_start_calibration(dsi->mipi);
-> > > >         if (err < 0)
-> > > >
-> > > >                 return err;
-> > > >
-> > > > @@ -1568,6 +1582,7 @@ static int tegra_dsi_probe(struct platform_de=
-vice
-> > > > *pdev)> >
-> > > >         if (!dsi)
-> > > >
-> > > >                 return -ENOMEM;
-> > > >
-> > > > +       dsi->config =3D of_device_get_match_data(&pdev->dev);
-> > > >
-> > > >         dsi->output.dev =3D dsi->dev =3D &pdev->dev;
-> > > >         dsi->video_fifo_depth =3D 1920;
-> > > >         dsi->host_fifo_depth =3D 64;
-> > > >
-> > > > @@ -1606,7 +1621,7 @@ static int tegra_dsi_probe(struct platform_de=
-vice
-> > > > *pdev)> >
-> > > >                 goto remove;
-> > > >
-> > > >         }
-> > > >
-> > > > -       dsi->clk_lp =3D devm_clk_get(&pdev->dev, "lp");
-> > > > +       dsi->clk_lp =3D devm_clk_get_optional(&pdev->dev, "lp");
-> > > >
-> > > >         if (IS_ERR(dsi->clk_lp)) {
-> > > >
-> > > >                 err =3D dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_=
-lp),
-> > > >
-> > > >                                     "cannot get low-power clock\n")=
-;
-> > > >
-> > > > @@ -1627,10 +1642,12 @@ static int tegra_dsi_probe(struct
-> > > > platform_device *pdev)> >
-> > > >                 goto remove;
-> > > >
-> > > >         }
-> > > >
-> > > > -       err =3D tegra_dsi_setup_clocks(dsi);
-> > > > -       if (err < 0) {
-> > > > -               dev_err(&pdev->dev, "cannot setup clocks\n");
-> > > > -               goto remove;
-> > > > +       if (dsi->config->has_mux_parent_clk) {
-> > > > +               err =3D tegra_dsi_setup_clocks(dsi);
-> > > > +               if (err < 0) {
-> > > > +                       dev_err(&pdev->dev, "cannot setup clocks\n"=
-);
-> > > > +                       goto remove;
-> > > > +               }
-> > > >
-> > > >         }
-> > > >
-> > > >         dsi->regs =3D devm_platform_ioremap_resource(pdev, 0);
-> > > >
-> > > > @@ -1694,11 +1711,39 @@ static void tegra_dsi_remove(struct
-> > > > platform_device *pdev)> >
-> > > >         tegra_mipi_free(dsi->mipi);
-> > > >
-> > > >  }
-> > > >
-> > > > +static const struct tegra_dsi_config tegra20_dsi_config =3D {
-> > > > +       .has_multiple_pad_controls =3D false,
-> > > > +       .has_mux_parent_clk =3D false,
-> > > > +};
-> > > > +
-> > > > +/*
-> > > > + * Tegra30 allows DSIA/DSIB to be muxed to either PLL_D or PLL_D2;=
- this
-> > > > is
-> > > > + * simply not modeled in the clock driver yet. If this functionali=
-ty is
-> > > > + * required, the has_mux_parent_clk flag can be set to true once t=
-he
-> > > > clock
-> > > > + * driver is patched.
-> > > > + */
-> > > > +static const struct tegra_dsi_config tegra30_dsi_config =3D {
-> > > > +       .has_multiple_pad_controls =3D false,
-> > > > +       .has_mux_parent_clk =3D false,
-> > > > +};
-> > > > +
-> > > > +static const struct tegra_dsi_config tegra114_dsi_config =3D {
-> > > > +       .has_multiple_pad_controls =3D true,
-> > > > +       .has_mux_parent_clk =3D true,
-> > > > +};
-> > > > +
-> > > > +static const struct tegra_dsi_config tegra124_dsi_config =3D {
-> > > > +       .has_multiple_pad_controls =3D true,
-> > > > +       .has_mux_parent_clk =3D false,
-> > > > +};
-> > >
-> > > Mikko, I have an update regarding Tegra124 config. If
-> > > tegra_dsi_setup_clocks is not called for Tegra124 (has_mux_parent_clk
-> > > =3D false) DSI will not work. I cannot say for sure what is going on
-> > > with clocks since my tegra124 device has broken usb in mainline Linux
-> > > and without panel is no go. I would like to address this before this
-> > > series is picked.
-> >
-> > Ok, from what I can tell, tegra_dsi_setup_clocks ensures that the
-> > Tegra124 DSI parent gate clock is properly configured. I propose
-> > setting has_mux_parent_clk to true for Tegra124, and I will add a
-> > comment to explain why.
-> >
-> > Smth like this: "Tegra124 and Tegra210 don't have an actual mux parent
-> > for DSI clocks, but the gate parent clock they use requires the same
-> > setup."
->
-> Have you found something that tegra_dsi_setup_clocks is doing that could
-> affect it, or is it just because it doesn't work without?
->
+On Mon, Mar 09, 2026 at 08:10:02AM +0100, Krzysztof Kozlowski wrote:
+> On 09/03/2026 05:55, Sumit Garg wrote:
+> > On Fri, Mar 06, 2026 at 12:15:01PM +0100, Krzysztof Kozlowski wrote:
+> >> On 06/03/2026 11:50, Sumit Garg wrote:
+> >>> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> >>>
+> >>> Qcom platforms has the legacy of using non-standard SCM calls
+> >>> splintered over the various kernel drivers. These SCM calls aren't
+> >>> compliant with the standard SMC calling conventions which is a
+> >>> prerequisite to enable migration to the FF-A specifications from
+> >>> Arm.
+> >>>
+> >>> OP-TEE as an alternative trusted OS to QTEE can't support these non-
+> >>> standard SCM calls. And even for newer architectures QTEE won't be able
+> >>> to support SCM calls either with FF-A requirements coming in. And with
+> >>> both OP-TEE and QTEE drivers well integrated in the TEE subsystem, it
+> >>> makes further sense to reuse the TEE bus client drivers infrastructure.
+> >>>
+> >>> The added benefit of TEE bus infrastructure is that there is support
+> >>> for discoverable/enumerable services. With that client drivers don't
+> >>> have to manually invoke a special SCM call to know the service status.
+> >>>
+> >>> So enable the generic Peripheral Authentication Service (PAS) provided
+> >>> by the firmware. It acts as the common layer with different TZ
+> >>> backends plugged in whether it's an SCM implementation or a proper
+> >>> TEE bus based PAS service implementation.
+> >>>
+> >>> Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> >>> ---
+> >>>  drivers/firmware/qcom/Kconfig          |   8 +
+> >>>  drivers/firmware/qcom/Makefile         |   1 +
+> >>>  drivers/firmware/qcom/qcom_pas.c       | 295 +++++++++++++++++++++++++
+> >>>  drivers/firmware/qcom/qcom_pas.h       |  53 +++++
+> >>>  include/linux/firmware/qcom/qcom_pas.h |  41 ++++
+> >>>  5 files changed, 398 insertions(+)
+> >>>  create mode 100644 drivers/firmware/qcom/qcom_pas.c
+> >>>  create mode 100644 drivers/firmware/qcom/qcom_pas.h
+> >>>  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
+> >>>
+> >>> diff --git a/drivers/firmware/qcom/Kconfig b/drivers/firmware/qcom/Kconfig
+> >>> index b477d54b495a..8653639d06db 100644
+> >>> --- a/drivers/firmware/qcom/Kconfig
+> >>> +++ b/drivers/firmware/qcom/Kconfig
+> >>> @@ -6,6 +6,14 @@
+> >>>  
+> >>>  menu "Qualcomm firmware drivers"
+> >>>  
+> >>> +config QCOM_PAS
+> >>> +	tristate
+> >>> +	help
+> >>> +	  Enable the generic Peripheral Authentication Service (PAS) provided
+> >>> +	  by the firmware. It acts as the common layer with different TZ
+> >>> +	  backends plugged in whether it's an SCM implementation or a proper
+> >>> +	  TEE bus based PAS service implementation.
+> >>> +
+> >>>  config QCOM_SCM
+> >>>  	select QCOM_TZMEM
+> >>>  	tristate
+> >>> diff --git a/drivers/firmware/qcom/Makefile b/drivers/firmware/qcom/Makefile
+> >>> index 0be40a1abc13..dc5ab45f906a 100644
+> >>> --- a/drivers/firmware/qcom/Makefile
+> >>> +++ b/drivers/firmware/qcom/Makefile
+> >>> @@ -8,3 +8,4 @@ qcom-scm-objs += qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
+> >>>  obj-$(CONFIG_QCOM_TZMEM)	+= qcom_tzmem.o
+> >>>  obj-$(CONFIG_QCOM_QSEECOM)	+= qcom_qseecom.o
+> >>>  obj-$(CONFIG_QCOM_QSEECOM_UEFISECAPP) += qcom_qseecom_uefisecapp.o
+> >>> +obj-$(CONFIG_QCOM_PAS)		+= qcom_pas.o
+> >>> diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
+> >>> new file mode 100644
+> >>> index 000000000000..dc04ff1b6be0
+> >>> --- /dev/null
+> >>> +++ b/drivers/firmware/qcom/qcom_pas.c
+> >>> @@ -0,0 +1,295 @@
+> >>> +// SPDX-License-Identifier: GPL-2.0
+> >>> +/*
+> >>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> >>> + */
+> >>> +
+> >>> +#include <linux/delay.h>
+> >>> +#include <linux/device/devres.h>
+> >>> +#include <linux/firmware/qcom/qcom_pas.h>
+> >>> +#include <linux/of.h>
+> >>> +#include <linux/kernel.h>
+> >>> +#include <linux/module.h>
+> >>> +#include <linux/slab.h>
+> >>> +
+> >>> +#include "qcom_pas.h"
+> >>> +#include "qcom_scm.h"
+> >>> +
+> >>> +static struct qcom_pas_ops *ops_ptr;
+> >>
+> >> I really dislike this singleton design. And it is not even needed! If
+> >> you were storing here some allocated instance of SCM/PAS I could
+> >> understand, but singleton for only ops? Just implement one driver (so
+> >> SCM + whatever you have here) which will decide which ops to use,
+> >> through the probe. Really, this is neither needed nor beneficial.
+> > 
+> > The motivation here is rather quite opposite to the single monolithic
+> > SCM driver design. The TZ services like PAS, ICE and so on are going to
+> > be implemented as independent discoverable devices on TEE bus which
+> > rather needs independent kernel client drivers.
+> 
+> You still have singleton here. So if you think you do opposite to
+> singleton, then drop this static.
 
-I have not found anything that tegra_dsi_setup_clocks that could
-affect configuration. It just does not work without.
+Sure.
 
-> I looked at the code for clk_get_parent and clk_set_parent, and there
-> shouldn't be any effect if the requested parent was already the parent.
->
-> I don't have a Tegra124 board available to me right now, but if we can't
-> figure out why this is necessary, I'd put a /* TODO: figure out why this =
-is
-> necessary on Tegra124 */ in the code.
->
-> Perhaps you could check (with the clk_set_parent in place so you can boot=
-)
-> what the parent is according to the clock framework before we call
-> clk_set_parent.
->
+> 
+> > 
+> > Also, the single driver probe can't work here since the SCM driver is
+> > bound to the platform bus whereas the TEE PAS driver is bound to the TEE
+> > bus. So there is a reason for the current design.
+> > 
+> >>
+> >> It actually leads to more problems with this barrier handling, see
+> >> further comments.
+> > 
+> > The barrier handling is something that I carried over from existing
+> > implmentation but I can't see a reason why it can't be replaced with a
+> > simple mutex. See diff below for mutex.
+> > 
+> >> ...
+> >>
+> >>> +
+> >>> +/**
+> >>> + * qcom_pas_shutdown() - Shut down the remote processor
+> >>> + * @pas_id:	peripheral authentication service id
+> >>> + *
+> >>> + * Returns 0 on success.
+> >>> + */
+> >>> +int qcom_pas_shutdown(u32 pas_id)
+> >>> +{
+> >>> +	if (ops_ptr)
+> >>> +		return ops_ptr->shutdown(ops_ptr->dev, pas_id);
+> >>> +
+> >>> +	return -ENODEV;
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(qcom_pas_shutdown);
+> >>> +
+> >>> +/**
+> >>> + * qcom_pas_supported() - Check if the peripheral authentication service is
+> >>> + *			  available for the given peripheral
+> >>> + * @pas_id:	peripheral authentication service id
+> >>> + *
+> >>> + * Returns true if PAS is supported for this peripheral, otherwise false.
+> >>> + */
+> >>> +bool qcom_pas_supported(u32 pas_id)
+> >>> +{
+> >>> +	if (ops_ptr)
+> >>
+> >> Lack of barriers here is not looking right. Existing/old code is not a
+> >> good example, I fixed only the obvious issue, but new code should be
+> >> correct from the beginning.
+> >>
+> >> Barriers should normally be always paired, unless you have some clear
+> >> path no concurrent execution can happen here, but such explanation is
+> >> missing, look:
+> > 
+> > Actually concurrent execution is rather required here since TZ can
+> > support parallel bring-up of co-processors. The synchonization is only
+> > needed when PAS client drivers are performing a deferred probe waiting
+> > for the service to be available. However, you are right explanation is
+> > missing here which I will add in the next version.
+> 
+> Hm? Existing comments are completely useless. Your comment said just
+> "barrier" basically... That's nothing useful.
 
-Yes I can, I have checked clock hierarchy and it seems to be identical
-pre and post setup.
+Agree, following is something I plan for v2 (using mutex instead of a
+barrier):
 
-tegra_dsi_setup_clocks takes dsi clock parent and sets its parent
-according to dt definition.
+/*
+ * The ops mutex here is only intended to synchronize when client drivers
+ * are in parallel checking for PAS service availability. However, once the
+ * PAS backend becomes available, it is allowed for multiple threads to enter
+ * TZ for parallel bringup of co-processors during boot.
+ */
+static DEFINE_MUTEX(ops_mutex);
 
-pre call it is pll_d_out0 > pll_d_dsi_out > dsia/b and after call it
-remains the same.
-
-
-> Mikko
->
-> >
-> > Or flag name can be changed to has_mux_gate_parent_clk or any other
-> > name which fits.
-> >
-> > > > +
-> > > >
-> > > >  static const struct of_device_id tegra_dsi_of_match[] =3D {
-> > > >
-> > > > -       { .compatible =3D "nvidia,tegra210-dsi", },
-> > > > -       { .compatible =3D "nvidia,tegra132-dsi", },
-> > > > -       { .compatible =3D "nvidia,tegra124-dsi", },
-> > > > -       { .compatible =3D "nvidia,tegra114-dsi", },
-> > > > +       { .compatible =3D "nvidia,tegra210-dsi", .data =3D
-> > > > &tegra124_dsi_config }, +       { .compatible =3D "nvidia,tegra132-=
-dsi",
-> > > > .data =3D &tegra124_dsi_config }, +       { .compatible =3D
-> > > > "nvidia,tegra124-dsi", .data =3D &tegra124_dsi_config }, +       {
-> > > > .compatible =3D "nvidia,tegra114-dsi", .data =3D &tegra114_dsi_conf=
-ig }, +
-> > > >      { .compatible =3D "nvidia,tegra30-dsi", .data =3D &tegra30_dsi=
-_config
-> > > > }, +       { .compatible =3D "nvidia,tegra20-dsi", .data =3D
-> > > > &tegra20_dsi_config },> >
-> > > >         { },
-> > > >
-> > > >  };
-> > > >  MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
-> > > >
-> > > > diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/ds=
-i.h
-> > > > index f39594e65e97..d834ac0c47ab 100644
-> > > > --- a/drivers/gpu/drm/tegra/dsi.h
-> > > > +++ b/drivers/gpu/drm/tegra/dsi.h
-> > > > @@ -95,6 +95,16 @@
-> > > >
-> > > >  #define DSI_TALLY_LRX(x)               (((x) & 0xff) <<  8)
-> > > >  #define DSI_TALLY_HTX(x)               (((x) & 0xff) <<  0)
-> > > >  #define DSI_PAD_CONTROL_0              0x4b
-> > > >
-> > > > +/* Tegra20/Tegra30 */
-> > > > +#define DSI_PAD_CONTROL_PULLDN_ENAB(x) (((x) & 0x1) << 28)
-> > > > +#define DSI_PAD_CONTROL_SLEWUPADJ(x)   (((x) & 0x7) << 24)
-> > > > +#define DSI_PAD_CONTROL_SLEWDNADJ(x)   (((x) & 0x7) << 20)
-> > > > +#define DSI_PAD_CONTROL_PREEMP_EN(x)   (((x) & 0x1) << 19)
-> > > > +#define DSI_PAD_CONTROL_PDIO_CLK(x)    (((x) & 0x1) << 18)
-> > > > +#define DSI_PAD_CONTROL_PDIO(x)                (((x) & 0x3) << 16)
-> > > > +#define DSI_PAD_CONTROL_LPUPADJ(x)     (((x) & 0x3) << 14)
-> > > > +#define DSI_PAD_CONTROL_LPDNADJ(x)     (((x) & 0x3) << 12)
-> > > > +/* Tegra114+ */
-> > > >
-> > > >  #define DSI_PAD_CONTROL_VS1_PDIO(x)    (((x) & 0xf) <<  0)
-> > > >  #define DSI_PAD_CONTROL_VS1_PDIO_CLK   (1 <<  8)
-> > > >  #define DSI_PAD_CONTROL_VS1_PULLDN(x)  (((x) & 0xf) << 16)
-> > > >
-> > > > --
-> > > > 2.51.0
->
->
->
->
+-Sumit
